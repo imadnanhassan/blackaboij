@@ -1,0 +1,34 @@
+/* .swiper-slide {
+  text-align: center;
+  font-size: 18px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.swiper-pagination {
+  width: auto; 
+  height: auto; 
+  flex-direction: column;
+}
+
+.swiper-pagination-bullet {
+  margin: 5px 0; 
+  background-color: #5a66f1;
+  width: 10px; 
+  height: 10px; 
+  border-radius: 50%;
+  cursor: pointer;
+}
+ */
+ 
+.swiper-pagination-bullet-active {
+  background-color: #5a66f1; 
+}

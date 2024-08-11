@@ -1,0 +1,557 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+  background-color: #f2f4f8;
+}
+
+.box-body {
+  padding: 1.5rem;
+}
+
+.box {
+  position: relative;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.25rem;
+  border-width: 1px;
+}
+
+.shadow-custom {
+  box-shadow: 0px 6px 14px rgba(35, 39, 52, 0.04);
+}
+
+.main-container {
+  @apply lg:px-[50px] md:px-[40px] sm:px-[30] px-[20px] py-4;
+}
+
+/* ===================dashboard========================================= */
+
+.dashboardCard {
+  @apply lg:flex flex lg:gap-6 md:gap-5 sm:gap-4 gap-4 py-2 px-4;
+}
+
+#favcolor {
+  /* Set the size of the color input */
+  width: 30px;
+  height: 47px;
+  /* Remove default browser styles */
+  appearance: none;
+  /* Hide the color input's text field */
+  border: none;
+  /* Apply a border and border radius for visual clarity */
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #5a66f1;
+  color: #fff;
+}
+
+/* ============================order tracking====================================== */
+
+.step-items {
+  @apply relative flex flex-col justify-center items-center w-36;
+}
+
+.step-items:not(:first-child):before {
+  @apply content-[''] bg-slate-500 absolute w-full h-[3px] right-2/4 top-1/3 -translate-y-2/4;
+}
+
+.step {
+  @apply w-10 h-10 flex items-center justify-center z-10 relative bg-slate-800 rounded-full font-semibold text-white;
+}
+
+.active .step {
+  @apply bg-sky-500;
+}
+
+.complete .step {
+  @apply bg-green-600;
+}
+
+.complete p {
+  @apply text-primaryColor font-medium;
+}
+
+.complete:not(:first-child):before,
+.active:not(:first-child):before {
+  @apply bg-green-600;
+}
+
+/* ========================active nav======================= */
+/* .active{
+  @apply 
+} */
+
+/* ============================main content scroll bar design====================================== */
+.scrollbar-w-2::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-w-2::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.scrollbar-w-2::-webkit-scrollbar-thumb {
+  background-color: #5a66f1;
+  border-radius: 4px;
+}
+
+.scrollbar-w-2::-webkit-scrollbar-thumb:hover {
+  background-color: #5a66f1;
+}
+
+/* ============================React ReactQill====================================== */
+.ql-editor {
+  min-height: 200px;
+  font-size: 16px;
+  line-height: 1.5;
+  /* color: #333; */
+}
+
+.ql-toolbar {
+  border: none;
+  background-color: #f8f8f8;
+}
+
+.ql-toolbar button {
+  color: #333;
+  background-color: transparent;
+  border: none;
+  margin-right: 8px;
+}
+
+.ql-toolbar button:hover {
+  background-color: #ddd;
+}
+
+.ql-toolbar button.ql-active {
+  background-color: #ccc;
+}
+
+.ql-toolbar {
+  background-color: #f8f8f8;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 8px;
+}
+
+.ql-toolbar button {
+  color: #333;
+  background-color: transparent;
+  border: none;
+  margin-right: 8px;
+}
+
+.ql-toolbar button:hover {
+  background-color: #ddd;
+}
+
+.ql-toolbar button.ql-active {
+  background-color: #ccc;
+}
+
+.ql-toolbar .ql-formats {
+  margin: 0 8px;
+}
+
+.ql-toolbar select {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-right: 8px;
+}
+
+.ql-toolbar option {
+  color: #333;
+  background-color: #fff;
+}
+
+.ql-tooltip {
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+/* ============================React Select Tow====================================== */
+
+.custom-select .css-1pahdxg-control {
+  border-color: #d1d5db;
+}
+
+.custom-select .css-1pahdxg-control:hover {
+  border-color: #6b7280;
+}
+
+.custom-select .css-26l3qy-menu {
+  width: 100%;
+}
+
+.custom-select .css-yk16xz-control {
+  background-color: #ffffff;
+}
+
+.custom-select .css-1gtu0rj-indicatorSeparator {
+  display: none;
+}
+
+.custom-select .css-1okebmr-indicator {
+  color: #4b5563;
+}
+
+.custom-select .css-1okebmr-indicator:hover {
+  color: #000000;
+}
+
+.custom-select .css-1wy0on6 {
+  background-color: #e5e7eb;
+}
+
+.custom-select .css-1wy0on6:hover {
+  background-color: #d1d5db;
+}
+
+.custom-select .css-151tpdd-option {
+  color: #4b5563;
+}
+
+.custom-select .css-151tpdd-option:hover {
+  background-color: #d1d5db;
+}
+
+.custom-select .css-13cymwt-control {
+  box-shadow: none !important;
+}
+
+/* coupon selec 2 */
+
+.copuon-select .css-1pahdxg-control {
+  border-color: #d1d5db;
+}
+
+.copuon-select .css-1pahdxg-control:hover {
+  border-color: #6b7280;
+}
+
+.copuon-select .css-26l3qy-menu {
+  width: 100%;
+}
+
+.copuon-select .css-yk16xz-control {
+  background-color: #ffffff;
+}
+
+.copuon-select .css-1gtu0rj-indicatorSeparator {
+  display: none;
+}
+
+.copuon-select .css-1okebmr-indicator {
+  color: #4b5563;
+}
+
+.copuon-select .css-1okebmr-indicator:hover {
+  color: #000000;
+}
+
+.copuon-select .css-1wy0on6 {
+  background-color: #e5e7eb;
+}
+
+.copuon-select .css-1wy0on6:hover {
+  background-color: #d1d5db;
+}
+
+.copuon-select .css-151tpdd-option {
+  color: #4b5563;
+}
+
+.copuon-select .css-151tpdd-option:hover {
+  background-color: #d1d5db;
+}
+
+.copuon-select .css-13cymwt-control {
+  box-shadow: none !important;
+}
+
+/* .css-tr4s17-option {
+  cursor: default;
+  display: block;
+  font-size: 14px;
+  width: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background-color: #7dff26;
+  color: hsl(0, 0%, 100%);
+  padding: 6px 9px;
+  box-sizing: border-box;
+} */
+
+/* ============================datepicker====================================== */
+.react-datepicker {
+  font-family: 'Helvetica Neue', helvetica, arial, sans-serif;
+  font-size: 0.8rem;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #5a66f1 !important;
+  border-radius: 0.3rem;
+  display: inline-block;
+  position: relative;
+  line-height: initial;
+}
+
+.rs-picker-toggle-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  width: 570px;
+}
+
+.react-datepicker-popper {
+  position: absolute !important;
+  left: 41px !important;
+  top: 4px !important;
+  transform: translate(-42px, 46px) !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__year-text--selected,
+.react-datepicker__year-text--in-selecting-range,
+.react-datepicker__year-text--in-range {
+  border-radius: 0 !important;
+  background-color: #5a66f1 !important;
+  color: #fff !important;
+}
+
+.react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box
+  ul.react-datepicker__time-list
+  li.react-datepicker__time-list-item--selected {
+  background-color: #5a66f1 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.react-datepicker-ignore-onclickoutside {
+  outline: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.react-datepicker__input-container input {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.react-datepicker__time-list {
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+}
+
+.react-datepicker__time-list::-webkit-scrollbar {
+  display: none;
+  /* Hide scrollbar for WebKit browsers */
+}
+
+/* ============================file upload design====================================== */
+.filepond--credits {
+  display: none !important;
+}
+
+/* toggle btn */
+.toggle-checkbox:checked + .toggle-label .toggle-inner {
+  background-color: #68d391;
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-switch {
+  transform: translateX(100%);
+}
+
+.toggle-inner {
+  width: 30px;
+  height: 15px;
+  background-color: #cbd5e0;
+  border-radius: 9999px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-switch {
+  width: 15px;
+  height: 15px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    0 2px 4px rgba(0, 0, 0, 0.24);
+  transition: transform 0.3s ease;
+}
+
+.toggle-label {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+}
+
+/* ============================tooltip design====================================== */
+.tooltip-container {
+  position: relative;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 9px;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+}
+
+/* ========================horizontal scrollbar style============================= */
+
+.overflow-x-auto::-webkit-scrollbar {
+  height: 3px;
+  /* Height of the horizontal scrollbar */
+  display: none;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background-color: #4511ff4b;
+  /* Track color */
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background-color: #5a66f1;
+  /* Thumb color */
+  border-radius: 4px;
+  /* Thumb border radius */
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background-color: #5a66f1;
+  /* Thumb color on hover */
+}
+
+/* ======================== */
+
+.overflow-x-scroll::-webkit-scrollbar {
+  height: 3px;
+  /* Height of the horizontal scrollbar */
+}
+
+.overflow-x-scroll::-webkit-scrollbar-track {
+  background-color: #4511ff4b;
+  /* Track color */
+}
+
+.overflow-x-scroll::-webkit-scrollbar-thumb {
+  background-color: #5a66f1;
+  /* Thumb color */
+  border-radius: 4px;
+  /* Thumb border radius */
+}
+
+.overflow-x-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #5a66f1;
+  /* Thumb color on hover */
+}
+
+/* ======================== */
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
+  /* Height of the horizontal scrollbar */
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background-color: #4511ff4b;
+  /* Track color */
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: #5a66f1;
+  /* Thumb color */
+  border-radius: 4px;
+  /* Thumb border radius */
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background-color: #5a66f1;
+  /* Thumb color on hover */
+}
+
+/* =============================datepicker========================================== */
+
+.rs-picker-toggle-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  margin-top: 3px !important;
+}
+
+.rs-input-group.rs-input-group-inside {
+  width: 100%;
+  background-color: #fff;
+  background-color: var(--rs-input-bg);
+  padding: 6px 0;
+}
+
+.rs-picker-popup
+  .rs-calendar
+  .rs-calendar-table-cell:hover
+  .rs-calendar-table-cell-content {
+  background-color: rgb(from #cce9ff r g b / 50%);
+  background-color: var(--rs-listbox-option-hover-bg);
+  color: #1675e0;
+  color: #5a66f1;
+}
+
+/* ======================================== */
+.box-header {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(226 232 240 / var(--tw-border-opacity));
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+}
+
+.box-body {
+  padding: 1.5rem;
+}
+
+#sidebar a.active {
+  background-color: #3a3f50;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #ffffff !important;
+}
