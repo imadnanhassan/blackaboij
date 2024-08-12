@@ -51,7 +51,10 @@ import VendorProfile from '../pages/Admin/Vendor/VendorProfile'
 // import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
 // import CustomerProfile from '../pages/Frontend/CustomerPanel/CustomerProfile'
 
-const FRONTEND_ROUTES = [{ path: '/', element: <HomePage /> }]
+const FRONTEND_ROUTES = [
+  { path: '/', element: <HomePage /> },
+  { path: '/contact', element: <>Contact</> },
+]
 
 const CUSTOMER_PANEL_ROUTES = [
   // { path: 'user/dashboard', element: <CustomerDashboard /> },
