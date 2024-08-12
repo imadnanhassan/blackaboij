@@ -262,3 +262,4 @@ export default {
   payment9,
   customer,
 }
+ 
