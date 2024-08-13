@@ -1,0 +1,56 @@
+[
+    {
+      "id": 31,
+      "img": "https://i.ibb.co/Dk5cHLM/m-01-ae60ec30-f072-4772-8531-dd3b68bb296d-360x.webp",
+      "backImg": "https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp",
+      "price": 29.99,
+      "productName": "Product 1",
+      "category": "Electronics",
+      "starRating": 3
+    },
+    {
+      "id": 32,
+      "img": "https://i.ibb.co/Dk5cHLM/m-01-ae60ec30-f072-4772-8531-dd3b68bb296d-360x.webp",
+      "backImg": "https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp",
+      "price": 39.99,
+      "productName": "Product 2",
+      "category": "Clothing",
+      "starRating": 4
+    },
+    {
+      "id": 33,
+      "img": "https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp",
+      "backImg": "https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp",
+      "price": 49.99,
+      "productName": "Product 3",
+      "category": "Accessories",
+      "starRating": 5
+    },
+    {
+      "id": 34,
+      "img": "https://i.ibb.co/1KP5Lzk/BLACKNOV1154-360x.webp",
+      "backImg": "https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp",
+      "price": 19.99,
+      "productName": "Product 4",
+      "category": "Home Decor" ,
+      "starRating": 2
+    },
+    {
+      "id": 35,
+      "img": "https://i.ibb.co/1KP5Lzk/BLACKNOV1154-360x.webp",
+      "backImg": "https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp",
+      "price": 19.99,
+      "productName": "Product 4",
+      "category": "Home Decor" ,
+      "starRating": 4
+    },
+    {
+      "id": 36,
+      "img": "https://i.ibb.co/1KP5Lzk/BLACKNOV1154-360x.webp",
+      "backImg": "https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp",
+      "price": 19.99,
+      "productName": "Product 4",
+      "category": "Home Decor" ,
+      "starRating": 5
+    }
+  ]

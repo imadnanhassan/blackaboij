@@ -1,0 +1,8 @@
+.react-tabs__tab--selected{
+    background-color: transparent;
+}
+
+.custom-tab:hover{
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
