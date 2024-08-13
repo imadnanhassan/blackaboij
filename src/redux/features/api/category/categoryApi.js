@@ -7,11 +7,11 @@ export const categoryApi = baseApi.injectEndpoints({
     addCategory: builder.mutation({
       query: data => {
         return {
-          url: '/api/admins/categories/store',
+          url: '/api/v1/admin/category/store',
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+            // 'Content-Type': 'multipart/form-data',
           },
           body: data,
         }
@@ -35,13 +35,13 @@ export const categoryApi = baseApi.injectEndpoints({
     }),
 
     deleteCategory: builder.mutation({
-      query: slug => {
+      query: id => {
         return {
-          url: `/api/admins/categories/delete/${slug}`,
-          method: 'GET',
+          url: `/api/v1/admin/category/delete/${id}`,
+          method: 'DELETE', 
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
           },
         }
       },
@@ -50,7 +50,7 @@ export const categoryApi = baseApi.injectEndpoints({
 
     getCategory: builder.query({
       query: () => ({
-        url: '/api/front/categories',
+        url: '/api/v1/admin/category/all',
         headers: {
           Authorization: `Bearer ${token}`,
         },

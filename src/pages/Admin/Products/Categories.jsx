@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import { toast } from 'react-toastify'
 import { FaPlus } from 'react-icons/fa'
-import { IoCloseOutline } from 'react-icons/io5'
+
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import ToggleButton from '../../../common/ToggleButton/ToggleButton'
 import Button from '../../../common/Button/Button'
@@ -13,12 +13,10 @@ import Select from 'react-select'
 // import { useGetCategoryQuery } from '../../../redux/features/api/category/categoryApi'
 
 export default function Categories() {
-  const [uploadedImages, setUploadedImages] = useState([])
+
   const [isChecked, setIsChecked] = useState(false);
   const [productCategory, setProductCategory] = useState("No Parent");
-  // const { data: category } = useGetCategoryQuery();
 
-  // console.log("category", category);
 
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
 
@@ -45,27 +43,9 @@ export default function Categories() {
       })
     }
   }
-  // File Upload
-  const handleFileSelect = event => {
-    const files = event.target.files
-    setUploadedImages([...uploadedImages, ...files])
-  }
 
-  const handleDragOver = event => {
-    event.preventDefault()
-    event.dataTransfer.dropEffect = 'copy'
-  }
 
-  const handleFileDrop = event => {
-    event.preventDefault()
-    const files = event.dataTransfer.files
-    setUploadedImages([...uploadedImages, ...files])
-  }
-
-  const handleCancelUpload = index => {
-    const filteredImages = uploadedImages.filter((_, i) => i !== index)
-    setUploadedImages(filteredImages)
-  }
+ 
 
   // Select 2
   useEffect(() => {
@@ -252,21 +232,8 @@ export default function Categories() {
                   </div>
                 </div>
 
-                <div className="mb-4 lg:flex gap-4">
-                  {/* <div className="flex-1">
-                    <label
-                      className={`block text-sm font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                    >
-                      Product Visibility
-                    </label>
-                    <select
-                      className={`form-control mt-1 p-2  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
-                    >
-                      <option value="private">Select Tyle</option>
-                      <option value="public">Public</option>
-                      <option value="public">Public</option>
-                    </select>
-                  </div> */}
+                
+                 
                   <div className="flex-1 lg:mt-0 sm:mt-3 mt-4">
                     <div className="relative">
                       <label
@@ -284,56 +251,15 @@ export default function Categories() {
                       />
                     </div>
                   </div>
-                </div>
+                
 
-                {/* Media */}
-                <div className="my-4">
-                  <label
-                    htmlFor="imageUpload"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    File Upload
-                  </label>
-                  <input
-                    type="file"
-                    id="imageUpload"
-                    name="imageUpload[]"
-                    className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4  rounded focus:outline-none  focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black ' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    multiple
-                    onChange={handleFileSelect}
-                    onDragOver={handleDragOver}
-                    onDrop={handleFileDrop}
-                  />
-                  <div className="mt-4 flex items-center ">
-                    {uploadedImages.map((image, index) => (
-                      <div key={index} className="flex items-center relative ">
-                        <div className="opacity">
-                          <img
-                            src={URL.createObjectURL(image)}
-                            alt={`Uploaded image ${index}`}
-                            className="w-24 h-24 mr-2 mb-2 border rounded "
-                          />
-                        </div>
-                        {/* <div className="absolute flex flex-col justify-center items-center bg-white text-black px-4  left-0 bottom-[8px]">
-                          <p className="text-xs">{image.name.slice(0, 4)}</p>
-                          <p className="text-xs">{image?.type}</p>
-                        </div> */}
-                        <IoCloseOutline
-                          className=" text-[17px] bg-primaryColor text-white hover:text-white hover:bg-error-200 transition-all duration-200 cursor-pointer rounded -mt-[87px] relative -left-6"
-                          onClick={() => handleCancelUpload(index)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
+               
 
                 <div className="my-4">
                   <div className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      // id={`toggle-${language.id}`}
-                      // checked={language.status === 0}
-                      // onChange={() => toggleStatus(language)}
+                     
                       className="toggle-checkbox sr-only"
                     />
                     <label htmlFor="" className="toggle-label">
