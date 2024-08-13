@@ -47,6 +47,8 @@ import Unit from '../pages/Admin/Products/Units/Unit'
 import AddVendor from '../pages/Admin/Vendor/AddVendor'
 import VendorList from '../pages/Admin/Vendor/VendorList'
 import VendorProfile from '../pages/Admin/Vendor/VendorProfile'
+import AddCategoryV2 from '../pages/Admin/Products/Categories/AddCategoryV2'
+
 // import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
 // import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
 // import CustomerProfile from '../pages/Frontend/CustomerPanel/CustomerProfile'
@@ -65,13 +67,17 @@ const CUSTOMER_PANEL_ROUTES = [
 ]
 
 const DASHBOARD_ROUTES = [
-  { path: '/dashboard', element: <Dashboard /> },
+  {
+    path: '/dashboard',
+    element: <Dashboard />,
+  },
   { path: 'dashboard/products-list', element: <ProductsList /> },
   { path: 'dashboard/add-product', element: <AddProduct /> },
   { path: 'dashboard/add-productV2', element: <AddProductV2 /> },
   { path: 'dashboard/products-details', element: <ProductsDetails /> },
   { path: 'dashboard/category', element: <Categories /> },
   { path: 'dashboard/categoryV2', element: <CategoriesV2 /> },
+  { path: 'dashboard/add-category', element: <AddCategoryV2 /> },
   { path: 'dashboard/categoryV2/edit', element: <EditCategoriesV2 /> },
   { path: 'dashboard/brand', element: <Brand /> },
   { path: 'dashboard/unit', element: <Unit /> },
