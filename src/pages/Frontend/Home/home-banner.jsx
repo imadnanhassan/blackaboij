@@ -29,7 +29,7 @@ const HomeBanner = () => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: "no-repeat",
-          height: "80vh",
+          height: "100vh",
           backgroundColor: "#00000",
           position: "relative"
           // '@media (max-width: 768px)': {
@@ -58,7 +58,7 @@ const HomeBanner = () => {
           </div>
         </div>
 
-        <div className='absolute md:bottom-[50px] bottom-4 md:right-[50px] right-5' >
+        <div className='absolute md:bottom-[30%] bottom-4 md:right-[50px] right-5' >
           <div className='flex flex-col gap-3 justify-end items-center'>
             <Link to="https://www.facebook.com/BBOIJ" target="blank">
               <span style={{ fontSize: `${iconSize}px` }} > <FaFacebook className="text-[#b1b1b1] hover:text-white  " /></span>
