@@ -23,7 +23,7 @@ export default function SignIn() {
       setLoading(true)
 
       const response = await addLogin(data)
-      if (response?.data?.message) {
+      if (response?.data?.status == 200) {
         toast.success(`${response?.data.message}`, {
           position: 'top-right',
           autoClose: 3000,
@@ -33,6 +33,12 @@ export default function SignIn() {
         if (rememberMe) {
           localStorage.setItem('userData', JSON.stringify(response?.data))
         }
+      } else if (response?.data?.status == 401) {
+        response?.data?.errors?.forEach(error => {
+          toast.error(error)
+        })
+      } else if (response?.data?.status == 402) {
+        toast.error(response?.data?.message)
       }
     } catch (error) {
       console.error('An error occurred:', error)

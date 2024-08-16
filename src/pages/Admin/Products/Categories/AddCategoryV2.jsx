@@ -28,6 +28,7 @@ export default function AddCategoryV2() {
       const formData = new FormData()
       formData.append('name', data.name)
       formData.append('status', data.status) // Make sure you capture this from the form
+      formData.append('banner', data.banner)
       if (data.parent_id) {
         formData.append('parent_id', data.parent_id)
       }

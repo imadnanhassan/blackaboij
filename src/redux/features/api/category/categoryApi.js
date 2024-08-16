@@ -22,7 +22,7 @@ export const categoryApi = baseApi.injectEndpoints({
     updateCategory: builder.mutation({
       query: data => {
         return {
-          url: `/api/admins/categories/${data?.id}`,
+          url: `/api/v1/admin/category/edit/${data?.id}`,
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${token}`,
