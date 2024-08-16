@@ -22,6 +22,8 @@ export default function CategoriesV2() {
     ? categories.categories
     : []
 
+  console.log(categories?.categories)
+
   if (!Array.isArray(categoryList)) {
     return <div>Unexpected data format received</div>
   }
@@ -121,6 +123,12 @@ export default function CategoriesV2() {
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
+                    Banner
+                  </th>
+
+                  <th
+                    className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
+                  >
                     NAME
                   </th>
 
@@ -143,6 +151,18 @@ export default function CategoriesV2() {
                   <tr key={id}>
                     <td className="p-2 text-center">{id + 1}</td>
 
+                    <td className="border-l pl-2 py-4 whitespace-nowrap flex gap-2">
+                      <div
+                        className={`w-[40px] h-[40px] rounded-md p-2 ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
+                      >
+                        <img
+                          src={`${import.meta.env.VITE_BASE_URL}/category/${category.banner}`}
+                          alt={category.name}
+                          className="w-full"
+                        />
+                      </div>
+                    </td>
+
                     <td
                       className={`border-l pl-2 py-4 text-[13px] whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
@@ -157,7 +177,7 @@ export default function CategoriesV2() {
 
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-2">
-                        <Link to={'/dashboard/categoryV2/edit'}>
+                        <Link to={`/dashboard/categoryV2/edit/${category.id}`}>
                           <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor">
                             <FiEdit className=" text-[12px] " />
                           </button>

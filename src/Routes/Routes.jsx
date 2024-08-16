@@ -78,7 +78,7 @@ const DASHBOARD_ROUTES = [
   { path: 'dashboard/category', element: <Categories /> },
   { path: 'dashboard/categoryV2', element: <CategoriesV2 /> },
   { path: 'dashboard/add-category', element: <AddCategoryV2 /> },
-  { path: 'dashboard/categoryV2/edit', element: <EditCategoriesV2 /> },
+  { path: 'dashboard/categoryV2/edit/:id', element: <EditCategoriesV2 /> },
   { path: 'dashboard/brand', element: <Brand /> },
   { path: 'dashboard/unit', element: <Unit /> },
   { path: 'dashboard/attributes', element: <AddAttributes /> },

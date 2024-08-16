@@ -31,60 +31,57 @@ export default function EditCategoriesV2() {
   ]
 
   // File Upload
-  const handleCategoryPhoto = e => {
-    const file = e.target.files[0]
-    setCategoryPhoto(file)
-    if (file) {
-      const imageUrl = URL.createObjectURL(file)
-      setCategoryPhotoPreview(imageUrl)
-    }
-  }
-  const handleCencelPhoto = () => {
-    setCategoryPhoto(null)
-    setCategoryPhotoPreview(null)
-  }
+  // const handleCategoryPhoto = e => {
+  //   const file = e.target.files[0]
+  //   setCategoryPhoto(file)
+  //   if (file) {
+  //     const imageUrl = URL.createObjectURL(file)
+  //     setCategoryPhotoPreview(imageUrl)
+  //   }
+  // }
+  // const handleCencelPhoto = () => {
+  //   setCategoryPhoto(null)
+  //   setCategoryPhotoPreview(null)
+  // }
 
   // category cover images
-  const handleCategoryCover = e => {
-    const file = e.target.files[0]
-    setCategoryCover(file)
-    if (file) {
-      const imageUrl = URL.createObjectURL(file)
-      setCategoryCoverPreview(imageUrl)
-    }
-  }
-  const handleCencelCover = () => {
-    setCategoryCover(null)
-    setCategoryCoverPreview(null)
-  }
+  // const handleCategoryCover = e => {
+  //   const file = e.target.files[0]
+  //   setCategoryCover(file)
+  //   if (file) {
+  //     const imageUrl = URL.createObjectURL(file)
+  //     setCategoryCoverPreview(imageUrl)
+  //   }
+  // }
+  
 
-  const handleCategoryBannerFileSelect = event => {
-    const files = event.target.files
-    setUploadedImages([...uploadedImages, ...files])
-  }
+  // const handleCategoryBannerFileSelect = event => {
+  //   const files = event.target.files
+  //   setUploadedImages([...uploadedImages, ...files])
+  // }
 
-  const handleCategoryBannerDragOver = event => {
-    event.preventDefault()
-    event.dataTransfer.dropEffect = 'copy'
-  }
+  // const handleCategoryBannerDragOver = event => {
+  //   event.preventDefault()
+  //   event.dataTransfer.dropEffect = 'copy'
+  // }
 
-  const handleCategoryBannerFileDrop = event => {
-    event.preventDefault()
-    const files = event.dataTransfer.files
-    setUploadedImages([...uploadedImages, ...files])
-  }
+  // const handleCategoryBannerFileDrop = event => {
+  //   event.preventDefault()
+  //   const files = event.dataTransfer.files
+  //   setUploadedImages([...uploadedImages, ...files])
+  // }
 
-  const handleCancecategoryBannerlUpload = index => {
-    const filteredImages = uploadedImages.filter((_, i) => i !== index)
-    setUploadedImages(filteredImages)
-  }
+  // const handleCancecategoryBannerlUpload = index => {
+  //   const filteredImages = uploadedImages.filter((_, i) => i !== index)
+  //   setUploadedImages(filteredImages)
+  // }
 
   // Select 2
-  const productCategory2 = [
-    { value: 'category', label: 'Product Category' },
-    { value: 'gender', label: 'Gender' },
-    { value: 'brand', label: 'Brand' },
-  ]
+  // const productCategory2 = [
+  //   { value: 'category', label: 'Product Category' },
+  //   { value: 'gender', label: 'Gender' },
+  //   { value: 'brand', label: 'Brand' },
+  // ]
   return (
     <div
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}
@@ -148,75 +145,19 @@ export default function EditCategoriesV2() {
                   </label>
                   <Select
                     id="productCategory2"
-                    options={productCategory2}
+                    // options={productCategory2}
                     placeholder="Select Option"
                     className="custom-select"
                   />
                 </div>
               </div>
             </div>
-            {/* Category Icon */}
-            <div className="mb-4 w-full">
-              <label
-                htmlFor="productName"
-                className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-              >
-                Category Icon
-              </label>
-              <input
-                type="file"
-                id="productName"
-                name="productName"
-                onChange={handleCategoryPhoto}
-                className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4  rounded focus:outline-none  focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black ' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-              />
-              {categoryPhotoPreview && (
-                <div className="mt-4 flex items-center  relative ">
-                  <img
-                    src={categoryPhotoPreview}
-                    alt="Preview"
-                    className="w-36 h-36 mr-2 mb-2 border rounded "
-                  />
-                  <IoCloseOutline
-                    onClick={handleCencelPhoto}
-                    className=" text-[17px] bg-primaryColor text-white hover:text-white hover:bg-error-200 transition-all duration-200 cursor-pointer rounded -mt-[133px] relative -left-6"
-                  />
-                </div>
-              )}
-            </div>
+            
 
-            {/* Category Cover */}
-            <div className="mb-4 w-full">
-              <label
-                htmlFor="productName"
-                className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-              >
-                Category Cover
-              </label>
-              <input
-                type="file"
-                id="productName"
-                name="productName"
-                onChange={handleCategoryCover}
-                className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4  rounded focus:outline-none  focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black ' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-              />
-              {categoryCoverPreview && (
-                <div className="mt-4 flex items-center  relative ">
-                  <img
-                    src={categoryCoverPreview}
-                    alt="Preview"
-                    className="w-36 h-36 mr-2 mb-2 border rounded "
-                  />
-                  <IoCloseOutline
-                    onClick={handleCencelCover}
-                    className=" text-[17px] bg-primaryColor text-white hover:text-white hover:bg-error-200 transition-all duration-200 cursor-pointer rounded -mt-[133px] relative -left-6"
-                  />
-                </div>
-              )}
-            </div>
+           
 
             {/* Category Banner */}
-            <div className="mb-4 w-full">
+            {/* <div className="mb-4 w-full">
               <label
                 htmlFor="imageUpload"
                 className="block text-sm font-medium mb-2"
@@ -251,7 +192,7 @@ export default function EditCategoriesV2() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>
