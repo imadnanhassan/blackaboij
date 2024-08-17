@@ -8,7 +8,7 @@ import { categories } from '../../../../../data/index'
 import '../../../../assets/css/frontend.css'
 import CommonDetailsAccordian from '../CommonDetailsAccordian/common-details-accordian'
 
-const NewArrivalsDetailsPage = () => {
+const HotSaleDetailsPage = () => {
   const { slug } = useParams()
 
   // Find the product by slug
@@ -104,4 +104,4 @@ const NewArrivalsDetailsPage = () => {
   )
 }
 
-export default NewArrivalsDetailsPage
+export default HotSaleDetailsPage;
