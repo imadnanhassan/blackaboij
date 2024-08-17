@@ -1,3 +1,5 @@
+import images from "../src/assets/img/images";
+
 export const categories = [
   {
     category_name: 'Men',
@@ -9,7 +11,7 @@ export const categories = [
         price: 29.99,
         color: ['Blue', 'White', 'Gray', 'Black', 'Red'],
         size: ['S', 'M', 'L', 'XL', 'XXL'],
-        gallery_img: ['img1_men_casual_shirt.jpg', 'img2_men_casual_shirt.jpg'],
+        gallery_img: [images.banner1, ],
       },
       {
         product_title: "Men's Leather Jacket",
