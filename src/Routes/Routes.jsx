@@ -48,6 +48,7 @@ import AddVendor from '../pages/Admin/Vendor/AddVendor'
 import VendorList from '../pages/Admin/Vendor/VendorList'
 import VendorProfile from '../pages/Admin/Vendor/VendorProfile'
 import AddCategoryV2 from '../pages/Admin/Products/Categories/AddCategoryV2'
+import NewArrivalsDetailsPage from '../pages/Frontend/Home/NewArrivalsDetailsPage/new_arrivals_details_page'
 
 // import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
 // import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
@@ -55,6 +56,7 @@ import AddCategoryV2 from '../pages/Admin/Products/Categories/AddCategoryV2'
 
 const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
+  { path: '/newArrivals/:slug', element: <NewArrivalsDetailsPage /> },
   { path: '/contact', element: <>Contact</> },
 ]
 

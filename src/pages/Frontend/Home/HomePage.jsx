@@ -2,14 +2,14 @@ import HomeAllShades from './home-allShades'
 import HomeBanner from './home-banner'
 import HomeBlackFridaySale from './home-blackFriday'
 import HomeHotSale from './home-hotsale'
-import HomeJustDropped from './home-justDropped'
+import HomeNewArrivals from './home-newArrivals'
 import NewsLatter from './home-newsLatter'
 
 export default function HomePage() {
   return (
     <>
       <HomeBanner />
-      <HomeJustDropped></HomeJustDropped>
+      <HomeNewArrivals></HomeNewArrivals>
       <HomeBlackFridaySale></HomeBlackFridaySale>
       <HomeHotSale></HomeHotSale>
       <NewsLatter></NewsLatter>

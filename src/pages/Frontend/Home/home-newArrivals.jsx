@@ -10,7 +10,7 @@ import '../HelperCss/home-hotsale.css'
 import { HiFire } from 'react-icons/hi'
 import { categories } from '../../../../data/index'
 
-const HomeJustDropped = () => {
+const HomeNewArrivals = () => {
   return (
     <section>
       <div className="md:section-gap pt-[50px]">
@@ -40,14 +40,14 @@ const HomeJustDropped = () => {
                         key={product.slug}
                         className="bg-[#B7B7B7] product-card font-custom relative"
                       >
-                        <Link to={`hotSale/${product.slug}`}>
+                        <Link to={`newArrivals/${product.slug}`}>
                           <img
                             src={product.img}
                             alt={product.product_title}
                             className="front-img w-full object-cover"
                           />
                         </Link>
-                        <Link to={`hotSale/${product.slug}`}>
+                        <Link to={`newArrivals/${product.slug}`}>
                           <img
                             src={product.backImg}
                             alt={product.product_title}
@@ -96,4 +96,4 @@ const HomeJustDropped = () => {
   )
 }
 
-export default HomeJustDropped ;
+export default HomeNewArrivals ;

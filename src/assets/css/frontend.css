@@ -60,4 +60,13 @@ input[type='number']::-webkit-outer-spin-button {
 
 
 
+.size-button{
+  border : 1px solid #b1b1b1 ;
+  color: #b1b1b1;
+  padding: 1px 15px;
+  background-color: #f1f5f9;
+
+}
+
+
 
