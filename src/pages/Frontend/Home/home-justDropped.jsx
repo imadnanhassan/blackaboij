@@ -17,7 +17,7 @@ const HomeJustDropped = () => {
         <Toaster />
         <div className="flex flex-col">
           <h1 className="mb-[10px] md:mb-[20px] text-center text-3xl font-bold">
-            New Arrivals (dummy push)
+            New Arrivals
           </h1>
           <div>
             <Tabs>
