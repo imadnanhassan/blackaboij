@@ -9,7 +9,6 @@ import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
 import '../HelperCss/home-hotsale.css'
 import { HiFire } from 'react-icons/hi'
 import { categories } from '../../../../data/index'
-HomeJustDropped
 const HomeHotSale = () => {
   return (
     <section>
