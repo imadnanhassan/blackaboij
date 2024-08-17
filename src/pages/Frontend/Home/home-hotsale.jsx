@@ -65,7 +65,7 @@ const HomeHotSale = () => {
                           style={{ fontSize: '30px' }}
                           className="absolute top-2 right-2 text-white "
                         >
-                          <HiFire className="hover:text-red-600 transition-colors duration-700 ease-in-out" />
+                          <HiFire className="text-red-700 transition-colors duration-700 ease-in-out animate-pulse" />
                         </button>
 
                         <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black text-[16px] text-white">

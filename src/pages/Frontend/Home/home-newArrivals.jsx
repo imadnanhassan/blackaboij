@@ -62,12 +62,7 @@ const HomeNewArrivals = () => {
                           <FaRegHeart />
                         </button>
 
-                        <button
-                          style={{ fontSize: '30px' }}
-                          className="absolute top-2 right-2 text-white "
-                        >
-                          <HiFire className="hover:text-red-600 transition-colors duration-700 ease-in-out" />
-                        </button>
+                        <button className='absolute top-0 right-0  text-white bg-[#000000] md:px-4 md:py-1 md:text-[16px] text-[12px] px-2  py-[2px]  '>New</button>
 
                         <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black text-[16px] text-white">
                           {product.product_title}
