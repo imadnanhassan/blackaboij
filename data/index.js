@@ -1,3 +1,5 @@
+import images from "../src/assets/img/images";
+
 export const categories = [
   {
     category_name: 'Men',
@@ -9,6 +11,7 @@ export const categories = [
         price: 29.99,
         color: ['Blue', 'White', 'Gray', 'Black', 'Red'],
         size: ['S', 'M', 'L', 'XL', 'XXL'],
+
         gallery_img: ['img1_men_casual_shirt.jpg', 'img2_men_casual_shirt.jpg'],
         img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
         backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
