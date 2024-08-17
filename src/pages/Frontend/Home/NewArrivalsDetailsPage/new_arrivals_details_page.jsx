@@ -42,33 +42,41 @@ const NewArrivalsDetailsPage = () => {
         <div className="px-[20px] md:px-[0px]">
           {/* breadcumbs */}
           <p className="text-[14px] text-[#212121]">
-            Home . {product.product_title}
+            Home . {product?.product_title}
           </p>
 
           {/* product contents here */}
           <h2 className="md:my-[20px] md:text-[39px] my-[5px] text-[20px] text-[#212121] ">
-            {product.product_title}
+            {product?.product_title}
           </h2>
           <p className="text-[14px] mb-4 md:mb-5 md:text-lg  text-[#212121]">
-            {product.description}
+            {product?.description}
           </p>
           <h2>
             <span className="flex  items-center md:text-[23px] md:mb-5 mb-2  text-[16px]">
               <MdEuroSymbol /> {product.price}
             </span>
           </h2>
+          
           <div className="md:pt-2 space-x-3">
-            {product.size.map((size, index) => (
-              <button
-                key={index}
-                className={`size-button bg-gray-500 text-white`}
-              >
-                {size}
+            {product?.size?.length > 0 ? (
+              product.size.map((size, index) => (
+                <button
+                  key={index}
+                  className={`size-button bg-gray-500 text-white`}
+                >
+                  {size}
+                </button>
+              ))
+            ) : (
+              <button className={`size-button bg-gray-500 text-white`}>
+                No size available
               </button>
-            ))}
+            )}
           </div>
+
           <div className="md:pt-3 pt-2 md:space-x-[7px] md:flex-none flex    space-x-[2px]">
-            {product.color.map((color, index) => (
+            {product?.color?.map((color, index) => (
               <button
                 key={index}
                 className={`size-button 'bg-gray-500 text-white`}
