@@ -73,7 +73,7 @@ const NewArrivalsDetailsPage = () => {
             {product?.color?.map((color, index) => (
               <button
                 key={index}
-                className={`size-button 'bg-gray-500 text-white`}
+                className={`size-button bg-${color}-700 text-white`}
               >
                 {color}
               </button>

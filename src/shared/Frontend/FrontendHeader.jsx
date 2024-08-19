@@ -70,7 +70,7 @@ const FrontendHeader = () => {
         <div className="w-full flex justify-center">
           <div className="max-w-xl">
             <p className="text-[#b1b1b1] py-2">
-              Up to 60% OFF on selected items. With an additional 20%
+              {/* Up to 60% OFF on selected items. With an additional 20% */}
             </p>
           </div>
         </div>
@@ -82,7 +82,7 @@ const FrontendHeader = () => {
           }}
         >
           <div
-            className={`pt-[20px]   w-full ${isSticky ? 'fixed  top-0' : ''} bg-black text-white transition-colors duration-500 ease-in-out `}
+            className={`pt-[20px]   w-full fixed top-0 bg-black text-white transition-colors duration-500 ease-in-out `}
           >
             <div
               className={`grid grid-cols-3 justify-between items-center px-[50px] pb-[20px]`}
@@ -171,7 +171,7 @@ const FrontendHeader = () => {
 
               <Link
                 to="/womens"
-                className={` text-white relative px-[15px] py-[10px] text-[15px]  border-b-2-transparent  group  ${isWomenHovered ? 'text-white border-b-2 ' : ''}`}
+                className={` text-white relative px-[15px] py-[10px] text-[15px]  border-b-2 border-black  group  ${isWomenHovered ? 'text-white border-b-2  border-white' : ''}`}
                 onMouseEnter={() => setIsWomenHovered(true)}
                 onMouseLeave={() => setIsWomenHovered(false)}
               >
@@ -225,7 +225,7 @@ const FrontendHeader = () => {
                 </li>
               </Link>
 
-              <Link to="/signIn">
+              <Link to="/signin">
                 <li
                   className={`relative px-[15px] py-[10px] text-[15px] text-white border-b-2-transparent group ${isSignInHovered ? 'text-white  border-b-2' : ''}`}
                   onMouseEnter={() => SetIsSignInHovered(true)}

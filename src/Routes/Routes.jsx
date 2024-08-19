@@ -50,6 +50,8 @@ import VendorProfile from '../pages/Admin/Vendor/VendorProfile'
 import AddCategoryV2 from '../pages/Admin/Products/Categories/AddCategoryV2'
 import NewArrivalsDetailsPage from '../pages/Frontend/Home/NewArrivalsDetailsPage/new_arrivals_details_page'
 import HotSaleDetailsPage from '../pages/Frontend/Home/HotSaleDetailsPage/hot-sale-details-page'
+import FrontendSignIn from '../pages/Frontend/Auth/SignIn'
+import FrontendSignUp from '../pages/Frontend/Auth/SignUp'
 
 // import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
 // import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
@@ -59,7 +61,8 @@ const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
   { path: '/newArrivals/:slug', element: <NewArrivalsDetailsPage /> },
   { path: '/hotSale/:slug', element: <HotSaleDetailsPage /> },
-  { path: '/contact', element: <>Contact</> },
+  { path: '/signin', element: <FrontendSignIn></FrontendSignIn> },
+  { path: '/signup', element: <FrontendSignUp></FrontendSignUp> },
 ]
 
 const CUSTOMER_PANEL_ROUTES = [
