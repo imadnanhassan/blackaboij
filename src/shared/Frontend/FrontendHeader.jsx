@@ -245,8 +245,6 @@ const FrontendHeader = () => {
                 </li>
               </Link>
             </div>
-
-            
           </div>
         </div>
       </div>

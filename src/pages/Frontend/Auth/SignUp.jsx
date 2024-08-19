@@ -68,11 +68,14 @@ export default function FrontendSignUp() {
                         flexDirection: 'column',
                         justifyContent: "center",
                         alignItems: 'center',
-                        height: '80vh',
+                        height: '90vh',
+                        backgroundColor:"red"
+                      
+                        
                     }}
                 >
 
-                    <Typography component="h1" variant="h5">
+<Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
