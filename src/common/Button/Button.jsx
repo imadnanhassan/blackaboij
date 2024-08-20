@@ -35,6 +35,18 @@ export function BuyNowButton({ buttonText }) {
   );
 }
 
+// Search page Buy Now button here
+export function SearchBuyNowButton({ buttonText }) {
+  return (
+    <div className=" hover:animate-pulse">
+      <a href="#_" className="relative inline-flex items-center justify-center md:px-4  md:py-1 px-2 py-1 hover:text-white overflow-hidden font-custom font-medium tracking-tighter text-black bg-white  group">
+        <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-black  rounded group-hover:w-full group-hover:h-56"></span>
+        <span className="relative whitespace-nowrap md:text-sm text-[12px] ">{buttonText}</span>
+      </a>
+    </div>
+  );
+}
+
 // search functionality button here
 export function SearchBtn() {
   return (
