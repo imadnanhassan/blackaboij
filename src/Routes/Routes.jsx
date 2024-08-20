@@ -5,7 +5,6 @@ import ProductsList from '../pages/Admin/Products/ProductsList'
 import AddProduct from '../pages/Admin/Products/AddProduct'
 import ProductsDetails from '../pages/Admin/Products/ProductsDetails'
 import Categories from '../pages/Admin/Products/Categories'
-import AddAttributes from '../pages/Admin/Products/Attributes/AddAttributes'
 import AddColor from '../pages/Admin/Products/Color/AddColor'
 
 import OrderList from '../pages/Admin/Order/OrderList'
@@ -30,7 +29,7 @@ import SignUp from '../pages/Admin/Auth/SignUp'
 import FrontendLayout from '../layout/Frontend/FrontendLayout'
 import HomePage from '../pages/Frontend/Home/HomePage'
 import Brand from '../pages/Admin/Products/Brand/Brand'
-import AddValue from '../pages/Admin/Products/Attributes/AddValue'
+import AddValue from '../pages/Admin/Products/Size/AddValue'
 import PointOfSale from '../pages/Admin/POS/PointOfSale'
 import Language from '../pages/Admin/Language/Language'
 
@@ -40,7 +39,7 @@ import DashboardForgotPassword from '../pages/Admin/Auth/DashboardForgotPassword
 import CategoriesV2 from '../pages/Admin/Products/Categories/CategoriesV2'
 import EditCategoriesV2 from '../pages/Admin/Products/Categories/EditCategoriesV2'
 import AddProductV2 from '../pages/Admin/Products/AddProductV2/AddProductV2'
-import EditAttributes from '../pages/Admin/Products/Attributes/EditAttributes'
+import EditSize from '../pages/Admin/Products/Size/editSize'
 // import CustomerDashboard from '../pages/Frontend/CustomerPanel/CustomerDashboard'
 // import CuctomerWallet from '../pages/Frontend/CustomerPanel/CuctomerWallet'
 import Unit from '../pages/Admin/Products/Units/Unit'
@@ -52,6 +51,7 @@ import NewArrivalsDetailsPage from '../pages/Frontend/Home/NewArrivalsDetailsPag
 import HotSaleDetailsPage from '../pages/Frontend/Home/HotSaleDetailsPage/hot-sale-details-page'
 import FrontendSignIn from '../pages/Frontend/Auth/SignIn'
 import FrontendSignUp from '../pages/Frontend/Auth/SignUp'
+import AddSize from '../pages/Admin/Products/Size/AddSize'
 
 // import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
 // import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
@@ -88,12 +88,12 @@ const DASHBOARD_ROUTES = [
   { path: 'dashboard/categoryV2/edit/:id', element: <EditCategoriesV2 /> },
   { path: 'dashboard/brand', element: <Brand /> },
   { path: 'dashboard/unit', element: <Unit /> },
-  { path: 'dashboard/attributes', element: <AddAttributes /> },
+  { path: 'dashboard/size', element: <AddSize /> },
   {
     path: '/dashboard/attributes/edit/:attributeId',
-    element: <EditAttributes />,
+    element: <EditSize />,
   },
-  { path: 'dashboard/attributes/add-value/1', element: <AddValue /> },
+  // { path: 'dashboard/attributes/add-value/1', element: <AddValue /> },
   { path: 'dashboard/color', element: <AddColor /> },
   { path: 'dashboard/coupons-list', element: <CouponsList /> },
   { path: 'dashboard/create-coupon', element: <CreateCoupon /> },

@@ -4,10 +4,8 @@ import DiscountDateRange from './DiscountDateRange'
 import Select from 'react-select'
 import Button from '../../../../common/Button/Button'
 import { FaPlus, FaTimes } from 'react-icons/fa'
-import { useGetAttributesQuery } from '../../../../redux/features/api/attribute/attributeApi'
 
 export default function PriceVariant({ isDarkMode }) {
-  const { data: attributes, isLoading } = useGetAttributesQuery()
   const [forms, setForms] = useState([])
   const [selectedValues, setSelectedValues] = useState({})
   const [discount, setDiscount] = useState('')
