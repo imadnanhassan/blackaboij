@@ -17,6 +17,7 @@ export const productApi = baseApi.injectEndpoints({
         },
       }),
     }),
+
     updateProduct: builder.mutation({
       query: ({ id, product }) => ({
         url: `/api/front/products/${id}`,
@@ -27,6 +28,7 @@ export const productApi = baseApi.injectEndpoints({
         },
       }),
     }),
+
     deleteProduct: builder.mutation({
       query: id => ({
         url: `/api/front/products/${id}`,
@@ -36,6 +38,7 @@ export const productApi = baseApi.injectEndpoints({
         },
       }),
     }),
+    
     getSingleProduct: builder.query({
       query: slug => ({
         url: `/api/front/products/${slug}`,

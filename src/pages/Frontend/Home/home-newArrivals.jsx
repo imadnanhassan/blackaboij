@@ -10,7 +10,7 @@ import '../HelperCss/home-hotsale.css'
 import { HiFire } from 'react-icons/hi'
 import { categories } from '../../../../data/index'
 
-const HomeJustDropped = () => {
+const HomeNewArrivals = () => {
   return (
     <section>
       <div className="md:section-gap pt-[50px]">
@@ -40,14 +40,14 @@ const HomeJustDropped = () => {
                         key={product.slug}
                         className="bg-[#B7B7B7] product-card font-custom relative"
                       >
-                        <Link to={`hotSale/${product.slug}`}>
+                        <Link to={`newArrivals/${product.slug}`}>
                           <img
                             src={product.img}
                             alt={product.product_title}
                             className="front-img w-full object-cover"
                           />
                         </Link>
-                        <Link to={`hotSale/${product.slug}`}>
+                        <Link to={`newArrivals/${product.slug}`}>
                           <img
                             src={product.backImg}
                             alt={product.product_title}
@@ -62,12 +62,7 @@ const HomeJustDropped = () => {
                           <FaRegHeart />
                         </button>
 
-                        <button
-                          style={{ fontSize: '30px' }}
-                          className="absolute top-2 right-2 text-white "
-                        >
-                          <HiFire className="hover:text-red-600 transition-colors duration-700 ease-in-out" />
-                        </button>
+                        <button className='absolute top-0 right-0  text-white bg-[#000000] md:px-4 md:py-1 md:text-[16px] text-[12px] px-2  py-[2px]  '>New</button>
 
                         <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black text-[16px] text-white">
                           {product.product_title}
@@ -96,4 +91,4 @@ const HomeJustDropped = () => {
   )
 }
 
-export default HomeJustDropped ;
+export default HomeNewArrivals ;

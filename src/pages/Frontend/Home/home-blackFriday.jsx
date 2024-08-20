@@ -10,6 +10,7 @@ const HomeBlackFridaySale = () => {
         backgroundRepeat: 'no-repeat',
 
     };
+    
 
     return (
         <section>
