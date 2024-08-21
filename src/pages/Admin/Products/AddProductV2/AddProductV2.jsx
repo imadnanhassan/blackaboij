@@ -9,7 +9,6 @@ import PriceVariant from './PriceVariant'
 import FileMedia from './FileMedia'
 import ProductSEO from './ProductSEO'
 import GeneralInfo from './GeneralInfo'
-import { useAddProductMutation } from '../../../../redux/features/api/product/productApi'
 import { useForm } from 'react-hook-form'
 
 export default function AddProductV2() {
@@ -22,7 +21,6 @@ export default function AddProductV2() {
     formState: { errors },
     reset,
   } = useForm()
-  const [addProduct, { isLoading }] = useAddProductMutation()
 
   const [submissionError, setSubmissionError] = useState(null)
 
