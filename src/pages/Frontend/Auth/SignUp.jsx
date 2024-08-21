@@ -63,8 +63,8 @@ export default function FrontendSignUp() {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '90vh',
-            backgroundColor: 'red',
+            height: '80vh',
+            
           }}
         >
           <Typography component="h1" variant="h5">
