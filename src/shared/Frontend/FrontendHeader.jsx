@@ -32,18 +32,18 @@ const FrontendHeader = () => {
   const [isListMenuOpen, setIsListMenuOpen] = useState(false)
   const [isListMenuOpenWomen, setIsListMenuOpenWomen] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      setIsSticky(scrollPosition > 0)
-    }
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollPosition = window.scrollY
+  //     setIsSticky(scrollPosition > 0)
+  //   }
 
-    window.addEventListener('scroll', handleScroll)
+  //   window.addEventListener('scroll', handleScroll)
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll)
+  //   }
+  // }, [])
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -69,7 +69,7 @@ const FrontendHeader = () => {
       <div className="md:block hidden bg-black  w-full">
         <div className="w-full flex justify-center">
           <div className="max-w-xl">
-            <p className="text-[#b1b1b1] py-2">
+            <p className="text-[#b1b1b1] ">
               {/* Up to 60% OFF on selected items. With an additional 20% */}
             </p>
           </div>
@@ -82,7 +82,7 @@ const FrontendHeader = () => {
           }}
         >
           <div
-            className={`pt-[20px]   w-full fixed top-0 bg-black text-white transition-colors duration-500 ease-in-out `}
+            className={`pt-[20px]   w-full   bg-black text-white transition-colors duration-500 ease-in-out `}
           >
             <div
               className={`grid grid-cols-3 justify-between items-center px-[50px] pb-[20px]`}
