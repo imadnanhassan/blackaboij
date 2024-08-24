@@ -2,9 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import DashboardLayout from '../layout/Dashboard/DashboardLayout'
 import Dashboard from '../pages/Admin/Dashboard/Dashboard'
 import ProductsList from '../pages/Admin/Products/ProductsList'
-import AddProduct from '../pages/Admin/Products/AddProduct'
 import ProductsDetails from '../pages/Admin/Products/ProductsDetails'
-import Categories from '../pages/Admin/Products/Categories'
 import AddColor from '../pages/Admin/Products/Color/AddColor'
 
 import OrderList from '../pages/Admin/Order/OrderList'
@@ -83,11 +81,10 @@ const DASHBOARD_ROUTES = [
     element: <Dashboard />,
   },
   { path: 'dashboard/products-list', element: <ProductsList /> },
-  { path: 'dashboard/add-product', element: <AddProduct /> },
-  { path: 'dashboard/add-productV2', element: <AddProductV2 /> },
+  { path: 'dashboard/add-product', element: <AddProductV2 /> },
   { path: 'dashboard/products-details', element: <ProductsDetails /> },
-  { path: 'dashboard/category', element: <Categories /> },
-  { path: 'dashboard/categoryV2', element: <CategoriesV2 /> },
+
+  { path: 'dashboard/category', element: <CategoriesV2 /> },
   { path: 'dashboard/add-category', element: <AddCategoryV2 /> },
   { path: 'dashboard/categoryV2/edit/:id', element: <EditCategoriesV2 /> },
   { path: 'dashboard/brand', element: <Brand /> },

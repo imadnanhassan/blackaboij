@@ -8,10 +8,8 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 export default function AddCategoryV2() {
-  // Get theme state for dark mode
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
 
-  // Initialize react-hook-form
   const {
     register,
     handleSubmit,
@@ -19,15 +17,13 @@ export default function AddCategoryV2() {
     formState: { errors },
   } = useForm()
 
-  // Prepare mutation hook for adding a category
   const [addCategory, { isLoading: isSubmitting }] = useAddCategoryMutation()
 
-  // Handle form submission
   const onSubmit = async data => {
     try {
       const formData = new FormData()
       formData.append('name', data.name)
-      formData.append('status', data.status) // Make sure you capture this from the form
+      formData.append('status', data.status)
       formData.append('banner', data.banner)
       if (data.parent_id) {
         formData.append('parent_id', data.parent_id)

@@ -16,7 +16,8 @@ export default function PriceVariant({ isDarkMode }) {
     { value: 'percent', label: 'Percent' },
   ]
 
-  const handleButtonClick = () => {
+  const handleButtonClick = e => {
+    e.preventDefault()
     setForms([...forms, { id: forms.length }])
   }
 
@@ -36,13 +37,9 @@ export default function PriceVariant({ isDarkMode }) {
     })
   }
 
-
-
   // const sizeOptions = generateOptions(4)
   // const colorOptions = generateOptions(0)
   // const SleeveOption = generateOptions(2)
-
-
 
   return (
     <section className=" ">
@@ -139,7 +136,7 @@ export default function PriceVariant({ isDarkMode }) {
         <Button
           text="Add Variant"
           className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-          onClick={handleButtonClick}
+          onClick={e => handleButtonClick(e)}
           icon={FaPlus}
         ></Button>
         {forms.map(form => (
