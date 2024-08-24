@@ -22,7 +22,7 @@ export default function CategoriesV2() {
     ? categories.categories
     : []
 
-  console.log(categories?.categories)
+
 
   if (!Array.isArray(categoryList)) {
     return <div>Unexpected data format received</div>

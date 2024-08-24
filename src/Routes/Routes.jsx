@@ -29,7 +29,6 @@ import SignUp from '../pages/Admin/Auth/SignUp'
 import FrontendLayout from '../layout/Frontend/FrontendLayout'
 import HomePage from '../pages/Frontend/Home/HomePage'
 import Brand from '../pages/Admin/Products/Brand/Brand'
-import AddValue from '../pages/Admin/Products/Size/AddValue'
 import PointOfSale from '../pages/Admin/POS/PointOfSale'
 import Language from '../pages/Admin/Language/Language'
 

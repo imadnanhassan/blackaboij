@@ -4,7 +4,7 @@ import Select from 'react-select'
 import Barcode from 'react-barcode'
 import { categories } from './CategoryData'
 
-export default function GeneralInfo({ isDarkMode, register, errors }) {
+export default function GeneralInfo({ isDarkMode }) {
   const [description, setDescription] = useState('')
   const [productName, setProductName] = useState('')
   const [isValidProductName, setIsValidProductName] = useState(true)
@@ -87,9 +87,7 @@ export default function GeneralInfo({ isDarkMode, register, errors }) {
           placeholder="Enter product name"
           onChange={handleChange}
           className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
-           {...register('productName', { required: 'Product name is required' })}
         />
-        {errors.productName && <p>{errors.productName.message}</p>}
       </div>
 
       <div className="grid grid-cols-3 gap-3 my-4 ">
@@ -199,61 +197,7 @@ export default function GeneralInfo({ isDarkMode, register, errors }) {
           className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${isDarkMode ? '' : ''}`}
         />
       </div>
-      <div className="mt-5 border-t">
-        <p className=" pt-1 text-gray-500 text-[13px] mb-2">
-          <strong className="text-[14px] text-gray-800">Flash Deal</strong> (If
-          you want to select this product as a flash deal, you can use it)
-        </p>
-        <div className="grid grid-cols-3 gap-5">
-          <div className="mb-4">
-            <label
-              htmlFor="productName"
-              className={`block text-[12px] font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-            >
-              Discount
-            </label>
-            <input
-              type="number"
-              placeholder="0.02"
-              className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
-            />
-          </div>
-
-          <div className=" w-full mr:auto ml:auto  mt-3 ">
-            <div className="relative">
-              <label
-                htmlFor="productCategory"
-                className={`block text-[12px] font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-              >
-                Add To Flash
-              </label>
-              <Select
-                id="productCategory"
-                options={productCategory}
-                placeholder="Select Option"
-                className="custom-select"
-              />
-            </div>
-          </div>
-
-          <div className=" w-full mr:auto ml:auto  mt-3">
-            <div className="relative">
-              <label
-                htmlFor="productCategory"
-                className={`block text-[12px] font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-              >
-                Discount Type
-              </label>
-              <Select
-                id="productCategory"
-                options={productCategory}
-                placeholder="Select Option"
-                className="custom-select"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+     
     </div>
   )
 }

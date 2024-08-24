@@ -8,7 +8,7 @@ export const colorApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     addColor: builder.mutation({
       query: data => ({
-        url: '/api/colors/store',
+        url: '/api/v1/admin/color/store',
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

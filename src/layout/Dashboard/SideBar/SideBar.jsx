@@ -238,7 +238,7 @@ export default function SideBar({ isSideBarOpen }) {
                     
                     <li id="sidebar">
                       <NavLink
-                        to={'dashboard/attributes'}
+                        to={'dashboard/size'}
                         className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
                       >
                         <span className="inline-flex justify-center items-center ml-8">
