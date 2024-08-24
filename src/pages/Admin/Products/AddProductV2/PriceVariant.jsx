@@ -36,22 +36,13 @@ export default function PriceVariant({ isDarkMode }) {
     })
   }
 
-  const generateOptions = index => {
-    return (
-      attributes?.attributeItems?.[index]?.attribute_values?.map(value => ({
-        value: value.name,
-        label: value.name,
-      })) || []
-    )
-  }
 
-  const sizeOptions = generateOptions(4)
-  const colorOptions = generateOptions(0)
-  const SleeveOption = generateOptions(2)
 
-  if (isLoading) {
-    return <>Loading...</>
-  }
+  // const sizeOptions = generateOptions(4)
+  // const colorOptions = generateOptions(0)
+  // const SleeveOption = generateOptions(2)
+
+
 
   return (
     <section className=" ">
@@ -171,7 +162,7 @@ export default function PriceVariant({ isDarkMode }) {
               </label>
               <div className="relative">
                 <Select
-                  options={sizeOptions}
+                  // options={sizeOptions}
                   placeholder="Select Option"
                   className="custom-select"
                   onChange={selectedOption =>
@@ -189,7 +180,7 @@ export default function PriceVariant({ isDarkMode }) {
               </label>
               <div className="relative">
                 <Select
-                  options={colorOptions}
+                  // options={colorOptions}
                   placeholder="Select Option"
                   className="custom-select"
                   onChange={selectedOption =>
@@ -207,7 +198,7 @@ export default function PriceVariant({ isDarkMode }) {
               </label>
               <div className="relative">
                 <Select
-                  options={SleeveOption}
+                  // options={SleeveOption}
                   placeholder="Select Option"
                   className="custom-select"
                   onChange={selectedOption =>

@@ -16,7 +16,6 @@ import Tooltip from '../../../../common/Tooltip/Tooltip'
 import EditColor from './EditColor'
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
 import Swal from 'sweetalert2'
-import tinycolor from 'tinycolor2'
 
 export default function AddColor() {
   const [id, setId] = useState()
@@ -26,7 +25,8 @@ export default function AddColor() {
   const [deleteColor] = useDeleteColorMutation()
   const { data: color, isLoading, refetch } = useGetColorQuery()
   const colors = color?.colors
-  console.log(colors)
+
+
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const {
     register,
@@ -67,7 +67,7 @@ export default function AddColor() {
     }
   }
 
-  // add function
+  // add color function
   const onSubmit = async data => {
     data.code = selectedColor
     try {
@@ -92,27 +92,6 @@ export default function AddColor() {
 
   const handleColorChange = e => {
     setSelectedColor(e.target.value)
-  }
-
-  // generate related color function
-  const generateRelatedColors = () => {
-    const color = tinycolor(selectedColor)
-    const relatedColors = []
-
-    // Generate related colors
-    for (let i = 0; i < 5; i++) {
-      const relatedColor = color
-        .clone()
-        .lighten(i * 5)
-        .toString()
-      relatedColors.push(relatedColor)
-    }
-
-    return relatedColors
-  }
-
-  const handleRelatedColorClick = color => {
-    setSelectedColor(color)
   }
 
   const handleClickOpen = id => {
@@ -197,21 +176,6 @@ export default function AddColor() {
                       className="ml-2 rounded-md shadow-sm focus:ring-indigo-300 focus:ring-opacity-50"
                     />
                   </div>
-                  <h3 className="text-sm mt-4 mb-2">Related Colors:</h3>
-                  {generateRelatedColors().map((color, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        backgroundColor: color,
-                        width: '30px',
-                        height: '30px',
-                        cursor: 'pointer',
-                        display: 'inline-block',
-                        marginRight: '2px',
-                      }}
-                      onClick={() => handleRelatedColorClick(color)}
-                    ></div>
-                  ))}
                 </div>
 
                 <Button

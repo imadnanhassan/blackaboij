@@ -35,8 +35,20 @@ export default function AddSize() {
   const onSubmit = async data => {
     try {
       const response = await addSize({ ...data })
-      if (response?.message) {
-        toast.success(`${response.message}`, {
+      if (response?.data?.status === 200) {
+        toast.success(`${response.data?.message}`, {
+          position: 'bottom-right',
+          autoClose: 3000,
+        })
+      } else if (response?.data?.status === 401) {
+        response?.data?.errors.forEach(el => {
+          toast.error(`${el}`, {
+            position: 'bottom-right',
+            autoClose: 3000,
+          })
+        })
+      } else if (response?.data?.status === 402) {
+        toast.error(`${response.data?.message}`, {
           position: 'bottom-right',
           autoClose: 3000,
         })
@@ -216,11 +228,6 @@ export default function AddSize() {
 
                           <Tooltip text="Delete">
                             <button
-                              onKeyDown={e => {
-                                if (e.key === 'Enter') {
-                                  handleDelete(size.id)
-                                }
-                              }}
                               onClick={() => handleDelete(size.id)}
                               className="focus:outline-none transition-all duration-300 p-2 rounded bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
                             >

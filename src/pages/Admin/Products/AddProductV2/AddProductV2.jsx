@@ -9,43 +9,14 @@ import PriceVariant from './PriceVariant'
 import FileMedia from './FileMedia'
 import ProductSEO from './ProductSEO'
 import GeneralInfo from './GeneralInfo'
-import { useForm } from 'react-hook-form'
 
 export default function AddProductV2() {
   const [activeTab, setActiveTab] = useState('general')
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm()
-
-  const [submissionError, setSubmissionError] = useState(null)
-
-  const onSubmit = async data => {
-    const formData = new FormData()
-
-    Object.keys(data).forEach(key => {
-      if (key === 'thumbnailImage') {
-        formData.append(key, data[key][0])
-      } else if (key === 'galleryImages') {
-        Array.from(data[key]).forEach(file => formData.append(key, file))
-      } else {
-        formData.append(key, data[key])
-      }
-    })
-
-    try {
-      await addProduct(formData).unwrap()
-      console.log('Product added successfully!')
-      reset()
-      setSubmissionError(null)
-    } catch (err) {
-      console.error('Failed to add product:', err)
-      setSubmissionError('Failed to add product. Please try again.')
-    }
+  const handleTabClick = (e, tab) => {
+    e.preventDefault()
+    setActiveTab(tab)
   }
 
   // Breadcrumbs
@@ -55,74 +26,57 @@ export default function AddProductV2() {
     { title: 'Products' },
     { title: 'Add Product' },
   ]
-
-  const handleTabClick = tab => {
-    setActiveTab(tab)
-  }
-
   return (
     <section
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}
     >
       <Breadcrumbs title={pageTitle} breadcrumbs={productLinks} />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form>
         <div className=" w-full">
           <div
             className={`py-5 rounded px-24 xl:max-w-7xl mx-auto ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText '}`}
           >
             <div className=" flex justify-center gap-2 pb-5">
               <button
-                onClick={() => handleTabClick('general')}
+                onClick={e => handleTabClick(e, 'general')}
                 className="bg-primaryColor py-3 px-4 rounded text-white text-[14px]  items-center"
               >
                 General
               </button>
               <button
+                onClick={e => handleTabClick(e, 'price')}
                 className="bg-primaryColor py-3 px-4 rounded text-white text-[14px]  items-center"
-                onClick={() => handleTabClick('price')}
               >
                 Price & Stock
               </button>
               <button
                 className="bg-primaryColor py-3 px-4 rounded text-white text-[14px]  items-center"
-                onClick={() => handleTabClick('file')}
+                onClick={e => handleTabClick(e, 'file')}
               >
                 File & Media
               </button>
 
               <button
                 className="bg-primaryColor py-3 px-4 rounded text-white text-[14px]  items-center"
-                onClick={() => handleTabClick('seo')}
+                onClick={e => handleTabClick(e, 'seo')}
               >
                 SEO
               </button>
             </div>
             <div className="w-full">
               <div className={`content ${activeTab !== 'general' && 'hidden'}`}>
-                <GeneralInfo
-                  isDarkMode={isDarkMode}
-                  register={register}
-                  errors={errors}
-                />
+                <GeneralInfo isDarkMode={isDarkMode} />
               </div>
 
               <div className={`content ${activeTab !== 'price' && 'hidden'}`}>
-                <PriceVariant
-                  isDarkMode={isDarkMode}
-                  register={register}
-                  errors={errors}
-                />
+                <PriceVariant isDarkMode={isDarkMode} />
               </div>
               <div className={`content ${activeTab !== 'file' && 'hidden'}`}>
-                <FileMedia
-                  isDarkMode={isDarkMode}
-                  register={register}
-                  errors={errors}
-                />
+                <FileMedia isDarkMode={isDarkMode} />
               </div>
 
               <div className={`content ${activeTab !== 'seo' && 'hidden'}`}>
-                <ProductSEO isDarkMode={isDarkMode} register={register} />
+                <ProductSEO isDarkMode={isDarkMode} />
               </div>
             </div>
           </div>
@@ -130,7 +84,6 @@ export default function AddProductV2() {
           <div className="flex justify-end gap-3 items-center mt-5">
             <Button
               type="submit"
-              disabled={isLoading}
               text="Add Product"
               className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
               icon={FaPlus}
@@ -145,10 +98,6 @@ export default function AddProductV2() {
             ></Button>
           </div>
         </div>
-
-        {submissionError && (
-          <div className="mt-5 text-red-500">{submissionError}</div>
-        )}
       </form>
     </section>
   )
