@@ -57,6 +57,7 @@ import AddSize from '../pages/Admin/Products/Size/AddSize'
 import Cart from '../pages/Frontend/userCartAndFav/Cart'
 import Fav from '../pages/Frontend/userCartAndFav/Fav'
 import Checkout from '../pages/Frontend/Checkout/Checkout'
+import Store from '../pages/Frontend/Store/Store'
 
 
 // import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
@@ -73,6 +74,7 @@ const FRONTEND_ROUTES = [
   { path: '/cart', element: <Cart></Cart>},
   { path: '/fav', element: <Fav></Fav>},
   { path: '/checkout', element: <Checkout></Checkout>},
+  { path: '/store', element: <Store></Store>},
 ]
 
 const CUSTOMER_PANEL_ROUTES = [
