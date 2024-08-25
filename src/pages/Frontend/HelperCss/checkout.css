@@ -1,0 +1,188 @@
+.checkout_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.checkout_left {
+  width: 100%;
+}
+
+.cart_order_title {
+  padding: 20px;
+  background: #fff;
+  border-radius: 2px;
+  margin-bottom: 24px;
+}
+
+.cart_order_title h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #041826;
+}
+
+.checkout_address {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 40px 20px;
+  border-radius: 2px;
+  background-color: #ffffff;
+}
+
+.address_item {
+  width: 100%;
+}
+
+.address_item label {
+  font-size: 15px;
+  color: #0f172a99;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.address_item input {
+  border: 1px solid #f2f2f2;
+  outline: none;
+  height: 36px;
+  width: 100%;
+  background: transparent;
+  font-size: 14px;
+  padding: 0px 15px;
+  color: #0f172a99;
+  border-radius: 2px;
+}
+
+.checkout_right {
+  width: 100%;
+}
+
+.order_sumury {
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0px 5px 30px rgb(0 0 0 / 10%);
+  border-radius: 2px;
+}
+
+.payment_wrapper {
+  margin-top: 20px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0px 5px 30px rgb(0 0 0 / 10%);
+  border-radius: 2px;
+}
+
+.sumury_title {
+  font-size: 16px;
+  line-height: 18px;
+  color: #041826;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.payment_item {
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+}
+
+.payment_item input {
+  appearance: none;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.payment_item input:checked~.payment_image {
+  border: 2px solid #eeeeee;
+  border-radius: 2px;
+}
+
+.payment_image {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid transparent;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f172a99;
+}
+
+.payment_image img {
+  width: 80px;
+  border: 1px solid #f2f2f2;
+  padding: 5px;
+  border-radius: 2px;
+}
+
+.submit_button {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.submit_button button {
+  color: #fff;
+  background: black;
+  border-radius: 2px;
+  width: 100%;
+}
+
+.main_btn {
+  border: none;
+  display: inline-block;
+  outline: none;
+  padding: 7px 25px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all linear 0.3s;
+}
+
+@media (min-width: 992px) {
+  .checkout_right {
+    width: 500px;
+  }
+}
+
+@media (min-width: 992px) {
+  .address_item {
+    width: calc(100% / 2 - 8px);
+  }
+}
+
+@media (min-width: 992px) {
+  .checkout_left {
+    width: calc(100% - 524px);
+  }
+}
+
+@media (min-width: 768px) {
+  .checkout_left {
+    width: calc(100% - 424px);
+  }
+}
+
+@media (min-width: 768px) {
+  .checkout_right {
+    width: 400px;
+  }
+}
+
+/* ==================== custom css for order summery ========= */
+.summery_total_product span {
+  color: #0f172a99;
+  font-weight: 500;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+.summury_total_price span {
+  color: #0f172a99;
+  font-weight: 500;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
