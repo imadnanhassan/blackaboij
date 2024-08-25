@@ -121,7 +121,8 @@ const FrontendHeader = () => {
               </div>
             </div>
 
-            {/* desktop  list items */}
+            {/* ==================================== desktop  menu here ==================================== */}
+            {/* to do : all routes needs to change  */}
             <div
               className={`flex   justify-center   list-none font-custom text-[#b1b1b1]  border-b border-t border-[#383838] bg-black `}
             >
@@ -241,7 +242,7 @@ const FrontendHeader = () => {
         </div>
       </div>
 
-      {/* mobile menu */}
+      {/*==================================mobile menu here ====================================*/}
       <div
         className={`header md:hidden  block w-full ${isSticky ? 'fixed top-0 z-50' : ''} bg-black text-white transition-colors duration-500 ease-in-out z-50 `}
       >
