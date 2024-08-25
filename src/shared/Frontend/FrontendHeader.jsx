@@ -32,18 +32,6 @@ const FrontendHeader = () => {
   const [isListMenuOpen, setIsListMenuOpen] = useState(false)
   const [isListMenuOpenWomen, setIsListMenuOpenWomen] = useState(false)
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollPosition = window.scrollY
-  //     setIsSticky(scrollPosition > 0)
-  //   }
-
-  //   window.addEventListener('scroll', handleScroll)
-
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll)
-  //   }
-  // }, [])
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -120,7 +108,11 @@ const FrontendHeader = () => {
                 </Link>
                 <Link>
                   <span style={{ fontSize: `${iconSize}px` }}>
-                    <AiOutlineShoppingCart className="text-white" />
+                    <AiOutlineShoppingCart className="text-white"
+                    
+                    
+                    
+                    />
                     <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
                       4
                     </span>
@@ -248,6 +240,7 @@ const FrontendHeader = () => {
           </div>
         </div>
       </div>
+
       {/* mobile menu */}
       <div
         className={`header md:hidden  block w-full ${isSticky ? 'fixed top-0 z-50' : ''} bg-black text-white transition-colors duration-500 ease-in-out z-50 `}
@@ -292,6 +285,7 @@ const FrontendHeader = () => {
               />
             </Link>
           </div>
+
           <div className="menu-icon flex items-center justify-end">
             {isMobileMenuOpen ? (
               <HiMiniXMark

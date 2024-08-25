@@ -14,6 +14,8 @@ export const categories = [
         color: ['Blue', 'White', 'Gray', 'Black', 'Red'],
         size: ['S', 'M', 'L', 'XL', 'XXL'],
         gallery_img: [images.banner1, ],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Men's Leather Jacket",
@@ -49,6 +51,8 @@ export const categories = [
           'img1_men_leather_jacket.jpg',
           'img2_men_leather_jacket.jpg',
         ],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Men's Running Shoes",
@@ -61,6 +65,8 @@ export const categories = [
           'img1_men_running_shoes.jpg',
           'img2_men_running_shoes.jpg',
         ],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Men's Formal Suit",
@@ -71,6 +77,8 @@ export const categories = [
         color: ['Black', 'Navy', 'Gray', 'Charcoal'],
         size: ['38', '40', '42', '44', '46'],
         gallery_img: ['img1_men_formal_suit.jpg', 'img2_men_formal_suit.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Men's Denim Jeans",
@@ -83,6 +91,8 @@ export const categories = [
         color: ['Blue', 'Black', 'Gray', 'Dark Blue'],
         size: ['30', '32', '34', '36', '38'],
         gallery_img: ['img1_men_denim_jeans.jpg', 'img2_men_denim_jeans.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Men's Watch",
@@ -95,6 +105,8 @@ export const categories = [
         color: ['Brown', 'Black', 'Silver', 'Gold'],
         size: ['38', '40', '42', '44', '46'],
         gallery_img: ['img1_men_watch.jpg', 'img2_men_watch.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
     ],
   },
@@ -124,6 +136,8 @@ export const categories = [
           'img1_women_summer_dress.jpg',
           'img2_women_summer_dress.jpg',
         ],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Women's Handbag",
@@ -134,6 +148,8 @@ export const categories = [
         color: ['Black', 'Brown', 'Beige', 'Red', 'Navy'],
         size: ['No Size Avaibale'],
         gallery_img: ['img1_women_handbag.jpg', 'img2_women_handbag.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Women's High Heels",
@@ -146,6 +162,8 @@ export const categories = [
         color: ['Black', 'Red', 'Pink', 'Nude', 'Silver'],
         size: ['6', '7', '8', '9', '10'],
         gallery_img: ['img1_women_high_heels.jpg', 'img2_women_high_heels.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Women's Leather Jacket",
@@ -170,6 +188,8 @@ export const categories = [
           'img1_women_leather_jacket.jpg',
           'img2_women_leather_jacket.jpg',
         ],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Women's Sunglasses",
@@ -179,6 +199,8 @@ export const categories = [
         color: ['Black', 'Brown', 'Gold', 'Silver'],
         size: ['No Size Avaibale'],
         gallery_img: ['img1_women_sunglasses.jpg', 'img2_women_sunglasses.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: "Women's Scarf",
@@ -191,6 +213,8 @@ export const categories = [
         color: ['Red', 'Blue', 'Pink', 'Yellow', 'Green'],
         size: ['No Size Avaibale'],
         gallery_img: ['img1_women_scarf.jpg', 'img2_women_scarf.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
     ],
   },
@@ -231,8 +255,10 @@ export const categories = [
           'Compact leather wallet with multiple compartments for cards and cash.',
         price: 39.99,
         color: ['Black', 'Brown', 'Gray', 'Tan'],
-        size: 'One Size',
+        size: ['No Size Avaibale'],
         gallery_img: ['img1_leather_wallet.jpg', 'img2_leather_wallet.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: 'Sunglasses',
@@ -241,8 +267,10 @@ export const categories = [
         price: 24.99,
         color: ['Black', 'Gray', 'Brown', 'Silver', 'Gold'],
 
-        size: 'One Size',
+        size: ['No Size Avaibale'],
         gallery_img: ['img1_sunglasses.jpg', 'img2_sunglasses.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: 'Wristwatch',
@@ -281,8 +309,7 @@ export const categories = [
           'Casual baseball cap with adjustable strap and breathable fabric.',
         price: 19.99,
         color: ['Black', 'White', 'Navy', 'Red', 'Green'],
-        size: 'One Size',
-        gallery_img: ['img1_baseball_cap.jpg', 'img2_baseball_cap.jpg'],
+      
       },
       {
         product_title: 'Leather Belt',
@@ -292,6 +319,8 @@ export const categories = [
         color: ['Black', 'Brown', 'Tan', 'Gray'],
         size: ['S', 'M', 'L', 'XL'],
         gallery_img: ['img1_leather_belt.jpg', 'img2_leather_belt.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: 'Smartwatch',
@@ -299,8 +328,10 @@ export const categories = [
           'Advanced smartwatch with heart rate monitoring and fitness tracking.',
         price: 199.99,
         color: ['Black', 'Silver', 'Gold', 'Rose Gold'],
-        size: 'One Size',
+        size: ['No Size Avaibale'],
         gallery_img: ['img1_smartwatch.jpg', 'img2_smartwatch.jpg'],
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
       {
         product_title: 'Smartwatch',
@@ -308,9 +339,10 @@ export const categories = [
           'Advanced smartwatch with heart rate monitoring and fitness tracking.',
         price: 199.99,
         color: ['Black', 'Silver', 'Gold', 'Rose Gold'],
-        size: 'One Size',
+        size: ['No Size Avaibale'],
         gallery_img: ['img1_smartwatch.jpg', 'img2_smartwatch.jpg'],
-
+        img: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+        backImg: 'https://i.ibb.co/W6608r4/BLACKNOV0957-720x.webp',
       },
     ],
   },

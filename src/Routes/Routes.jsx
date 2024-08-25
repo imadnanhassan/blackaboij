@@ -52,6 +52,8 @@ import FrontendSignUp from '../pages/Frontend/Auth/SignUp'
 import SeearchPage from '../pages/Frontend/SearchPage/search_page'
 
 import AddSize from '../pages/Admin/Products/Size/AddSize'
+import Cart from '../pages/Frontend/userCartAndFav/Cart'
+import Fav from '../pages/Frontend/userCartAndFav/Fav'
 
 
 // import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
@@ -65,6 +67,8 @@ const FRONTEND_ROUTES = [
   { path: '/signin', element: <FrontendSignIn></FrontendSignIn> },
   { path: '/signup', element: <FrontendSignUp></FrontendSignUp> },
   { path: '/search', element: <SeearchPage></SeearchPage>},
+  { path: '/cart', element: <Cart></Cart>},
+  { path: '/fav', element: <Fav></Fav>},
 ]
 
 const CUSTOMER_PANEL_ROUTES = [
