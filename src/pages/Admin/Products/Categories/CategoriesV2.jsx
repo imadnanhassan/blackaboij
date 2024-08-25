@@ -18,6 +18,9 @@ export default function CategoriesV2() {
   const { data: categories, error, isLoading } = useGetCategoryQuery()
   const [deleteCategory, { isLoading: isDeleting }] =
     useDeleteCategoryMutation()
+  
+
+  
   const categoryList = Array.isArray(categories?.categories)
     ? categories.categories
     : []

@@ -38,7 +38,7 @@ export const categoryApi = baseApi.injectEndpoints({
       query: id => {
         return {
           url: `/api/v1/admin/category/delete/${id}`,
-          method: 'DELETE', 
+          method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
