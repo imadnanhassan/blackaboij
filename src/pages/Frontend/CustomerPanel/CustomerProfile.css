@@ -1,0 +1,119 @@
+.profile_form_wrapper {
+  max-width: 700px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.profile_form {
+  padding: 20px;
+  border-radius: 12px;
+  background: #ffffff;
+}
+.profile_form_inner label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+  color: #0f172a99;
+  font-weight: 500;
+}
+
+.profile_form_inner input {
+  height: 40px;
+  border-radius: 6px;
+}
+.input_control {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  padding: 0 15px;
+  border: 1px solid #f2f2f2;
+  outline: none;
+  font-size: 15px;
+  color: #0f172a99;
+  display: block;
+}
+.profile_image_edit {
+  border: 1px solid #f2f2f2;
+  padding: 24px;
+  border-radius: 6px;
+}
+.profile_image_uploadview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0px auto;
+  margin-bottom: 10px;
+  border: 1px solid #e7dddd;
+}
+.profile_image_uploadview img {
+  height: 100%;
+}
+.profile_upload_btn {
+  height: 36px;
+  max-width: 150px;
+  width: 100%;
+  margin: 0px auto;
+}
+.profile_form_inner label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+  color: #0f172a99;
+  font-weight: 500;
+}
+.file {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+.profile_form_inner input {
+  height: 40px;
+  border-radius: 6px;
+}
+.file input {
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  height: 100%;
+  opacity: 0;
+}
+.profile_upload_btn .file .file-custom {
+  text-align: center;
+  display: grid;
+  place-content: center;
+  border-width: 1px;
+  background: #f2f2f2;
+  border-radius: 6px;
+}
+.file-custom {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 5;
+  height: 100%;
+  padding: 0.5rem 1rem;
+  line-height: 1.5;
+  color: #555;
+  background-color: #fff;
+  border: 5px solid #ddd;
+  border-radius: 8px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+
+
+
+.profile_update_submit button {
+  border-radius: 6px;
+  background: #00a7e8;
+  color: #fff;
+}

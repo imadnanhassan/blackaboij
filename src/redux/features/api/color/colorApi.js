@@ -12,16 +12,16 @@ export const colorApi = baseApi.injectEndpoints({
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
-          'content-type': 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: data,
+        body: JSON.stringify(data),
       }),
       invalidatesTags: [tagTypes.color],
     }),
 
     updateColor: builder.mutation({
       query: data => ({
-        url: `/api/admins/colors/update/${data?.id}`,
+        url: `/api/v1/admin/color/update/${data?.id}`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -34,11 +34,11 @@ export const colorApi = baseApi.injectEndpoints({
 
     deleteColor: builder.mutation({
       query: id => ({
-        url: `/api/admins/colors/delete/${id}`,
-        method: 'GET',
+        url: `/api/v1/admin/color/delete/${id}`,
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       }),
       invalidatesTags: [tagTypes.color],
@@ -46,7 +46,8 @@ export const colorApi = baseApi.injectEndpoints({
 
     getColor: builder.query({
       query: () => ({
-        url: '/api/admins/colors',
+        url: '/api/v1/admin/color/all',
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -56,12 +57,13 @@ export const colorApi = baseApi.injectEndpoints({
 
     getSingleColor: builder.query({
       query: id => ({
-        url: `/api/admins/colors/show-data/${id}`,
+        url: `/api/v1/admin/color/edit/${id}`,
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
-      providesTags: [tagTypes.color],
+      invalidatesTags: [tagTypes.color],
     }),
   }),
 })

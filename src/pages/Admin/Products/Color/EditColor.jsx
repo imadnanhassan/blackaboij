@@ -17,23 +17,30 @@ export default function EditColor({ id, setIsOpen, refetch }) {
   } = useGetSingleColorQuery(id, {
     refetchOnMountOrArgChange: true,
   })
-  const colors = colorData?.color
+  const colors = colorData?.size
+
+  // const { data, isLoading, error } = useGetSingleColorQuery(id)
+  console.log(colors)
 
   const onSubmit = async data => {
     const formData = new FormData()
     formData.append('name', data.name)
     formData.append('code', data.code)
+    formData.append('id', id)
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/admins/colors/update/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/admin/color/update`,
         formData,
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
         },
       )
+
       singleDataFetch()
       refetch()
       if (response.data && response.data.message) {
@@ -94,7 +101,6 @@ export default function EditColor({ id, setIsOpen, refetch }) {
                 placeholder="#000000"
                 {...register('code')}
                 defaultValue={colors?.code}
-                // onChange={handleColorChange}
                 className={`mt-1 p-3 border block w-full shadow-sm sm:text-sm rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText' : 'bg-lightColor hover:border-primaryColor/80 hover:transition-all duration-200'}`}
               />
               <input
@@ -102,7 +108,6 @@ export default function EditColor({ id, setIsOpen, refetch }) {
                 id="favcolor"
                 name="code"
                 {...register('code')}
-                // onChange={e => setSelectedColor(e.target.value)}
                 className=" rounded-md shadow-sm  focus:ring-indigo-300 focus:ring-opacity-50"
               />
             </div>

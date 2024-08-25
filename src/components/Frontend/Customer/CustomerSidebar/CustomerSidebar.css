@@ -1,0 +1,77 @@
+.user_dashboard_nav {
+  width: 300px;
+  border: 1px solid #f2f2f2;
+  background: #ffffff;
+  position: sticky;
+  top: 10px;
+  padding: 15px 0;
+  border-radius: 12px;
+}
+
+.user_profile {
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f6ebeb;
+}
+.user_profile_image {
+  height: 80px;
+  width: 80px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 0px auto 10px;
+}
+
+.user_profile_name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f172a99;
+  line-height: 24px;
+}
+
+.user_dashboard_item {
+  transition: all linear 0.3s;
+}
+
+.user_dashboard_link {
+  padding: 8px 20px;
+  display: flex;
+  font-size: 15px;
+  font-weight: 500;
+  gap: 12px;
+  color: #041826;
+  transition: all linear 0.3s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+
+.user_dashboard_link.active {
+  background: #f2f2f2;
+}
+
+.user_dashboard_link {
+  position: relative;
+}
+
+.user_dashboard_link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 0;
+  width: 5px;
+  background: #00a7e8;
+  transition: all linear 0.3s;
+}
+
+.user_dashboard_link:hover::after,
+.user_dashboard_link.active::after {
+  height: 100%;
+  top: 0;
+}
+
+a:hover {
+  --bs-link-color-rgb: 10, 88, 202;
+}

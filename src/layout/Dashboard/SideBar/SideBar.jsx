@@ -13,7 +13,6 @@ import { PiSlideshowFill } from 'react-icons/pi'
 
 import logo from '../../../assets/img/branging-logo/easy-shop.png'
 
-
 export default function SideBar({ isSideBarOpen }) {
   const navigate = useNavigate()
 
@@ -37,102 +36,7 @@ export default function SideBar({ isSideBarOpen }) {
               <FaShoppingBag className="text-[30px] text-sideBarTextColor" />
             </NavLink>
           </div>
-          {/* <div className="pt-4">
-            <ul className="flex flex-col gap-2">
-              <li className="flex cursor-pointer items-center justify-center rounded-lg mt-10 px-4 py-2 text-white hover:bg-gray-100 hover:text-gray-700">
-                <Link to={'/'} className="flex items-center gap-3">
-                  <span>
-                    <GoHome className="text-[20px]" />
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <details className="group relative">
-                  <summary className="flex cursor-pointer items-center justify-center rounded-lg px-4 py-2  text-white hover:bg-gray-100 hover:text-gray-700">
-                    <span className="shrink-0 transition duration-300 ">
-                      <CiShoppingCart className="text-[20px]" />
-                    </span>
-                  </summary>
-
-                  <ul className="space-y-1 list-none">
-                    <li>
-                      <Link
-                        to={'dashboard/products-list'}
-                        className="relative top-0 left-[58px]  flex justify-center flex-row items-center h-11 focus:outline-none text-white hover:text-white pr-6 bg-sideBarColor"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaClipboardList />
-                        </span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={'dashboard/add-product'}
-                        className="relative top-0 left-[58px]  flex justify-center flex-row items-center h-11 focus:outline-none text-white hover:text-white pr-6 bg-sideBarColor"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <CiShoppingBasket />
-                        </span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={'dashboard/products-details'}
-                        className="relative top-0 left-[58px]  flex justify-center flex-row items-center h-11 focus:outline-none text-white hover:text-white pr-6 bg-sideBarColor"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <RiShoppingBasketLine />
-                        </span>
-                      </Link>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-
-              <li>
-                <details className="group relative">
-                  <summary className="flex cursor-pointer items-center justify-center rounded-lg px-4 py-2  text-white hover:bg-gray-100 hover:text-gray-700">
-                    <span className="shrink-0 transition duration-300 ">
-                      <CiShoppingCart className="text-[20px]" />
-                    </span>
-                  </summary>
-
-                  <ul className="space-y-1 list-none">
-                    <li>
-                      <Link
-                        to={'dashboard/products-list'}
-                        className="relative top-0 left-[58px]  flex justify-center flex-row items-center h-11 focus:outline-none text-white hover:text-white pr-6 bg-sideBarColor"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaClipboardList />
-                        </span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={'dashboard/add-product'}
-                        className="relative top-0 left-[58px]  flex justify-center flex-row items-center h-11 focus:outline-none text-white hover:text-white pr-6 bg-sideBarColor"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <CiShoppingBasket />
-                        </span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={'dashboard/products-details'}
-                        className="relative top-0 left-[58px]  flex justify-center flex-row items-center h-11 focus:outline-none text-white hover:text-white pr-6 bg-sideBarColor"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <RiShoppingBasketLine />
-                        </span>
-                      </Link>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-            </ul>
-          </div> */}
+          {/* collaps itoms */}
         </div>
       ) : (
         <div className="sideBarOpenCollapse ">
@@ -197,7 +101,7 @@ export default function SideBar({ isSideBarOpen }) {
                     </li>
                     <li id="sidebar">
                       <NavLink
-                        to={'dashboard/add-productV2'}
+                        to={'dashboard/add-product'}
                         className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
                       >
                         <span className="inline-flex justify-center items-center ml-8">
@@ -211,7 +115,7 @@ export default function SideBar({ isSideBarOpen }) {
 
                     <li id="sidebar">
                       <NavLink
-                        to={'dashboard/categoryV2'}
+                        to={'dashboard/category'}
                         className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
                       >
                         <span className="inline-flex justify-center items-center ml-8">
@@ -235,7 +139,7 @@ export default function SideBar({ isSideBarOpen }) {
                         </span>
                       </NavLink>
                     </li>
-                    
+
                     <li id="sidebar">
                       <NavLink
                         to={'dashboard/size'}
@@ -509,8 +413,6 @@ export default function SideBar({ isSideBarOpen }) {
                 </details>
               </li>
 
-           
-
               {/* blogs */}
               <li id="sidebar">
                 <details className="group [&_summary::-webkit-details-marker]:hidden">
@@ -611,8 +513,6 @@ export default function SideBar({ isSideBarOpen }) {
                   <span className="text-sm font-medium">Banner</span>
                 </NavLink>
               </li>
-
-             
 
               {/* Settings */}
               <li id="sidebar">

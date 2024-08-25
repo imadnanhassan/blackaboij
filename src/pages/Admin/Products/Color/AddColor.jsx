@@ -24,8 +24,7 @@ export default function AddColor() {
   const [addColor] = useAddColorMutation()
   const [deleteColor] = useDeleteColorMutation()
   const { data: color, isLoading, refetch } = useGetColorQuery()
-  const colors = color?.colors
-
+  const sizes = color?.sizes
 
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const {
@@ -34,6 +33,31 @@ export default function AddColor() {
     formState: { errors },
     reset,
   } = useForm()
+
+  // add color function
+  const onSubmit = async data => {
+    data.code = selectedColor
+    try {
+      const response = await addColor(data).unwrap()
+      if (response?.message) {
+        toast.success(`${response.message}`, {
+          position: 'bottom-right',
+          autoClose: 3000,
+        })
+      }
+      reset()
+      setSelectedColor('#000000')
+    } catch (error) {
+      toast.error(`${error?.data?.message || 'Failed to add color'}`, {
+        position: 'top-right',
+        autoClose: 3000,
+      })
+    }
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   // delete function
   const handleDelete = async colorId => {
@@ -67,29 +91,7 @@ export default function AddColor() {
     }
   }
 
-  // add color function
-  const onSubmit = async data => {
-    data.code = selectedColor
-    try {
-      const response = await addColor(data).unwrap()
-      console.log('Response Data:', response)
-
-      if (response?.message) {
-        toast.success(`${response.message}`, {
-          position: 'bottom-right',
-          autoClose: 3000,
-        })
-      }
-      reset()
-      setSelectedColor('#000000')
-    } catch (error) {
-      toast.error(`${error?.data?.message || 'Failed to add color'}`, {
-        position: 'top-right',
-        autoClose: 3000,
-      })
-    }
-  }
-
+  // update
   const handleColorChange = e => {
     setSelectedColor(e.target.value)
   }
@@ -98,8 +100,6 @@ export default function AddColor() {
     setId(id)
     setIsOpen(true)
   }
-
-  // search
 
   const handleClickClose = () => {
     setIsOpen(false)
@@ -191,25 +191,10 @@ export default function AddColor() {
         <div
           className={`px-5 py-5 rounded lg:w-[60%] w-full ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText '}`}
         >
-          {/* search product and Attributes */}
           <div className="flex items-center justify-between lg:gap-6  py-3 ">
             <h2 className="lg:text-2xl  w-[50%] sm:text-xl text-lg font-bold mb-4">
               Color List :
             </h2>
-            {/* <div className="search flex items-center gap-4">
-              <div
-                className={` rounded-md flex items-center justify-between border border-[#4800C9] ${isDarkMode ? 'text-darkColorText ' : 'bg-[#ffffff]'}`}
-              >
-                <input
-                  type="search"
-                  className={`py-2 pl-7  bg-transparent w-full focus:outline-none cursor-pointer ${isDarkMode ? 'placeholder:text-slate-400' : 'placeholder:text-textColor'}`}
-                  placeholder="Type Name & Enter"
-                />
-                <button className="btn mt-0 rounded-[0px] rounded-r-md px-3">
-                  <i className="fa-solid fa-magnifying-glass" />
-                </button>
-              </div>
-            </div> */}
           </div>
 
           {/* Color table*/}
@@ -247,78 +232,71 @@ export default function AddColor() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {isLoading ? (
-                    <>Loading...</>
-                  ) : (
-                    <>
-                      {colors?.map((color, index) => (
-                        <tr key={color?.id}>
-                          <td className="p-2 text-center">{index + 1} .</td>
-                          <td
-                            className={`px-6 py-4 text-[13px] whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
-                          >
-                            {color?.name}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                            <span
-                              className="text-[12px] px-1 rounded py-1"
-                              style={{
-                                backgroundColor:
-                                  color?.backgroundColor || color?.code,
-                                color:
-                                  color?.textColor ||
-                                  (isDarkMode ? '#ffffff' : '#000000'),
-                              }}
+                  {sizes?.map((color, index) => (
+                    <tr key={color?.id}>
+                      <td className="p-2 text-center">{index + 1} .</td>
+                      <td
+                        className={`px-6 py-4 text-[13px] whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
+                      >
+                        {color?.name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap flex gap-2">
+                        <span
+                          className="text-[12px] px-1 rounded py-1"
+                          style={{
+                            backgroundColor:
+                              color?.backgroundColor || color?.code,
+                            color:
+                              color?.textColor ||
+                              (isDarkMode ? '#ffffff' : '#000000'),
+                          }}
+                        >
+                          {color?.code}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center space-x-2">
+                          <Tooltip text="Edit">
+                            <button
+                              key={color.id}
+                              onClick={() => handleClickOpen(color?.id)}
+                              colors={color}
+                              className="focus:outline-none transition-all duration-100 p-2 rounded bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor"
                             >
-                              {color?.code}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center space-x-2">
-                              <Tooltip text="Edit">
+                              <FiEdit className="text-[12px]" />
+                            </button>
+                          </Tooltip>
+                          {isOpen && (
+                            <div className="fixed inset-0 bg-gray-800/10  transition-all duration-300 z-50">
+                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full max-w-5xl rounded-md p-4">
+                                <EditColor
+                                  id={id}
+                                  setIsOpen={setIsOpen}
+                                  refetch={refetch}
+                                  handleColorChange={handleColorChange}
+                                  selectedColor={selectedColor}
+                                />
                                 <button
-                                  key={color.id}
-                                  onClick={() => handleClickOpen(color?.id)}
-                                  colors={color}
-                                  className="focus:outline-none transition-all duration-100 p-2 rounded bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor"
+                                  onClick={handleClickClose}
+                                  className="absolute top-2 right-2 focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
                                 >
-                                  <FiEdit className="text-[12px]" />
+                                  <RxCross1 size={20} />
                                 </button>
-                              </Tooltip>
-                              {isOpen && (
-                                <div className="fixed inset-0 bg-gray-800/10  transition-all duration-300 z-50">
-                                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full max-w-5xl rounded-md p-4">
-                                    <EditColor
-                                      id={id}
-                                      setIsOpen={setIsOpen}
-                                      refetch={refetch}
-                                      setSelectedColor={setSelectedColor}
-                                      handleColorChange={handleColorChange}
-                                      selectedColor={selectedColor}
-                                    />
-                                    <button
-                                      onClick={handleClickClose}
-                                      className="absolute top-2 right-2 focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
-                                    >
-                                      <RxCross1 size={20} />
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                              <Tooltip text="Delete">
-                                <button
-                                  onClick={() => handleDelete(color.id)}
-                                  className="focus:outline-none transition-all duration-300 p-2 rounded bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
-                                >
-                                  <RiDeleteBin7Line className="text-[12px]" />
-                                </button>
-                              </Tooltip>
+                              </div>
                             </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </>
-                  )}
+                          )}
+                          <Tooltip text="Delete">
+                            <button
+                              onClick={() => handleDelete(color.id)}
+                              className="focus:outline-none transition-all duration-300 p-2 rounded bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
+                            >
+                              <RiDeleteBin7Line className="text-[12px]" />
+                            </button>
+                          </Tooltip>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
