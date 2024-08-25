@@ -15,7 +15,7 @@ const Cart = () => {
                         <AiOutlineClose />
                     </button>
                 </div>
-                <div className="scroll-auto">
+                <div className="scroll-auto h-[100vh]">
                     <Fade direction="left" cascade >
                         <div className="flex justify-between border-b-[1px] border-[#383838] py-5">
                             <div className="flex gap-[20px]">

@@ -70,7 +70,7 @@ const FrontendHeader = () => {
           }}
         >
           <div
-            className={`pt-[20px]   w-full   bg-black text-white transition-colors duration-500 ease-in-out `}
+            className={`pt-[20px] w-full bg-black text-white transition-colors duration-500 ease-in-out `}
           >
             <div
               className={`grid grid-cols-3 justify-between items-center px-[50px] pb-[20px]`}
