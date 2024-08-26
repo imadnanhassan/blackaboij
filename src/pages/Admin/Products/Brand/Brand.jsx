@@ -12,23 +12,19 @@ import {
   useDeleteBrandMutation,
   useGetBrandQuery,
 } from '../../../../redux/features/api/brand/brandApi'
-import { baseURL } from '../../../../utils/imagesURL'
 import { useForm } from 'react-hook-form'
-import { IoCloseOutline } from 'react-icons/io5'
 import Swal from 'sweetalert2'
 import BrandPagination from './BrandPagination'
 import axios from 'axios'
-import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
 import BrandStatusToggleButton from './BrandStatusToggleButton'
 
 export default function Brand() {
   const [isChecked, setIsChecked] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedFile, setSelectedFile] = useState(null)
-  const [previewUrl, setPreviewUrl] = useState(null)
+
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const { data: brand, isLoading, refetch } = useGetBrandQuery()
-  const brands = brand?.brands
+  // const brands = brand?.brands
   const [deleteBrand] = useDeleteBrandMutation()
   let userD = JSON.parse(localStorage?.getItem('userData'))
   let token = userD?.token
@@ -44,11 +40,11 @@ export default function Brand() {
   const onSubmit = async data => {
     const preparedData = {
       ...data,
-      image: selectedFile,
+    
     }
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/admins/brands/store`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/admin/brands/store`,
         preparedData,
         {
           headers: {
@@ -65,30 +61,12 @@ export default function Brand() {
       }
       reset()
       refetch()
-      setPreviewUrl(false)
     } catch (error) {
       toast.error(`${error?.data?.message || 'Failed to add color'}`, {
         position: 'top-right',
         autoClose: 3000,
       })
     }
-  }
-
-  const handleBrandPhoto = e => {
-    const file = e.target.files[0]
-    setSelectedFile(file)
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result)
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
-  const handleCancelUpload = () => {
-    setSelectedFile(null)
-    setPreviewUrl(null)
   }
 
   // brand delete
@@ -156,10 +134,10 @@ export default function Brand() {
   const handleCloseModal = () => {
     setIsOpen(false)
   }
-  const lang = 'en'
+ 
 
   if (isLoading) {
-    return <SkeletonLoader />
+    return <p>Loading...</p>
   }
 
   return (
@@ -202,49 +180,28 @@ export default function Brand() {
 
                 <div className="mb-4">
                   <label
-                    htmlFor="productName"
+                    htmlFor="status"
                     className={`block text-sm font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
                   >
-                    Priority
+                    Status<span>*</span>
                   </label>
-                  <input
-                    type="number"
-                    id="productName"
-                    priority
-                    {...register('priority', { required: true })}
-                    placeholder="Enter Meta Title"
-                    className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm  rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-primaryColor/80 hover:transition-all duration-200'}`}
-                  />
-                </div>
-
-                {/* Media */}
-                <div className="mb-4">
-                  <label
-                    htmlFor="productName"
-                    className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                  >
-                    File Upload
-                  </label>
-                  <input
-                    type="file"
-                    name="image"
-                    onChange={handleBrandPhoto}
-                    className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4  rounded focus:outline-none  focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black ' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                  />
-
-                  {previewUrl && (
-                    <div className="mt-4 flex items-center  relative ">
-                      <img
-                        src={previewUrl}
-                        alt="Preview"
-                        className="w-36 h-36 mr-2 mb-2 border rounded "
-                      />
-                      <IoCloseOutline
-                        onClick={handleCancelUpload}
-                        className=" text-[17px] bg-primaryColor text-white hover:text-white hover:bg-error-200 transition-all duration-200 cursor-pointer rounded -mt-[133px] relative -left-6"
-                      />
-                    </div>
-                  )}
+                  <div className="relative">
+                    <select
+                      id="status"
+                      {...register('status', {
+                        required: 'Status is required',
+                      })}
+                      className={`form-control mt-1 p-3 border block w-full shadow-sm sm:text-sm rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText' : 'bg-lightColor hover:border-primaryColor/80 hover:transition-all duration-200'}`}
+                    >
+                      <option value="1">Active</option>
+                      <option value="0">Inactive</option>
+                    </select>
+                    {errors.status && (
+                      <span className="text-red-500">
+                        {errors.status.message}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <button
@@ -262,23 +219,8 @@ export default function Brand() {
         <div
           className={`px-5 py-5 rounded lg:w-[60%] w-full ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText '}`}
         >
-          {/* search product and Brand */}
           <div className="flex items-center justify-between gap-6 py-3 ">
             <h2 className="lg:text-2xl text-lg font-bold mb-4">Brand List</h2>
-            <div className="search flex items-center gap-5">
-              <div
-                className={` rounded-md flex items-center justify-between border border-[#4800C9] ${isDarkMode ? 'text-darkColorText ' : 'bg-[#ffffff]'}`}
-              >
-                <input
-                  type="search"
-                  className={`py-2 pl-3  bg-transparent w-full focus:outline-none cursor-pointer ${isDarkMode ? 'placeholder:text-slate-400' : 'placeholder:text-textColor'}`}
-                  placeholder="Type Name & Enter"
-                />
-                <button className="btn mt-0 rounded-[0px] rounded-r-md px-3">
-                  <i className="fa-solid fa-magnifying-glass" />
-                </button>
-              </div>
-            </div>
           </div>
 
           {/* Brand table*/}
@@ -295,11 +237,7 @@ export default function Brand() {
                     <th className="p-2">
                       <p>#</p>
                     </th>
-                    <th
-                      className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
-                    >
-                      Logo
-                    </th>
+                    
                     <th
                       className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                     >
@@ -320,75 +258,59 @@ export default function Brand() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {/* {isLoading ? (
-                    <>Loading...</>
-                  ) : (
-                    <>
-                     
-                    </>
-                  )} */}
+                  <tr>
+                    <td className="p-2 text-center">1</td>
+                    
+                    <td
+                      className={`px-6 py-4 text-[13px] whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
+                    >
+                      Loto
+                    </td>
 
-                  {brands?.map((brand, index) => (
-                    <tr key={index}>
-                      <td className="p-2 text-center">{index + 1}</td>
-                      <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                        <div
-                          className={` rounded-md p-1 ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
+                    <td
+                      className={`px-6 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
+                    >
+                      <BrandStatusToggleButton
+                        label="Toggle Button Label"
+                        isChecked={isChecked}
+                        onChange={handleToggleChange}
+                      />
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={handleOpenModal}
+                          className="focus:outline-none transition-all duration-100 p-2 rounded bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor"
                         >
-                          <img
-                            src={baseURL + '/' + brand?.image?.path}
-                            alt=""
-                            className="w-[40px] h-[40px]"
-                          />
-                        </div>
-                      </td>
-                      <td
-                        className={`px-6 py-4 text-[13px] whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
-                      >
-                        {JSON.parse(brand?.name)[lang]}
-                      </td>
-
-                      <td
-                        className={`px-6 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
-                      >
-                        <BrandStatusToggleButton
-                          label="Toggle Button Label"
-                          isChecked={isChecked}
-                          onChange={handleToggleChange}
-                        />
-                      </td>
-
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-2">
-                          <button
-                            onClick={handleOpenModal}
-                            className="focus:outline-none transition-all duration-100 p-2 rounded bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor"
-                          >
-                            <FiEdit className=" text-[12px] " />
-                          </button>
-                          {isOpen && (
-                            <div className="fixed inset-0 bg-gray-800/10 transition-all duration-300 z-50">
-                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full max-w-5xl rounded-md p-4">
-                                <EditBrand />
-                                <button
-                                  onClick={handleCloseModal}
-                                  className="absolute top-2 right-2 focus:outline-none transition-all duration-300 p-2 rounded bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
-                                >
-                                  <RxCross1 size={20} />
-                                </button>
-                              </div>
+                          <FiEdit className=" text-[12px] " />
+                        </button>
+                        {isOpen && (
+                          <div className="fixed inset-0 bg-gray-800/10 transition-all duration-300 z-50">
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full max-w-5xl rounded-md p-4">
+                              <EditBrand />
+                              <button
+                                onClick={handleCloseModal}
+                                className="absolute top-2 right-2 focus:outline-none transition-all duration-300 p-2 rounded bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
+                              >
+                                <RxCross1 size={20} />
+                              </button>
                             </div>
-                          )}
-                          <button
-                            onClick={() => handleDelete(brand.id)}
-                            className="focus:outline-none transition-all duration-300 p-2 rounded bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
-                          >
-                            <RiDeleteBin7Line className="text-[12px]" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                          </div>
+                        )}
+                        <button
+                          onClick={() => handleDelete(brand.id)}
+                          className="focus:outline-none transition-all duration-300 p-2 rounded bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
+                        >
+                          <RiDeleteBin7Line className="text-[12px]" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  {/* {brands?.map((brand, index) => (
+                    
+                  ))} */}
                 </tbody>
               </table>
             </div>

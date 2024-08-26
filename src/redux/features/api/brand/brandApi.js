@@ -8,7 +8,7 @@ export const brandApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     addBrand: builder.mutation({
       query: data => ({
-        url: '/api/admins/brands/store',
+        url: '/api/v1/admin/brands/store',
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -21,7 +21,7 @@ export const brandApi = baseApi.injectEndpoints({
 
     updateBrand: builder.mutation({
       query: data => ({
-        url: `/api/admins/brands/update/${data?.id}`,
+        url: `/api/v1/admin/brands/update`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -34,8 +34,8 @@ export const brandApi = baseApi.injectEndpoints({
 
     deleteBrand: builder.mutation({
       query: id => ({
-        url: `/api/admins/brands/delete/${id}`,
-        method: 'GET',
+        url: `/api/v1/admin/brands/delete/${id}`,
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -46,7 +46,8 @@ export const brandApi = baseApi.injectEndpoints({
 
     getBrand: builder.query({
       query: () => ({
-        url: '/api/admins/brands',
+        url: '/api/v1/admin/brands/all',
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -56,7 +57,8 @@ export const brandApi = baseApi.injectEndpoints({
 
     getSingleBrand: builder.query({
       query: id => ({
-        url: `/api/admins/brands/show-data/${id}`,
+        url: `/api/v1/admin/brands/edit/${id}`,
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
