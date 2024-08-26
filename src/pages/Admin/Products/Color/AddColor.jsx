@@ -24,7 +24,8 @@ export default function AddColor() {
   const [addColor] = useAddColorMutation()
   const [deleteColor] = useDeleteColorMutation()
   const { data: color, isLoading, refetch } = useGetColorQuery()
-  const sizes = color?.sizes
+  const colordata = color?.colors
+  console.log(color)
 
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const {
@@ -232,7 +233,7 @@ export default function AddColor() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {sizes?.map((color, index) => (
+                  {colordata?.map((color, index) => (
                     <tr key={color?.id}>
                       <td className="p-2 text-center">{index + 1} .</td>
                       <td

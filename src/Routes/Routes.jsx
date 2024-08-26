@@ -53,7 +53,7 @@ import CuctomerWallet from '../pages/Frontend/CustomerPanel/CuctomerWallet'
 import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
 import CustomerProfile from '../pages/Frontend/CustomerPanel/CustomerProfile'
 import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
-import Checkout from '../pages/Frontend/Checkout/Checkout'
+
 
 
 const FRONTEND_ROUTES = [
