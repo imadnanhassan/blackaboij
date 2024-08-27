@@ -8,21 +8,35 @@ import Button from '../../../../common/Button/Button'
 
 import ReactQuill from 'react-quill'
 import Select from 'react-select'
-import Barcode from 'react-barcode'
 import { categories } from './CategoryData'
+import { useGetColorQuery } from '../../../../redux/features/api/color/colorApi'
+import { useGetSizeQuery } from '../../../../redux/features/api/attribute/sizeApi'
 
 export default function AddProductV2() {
   const [forms, setForms] = useState([])
   const [selectedValues, setSelectedValues] = useState({})
   const [description, setDescription] = useState('')
-  const [productName, setProductName] = useState('')
-  const [isValidProductName, setIsValidProductName] = useState(true)
-
+  const [metaKeywords, setMetaKeywords] = useState([])
   const [selectedMainCategory, setSelectedMainCategory] = useState(null)
   const [selectedSubCategory, setSelectedSubCategory] = useState(null)
-  const [selectedSubSubCategory, setSelectedSubSubCategory] = useState(null)
 
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
+  const { data: color } = useGetColorQuery()
+  const { data: size } = useGetSizeQuery()
+
+  // all size
+  const sizeData = size?.sizes || []
+  const sizesOption = sizeData.map(size => ({
+    value: size.id,
+    label: size.name,
+  }))
+
+  // all colors
+  const colordata = color?.colors || []
+  const colorsOption = colordata.map(color => ({
+    value: color.id,
+    label: color.name,
+  }))
 
   const handleButtonClick = e => {
     e.preventDefault()
@@ -48,16 +62,10 @@ export default function AddProductV2() {
   const handleMainCategoryChange = e => {
     setSelectedMainCategory(e)
     setSelectedSubCategory(null)
-    setSelectedSubSubCategory(null)
   }
 
   const handleSubCategoryChange = e => {
     setSelectedSubCategory(e)
-    setSelectedSubSubCategory(null)
-  }
-
-  const handleSubSubCategoryChange = e => {
-    setSelectedSubSubCategory(e)
   }
 
   const mainCategoryOptions = categories.map(category => ({
@@ -74,36 +82,18 @@ export default function AddProductV2() {
         }))
     : []
 
-  const subSubCategoryOptions = selectedSubCategory
-    ? categories
-        .find(category => category.id === selectedMainCategory.value)
-        .subcategories.find(
-          subcategory => subcategory.id === selectedSubCategory.value,
-        )
-        .subsubcategories.map(subsubcategory => ({
-          value: subsubcategory.id,
-          label: subsubcategory.name,
-        }))
-    : []
-
-  // React Quill
   const handleDescriptionChange = value => {
     setDescription(value)
   }
 
-  const productCategory = [
-    { value: 'category', label: 'Product Category' },
-    { value: 'gender', label: 'Gender' },
-    { value: 'brand', label: 'Brand' },
-  ]
-
-  const handleChange = e => {
-    const value = e.target.value
-    setProductName(value)
-    setIsValidProductName(value.trim().length > 0)
+  const handleAddMetaKeyword = () => {
+    const keyword = document.getElementById('newMetaKeyword').value.trim()
+    if (keyword && !metaKeywords.includes(keyword)) {
+      setMetaKeywords([...metaKeywords, keyword])
+      document.getElementById('newMetaKeyword').value = ''
+    }
   }
 
-  // Breadcrumbs
   const pageTitle = 'Add Product'
   const productLinks = [
     { title: <GoHome />, link: '/' },
@@ -134,7 +124,6 @@ export default function AddProductV2() {
                   id="productName"
                   name="productName"
                   placeholder="Enter product name"
-                  onChange={handleChange}
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                 />
               </div>
@@ -175,65 +164,7 @@ export default function AddProductV2() {
                     </div>
                   </div>
                 )}
-
-                {selectedSubCategory && (
-                  <div className="w-full">
-                    <label
-                      className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                    >
-                      Sub Sub Category
-                    </label>
-                    <div className="relative">
-                      <Select
-                        options={subSubCategoryOptions}
-                        value={selectedSubSubCategory}
-                        onChange={handleSubSubCategoryChange}
-                        placeholder="Select Option"
-                        className="custom-select"
-                      />
-                    </div>
-                  </div>
-                )}
               </div>
-
-              <div className=" w-full mr:auto ml:auto lg:mt-0 md:mt-2 mt-4 sm:mt-3">
-                <div className="relative">
-                  <label
-                    htmlFor="productCategory"
-                    className={`block text-sm font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                  >
-                    Brand
-                  </label>
-                  <Select
-                    id="productCategory"
-                    options={productCategory}
-                    placeholder="Select Option"
-                    className="custom-select"
-                  />
-                </div>
-              </div>
-              {productName && isValidProductName && (
-                <div className="mt-4">
-                  <label
-                    htmlFor="barcode"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Barcode
-                  </label>
-                  <div className="mt-1">
-                    <Barcode
-                      value={
-                        productName.length > 15
-                          ? productName.slice(0, 15)
-                          : productName
-                      }
-                      width={1}
-                      height={50}
-                      fontSize={14}
-                    />
-                  </div>
-                </div>
-              )}
 
               <div className="mt-4">
                 <label
@@ -250,7 +181,7 @@ export default function AddProductV2() {
               </div>
             </div>
             {/* price */}
-            <div>
+            <div className='mt-4'>
               <div className="grid grid-cols-3 gap-5">
                 <div className="mb-4 w-full">
                   <label
@@ -329,7 +260,7 @@ export default function AddProductV2() {
                       </label>
                       <div className="relative">
                         <Select
-                          // options={sizeOptions}
+                          options={sizesOption}
                           placeholder="Select Option"
                           className="custom-select"
                           onChange={selectedOption =>
@@ -347,7 +278,7 @@ export default function AddProductV2() {
                       </label>
                       <div className="relative">
                         <Select
-                          // options={colorOptions}
+                          options={colorsOption}
                           placeholder="Select Option"
                           className="custom-select"
                           onChange={selectedOption =>
@@ -356,30 +287,13 @@ export default function AddProductV2() {
                         />
                       </div>
                     </div>
-                    <div className="w-full">
-                      <label
-                        htmlFor={`campaignPhoto-${form.id}`}
-                        className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                      >
-                        Sleeve
-                      </label>
-                      <div className="relative">
-                        <Select
-                          // options={SleeveOption}
-                          placeholder="Select Option"
-                          className="custom-select"
-                          onChange={selectedOption =>
-                            handleSelectChange(selectedOption, form.id)
-                          }
-                        />
-                      </div>
-                    </div>
+
                     <div className="mb-4 w-full">
                       <label
                         htmlFor={`discount-${form.id}`}
                         className={`block text-[12px] font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
                       >
-                        Discount <span className="text-error-200">*</span>
+                        price <span className="text-error-200">*</span>
                       </label>
                       <input
                         type="text"
@@ -475,8 +389,14 @@ export default function AddProductV2() {
                   />
                   <Button
                     text="Add"
+                    onClick={handleAddMetaKeyword}
                     className="bg-[#60a5fa] mt-2 w-[100px] justify-center py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
                   ></Button>
+                  <ul>
+                    {metaKeywords.map((keyword, index) => (
+                      <li key={index}>{keyword}</li>
+                    ))}
+                  </ul>
                 </div>
               </div>
 

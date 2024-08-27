@@ -17,7 +17,7 @@ export default function EditColor({ id, setIsOpen, refetch }) {
   } = useGetSingleColorQuery(id, {
     refetchOnMountOrArgChange: true,
   })
-  const colors = colorData?.size
+  const colors = colorData?.color
 
   // const { data, isLoading, error } = useGetSingleColorQuery(id)
   console.log(colors)
