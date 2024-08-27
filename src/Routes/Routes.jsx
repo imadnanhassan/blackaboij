@@ -53,6 +53,8 @@ import CuctomerWallet from '../pages/Frontend/CustomerPanel/CuctomerWallet'
 import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
 import CustomerProfile from '../pages/Frontend/CustomerPanel/CustomerProfile'
 import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
+import CustomerPanel from '../pages/Frontend/CustomerPanel/CustomerPanel'
+import Categories from '../pages/Frontend/Categories/Categories'
 
 
 
@@ -67,6 +69,7 @@ const FRONTEND_ROUTES = [
   { path: '/fav', element: <Fav></Fav>},
   { path: '/checkout', element: <Checkout></Checkout>},
   { path: '/store', element: <Store></Store>},
+  { path: '/categories', element: <Categories></Categories>},
 
 ]
 
@@ -140,7 +143,7 @@ const router = createBrowserRouter([
       ...FRONTEND_ROUTES,
       {
         path: '/',
-        element: 'CustomerPanel',
+        element: <CustomerPanel></CustomerPanel>,
         children: CUSTOMER_PANEL_ROUTES,
       },
     ],
