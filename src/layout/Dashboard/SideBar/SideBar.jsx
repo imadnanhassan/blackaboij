@@ -7,9 +7,7 @@ import { BiLogoBlogger } from 'react-icons/bi'
 import { FaCircleNotch } from 'react-icons/fa'
 import { IoLogOutOutline } from 'react-icons/io5'
 
-import { AiFillDollarCircle } from 'react-icons/ai'
-import { MdCampaign } from 'react-icons/md'
-import { PiSlideshowFill } from 'react-icons/pi'
+import { AiFillDollarCircle, AiFillSetting } from 'react-icons/ai'
 
 import logo from '../../../assets/img/branging-logo/easy-shop.png'
 
@@ -126,19 +124,6 @@ export default function SideBar({ isSideBarOpen }) {
                         </span>
                       </NavLink>
                     </li>
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/brand'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Brand
-                        </span>
-                      </NavLink>
-                    </li>
 
                     <li id="sidebar">
                       <NavLink
@@ -163,19 +148,6 @@ export default function SideBar({ isSideBarOpen }) {
                         </span>
                         <span className="ml-2 text-sm tracking-wide truncate">
                           Color
-                        </span>
-                      </NavLink>
-                    </li>
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/products-details'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Products Details
                         </span>
                       </NavLink>
                     </li>
@@ -219,122 +191,6 @@ export default function SideBar({ isSideBarOpen }) {
                         </span>
                         <span className="ml-2 text-sm tracking-wide truncate">
                           Order List
-                        </span>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-
-              {/* campaign */}
-              <li>
-                <details className="group [&_summary::-webkit-details-marker]:hidden">
-                  <summary className="flex gap-3 cursor-pointer items-center  mb-1 px-8 py-2 text-white hover:bg-gray-100 hover:text-gray-700 ">
-                    <span>
-                      <MdCampaign />
-                    </span>
-
-                    <span className="flex gap-[72px]">
-                      <span className="text-sm font-medium"> Campaign </span>
-                      <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </span>
-                  </summary>
-
-                  <ul className="space-y-1 list-none">
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/campaign-list'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Campaign List
-                        </span>
-                      </NavLink>
-                    </li>
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/campaign-add'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Campaign Add
-                        </span>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-
-              {/* coupons */}
-              <li>
-                <details className="group [&_summary::-webkit-details-marker]:hidden">
-                  <summary className="flex gap-3 cursor-pointer items-center  mb-1 px-8 py-2 text-white hover:bg-gray-100 hover:text-gray-700 ">
-                    <span>
-                      <AiFillDollarCircle />
-                    </span>
-
-                    <span className="flex gap-[80px]">
-                      <span className="text-sm font-medium"> Coupons </span>
-                      <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </span>
-                  </summary>
-
-                  <ul className="space-y-1 list-none">
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/coupons-list'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Coupons List
-                        </span>
-                      </NavLink>
-                    </li>
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/create-coupon'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Coupons Add
                         </span>
                       </NavLink>
                     </li>
@@ -497,74 +353,15 @@ export default function SideBar({ isSideBarOpen }) {
                 </details>
               </li>
 
-              {/* Banner */}
-              <li id="sidebar">
-                <NavLink
-                  to="dashboard/banner"
-                  className={({ isActive }) =>
-                    `hover:bg-gray-100  hover:text-gray-700  font-medium px-8 py-2  flex items-center gap-3 ${
-                      isActive ? 'bg-gray-200 text-gray-700' : 'text-gray-200'
-                    }`
-                  }
-                >
-                  <span>
-                    <PiSlideshowFill />
-                  </span>
-                  <span className="text-sm font-medium">Banner</span>
-                </NavLink>
-              </li>
-
               {/* Settings */}
-              <li id="sidebar">
-                <details className="group [&_summary::-webkit-details-marker]:hidden">
-                  <summary className="flex gap-3 cursor-pointer items-center  mb-1 px-8 py-2 text-white hover:bg-gray-100 hover:text-gray-700 ">
-                    <span>
-                      <BiLogoBlogger />
-                    </span>
-
-                    <span className="flex gap-[103px]">
-                      <span className="text-sm font-medium"> Settings </span>
-                      <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </span>
-                  </summary>
-
-                  <ul className="space-y-1 list-none">
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/settings/language'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Language
-                        </span>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </details>
-              </li>
 
               {/* seetings */}
-              {/* <li id="sidebar">
+              <li id="sidebar">
                 <NavLink
                   to="dashboard/settings"
                   className={({ isActive }) =>
-                    `hover:bg-gray-100  hover:text-gray-700  font-medium px-8 py-2  flex items-center gap-3 ${isActive ? 'bg-gray-200 text-gray-700' : 'text-gray-200'
+                    `hover:bg-gray-100  hover:text-gray-700  font-medium px-8 py-2  flex items-center gap-3 ${
+                      isActive ? 'bg-gray-200 text-gray-700' : 'text-gray-200'
                     }`
                   }
                 >
@@ -573,7 +370,7 @@ export default function SideBar({ isSideBarOpen }) {
                   </span>
                   <span className="text-sm font-medium">Settings</span>
                 </NavLink>
-              </li> */}
+              </li>
 
               <li className="px-8 py-2 text-white hover:bg-gray-100  hover:text-gray-700">
                 <Link
