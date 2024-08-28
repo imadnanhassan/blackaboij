@@ -439,7 +439,7 @@ body {
 .overflow-x-auto::-webkit-scrollbar {
   height: 3px;
   /* Height of the horizontal scrollbar */
-  display: none;
+  display: block;
 }
 
 .overflow-x-auto::-webkit-scrollbar-track {
