@@ -282,7 +282,7 @@ export default function OrderList() {
           <div className="overflow-x-auto">
             <table
               id="data-table"
-              className={`min-w-full border  table-auto  ${isDarkMode ? 'border-darkColorBody' : 'border-gray-200 divide-y divide-gray-200'}`}
+              className={`min-w-full border overflow-x-auto table-auto  ${isDarkMode ? 'border-darkColorBody' : 'border-gray-200 divide-y divide-gray-200'}`}
             >
               <thead
                 className={`${isDarkMode ? 'bg-[#131A26]' : 'bg-gray-100'}`}
@@ -331,11 +331,7 @@ export default function OrderList() {
                   >
                     Payment Status
                   </th>
-                  <th
-                    className={` border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
-                  >
-                    Refund
-                  </th>
+
                   <th
                     className={` border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
@@ -405,11 +401,7 @@ export default function OrderList() {
                         {item.PaymentStatus ? 'Paid' : 'UnPaid'}
                       </span>
                     </td>
-                    <td
-                      className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
-                    >
-                      {item.refund}
-                    </td>
+
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
