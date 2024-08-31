@@ -9,7 +9,7 @@ export const productApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     addProduct: builder.mutation({
       query: data => ({
-        url: '/api/admins/products/store',
+        url: '/api/v1/admin/product/add',
         method: 'POST',
         body: data,
         headers: {
@@ -38,7 +38,7 @@ export const productApi = baseApi.injectEndpoints({
         },
       }),
     }),
-    
+
     getSingleProduct: builder.query({
       query: slug => ({
         url: `/api/front/products/${slug}`,

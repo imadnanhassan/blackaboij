@@ -4,8 +4,6 @@ export const tagTypes = {
   language: 'language',
   product: 'product',
   sizes: 'attributes',
-  unit: 'unit',
-  vendor: 'vendor',
   color: 'color',
   brand: 'brand',
 }
@@ -16,7 +14,6 @@ export const tagTypesList = [
   tagTypes.language,
   tagTypes.product,
   tagTypes.sizes,
-  tagTypes.unit,
   tagTypes.color,
   tagTypes.brand,
 ]
