@@ -8,14 +8,16 @@ import Button from '../../../../common/Button/Button'
 
 import ReactQuill from 'react-quill'
 import Select from 'react-select'
-import { categories } from './CategoryData'
 import { useGetColorQuery } from '../../../../redux/features/api/color/colorApi'
 import { useGetSizeQuery } from '../../../../redux/features/api/attribute/sizeApi'
+import { useGetCategoryQuery } from '../../../../redux/features/api/category/categoryApi'
+import { Controller, useForm } from 'react-hook-form'
+import { useAddProductMutation } from '../../../../redux/features/api/product/productApi'
 
 export default function AddProductV2() {
   const [forms, setForms] = useState([])
   const [selectedValues, setSelectedValues] = useState({})
-  const [description, setDescription] = useState('')
+  // const [description, setDescription] = useState('')
   const [metaKeywords, setMetaKeywords] = useState([])
   const [selectedMainCategory, setSelectedMainCategory] = useState(null)
   const [selectedSubCategory, setSelectedSubCategory] = useState(null)
@@ -23,6 +25,64 @@ export default function AddProductV2() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const { data: color } = useGetColorQuery()
   const { data: size } = useGetSizeQuery()
+  const { data: categories } = useGetCategoryQuery()
+
+  // add product
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm()
+  const [submitProduct] = useAddProductMutation()
+
+  const onSubmit = async data => {
+    try {
+      // Process gallery images
+      const galleryImages = Array.from(data.galleryImages).map(file => {
+        return { name: file.name, type: file.type, size: file.size }
+      })
+
+      // Process thumbnail image
+      const thumbnailImage = {
+        name: data.thumbnailImage[0].name,
+        type: data.thumbnailImage[0].type,
+        size: data.thumbnailImage[0].size,
+      }
+
+      // Prepare the final data to send to the API
+      const productData = {
+        title: data.title,
+        mainCategory: data.mainCategory,
+        subCategory: data.subCategory,
+        description: data.description,
+        unitPrice: data.unitPrice,
+        quantity: data.quantity || null,
+        discount: data.discount || null,
+        hasVariants: data.hasVariants || false,
+        variantSize: data.variantSize || null,
+        variantColor: data.variantColor || null,
+        galleryImages,
+        thumbnailImage,
+        metaTitle: data.metaTitle || '',
+        metaDescription: data.metaDescription || '',
+        metaKeywords: metaKeywords || '',
+      }
+
+      // Submit the product data
+      await submitProduct(productData)
+
+      alert('Product added successfully!')
+    } catch (error) {
+      console.error('Error adding product:', error)
+      alert('Failed to add product.')
+    }
+  }
+
+  // all category
+  const categoryList = Array.isArray(categories?.categories)
+    ? categories.categories
+    : []
 
   // all size
   const sizeData = size?.sizes || []
@@ -37,6 +97,24 @@ export default function AddProductV2() {
     value: color.id,
     label: color.name,
   }))
+
+  const mainCategoryOptions = categoryList
+    .filter(
+      category =>
+        category.parent_id === null && category.sub_categories?.length > 0,
+    )
+    .map(category => ({
+      value: category.id,
+      label: category.parent_name,
+    }))
+  const subCategoryOptions = selectedMainCategory
+    ? categoryList
+        .find(category => category.id === selectedMainCategory.value)
+        ?.sub_categories.map(subcategory => ({
+          value: subcategory.id,
+          label: subcategory.name,
+        })) || []
+    : []
 
   const handleButtonClick = e => {
     e.preventDefault()
@@ -53,6 +131,7 @@ export default function AddProductV2() {
   }
 
   const handleSelectChange = (selectedOption, formId) => {
+    console.log('Selected Option:', selectedOption) // Debugging line
     setSelectedValues({
       ...selectedValues,
       [formId]: selectedOption,
@@ -68,23 +147,9 @@ export default function AddProductV2() {
     setSelectedSubCategory(e)
   }
 
-  const mainCategoryOptions = categories.map(category => ({
-    value: category.id,
-    label: category.name,
-  }))
-
-  const subCategoryOptions = selectedMainCategory
-    ? categories
-        .find(category => category.id === selectedMainCategory.value)
-        .subcategories.map(subcategory => ({
-          value: subcategory.id,
-          label: subcategory.name,
-        }))
-    : []
-
-  const handleDescriptionChange = value => {
-    setDescription(value)
-  }
+  // const handleDescriptionChange = value => {
+  //   setDescription(value)
+  // }
 
   const handleAddMetaKeyword = () => {
     const keyword = document.getElementById('newMetaKeyword').value.trim()
@@ -105,7 +170,7 @@ export default function AddProductV2() {
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}
     >
       <Breadcrumbs title={pageTitle} breadcrumbs={productLinks} />
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className=" w-full">
           <div
             className={`py-5 rounded px-24 xl:max-w-7xl mx-auto ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText '}`}
@@ -123,9 +188,11 @@ export default function AddProductV2() {
                   type="text"
                   id="productName"
                   name="productName"
+                  {...register('title', { required: true })}
                   placeholder="Enter product name"
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                 />
+                {errors.title && <span>This field is required</span>}
               </div>
 
               <div className="grid grid-cols-3 gap-3 my-4 ">
@@ -142,7 +209,9 @@ export default function AddProductV2() {
                       onChange={handleMainCategoryChange}
                       placeholder="Select Option"
                       className="custom-select"
+                      {...register('mainCategory', { required: true })}
                     />
+                    {errors.mainCategory && <span>This field is required</span>}
                   </div>
                 </div>
 
@@ -160,7 +229,11 @@ export default function AddProductV2() {
                         onChange={handleSubCategoryChange}
                         placeholder="Select Option"
                         className="custom-select"
+                        {...register('subCategory', { required: true })}
                       />
+                      {errors.subCategory && (
+                        <span>This field is required</span>
+                      )}
                     </div>
                   </div>
                 )}
@@ -172,16 +245,33 @@ export default function AddProductV2() {
                 >
                   Product Description
                 </label>
-                <ReactQuill
+
+                <Controller
+                  name="description"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <ReactQuill
+                      theme="snow"
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder="Enter product description here..."
+                      className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${isDarkMode ? '' : ''}`}
+                    />
+                  )}
+                />
+                {/* <ReactQuill
                   value={description}
                   onChange={handleDescriptionChange}
                   theme="snow"
                   className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${isDarkMode ? '' : ''}`}
-                />
+                /> */}
+                {errors.description && <span>This field is required</span>}
               </div>
             </div>
             {/* price */}
-            <div className='mt-4'>
+            <div className="mt-4">
               <div className="grid grid-cols-3 gap-5">
                 <div className="mb-4 w-full">
                   <label
@@ -196,7 +286,9 @@ export default function AddProductV2() {
                     name="productName"
                     placeholder="10"
                     className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
+                    {...register('unitPrice', { required: true })}
                   />
+                  {errors.unitPrice && <span>This field is required</span>}
                 </div>
                 <div className="mb-4 w-full">
                   <label
@@ -209,6 +301,7 @@ export default function AddProductV2() {
                     type="text"
                     placeholder="10"
                     className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
+                    {...register('quantity')}
                   />
                 </div>
 
@@ -225,6 +318,7 @@ export default function AddProductV2() {
                     name="productName"
                     placeholder="10"
                     className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
+                    {...register('discount')}
                   />
                 </div>
               </div>
@@ -335,7 +429,10 @@ export default function AddProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
+                    {...register('galleryImages', { required: true })}
+                    multiple
                   />
+                  {errors.galleryImages && <span>This field is required</span>}
                 </div>
                 <div className="mb-4 w-full">
                   <label
@@ -346,7 +443,9 @@ export default function AddProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
+                    {...register('thumbnailImage', { required: true })}
                   />
+                  {errors.thumbnailImage && <span>This field is required</span>}
                 </div>
               </div>
             </div>
@@ -366,6 +465,7 @@ export default function AddProductV2() {
                   name="metaTitle"
                   placeholder="Enter meta title"
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
+                  {...register('metaTitle')}
                 />
               </div>
 
@@ -386,6 +486,7 @@ export default function AddProductV2() {
                     id="newMetaKeyword"
                     placeholder="Enter meta keyword"
                     className={`form-control mt-1 p-3 border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
+                    {...register('metaKeywords')}
                   />
                   <Button
                     text="Add"
@@ -394,7 +495,23 @@ export default function AddProductV2() {
                   ></Button>
                   <ul>
                     {metaKeywords.map((keyword, index) => (
-                      <li key={index}>{keyword}</li>
+                      <span
+                        key={index}
+                        className="inline-block bg-gray-200 text-gray-800 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2"
+                      >
+                        {keyword}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setMetaKeywords(
+                              metaKeywords.filter((k, i) => i !== index),
+                            )
+                          }
+                          className="ml-2 text-red-500"
+                        >
+                          <FaTimes />
+                        </button>
+                      </span>
                     ))}
                   </ul>
                 </div>
@@ -412,6 +529,7 @@ export default function AddProductV2() {
                   name="metaDescription"
                   placeholder="Enter meta description"
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
+                  {...register('metaDescription')}
                 ></textarea>
               </div>
             </div>
@@ -424,6 +542,7 @@ export default function AddProductV2() {
               className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
               icon={FaPlus}
             ></Button>
+
             <Button
               text=" Save draft"
               className="bg-[#60a5fa] py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"

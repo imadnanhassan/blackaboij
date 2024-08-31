@@ -4,10 +4,8 @@ import { useSelector } from 'react-redux'
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
 // import { FiEdit } from 'react-icons/fi'
 // import { RiDeleteBin7Line } from 'react-icons/ri'
-import { Link } from 'react-router-dom'
 import { useGetCategoryQuery } from '../../../../redux/features/api/category/categoryApi'
 // import Swal from 'sweetalert2'
-import Button from '../../../../common/Button/Button'
 import React from 'react'
 
 export default function CategoriesV2() {
@@ -94,12 +92,7 @@ export default function CategoriesV2() {
               </button>
             </div>
 
-            <Link
-              to="/dashboard/add-category"
-              className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-            >
-              <Button text="add Category" />
-            </Link>
+           
           </div>
         </div>
 
@@ -130,11 +123,7 @@ export default function CategoriesV2() {
                     NAME
                   </th>
 
-                  {/* <th
-                    className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
-                  >
-                    Sub CATEGORY
-                  </th> */}
+                  
 
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
@@ -165,7 +154,7 @@ export default function CategoriesV2() {
                       <td
                         className={`border-l pl-2 py-4 text-[13px] whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                       >
-                        {category?.name}
+                        {category?.parent_name}
                       </td>
 
                       <td
@@ -199,7 +188,7 @@ export default function CategoriesV2() {
                         <td
                           className={`p-2 text-center text-gray-400 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
                         >
-                          -- {++id}
+                          --{++id}
                         </td>
                         <td className="border-l pl-2 py-4 whitespace-nowrap flex gap-2">
                           <div
@@ -220,13 +209,9 @@ export default function CategoriesV2() {
                         <td
                           className={`border-l pl-2 py-4 text-[13px] whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                         >
-                          --Sub categories
+                          {category?.parent_name}
                         </td>
-                        {/* <td
-                          className={`border-l pl-2 py-4 text-[13px] whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
-                        >
-                          action
-                        </td> */}
+                        
                       </tr>
                     ))}
                   </React.Fragment>
