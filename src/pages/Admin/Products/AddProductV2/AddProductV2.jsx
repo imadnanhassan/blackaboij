@@ -21,16 +21,18 @@ export default function AddProductV2() {
   const [selectedValues, setSelectedValues] = useState({})
   // const [description, setDescription] = useState('')
   const [metaKeywords, setMetaKeywords] = useState([])
-  const [selectedMainCategory, setSelectedMainCategory] = useState(null)
-  const [selectedSubCategory, setSelectedSubCategory] = useState(null)
+  const [selectedCategories, setSelectedCategories] = useState([])
+
+  const toggleCategory = id => {
+    setSelectedCategories(prev =>
+      prev.includes(id) ? prev.filter(catId => catId !== id) : [...prev, id],
+    )
+  }
 
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const { data: color } = useGetColorQuery()
   const { data: size } = useGetSizeQuery()
-  // const { data: categories } = useGetCategoryQuery()
   const { data: categories } = useGetProductCategoryListQuery()
-
-
 
   console.log(categories)
 
@@ -103,16 +105,7 @@ export default function AddProductV2() {
     label: color.name,
   }))
 
-  const mainCategoryOptions = categoryList
-    .filter(category => !category.parent_id && category.sub_categories?.length)
-    .map(({ id, name }) => ({ value: id, label: name }))
-
-  const subCategoryOptions = selectedMainCategory
-    ? categoryList
-        .find(({ id }) => id === selectedMainCategory.value)
-        ?.sub_categories?.map(({ id, name }) => ({ value: id, label: name })) ||
-      []
-    : []
+ 
 
   const handleButtonClick = e => {
     e.preventDefault()
@@ -136,14 +129,7 @@ export default function AddProductV2() {
     })
   }
 
-  const handleMainCategoryChange = e => {
-    setSelectedMainCategory(e)
-    setSelectedSubCategory(null)
-  }
 
-  const handleSubCategoryChange = e => {
-    setSelectedSubCategory(e)
-  }
 
   // const handleDescriptionChange = value => {
   //   setDescription(value)
@@ -193,48 +179,73 @@ export default function AddProductV2() {
                 {errors.title && <span>This field is required</span>}
               </div>
 
-              <div className="grid grid-cols-3 gap-3 my-4 ">
-                <div className="w-full">
-                  <label
-                    className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                  >
-                    Main Category
-                  </label>
-                  <div className="relative">
-                    <Select
-                      options={mainCategoryOptions}
-                      value={selectedMainCategory}
-                      onChange={handleMainCategoryChange}
-                      placeholder="Select Option"
-                      className="custom-select"
-                      {...register('mainCategory', { required: true })}
-                    />
-                    {errors.mainCategory && <span>This field is required</span>}
-                  </div>
+              
+
+              <div className="p-4 border rounded-lg shadow-sm bg-white">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-lg font-semibold">Categories</h3>
+                  
                 </div>
 
-                {selectedMainCategory && (
-                  <div className="w-full">
-                    <label
-                      className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                    >
-                      Sub Category
-                    </label>
-                    <div className="relative">
-                      <Select
-                        options={subCategoryOptions}
-                        value={selectedSubCategory}
-                        onChange={handleSubCategoryChange}
-                        placeholder="Select Option"
-                        className="custom-select"
-                        {...register('subCategory', { required: true })}
-                      />
-                      {errors.subCategory && (
-                        <span>This field is required</span>
-                      )}
-                    </div>
-                  </div>
-                )}
+                <div className="mb-4 border-b border-gray-200">
+                  <ul className="flex space-x-4 text-sm font-medium">
+                    <li className="cursor-pointer text-blue-600 border-b-2 border-blue-600">
+                      All Categories
+                    </li>
+                    
+                  </ul>
+                </div>
+
+                <div className="max-h-40 overflow-y-auto">
+                  <ul className="space-y-2">
+                    {categoryList.length > 0 ? (
+                      categoryList.map(category => (
+                        <li key={category.id}>
+                          <div className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedCategories.includes(category.id)}
+                              onChange={() => toggleCategory(category.id)}
+                              className="form-checkbox text-blue-600 rounded"
+                            />
+                            <span className="text-sm text-gray-700">
+                              {category.name}
+                            </span>
+                          </div>
+                          {/* Render subcategories if they exist */}
+                          {category.sub_categories?.length > 0 && (
+                            <ul className="ml-6 mt-2 space-y-1">
+                              {category.sub_categories.map(subCategory => (
+                                <li
+                                  key={subCategory.id}
+                                  className="flex items-center space-x-2"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={selectedCategories.includes(
+                                      subCategory.id,
+                                    )}
+                                    onChange={() =>
+                                      toggleCategory(subCategory.id)
+                                    }
+                                    className="form-checkbox text-blue-600 rounded"
+                                  />
+                                  <span className="text-sm text-gray-700">
+                                    {subCategory.name}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-sm text-gray-500">
+                        No categories available
+                      </li>
+                    )}
+                  </ul>
+                </div>
               </div>
 
               <div className="mt-4">
