@@ -39,9 +39,26 @@ export const productApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getProductList: builder.query({
+      query: () => ({
+        url: '/api/v1/admin/product/all',
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }),
+    }),
+
     getSingleProduct: builder.query({
       query: slug => ({
         url: `/api/front/products/${slug}`,
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }),
+    }),
+    getProductCategoryList: builder.query({
+      query: () => ({
+        url: '/api/v1/admin/product/category-lists',
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
@@ -54,5 +71,7 @@ export const {
   useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useGetProductListQuery,
   useGetSingleProductQuery,
+  useGetProductCategoryListQuery,
 } = productApi

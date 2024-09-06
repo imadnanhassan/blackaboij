@@ -81,11 +81,11 @@ const FrontendHeader = () => {
               </div>
 
               {/* Logo in the middle */}
-              <div className="col-span-1 flex items-center justify-center">
+              <div className="col-span-1 flex items-center justify-center ">
                 <Link to="/">
                   <img
                     src="https://i.ibb.co/3sNL27c/logo.png"
-                    className="sm:w-[85px] xl:w-[100px]"
+                    className="sm:w-[85px]  xl:w-[100px]"
                     alt=""
                   />
                 </Link>

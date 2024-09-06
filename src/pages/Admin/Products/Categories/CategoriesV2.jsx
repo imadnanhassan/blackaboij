@@ -91,8 +91,6 @@ export default function CategoriesV2() {
                 <i className="fa-solid fa-magnifying-glass" />
               </button>
             </div>
-
-           
           </div>
         </div>
 
@@ -123,8 +121,6 @@ export default function CategoriesV2() {
                     NAME
                   </th>
 
-                  
-
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
@@ -145,6 +141,7 @@ export default function CategoriesV2() {
                         >
                           <img
                             src={`${import.meta.env.VITE_BASE_URL}/category/${category.banner}`}
+                            
                             alt={category.name}
                             className="w-full"
                           />
@@ -211,7 +208,6 @@ export default function CategoriesV2() {
                         >
                           {category?.parent_name}
                         </td>
-                        
                       </tr>
                     ))}
                   </React.Fragment>

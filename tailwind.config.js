@@ -8,7 +8,7 @@ export default {
         ftPrimaryColor: '#00A7E8',
         // ftPrimaryColor: '#00bdbd',
         ftMuteColor: '#d6d6d699',
-        primaryColor: '#5A66F1',
+        primaryColor: '#000',
         sideBarColor: '#1E293B',
         sideBarTextColor: '#ffffff',
         lightColor: '#fff',

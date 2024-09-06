@@ -139,7 +139,7 @@ export default function AddSize() {
 
                 <button
                   type="submit"
-                  className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
+                  className="bg-black py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
                   disabled={isLoading}
                 >
                   {isLoading ? 'Adding...' : 'Submit'}

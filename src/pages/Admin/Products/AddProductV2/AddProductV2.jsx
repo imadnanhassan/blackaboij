@@ -10,9 +10,11 @@ import ReactQuill from 'react-quill'
 import Select from 'react-select'
 import { useGetColorQuery } from '../../../../redux/features/api/color/colorApi'
 import { useGetSizeQuery } from '../../../../redux/features/api/attribute/sizeApi'
-import { useGetCategoryQuery } from '../../../../redux/features/api/category/categoryApi'
 import { Controller, useForm } from 'react-hook-form'
-import { useAddProductMutation } from '../../../../redux/features/api/product/productApi'
+import {
+  useAddProductMutation,
+  useGetProductCategoryListQuery,
+} from '../../../../redux/features/api/product/productApi'
 
 export default function AddProductV2() {
   const [forms, setForms] = useState([])
@@ -25,7 +27,12 @@ export default function AddProductV2() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const { data: color } = useGetColorQuery()
   const { data: size } = useGetSizeQuery()
-  const { data: categories } = useGetCategoryQuery()
+  // const { data: categories } = useGetCategoryQuery()
+  const { data: categories } = useGetProductCategoryListQuery()
+
+
+
+  console.log(categories)
 
   // add product
   const {
@@ -80,9 +87,7 @@ export default function AddProductV2() {
   }
 
   // all category
-  const categoryList = Array.isArray(categories?.categories)
-    ? categories.categories
-    : []
+  const categoryList = categories?.categories ?? []
 
   // all size
   const sizeData = size?.sizes || []
@@ -99,21 +104,14 @@ export default function AddProductV2() {
   }))
 
   const mainCategoryOptions = categoryList
-    .filter(
-      category =>
-        category.parent_id === null && category.sub_categories?.length > 0,
-    )
-    .map(category => ({
-      value: category.id,
-      label: category.parent_name,
-    }))
+    .filter(category => !category.parent_id && category.sub_categories?.length)
+    .map(({ id, name }) => ({ value: id, label: name }))
+
   const subCategoryOptions = selectedMainCategory
     ? categoryList
-        .find(category => category.id === selectedMainCategory.value)
-        ?.sub_categories.map(subcategory => ({
-          value: subcategory.id,
-          label: subcategory.name,
-        })) || []
+        .find(({ id }) => id === selectedMainCategory.value)
+        ?.sub_categories?.map(({ id, name }) => ({ value: id, label: name })) ||
+      []
     : []
 
   const handleButtonClick = e => {
