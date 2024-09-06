@@ -1,7 +1,7 @@
 import { FiEdit } from 'react-icons/fi'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import { FiEye } from 'react-icons/fi'
-import { useContext, useEffect, useState } from 'react'
+
 import { FaPlus } from 'react-icons/fa6'
 import { useDispatch, useSelector } from 'react-redux'
 import { GoHome } from 'react-icons/go'
@@ -13,10 +13,10 @@ import {
 import { Link } from 'react-router-dom'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import Button from '../../../common/Button/Button'
-import { AuthContext } from '../../../Providers/AuthProvider'
+
+import { useGetProductListQuery } from '../../../redux/features/api/product/productApi'
 
 export default function ProductsList() {
-  const [data, setData] = useState([])
   const { selectAll, checkboxes } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const dispatch = useDispatch()
@@ -24,77 +24,14 @@ export default function ProductsList() {
     dispatch(toggleSelectAll(!selectAll))
   }
 
-  const {token,email} = useContext(AuthContext);
-  console.log("token",token);
-  console.log("email",email);
-  
+  const { data: products } = useGetProductListQuery()
+
+  const productList = products?.products ?? []
+  console.log(productList)
 
   const handleCheckboxChange = index => () => {
     dispatch(toggleCheckbox(index))
   }
-
-  const tableData = [
-    {
-      id: 1,
-      name: 'Zoolab',
-      category: 'Household',
-      isStatus: true,
-      sku: 'SKU123',
-      price: '$50.00',
-      quantity: 5,
-      isActive: true,
-    },
-    {
-      id: 2,
-      name: 'Zoolab',
-      category: 'Household',
-      isStatus: false,
-      sku: 'SKU123',
-      price: '$50.00',
-      quantity: 5,
-      isActive: false,
-    },
-    {
-      id: 3,
-      name: 'Zoolab',
-      category: 'Household',
-      isStatus: false,
-      sku: 'SKU123',
-      price: '$50.00',
-      quantity: 5,
-      isActive: false,
-    },
-    {
-      id: 3,
-      name: 'Zoolab',
-      category: 'Household',
-      isStatus: false,
-      sku: 'SKU123',
-      price: '$50.00',
-      quantity: 5,
-      isActive: false,
-    },
-    {
-      id: 3,
-      name: 'Zoolab',
-      category: 'Household',
-      isStatus: false,
-      sku: 'SKU123',
-      price: '$50.00',
-      quantity: 5,
-      isActive: false,
-    },
-    {
-      id: 3,
-      name: 'Zoolab',
-      category: 'Household',
-      isStatus: false,
-      sku: 'SKU123',
-      price: '$50.00',
-      quantity: 5,
-      isActive: false,
-    },
-  ]
 
   const pageTitle = 'Products List'
   const productLinks = [
@@ -102,10 +39,6 @@ export default function ProductsList() {
     { title: 'Products' },
     { title: 'Products List' },
   ]
-
-  useEffect(() => {
-    setData(tableData)
-  }, [])
 
   return (
     <section
@@ -235,8 +168,6 @@ export default function ProductsList() {
                       checked={selectAll}
                       onChange={handleHeaderCheckboxChange}
                     />
-
-
                   </th>
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
@@ -246,18 +177,15 @@ export default function ProductsList() {
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
-                    CATEGORY
+                    PRODUCT Catergory
                   </th>
+
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
                     STOCK
                   </th>
-                  <th
-                    className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
-                  >
-                    SKU
-                  </th>
+
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
@@ -268,11 +196,7 @@ export default function ProductsList() {
                   >
                     QTY
                   </th>
-                  <th
-                    className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
-                  >
-                    STATUS
-                  </th>
+
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
@@ -282,7 +206,7 @@ export default function ProductsList() {
               </thead>
 
               <tbody className="divide-y divide-gray-200">
-                {data.map((item, index) => (
+                {productList.map((item, index) => (
                   <tr key={item.id}>
                     <td className="">
                       <input
@@ -297,7 +221,8 @@ export default function ProductsList() {
                         className={`w-[40px] h-[40px] rounded-md p-2 ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
                       >
                         <img
-                          src="https://react.spruko.com/synto-js/preview/assets/11-70a2cfce.png"
+                          // src={item.thumbnail_image}
+                          src={`${import.meta.env.VITE_BASE_URL}/products/${item.thumbnail_image}`}
                           alt=""
                           className="w-full"
                         />
@@ -310,10 +235,13 @@ export default function ProductsList() {
                         </h6>
                       </span>
                     </td>
-                    <td
-                      className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
-                    >
-                      {item.category}
+
+                    <td className="border-l pl-2 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.isStatus ? 'bg-success-100 text-success-400' : 'text-[#7367f0] bg-gray-100'}`}
+                      >
+                        {item.category_name}
+                      </span>
                     </td>
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <span
@@ -322,11 +250,7 @@ export default function ProductsList() {
                         {item.isStatus ? 'In Stock' : 'Out of stock'}
                       </span>
                     </td>
-                    <td
-                      className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
-                    >
-                      {item.sku}
-                    </td>
+
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
@@ -337,13 +261,7 @@ export default function ProductsList() {
                     >
                       {item.quantity}
                     </td>
-                    <td className="border-l pl-2 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.isActive ? 'bg-[#E8F9EF] text-[#22c55e]' : 'bg-gray-100 text-gray-400'}`}
-                      >
-                        {item.isActive ? 'Active' : 'Inactive'}
-                      </span>
-                    </td>
+
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-2">
                         <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#eab3081a] hover:bg-[#eab308] text-[#eab308] hover:text-lightColor ">

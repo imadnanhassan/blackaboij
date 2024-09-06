@@ -5,7 +5,7 @@ import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import Button from '../../../common/Button/Button'
 import { IoCloseOutline } from 'react-icons/io5'
 
-export default function Settings() {
+export default function GlobalSettings() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [headerLogoFile, setHeaderLogoFile] = useState(null)
   const [headerPreview, setHeaderPreview] = useState(null)

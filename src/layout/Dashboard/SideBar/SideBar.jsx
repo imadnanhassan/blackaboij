@@ -3,13 +3,12 @@ import { GoHome } from 'react-icons/go'
 import { FaShoppingBag } from 'react-icons/fa'
 import { CiShoppingBasket } from 'react-icons/ci'
 import { FaClipboardList } from 'react-icons/fa6'
-import { BiLogoBlogger } from 'react-icons/bi'
+
 import { FaCircleNotch } from 'react-icons/fa'
 import { IoLogOutOutline } from 'react-icons/io5'
 
 import { AiFillDollarCircle, AiFillSetting } from 'react-icons/ai'
 
-import logo from '../../../assets/img/branging-logo/easy-shop.png'
 
 export default function SideBar({ isSideBarOpen }) {
   const navigate = useNavigate()
@@ -38,12 +37,16 @@ export default function SideBar({ isSideBarOpen }) {
         </div>
       ) : (
         <div className="sideBarOpenCollapse ">
-          <div className="pt-2 ">
+          <div className="pt-5">
             <Link to={'/dashboard'}>
-              <img src={logo} alt="" className="w-[150px] mx-auto" />
+              <img
+                src="https://i.ibb.co/3sNL27c/logo.png"
+                alt=""
+                className="w-[150px] mx-auto"
+              />
             </Link>
           </div>
-          <div className="pt-4">
+          <div className="pt-1">
             <ul className="flex flex-col gap-2">
               <li id="sidebar">
                 <Link
@@ -235,7 +238,7 @@ export default function SideBar({ isSideBarOpen }) {
                           <FaCircleNotch className="text-[10px]" />
                         </span>
                         <span className="ml-2 text-sm tracking-wide truncate">
-                          User List
+                          Customer List
                         </span>
                       </NavLink>
                     </li>
@@ -248,7 +251,7 @@ export default function SideBar({ isSideBarOpen }) {
                           <FaCircleNotch className="text-[10px]" />
                         </span>
                         <span className="ml-2 text-sm tracking-wide truncate">
-                          User Profile
+                          Admin Profile
                         </span>
                       </NavLink>
                     </li>
@@ -261,7 +264,7 @@ export default function SideBar({ isSideBarOpen }) {
                           <FaCircleNotch className="text-[10px]" />
                         </span>
                         <span className="ml-2 text-sm tracking-wide truncate">
-                          User Settings
+                          Admin List
                         </span>
                       </NavLink>
                     </li>
@@ -269,89 +272,7 @@ export default function SideBar({ isSideBarOpen }) {
                 </details>
               </li>
 
-              {/* blogs */}
-              <li id="sidebar">
-                <details className="group [&_summary::-webkit-details-marker]:hidden">
-                  <summary className="flex gap-3 cursor-pointer items-center  mb-1 px-8 py-2 text-white hover:bg-gray-100 hover:text-gray-700 ">
-                    <span>
-                      <BiLogoBlogger />
-                    </span>
-
-                    <span className="flex gap-[103px]">
-                      <span className="text-sm font-medium"> Blogs </span>
-                      <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </span>
-                  </summary>
-
-                  <ul className="space-y-1 list-none">
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/blog-list'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          All Post
-                        </span>
-                      </NavLink>
-                    </li>
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/add-post'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Add Post
-                        </span>
-                      </NavLink>
-                    </li>
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/blog-category'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Category
-                        </span>
-                      </NavLink>
-                    </li>
-                    <li id="sidebar">
-                      <NavLink
-                        to={'dashboard/blog-tag'}
-                        className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
-                      >
-                        <span className="inline-flex justify-center items-center ml-8">
-                          <FaCircleNotch className="text-[10px]" />
-                        </span>
-                        <span className="ml-2 text-sm tracking-wide truncate">
-                          Tags
-                        </span>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </details>
-              </li>
+             
 
               {/* Settings */}
 
