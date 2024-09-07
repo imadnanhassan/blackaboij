@@ -7,7 +7,7 @@ import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
 import Button from '../../../../common/Button/Button'
 
 import ReactQuill from 'react-quill'
-import Select from 'react-select'
+
 import { useGetColorQuery } from '../../../../redux/features/api/color/colorApi'
 import { useGetSizeQuery } from '../../../../redux/features/api/attribute/sizeApi'
 import { Controller, useForm } from 'react-hook-form'
@@ -17,22 +17,45 @@ import {
 } from '../../../../redux/features/api/product/productApi'
 
 export default function AddProductV2() {
-  const [forms, setForms] = useState([])
-  const [selectedValues, setSelectedValues] = useState({})
   // const [description, setDescription] = useState('')
   const [metaKeywords, setMetaKeywords] = useState([])
-  const [selectedMainCategory, setSelectedMainCategory] = useState(null)
-  const [selectedSubCategory, setSelectedSubCategory] = useState(null)
+  const [selectedCategories, setSelectedCategories] = useState([])
+  const [selectedSizes, setSelectedSizes] = useState([])
+  const [selectedColors, setSelectedColors] = useState([])
 
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const { data: color } = useGetColorQuery()
   const { data: size } = useGetSizeQuery()
-  // const { data: categories } = useGetCategoryQuery()
   const { data: categories } = useGetProductCategoryListQuery()
 
-
-
   console.log(categories)
+
+  // all category
+  const categoryList = categories?.categories ?? []
+  const toggleCategory = id => {
+    setSelectedCategories(prev =>
+      prev.includes(id) ? prev.filter(catId => catId !== id) : [...prev, id],
+    )
+  }
+
+  // all size
+  const sizeData = size?.sizes || []
+  const toggleSize = id => {
+    setSelectedSizes(prev =>
+      prev.includes(id) ? prev.filter(sizeId => sizeId !== id) : [...prev, id],
+    )
+  }
+
+  // all colors
+  const colordata = color?.colors || []
+  console.log(colordata)
+  const toggleColor = id => {
+    setSelectedColors(prev =>
+      prev.includes(id)
+        ? prev.filter(colorId => colorId !== id)
+        : [...prev, id],
+    )
+  }
 
   // add product
   const {
@@ -86,65 +109,6 @@ export default function AddProductV2() {
     }
   }
 
-  // all category
-  const categoryList = categories?.categories ?? []
-
-  // all size
-  const sizeData = size?.sizes || []
-  const sizesOption = sizeData.map(size => ({
-    value: size.id,
-    label: size.name,
-  }))
-
-  // all colors
-  const colordata = color?.colors || []
-  const colorsOption = colordata.map(color => ({
-    value: color.id,
-    label: color.name,
-  }))
-
-  const mainCategoryOptions = categoryList
-    .filter(category => !category.parent_id && category.sub_categories?.length)
-    .map(({ id, name }) => ({ value: id, label: name }))
-
-  const subCategoryOptions = selectedMainCategory
-    ? categoryList
-        .find(({ id }) => id === selectedMainCategory.value)
-        ?.sub_categories?.map(({ id, name }) => ({ value: id, label: name })) ||
-      []
-    : []
-
-  const handleButtonClick = e => {
-    e.preventDefault()
-    setForms([...forms, { id: forms.length }])
-  }
-
-  const handleRemoveForm = id => {
-    setForms(forms.filter(form => form.id !== id))
-    setSelectedValues(prevState => {
-      const newState = { ...prevState }
-      delete newState[id]
-      return newState
-    })
-  }
-
-  const handleSelectChange = (selectedOption, formId) => {
-    console.log('Selected Option:', selectedOption) // Debugging line
-    setSelectedValues({
-      ...selectedValues,
-      [formId]: selectedOption,
-    })
-  }
-
-  const handleMainCategoryChange = e => {
-    setSelectedMainCategory(e)
-    setSelectedSubCategory(null)
-  }
-
-  const handleSubCategoryChange = e => {
-    setSelectedSubCategory(e)
-  }
-
   // const handleDescriptionChange = value => {
   //   setDescription(value)
   // }
@@ -193,48 +157,69 @@ export default function AddProductV2() {
                 {errors.title && <span>This field is required</span>}
               </div>
 
-              <div className="grid grid-cols-3 gap-3 my-4 ">
-                <div className="w-full">
-                  <label
-                    className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                  >
-                    Main Category
-                  </label>
-                  <div className="relative">
-                    <Select
-                      options={mainCategoryOptions}
-                      value={selectedMainCategory}
-                      onChange={handleMainCategoryChange}
-                      placeholder="Select Option"
-                      className="custom-select"
-                      {...register('mainCategory', { required: true })}
-                    />
-                    {errors.mainCategory && <span>This field is required</span>}
-                  </div>
+              <div className="p-4 border rounded-lg shadow-sm bg-white">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-lg font-semibold">Categories</h3>
                 </div>
 
-                {selectedMainCategory && (
-                  <div className="w-full">
-                    <label
-                      className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                    >
-                      Sub Category
-                    </label>
-                    <div className="relative">
-                      <Select
-                        options={subCategoryOptions}
-                        value={selectedSubCategory}
-                        onChange={handleSubCategoryChange}
-                        placeholder="Select Option"
-                        className="custom-select"
-                        {...register('subCategory', { required: true })}
-                      />
-                      {errors.subCategory && (
-                        <span>This field is required</span>
-                      )}
-                    </div>
-                  </div>
-                )}
+                <div className="mb-4 border-b border-gray-200">
+                  <ul className="flex space-x-4 text-sm font-medium">
+                    <li className="cursor-pointer text-blue-600 border-b-2 border-blue-600">
+                      All Categories
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="max-h-40 overflow-y-auto">
+                  <ul className="space-y-2">
+                    {categoryList.length > 0 ? (
+                      categoryList.map(category => (
+                        <li key={category.id}>
+                          <div className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedCategories.includes(category.id)}
+                              onChange={() => toggleCategory(category.id)}
+                              className="form-checkbox text-blue-600 rounded"
+                            />
+                            <span className="text-sm text-gray-700">
+                              {category.name}
+                            </span>
+                          </div>
+                          {/* Render subcategories if they exist */}
+                          {category.sub_categories?.length > 0 && (
+                            <ul className="ml-6 mt-2 space-y-1">
+                              {category.sub_categories.map(subCategory => (
+                                <li
+                                  key={subCategory.id}
+                                  className="flex items-center space-x-2"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={selectedCategories.includes(
+                                      subCategory.id,
+                                    )}
+                                    onChange={() =>
+                                      toggleCategory(subCategory.id)
+                                    }
+                                    className="form-checkbox text-blue-600 rounded"
+                                  />
+                                  <span className="text-sm text-gray-700">
+                                    {subCategory.name}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-sm text-gray-500">
+                        No categories available
+                      </li>
+                    )}
+                  </ul>
+                </div>
               </div>
 
               <div className="mt-4">
@@ -302,115 +287,100 @@ export default function AddProductV2() {
                     {...register('quantity')}
                   />
                 </div>
-
-                <div className="mb-4 w-full">
-                  <label
-                    htmlFor="productName"
-                    className={`block text-[12px] font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                  >
-                    Discount <span className="text-error-200">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="productName"
-                    name="productName"
-                    placeholder="10"
-                    className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
-                    {...register('discount')}
-                  />
-                </div>
               </div>
 
-              <div className="border-t mt-5">
-                <p className="text-[13px] text-gray-500 my-3">
-                  If you have product variant, you can select{' '}
-                </p>
-
-                <Button
-                  text="Add Variant"
-                  className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-                  onClick={e => handleButtonClick(e)}
-                  icon={FaPlus}
-                ></Button>
-                {forms.map(form => (
-                  <div
-                    key={form.id}
-                    className="grid grid-cols-3 gap-3 mt-4 relative border p-4 rounded"
-                  >
-                    <button
-                      onClick={() => handleRemoveForm(form.id)}
-                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
-                    >
-                      <FaTimes />
-                    </button>
-                    <div className="w-full">
-                      <label
-                        htmlFor={`size-${form.id}`}
-                        className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                      >
-                        Size
-                      </label>
-                      <div className="relative">
-                        <Select
-                          options={sizesOption}
-                          placeholder="Select Option"
-                          className="custom-select"
-                          onChange={selectedOption =>
-                            handleSelectChange(selectedOption, form.id)
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div className="w-full">
-                      <label
-                        htmlFor={`color-${form.id}`}
-                        className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                      >
-                        Color
-                      </label>
-                      <div className="relative">
-                        <Select
-                          options={colorsOption}
-                          placeholder="Select Option"
-                          className="custom-select"
-                          onChange={selectedOption =>
-                            handleSelectChange(selectedOption, form.id)
-                          }
-                        />
-                      </div>
-                    </div>
-
-                    <div className="mb-4 w-full">
-                      <label
-                        htmlFor={`discount-${form.id}`}
-                        className={`block text-[12px] font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                      >
-                        price <span className="text-error-200">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id={`discount-${form.id}`}
-                        name={`discount-${form.id}`}
-                        placeholder="10"
-                        className={`form-control mt-2 p-[10px] border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText' : 'bg-lightColor hover:border-gray-400'}`}
-                      />
-                    </div>
-                    <div className="mb-4 w-full">
-                      <label
-                        htmlFor={`productImage-${form.id}`}
-                        className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
-                      >
-                        Product Photo
-                      </label>
-                      <input
-                        type="file"
-                        id={`productImage-${form.id}`}
-                        name={`productImage-${form.id}`}
-                        className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                      />
-                    </div>
+              <div className="flex gap-3">
+                <div className="p-4 border rounded-lg shadow-sm bg-white w-full">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-lg font-semibold">Sizes</h3>
                   </div>
-                ))}
+
+                  <div className="mb-4 border-b border-gray-200">
+                    <ul className="flex space-x-4 text-sm font-medium">
+                      <li className="cursor-pointer text-primaryColor border-b-2 border-primaryColor">
+                        All Sizes
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="max-h-40 overflow-y-auto">
+                    <ul className="space-y-2">
+                      {sizeData.length > 0 ? (
+                        sizeData.map(size => (
+                          <li
+                            key={size.id}
+                            className="flex items-center space-x-2"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedSizes.includes(size.id)}
+                              onChange={() => toggleSize(size.id)}
+                              className="form-checkbox text-primaryColor rounded"
+                            />
+                            <span className="text-sm text-gray-700">
+                              {size.name}
+                            </span>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-sm text-gray-500">
+                          No sizes available
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="p-4 border rounded-lg shadow-sm bg-white w-full">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-lg font-semibold">Colors</h3>
+                  </div>
+
+                  <div className="mb-4 border-b border-gray-200">
+                    <ul className="flex space-x-4 text-sm font-medium">
+                      <li className="cursor-pointer text-primaryColor border-b-2 border-primaryColor">
+                        All Colors
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="max-h-40 overflow-y-auto">
+                    <ul className="space-y-2">
+                      {colordata.length > 0 ? (
+                        colordata.map(color => (
+                          <li
+                            key={color.id}
+                            className={`flex items-center space-x-2 ${
+                              selectedColors.includes(color.id)
+                                ? 'bg-green-100 p-2 rounded'
+                                : 'bg-gray-100 p-2 rounded'
+                            }`}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedColors.includes(color.id)}
+                              onChange={() => toggleColor(color.id)}
+                              className="form-checkbox text-primaryColor rounded"
+                            />
+                            <div
+                              className="w-6 h-6 rounded-full"
+                              style={{ backgroundColor: color.code }}
+                            ></div>
+                            <div>
+                              <span className="text-sm text-gray-700">
+                                {color.name}
+                              </span>
+                            </div>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-sm text-gray-500">
+                          No colors available
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -489,7 +459,7 @@ export default function AddProductV2() {
                   <Button
                     text="Add"
                     onClick={handleAddMetaKeyword}
-                    className="bg-[#60a5fa] mt-2 w-[100px] justify-center py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
+                    className="bg-black mt-2 w-[100px] justify-center py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
                   ></Button>
                   <ul>
                     {metaKeywords.map((keyword, index) => (
@@ -539,15 +509,6 @@ export default function AddProductV2() {
               text="Add Product"
               className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
               icon={FaPlus}
-            ></Button>
-
-            <Button
-              text=" Save draft"
-              className="bg-[#60a5fa] py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-            ></Button>
-            <Button
-              text="Discard product"
-              className="bg-error-200 py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
             ></Button>
           </div>
         </div>
