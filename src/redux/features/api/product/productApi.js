@@ -31,12 +31,14 @@ export const productApi = baseApi.injectEndpoints({
 
     deleteProduct: builder.mutation({
       query: id => ({
-        url: `/api/front/products/${id}`,
+        url: `/api/v1/admin/product/delete/${id}`,
         method: 'DELETE',
+
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
       }),
+      invalidatesTags: ['product'],
     }),
 
     getProductList: builder.query({

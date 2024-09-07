@@ -13,6 +13,7 @@ import { useGetSizeQuery } from '../../../../redux/features/api/attribute/sizeAp
 import { Controller, useForm } from 'react-hook-form'
 import {
   useAddProductMutation,
+
   useGetProductCategoryListQuery,
 } from '../../../../redux/features/api/product/productApi'
 
@@ -27,8 +28,9 @@ export default function AddProductV2() {
   const { data: color } = useGetColorQuery()
   const { data: size } = useGetSizeQuery()
   const { data: categories } = useGetProductCategoryListQuery()
+    
 
-  console.log(categories)
+  
 
   // all category
   const categoryList = categories?.categories ?? []
@@ -48,7 +50,6 @@ export default function AddProductV2() {
 
   // all colors
   const colordata = color?.colors || []
-  console.log(colordata)
   const toggleColor = id => {
     setSelectedColors(prev =>
       prev.includes(id)
@@ -255,6 +256,7 @@ export default function AddProductV2() {
             </div>
             {/* price */}
             <div className="mt-4">
+              <h4 className="text-center py-7">Product Price</h4>
               <div className="grid grid-cols-3 gap-5">
                 <div className="mb-4 w-full">
                   <label
@@ -420,6 +422,7 @@ export default function AddProductV2() {
 
             {/* seo */}
             <div>
+              <h4 className="text-center py-7">Product SEO</h4>
               <div className="mb-4">
                 <label
                   for="metaTitle"

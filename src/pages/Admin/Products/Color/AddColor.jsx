@@ -25,7 +25,7 @@ export default function AddColor() {
   const [deleteColor] = useDeleteColorMutation()
   const { data: color, isLoading, refetch } = useGetColorQuery()
   const colordata = color?.colors
-  console.log(color)
+
 
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const {
