@@ -10,7 +10,9 @@ import '../HelperCss/home-hotsale.css'
 import { HiFire } from 'react-icons/hi'
 import { categories } from '../../../../data/index'
 
+
 const HomeNewArrivals = () => {
+
   return (
     <section>
       <div className="md:section-gap pt-[50px]">
