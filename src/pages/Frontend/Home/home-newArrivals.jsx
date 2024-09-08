@@ -11,8 +11,9 @@ import { categories } from '../../../../data/index'
 import { useGetNewArrivalsQuery } from '../../../redux/features/api/newArrivals/newArrivals'
 
 const HomeNewArrivals = () => {
-  const [data] = useGetNewArrivalsQuery()
+  const { data, error, isLoading } = useGetNewArrivalsQuery()
   console.log(data)
+
   return (
     <section>
       <div className="md:section-gap pt-[50px]">
