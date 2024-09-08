@@ -1,41 +1,39 @@
-// import React from 'react'
-
-// export default function FrontendHeader() {
-//   return <header className="lg:block">header</header>
-// }
-
-import { HiMiniChevronUp } from 'react-icons/hi2'
-import { useEffect, useState } from 'react'
+import { HiMiniChevronUp, HiMiniChevronDown } from 'react-icons/hi2'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { HiBars3BottomRight } from 'react-icons/hi2'
-import { HiMiniXMark } from 'react-icons/hi2'
-import { HiMiniChevronDown } from 'react-icons/hi2'
-import { FaInstagram, FaPinterest } from 'react-icons/fa'
+import { HiBars3BottomRight, HiMiniXMark } from 'react-icons/hi2'
+import { FaInstagram, FaPinterest, FaFacebook } from 'react-icons/fa'
 import { IoLogoYoutube } from 'react-icons/io'
-import { FaFacebook } from 'react-icons/fa'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { IoBagOutline } from 'react-icons/io5'
 import { FaRegUser } from 'react-icons/fa6'
 import { Fade } from 'react-awesome-reveal'
 import { SearchBtn } from '../../common/Button/Button'
+import { useGetCategoryQuery } from '../../redux/features/api/category/categoryApi'
 
 const FrontendHeader = () => {
   const [isSticky, setIsSticky] = useState(false)
-  const [isMenHovered, setIsMenHovered] = useState(false)
-  const [isWomenHovered, setIsWomenHovered] = useState(false)
-  const [isSignInHovered, SetIsSignInHovered] = useState(false)
-  const [isSignUpHovered, SetIsSignUpHovered] = useState(false)
   const [isStoreHovered, SetIsStoreHovered] = useState(false)
-  // eslint-disable-next-line no-unused-vars
   const [isAccessoriesHovered, SetIsAccessoriesHovered] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isListMenuOpen, setIsListMenuOpen] = useState(false)
   const [isListMenuOpenWomen, setIsListMenuOpenWomen] = useState(false)
+  const [hoveredCategory, setHoveredCategory] = useState(null)
 
+  const { data: categories, error, isLoading } = useGetCategoryQuery()
+  const categoryList = categories?.categories ?? [] ;
+  console.log(categoryList)
+
+  const setIsHovered = (id, value) => {
+    setHoveredCategory(value ? id : null)
+  }
+
+  const isHovered = (id) => hoveredCategory === id
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
+
   const toggleListMenu = () => {
     setIsListMenuOpen(!isListMenuOpen)
   }
@@ -44,7 +42,6 @@ const FrontendHeader = () => {
     setIsListMenuOpenWomen(!isListMenuOpenWomen)
   }
 
-  // };
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)
   }
@@ -62,16 +59,8 @@ const FrontendHeader = () => {
             </p>
           </div>
         </div>
-        <div
-          className=""
-          style={{
-            position: 'relative',
-            zIndex: '50',
-          }}
-        >
-          <div
-            className={`pt-[20px] w-full bg-black text-white transition-colors duration-500 ease-in-out `}
-          >
+        <div className="" style={{ position: 'relative', zIndex: '50' }}>
+          <div className={`pt-[20px] w-full bg-black text-white`}>
             <div
               className={`grid grid-cols-3 justify-between items-center px-[50px] pb-[20px]`}
             >
@@ -93,7 +82,7 @@ const FrontendHeader = () => {
 
               {/* Icons on the right */}
               <div className="col-span-1 flex justify-end gap-x-3 relative">
-                <Link>
+                <Link to="/signin">
                   <span style={{ fontSize: `${iconSize}px` }}>
                     <FaRegUser className="text-white" />
                   </span>
@@ -108,11 +97,7 @@ const FrontendHeader = () => {
                 </Link>
                 <Link>
                   <span style={{ fontSize: `${iconSize}px` }}>
-                    <AiOutlineShoppingCart className="text-white"
-                    
-                    
-                    
-                    />
+                    <AiOutlineShoppingCart className="text-white" />
                     <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
                       4
                     </span>
@@ -121,120 +106,76 @@ const FrontendHeader = () => {
               </div>
             </div>
 
-            {/* ==================================== desktop  menu here ==================================== */}
-            {/* to do : all routes needs to change  */}
-            <div
-              className={`flex   justify-center   list-none font-custom text-[#b1b1b1]  border-b border-t border-[#383838] bg-black `}
-            >
-              <Link
-                to="/womens"
-                className={` text-white relative px-[15px] py-[10px] text-[15px]  border-b-2-transparent  group  ${isMenHovered ? 'text-white border-b-2 ' : ''}`}
-                onMouseEnter={() => setIsMenHovered(true)}
-                onMouseLeave={() => setIsMenHovered(false)}
-              >
-                MEN
-                <Fade direction="left">
-                  <ul
-                    className={`absolute pl-6 pr-[250px] text-[12px] top-[46px] whitespace-nowrap   ${isMenHovered ? 'block bg-black' : 'hidden'}`}
-                  >
-                    <ul className="py-[15px] font-semibold">
-                      <Link to="/womens">MEN NEW ARRIVALS</Link>
+            {/* Desktop Menu */}
+            <div className={`flex justify-center list-none text-white border-t-[1px] border-[#6e6b6bdd]`}>
+              {categoryList.map((category) => (
+                <Link
+                  key={category.id}
+                  to={`/${category.slug}`}
+                  className={`relative px-[15px] py-[10px] text-[15px] group ${isHovered(category.id) ? 'border-b-2' : 'border-b-2 border-black'
+                    }`}
+                  onMouseEnter={() => setIsHovered(category.id, true)}
+                  onMouseLeave={() => setIsHovered(category.id, false)}
+                >
+                  {category.parent_name.toUpperCase()}
+                  <Fade direction="left">
+                    <ul
+                      className={`absolute pl-6 pr-[250px] py-5 text-[12px] top-[46px] whitespace-nowrap ${isHovered(category.id) ? 'block bg-black' : 'hidden'
+                        }`}
+                    >
+                      {category.slug === 'men' && (
+                        <li className="p-[2px]">
+                          <Link to="/men-new-arrivals" className='uppercase text-[12px]'>Men New Arrivals static</Link>
+                        </li>
+                      )}
+                      {category.slug === 'women' && (
+                        <li className="p-[2px]">
+                          <Link to="/women-new-arrivals" className='uppercase text-[12px]'>Women New Arrivals static</Link>
+                        </li>
+                      )}
+                      {category.sub_categories.map((subCategory) => (
+                        <li key={subCategory.id} className="p-[2px]">
+                          <Link to={`/${subCategory.slug}`}>
+                            {subCategory.name}
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
-                    <li className="pt-[5px]">
-                      <Link to="/womenTees">TEES</Link>
-                    </li>
-                    <li className="pt-[5px]">
-                      <Link to="/womensHoodies">HOODIES AND SWEATERS</Link>
-                    </li>
-                    <li className="pt-[5px]">
-                      <Link to="/womenPants">PANTS</Link>
-                    </li>
-                    <li className="pt-[5px]">
-                      <Link to="/womenOutwear">OUTWEAR</Link>
-                    </li>
-                    <li className="pt-[5px]">
-                      <Link to="#">SHOES</Link>
-                    </li>
-                    <li className="pt-[15px] pb-10 font-semibold">
-                      <Link to="/accessories">ACCESORIES</Link>
-                    </li>
-                  </ul>
-                </Fade>
-              </Link>
-
-              <Link
-                to="/womens"
-                className={` text-white relative px-[15px] py-[10px] text-[15px]  border-b-2 border-black  group  ${isWomenHovered ? 'text-white border-b-2  border-white' : ''}`}
-                onMouseEnter={() => setIsWomenHovered(true)}
-                onMouseLeave={() => setIsWomenHovered(false)}
-              >
-                WOMEN
-                <Fade direction="left">
-                  <ul
-                    className={`absolute pl-6 pr-[250px] text-[12px] top-[46px] whitespace-nowrap   ${isWomenHovered ? 'block bg-black' : 'hidden'}`}
-                  >
-                    <ul className="py-[15px] font-semibold">
-                      <Link to="/womens">WOMEN NEW ARRIVALS</Link>
-                    </ul>
-                    <li className="pt-[5px]">
-                      <Link to="/womenTees">TEES</Link>
-                    </li>
-                    <li className="pt-[5px]">
-                      <Link to="/womensHoodies">HOODIES AND SWEATERS</Link>
-                    </li>
-                    <li className="pt-[5px]">
-                      <Link to="/womenPants">PANTS</Link>
-                    </li>
-                    <li className="pt-[5px]">
-                      <Link to="/womenOutwear">OUTWEAR</Link>
-                    </li>
-                    <li className="pt-[5px]">
-                      <Link to="#">SHOES</Link>
-                    </li>
-                    <li className="pt-[15px] pb-10 font-semibold">
-                      <Link to="/accessories">ACCESORIES</Link>
-                    </li>
-                  </ul>
-                </Fade>
-              </Link>
+                  </Fade>
+                </Link>
+              ))}
 
               <Link to="/accessories">
                 <li
-                  className={`relative px-[15px] py-[10px] text-white text-[15px] border-b-2-transparent group ${isAccessoriesHovered ? 'text-white  border-b-2' : ''}`}
+                  className={`relative px-[15px] py-[10px] text-[15px] group ${isAccessoriesHovered ? 'border-b-2' : ''
+                    }`}
                   onMouseEnter={() => SetIsAccessoriesHovered(true)}
                   onMouseLeave={() => SetIsAccessoriesHovered(false)}
                 >
                   ACCESSORIES
+                  {isAccessoriesHovered && (
+                    <Fade direction="left">
+                      <ul className="absolute pl-6 pr-[250px] py-5 text-[12px] top-[46px] whitespace-nowrap bg-black">
+                        <li className="p-[2px]">
+                          <Link to="/accessories/men-accessories" className='uppercase text-[12px]'>Men Accessories</Link>
+                        </li>
+                        <li className="p-[2px]">
+                          <Link to="/accessories/women-accessories" className='uppercase text-[12px]' >Women Accessories</Link>
+                        </li>
+                      </ul>
+                    </Fade>
+                  )}
                 </li>
               </Link>
 
               <Link to="/store">
                 <li
-                  className={`relative px-[15px] py-[10px] text-white text-[15px] border-b-2-transparent group  ${isStoreHovered ? 'text-white  border-b-2' : ''}`}
-                  onMouseEnter={() => SetIsStoreHovered(true)}
-                  onMouseLeave={() => SetIsStoreHovered(false)}
+                  className={`relative px-[15px] py-[10px] text-[15px] group ${isStoreHovered ? 'border-b-2' : ''
+                    }`}
+                  onMouseEnter={() => setIsStoreHovered(true)}
+                  onMouseLeave={() => setIsStoreHovered(false)}
                 >
                   STORE
-                </li>
-              </Link>
-
-              <Link to="/signin">
-                <li
-                  className={`relative px-[15px] py-[10px] text-[15px] text-white border-b-2-transparent group ${isSignInHovered ? 'text-white  border-b-2' : ''}`}
-                  onMouseEnter={() => SetIsSignInHovered(true)}
-                  onMouseLeave={() => SetIsSignInHovered(false)}
-                >
-                  SIGN IN
-                </li>
-              </Link>
-
-              <Link to="/signUp">
-                <li
-                  className={`relative px-[15px] py-[10px] text-[15px] text-white border-b-2-transparent group ${isSignUpHovered ? 'text-white  border-b-2' : ''}`}
-                  onMouseEnter={() => SetIsSignUpHovered(true)}
-                  onMouseLeave={() => SetIsSignUpHovered(false)}
-                >
-                  SIGN UP
                 </li>
               </Link>
             </div>
@@ -242,32 +183,25 @@ const FrontendHeader = () => {
         </div>
       </div>
 
-      {/*==================================mobile menu here ====================================*/}
-      <div
-        className={`header md:hidden  block w-full ${isSticky ? 'fixed top-0 z-50' : ''} bg-black text-white transition-colors duration-500 ease-in-out z-50 `}
-      >
-        <div
-          className={`grid grid-cols-3 items-center z-50  py-[18px]   px-[20px] font-custom  relative ${isMobileMenuOpen ? 'bg-black z-100  ' : ''}  `}
-        >
-          <div className="   flex  relative">
-            <Link className="pr-[6px]">
+      {/* Mobile Menu */}
+      <div className={`header md:hidden z-50 block w-full ${isSticky ? 'fixed top-0' : ''} bg-black text-white`}>
+        <div className={`grid grid-cols-3 items-center py-[18px] px-[20px]`}>
+          <div className="flex relative">
+            <Link to="/signin" className="pr-[6px]">
               <span style={{ fontSize: `18px` }}>
-                {' '}
                 <FaRegUser className="text-white " />
               </span>
             </Link>
             <Link className="pr-[6px] relative">
               <span style={{ fontSize: `18px` }}>
-                {' '}
                 <IoBagOutline className="text-white " />
-                <span className="text-[9px] font-bold absolute md:top-[-3px] top-[-4px] text-black px-[4px] bg-white rounded-full right-[1px]">
+                <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[1px]">
                   2
                 </span>
               </span>
             </Link>
             <Link className="relative">
               <span style={{ fontSize: `18px` }}>
-                {' '}
                 <AiOutlineShoppingCart className="text-white " />
                 <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
                   2
@@ -278,195 +212,103 @@ const FrontendHeader = () => {
 
           <div className="flex items-center justify-center">
             <Link to="/">
-              {' '}
-              <img
-                src="https://i.ibb.co/3sNL27c/logo.png"
-                className="w-[85px] h-[15px] "
-                alt=""
-              />
+              <img src="https://i.ibb.co/3sNL27c/logo.png" className="w-[85px] h-[15px]" alt="" />
             </Link>
           </div>
 
           <div className="menu-icon flex items-center justify-end">
             {isMobileMenuOpen ? (
-              <HiMiniXMark
-                onClick={toggleMobileMenu}
-                className=" text-[20px] text-white"
-              ></HiMiniXMark>
+              <HiMiniXMark onClick={toggleMobileMenu} className="text-[20px] text-white cursor-pointer" />
             ) : (
-              <HiBars3BottomRight
-                onClick={toggleMobileMenu}
-                className=" text-[20px] text-white"
-              ></HiBars3BottomRight>
+              <HiBars3BottomRight onClick={toggleMobileMenu} className="text-[20px] text-white cursor-pointer" />
             )}
           </div>
-
-          {/* mobilemenuopen code here  */}
-          {isMobileMenuOpen && (
-            <div
-              className={`bg-black  text-white absolute left-0 top-10 w-full  h-screen px-5 `}
-            >
-              <ul className="flex flex-col   py-4 space-y-4">
-                <li>
-                  <div className={`flex justify-between items-center `}>
-                    <p>MEN</p>
-                    <p>
-                      {isListMenuOpen ? (
-                        <HiMiniChevronUp
-                          onClick={toggleListMenu}
-                          className=" text-[20px] text-white"
-                        />
-                      ) : (
-                        <HiMiniChevronDown
-                          onClick={toggleListMenu}
-                          className=" text-[20px] text-white"
-                        />
-                      )}
-                    </p>
-                  </div>
-                  {isListMenuOpen ? (
-                    <ul className={`pl-[5px] text-[11px] space-y-[5px] `}>
-                      <li className="mt-[10px]">
-                        <Link onClick={closeMobileMenu} to="/menCollections">
-                          NEW COLLECTIONS
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/tees">
-                          TEES
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          onClick={closeMobileMenu}
-                          to="/hoodiesAndSweeters"
-                        >
-                          HOODIES AND SWEATERS
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/pants">
-                          PANTS
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/outwear">
-                          OUTWEARS
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/">
-                          SHOES
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/accessories">
-                          ACCESSORIES
-                        </Link>
-                      </li>
-                    </ul>
-                  ) : (
-                    ''
-                  )}
-                </li>
-                <li>
-                  <div className={`flex justify-between items-center `}>
-                    <p>WOMEN</p>
-                    <p>
-                      {isListMenuOpenWomen ? (
-                        <HiMiniChevronUp
-                          onClick={toggleListMenuWomen}
-                          className=" text-[20px] text-white"
-                        />
-                      ) : (
-                        <HiMiniChevronDown
-                          onClick={toggleListMenuWomen}
-                          className=" text-[20px] text-white"
-                        />
-                      )}
-                    </p>
-                  </div>
-                  {isListMenuOpenWomen ? (
-                    <ul className={`pl-[5px] text-[11px] space-y-[5px] `}>
-                      <li className="mt-[10px]">
-                        <Link onClick={closeMobileMenu} to="/womens">
-                          NEW COLLECTIONS
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/womenTees">
-                          TEES
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/womensHoodies">
-                          HOODIES AND SWEATERS
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/womenPants">
-                          PANTS
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/womenOutwear">
-                          OUTWEARS
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/">
-                          SHOES
-                        </Link>
-                      </li>
-                      <li>
-                        <Link onClick={closeMobileMenu} to="/accessories">
-                          ACCESSORIES
-                        </Link>
-                      </li>
-                    </ul>
-                  ) : (
-                    ''
-                  )}
-                </li>
-
-                <li className="relative">
-                  <Link to="/allProducts" className="text-white">
-                    SALES
-                  </Link>
-                </li>
-                <li className="relative">
-                  <Link to="/store" className="text-white">
-                    STORE
-                  </Link>
-                </li>
-                <li className="relative">
-                  <Link to="/accessories" className="text-white">
-                    ACCESSORIES
-                  </Link>
-                </li>
-              </ul>
-              {/* footer icons */}
-              <div className=" flex justify-center items-center space-x-5 pt-[20px]  ">
-                <span style={{ fontSize: `${iconSize}px` }}>
-                  {' '}
-                  <FaFacebook className="text-white  " />
-                </span>
-                <span style={{ fontSize: `${iconSize}px` }}>
-                  {' '}
-                  <FaPinterest className="text-white " />
-                </span>
-                <span style={{ fontSize: `${iconSize}px` }}>
-                  {' '}
-                  <FaInstagram className="text-white " />
-                </span>
-                <span style={{ fontSize: `${iconSize}px` }}>
-                  {' '}
-                  <IoLogoYoutube className="text-white " />
-                </span>
-              </div>
-            </div>
-          )}
         </div>
+
+        {isMobileMenuOpen && (
+          <ul className="absolute w-full bg-black min-h-[60vh] top-[55px] left-0 text-white pl-5 pr-[40px] pt-6 pb-[40px] z-50">
+            {categoryList.map((category) => (
+              <li key={category.id} className="border-b-[1px] py-4 text-[15px]">
+                <div className="flex justify-between items-center">
+                  <Link to={`/${category.slug}`} onClick={closeMobileMenu}>
+                    {category.parent_name.toUpperCase()}
+                  </Link>
+                  {category.slug === 'men' && (
+                    <HiMiniChevronUp onClick={toggleListMenu} className="cursor-pointer text-[25px]" />
+                  )}
+                  {category.slug === 'women' && (
+                    <HiMiniChevronUp onClick={toggleListMenuWomen} className="cursor-pointer  text-[25px]" />
+                  )}
+                </div>
+
+                {isListMenuOpen && category.slug === 'men' && (
+                  <ul className="mt-3 pl-5 mb-4 text-[15px] list-disc">
+                    <li className="py-[3px]">
+                      <Link to="/men-new-arrivals" className='text-[12px] uppercase' onClick={closeMobileMenu}>
+                        Men New Arrivalszzz
+                      </Link>
+                    </li>
+                    {category.sub_categories.map((subCategory) => (
+                      <li key={subCategory.id} className="py-[2px] text-[12px] uppercase">
+                        <Link to={`/${subCategory.slug}`} onClick={closeMobileMenu}>
+                          {subCategory.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {isListMenuOpenWomen && category.slug === 'women' && (
+                  <ul className="mt-3 pl-5 text-[15px] list-disc">
+                    <li className="py-[2px]">
+                      <Link to="/women-new-arrivals" className='text-[12px] uppercase' onClick={closeMobileMenu}>
+                        Women New Arrivals static
+                      </Link>
+                    </li>
+                    {category.sub_categories.map((subCategory) => (
+                      <li key={subCategory.id} className="py-[3px] text-[12px]">
+                        <Link to={`/${subCategory.slug}`} onClick={closeMobileMenu}>
+                          {subCategory.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+
+            <li>
+              <div className={`flex justify-between items-center border-b-[1px] pb-4 pt-4 text-[15px]`}>
+                <p>ACCESSORIES</p>
+                <p>
+                  {isAccessoriesHovered ? (
+                    <HiMiniChevronUp onClick={() => SetIsAccessoriesHovered(false)} className="text-[25px]" />
+                  ) : (
+                    <HiMiniChevronDown onClick={() => SetIsAccessoriesHovered(true)} className="text-[25px]" />
+                  )}
+                </p>
+              </div>
+              {isAccessoriesHovered && (
+                <div>
+                  <ul className="pl-6 list-disc">
+                    <li className="pt-[5px]">
+                      <Link to="/accessories/men-accessories" className='text-[12px] uppercase'>Men Accessories</Link>
+                    </li>
+                    <li className="pt-[5px]">
+                      <Link to="/accessories/women-accessories" className='text-[12px] uppercase'>Women Accessories</Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </li>
+
+            <li className="pt-4 text-[15px]">
+              <Link to="/store" onClick={closeMobileMenu}>
+                STORE
+              </Link>
+            </li>
+          </ul>
+        )}
       </div>
     </nav>
   )
