@@ -6,11 +6,20 @@ import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import ColumnChart from '../../../components/ColumnChart/ColumnChart'
 import TotalOrder from './TotalOrder'
 import AreaCharts from '../../../components/ColumnChart/AreaCharts'
+import { useGetProductListQuery } from '../../../redux/features/api/product/productApi'
 const pageTitle = 'Dashboard'
 const productLinks = [{ title: <></>, link: '/' }]
 
 const Dashboard = () => {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
+  const { data: products, isLoading } = useGetProductListQuery()
+
+  const productdata = products?.products || []
+  console.log(productdata.length)
+
+  if (isLoading) {
+    return <p>Loading..</p>
+  }
 
   return (
     <section
@@ -35,7 +44,6 @@ const Dashboard = () => {
               >
                 12,088
               </p>
-             
             </div>
           </div>
         </div>
@@ -56,7 +64,6 @@ const Dashboard = () => {
               >
                 12,088
               </p>
-              
             </div>
           </div>
         </div>
@@ -75,9 +82,8 @@ const Dashboard = () => {
               <p
                 className={`text-[20px] font-medium mb-1 ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText'}`}
               >
-                12,088
+                {productdata.length}
               </p>
-              
             </div>
           </div>
         </div>

@@ -14,9 +14,18 @@ import { Link } from 'react-router-dom'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import Button from '../../../common/Button/Button'
 
-import { useGetProductListQuery } from '../../../redux/features/api/product/productApi'
+import {
+  useDeleteProductMutation,
+  useGetProductListQuery,
+} from '../../../redux/features/api/product/productApi'
+import Swal from 'sweetalert2'
+import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 
 export default function ProductsList() {
+  const { data: products, isLoading } = useGetProductListQuery()
+  const [productsData, setProductsData] = useState(products?.products ?? [])
+  const [deleteProduct] = useDeleteProductMutation()
   const { selectAll, checkboxes } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const dispatch = useDispatch()
@@ -24,10 +33,64 @@ export default function ProductsList() {
     dispatch(toggleSelectAll(!selectAll))
   }
 
-  const { data: products } = useGetProductListQuery()
+  useEffect(() => {
+    setProductsData(products?.products ?? [])
+  }, [products])
 
-  const productList = products?.products ?? []
-  console.log(productList)
+  console.log(productsData.length)
+
+
+  const handleDeleteProduct = async productId => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this product?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then(async result => {
+      if (result.isConfirmed) {
+        try {
+          const response = await deleteProduct(productId)
+          if (response?.data.status === 200) {
+            console.log(productsData.length)
+            const currentProduct = productsData.filter(
+              item => item.id != productId,
+            )
+            console.log(currentProduct.length)
+            setProductsData(currentProduct)
+
+            toast.success(response?.data?.message, {
+              position: 'bottom-right',
+              autoClose: 3000,
+            })
+          } else if (response?.data.status === 404) {
+            toast.error(response?.data?.message, {
+              position: 'bottom-right',
+              autoClose: 3000,
+            })
+          } else if (response?.data.status === 402) {
+            toast.error(response?.data?.message, {
+              position: 'bottom-right',
+              autoClose: 3000,
+            })
+          } else {
+            toast.error('Somthing wrong, please try again ', {
+              position: 'bottom-right',
+              autoClose: 3000,
+            })
+          }
+        } catch (error) {
+          toast.error('Failed to delete the product. Please try again.', {
+            position: 'bottom-right',
+            autoClose: 3000,
+          })
+        }
+      }
+    })
+  }
 
   const handleCheckboxChange = index => () => {
     dispatch(toggleCheckbox(index))
@@ -39,7 +102,7 @@ export default function ProductsList() {
     { title: 'Products' },
     { title: 'Products List' },
   ]
-
+  if (isLoading) return <p>Loading products...</p>
   return (
     <section
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}
@@ -206,8 +269,8 @@ export default function ProductsList() {
               </thead>
 
               <tbody className="divide-y divide-gray-200">
-                {productList.map((item, index) => (
-                  <tr key={item.id}>
+                {productsData.map((product, index) => (
+                  <tr key={product.id}>
                     <td className="">
                       <input
                         type="checkbox"
@@ -222,7 +285,7 @@ export default function ProductsList() {
                       >
                         <img
                           // src={item.thumbnail_image}
-                          src={`${import.meta.env.VITE_BASE_URL}/products/${item.thumbnail_image}`}
+                          src={`${import.meta.env.VITE_BASE_URL}/products/${product.thumbnail_image}`}
                           alt=""
                           className="w-full"
                         />
@@ -231,35 +294,35 @@ export default function ProductsList() {
                         <h6
                           className={`text-[15px] pb-1 font-medium ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                         >
-                          {item.name}
+                          {product.name}
                         </h6>
                       </span>
                     </td>
 
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.isStatus ? 'bg-success-100 text-success-400' : 'text-[#7367f0] bg-gray-100'}`}
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${product.isStatus ? 'bg-success-100 text-success-400' : 'text-[#7367f0] bg-gray-100'}`}
                       >
-                        {item.category_name}
+                        {product.category_name}
                       </span>
                     </td>
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.isStatus ? 'bg-success-100 text-success-400' : 'text-[#7367f0] bg-gray-100'}`}
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${product.isStatus ? 'bg-success-100 text-success-400' : 'text-[#7367f0] bg-gray-100'}`}
                       >
-                        {item.isStatus ? 'In Stock' : 'Out of stock'}
+                        {product.isStatus ? 'In Stock' : 'Out of stock'}
                       </span>
                     </td>
 
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      {item.price}
+                      {product.price}
                     </td>
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      {item.quantity}
+                      {product.quantity}
                     </td>
 
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
@@ -270,7 +333,10 @@ export default function ProductsList() {
                         <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor">
                           <FiEdit className=" text-[12px] " />
                         </button>
-                        <button className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor">
+                        <button
+                          onClick={() => handleDeleteProduct(product.id)}
+                          className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
+                        >
                           <RiDeleteBin7Line className="text-[12px]" />
                         </button>
                       </div>
