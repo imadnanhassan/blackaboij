@@ -16,6 +16,7 @@ import {
   useGetProductCategoryListQuery,
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
+import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
 
 export default function AddProductV2() {
   // const [description, setDescription] = useState('')
@@ -31,6 +32,7 @@ export default function AddProductV2() {
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
+  const [addProduct, { isLoading }] = useAddProductMutation()
 
   const categoryList = categories?.categories ?? []
   const sizeData = size?.sizes || []
@@ -77,7 +79,6 @@ export default function AddProductV2() {
 
   // add product
   const { register, handleSubmit, reset, control } = useForm()
-  const [addProduct] = useAddProductMutation()
 
   const onSubmit = async data => {
     console.log(
@@ -114,6 +115,9 @@ export default function AddProductV2() {
   //   setDescription(value)
   // }
 
+  if (isLoading) {
+    return <SkeletonLoader />
+  }
   const pageTitle = 'Add Product'
   const productLinks = [
     { title: <GoHome />, link: '/' },
