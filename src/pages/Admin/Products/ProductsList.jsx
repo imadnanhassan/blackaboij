@@ -20,8 +20,12 @@ import {
 } from '../../../redux/features/api/product/productApi'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 
 export default function ProductsList() {
+  const { data: products, isLoading } = useGetProductListQuery()
+  const [productsData, setProductsData] = useState(products?.products ?? [])
+  const [deleteProduct] = useDeleteProductMutation()
   const { selectAll, checkboxes } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const dispatch = useDispatch()
@@ -29,12 +33,11 @@ export default function ProductsList() {
     dispatch(toggleSelectAll(!selectAll))
   }
 
-  const { data: products, isLoading } = useGetProductListQuery()
-  const [deleteProduct] = useDeleteProductMutation()
+  useEffect(() => {
+    setProductsData(products?.products ?? [])
+  }, [products])
 
-  const productList = products?.products ?? []
- 
-  
+  console.log(productsData.length)
 
 
   const handleDeleteProduct = async productId => {
@@ -50,11 +53,35 @@ export default function ProductsList() {
     }).then(async result => {
       if (result.isConfirmed) {
         try {
-          await deleteProduct(productId).unwrap()
-          toast.success('Product deleted successfully!', {
-            position: 'bottom-right',
-            autoClose: 3000,
-          })
+          const response = await deleteProduct(productId)
+          if (response?.data.status === 200) {
+            console.log(productsData.length)
+            const currentProduct = productsData.filter(
+              item => item.id != productId,
+            )
+            console.log(currentProduct.length)
+            setProductsData(currentProduct)
+
+            toast.success(response?.data?.message, {
+              position: 'bottom-right',
+              autoClose: 3000,
+            })
+          } else if (response?.data.status === 404) {
+            toast.error(response?.data?.message, {
+              position: 'bottom-right',
+              autoClose: 3000,
+            })
+          } else if (response?.data.status === 402) {
+            toast.error(response?.data?.message, {
+              position: 'bottom-right',
+              autoClose: 3000,
+            })
+          } else {
+            toast.error('Somthing wrong, please try again ', {
+              position: 'bottom-right',
+              autoClose: 3000,
+            })
+          }
         } catch (error) {
           toast.error('Failed to delete the product. Please try again.', {
             position: 'bottom-right',
@@ -75,7 +102,7 @@ export default function ProductsList() {
     { title: 'Products' },
     { title: 'Products List' },
   ]
-if (isLoading) return <p>Loading products...</p>
+  if (isLoading) return <p>Loading products...</p>
   return (
     <section
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}
@@ -242,7 +269,7 @@ if (isLoading) return <p>Loading products...</p>
               </thead>
 
               <tbody className="divide-y divide-gray-200">
-                {productList.map((product, index) => (
+                {productsData.map((product, index) => (
                   <tr key={product.id}>
                     <td className="">
                       <input
@@ -308,7 +335,6 @@ if (isLoading) return <p>Loading products...</p>
                         </button>
                         <button
                           onClick={() => handleDeleteProduct(product.id)}
-                          
                           className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
                         >
                           <RiDeleteBin7Line className="text-[12px]" />

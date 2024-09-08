@@ -13,9 +13,9 @@ import { useGetSizeQuery } from '../../../../redux/features/api/attribute/sizeAp
 import { Controller, useForm } from 'react-hook-form'
 import {
   useAddProductMutation,
-
   useGetProductCategoryListQuery,
 } from '../../../../redux/features/api/product/productApi'
+import { toast } from 'react-toastify'
 
 export default function AddProductV2() {
   // const [description, setDescription] = useState('')
@@ -28,9 +28,6 @@ export default function AddProductV2() {
   const { data: color } = useGetColorQuery()
   const { data: size } = useGetSizeQuery()
   const { data: categories } = useGetProductCategoryListQuery()
-    
-
-  
 
   // all category
   const categoryList = categories?.categories ?? []
@@ -59,56 +56,36 @@ export default function AddProductV2() {
   }
 
   // add product
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm()
-  const [submitProduct] = useAddProductMutation()
+const { register, handleSubmit, reset, control } = useForm()
+const [addProduct, { isLoading }] = useAddProductMutation()
 
-  const onSubmit = async data => {
-    try {
-      // Process gallery images
-      const galleryImages = Array.from(data.galleryImages).map(file => {
-        return { name: file.name, type: file.type, size: file.size }
-      })
+const onSubmit = async data => {
+  const formData = new FormData()
+  formData.append('name', data.name)
+  formData.append('category_id', data.category_id)
+  formData.append('thumbnail_image', data.thumbnail_image[0]) // Handle file input
+  formData.append('product_description', data.product_description)
+  formData.append('price', data.price)
+  formData.append('discount_price', data.discount_price)
+  formData.append('quantity', data.quantity)
+  formData.append('discount_type', data.discount_type)
 
-      // Process thumbnail image
-      const thumbnailImage = {
-        name: data.thumbnailImage[0].name,
-        type: data.thumbnailImage[0].type,
-        size: data.thumbnailImage[0].size,
-      }
+  // Append gallery images (multiple files)
+  Array.from(data.galleryImages).forEach(file =>
+    formData.append('gallery[]', file),
+  )
 
-      // Prepare the final data to send to the API
-      const productData = {
-        title: data.title,
-        mainCategory: data.mainCategory,
-        subCategory: data.subCategory,
-        description: data.description,
-        unitPrice: data.unitPrice,
-        quantity: data.quantity || null,
-        discount: data.discount || null,
-        hasVariants: data.hasVariants || false,
-        variantSize: data.variantSize || null,
-        variantColor: data.variantColor || null,
-        galleryImages,
-        thumbnailImage,
-        metaTitle: data.metaTitle || '',
-        metaDescription: data.metaDescription || '',
-        metaKeywords: metaKeywords || '',
-      }
+  formData.append('colors', JSON.stringify(data.colors)) // Convert to string
+  formData.append('sizes', JSON.stringify(data.sizes)) // Convert to string
 
-      // Submit the product data
-      await submitProduct(productData)
-
-      alert('Product added successfully!')
-    } catch (error) {
-      console.error('Error adding product:', error)
-      alert('Failed to add product.')
-    }
+  try {
+    await addProduct(formData).unwrap()
+    toast.success('Product added successfully!')
+    reset() // Reset form after success
+  } catch (error) {
+    toast.error('Failed to add product.')
   }
+}
 
   // const handleDescriptionChange = value => {
   //   setDescription(value)
@@ -133,6 +110,7 @@ export default function AddProductV2() {
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}
     >
       <Breadcrumbs title={pageTitle} breadcrumbs={productLinks} />
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className=" w-full">
           <div
@@ -151,11 +129,11 @@ export default function AddProductV2() {
                   type="text"
                   id="productName"
                   name="productName"
-                  {...register('title', { required: true })}
+                  {...register('name', { required: true })}
                   placeholder="Enter product name"
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                 />
-                {errors.title && <span>This field is required</span>}
+                {/* {errors.title && <span>This field is required</span>} */}
               </div>
 
               <div className="p-4 border rounded-lg shadow-sm bg-white">
@@ -245,13 +223,6 @@ export default function AddProductV2() {
                     />
                   )}
                 />
-                {/* <ReactQuill
-                  value={description}
-                  onChange={handleDescriptionChange}
-                  theme="snow"
-                  className={`mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${isDarkMode ? '' : ''}`}
-                /> */}
-                {errors.description && <span>This field is required</span>}
               </div>
             </div>
             {/* price */}
@@ -273,7 +244,7 @@ export default function AddProductV2() {
                     className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                     {...register('unitPrice', { required: true })}
                   />
-                  {errors.unitPrice && <span>This field is required</span>}
+                  {/* {errors.unitPrice && <span>This field is required</span>} */}
                 </div>
                 <div className="mb-4 w-full">
                   <label
@@ -402,7 +373,7 @@ export default function AddProductV2() {
                     {...register('galleryImages', { required: true })}
                     multiple
                   />
-                  {errors.galleryImages && <span>This field is required</span>}
+                  {/* {errors.galleryImages && <span>This field is required</span>} */}
                 </div>
                 <div className="mb-4 w-full">
                   <label
@@ -415,7 +386,7 @@ export default function AddProductV2() {
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
                     {...register('thumbnailImage', { required: true })}
                   />
-                  {errors.thumbnailImage && <span>This field is required</span>}
+                  {/* {errors.thumbnailImage && <span>This field is required</span>} */}
                 </div>
               </div>
             </div>
