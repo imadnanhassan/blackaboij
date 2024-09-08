@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { GoHome } from 'react-icons/go'
 import { useSelector } from 'react-redux'
-import { FaPlus, FaTimes } from 'react-icons/fa'
+import { FaPlus } from 'react-icons/fa'
 
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
 import Button from '../../../../common/Button/Button'
@@ -19,85 +19,100 @@ import { toast } from 'react-toastify'
 
 export default function AddProductV2() {
   // const [description, setDescription] = useState('')
-  const [metaKeywords, setMetaKeywords] = useState([])
+  const isDarkMode = useSelector(state => state.theme.isDarkMode)
+
   const [selectedCategories, setSelectedCategories] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedColors, setSelectedColors] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState([])
+  const [selectedSize, setSelectedSize] = useState([])
+  const [selectedColor, setSelectedColor] = useState([])
 
-  const isDarkMode = useSelector(state => state.theme.isDarkMode)
-  const { data: color } = useGetColorQuery()
-  const { data: size } = useGetSizeQuery()
   const { data: categories } = useGetProductCategoryListQuery()
+  const { data: size } = useGetSizeQuery()
+  const { data: color } = useGetColorQuery()
 
-  // all category
   const categoryList = categories?.categories ?? []
-  const toggleCategory = id => {
-    setSelectedCategories(prev =>
-      prev.includes(id) ? prev.filter(catId => catId !== id) : [...prev, id],
-    )
-  }
-
-  // all size
   const sizeData = size?.sizes || []
-  const toggleSize = id => {
-    setSelectedSizes(prev =>
-      prev.includes(id) ? prev.filter(sizeId => sizeId !== id) : [...prev, id],
-    )
-  }
-
-  // all colors
   const colordata = color?.colors || []
-  const toggleColor = id => {
-    setSelectedColors(prev =>
-      prev.includes(id)
-        ? prev.filter(colorId => colorId !== id)
-        : [...prev, id],
-    )
+
+  const toggleData = (e, id, type) => {
+    if (type == 'category') {
+      setSelectedCategories(prev =>
+        prev.includes(id) ? prev.filter(catId => catId !== id) : [...prev, id],
+      )
+      if (e.target.checked) {
+        setSelectedCategory([...selectedCategory, id])
+      } else {
+        const currentSelectedCategory = selectedCategory.filter(
+          item => item != id,
+        )
+        setSelectedCategory(currentSelectedCategory)
+      }
+    } else if (type == 'size') {
+      setSelectedSizes(prev =>
+        prev.includes(id) ? prev.filter(catId => catId !== id) : [...prev, id],
+      )
+      if (e.target.checked) {
+        setSelectedSize([...selectedSize, id])
+      } else {
+        const currentSelectedSize = selectedSize.filter(item => item != id)
+        setSelectedSize(currentSelectedSize)
+      }
+    } else if (type == 'color') {
+      setSelectedColors(prev =>
+        prev.includes(id) ? prev.filter(catId => catId !== id) : [...prev, id],
+      )
+      if (e.target.checked) {
+        setSelectedColor([...selectedColor, id])
+      } else {
+        const currentSelectedColor = selectedColor.filter(item => item != id)
+        setSelectedColor(currentSelectedColor)
+      }
+    }
   }
+  // console.log(selectedCategory, 'category')
+  // console.log(selectedSize, 'size')
+  // console.log(selectedColor, 'color')
 
   // add product
-const { register, handleSubmit, reset, control } = useForm()
-const [addProduct, { isLoading }] = useAddProductMutation()
+  const { register, handleSubmit, reset, control } = useForm()
+  const [addProduct] = useAddProductMutation()
 
-const onSubmit = async data => {
-  const formData = new FormData()
-  formData.append('name', data.name)
-  formData.append('category_id', data.category_id)
-  formData.append('thumbnail_image', data.thumbnail_image[0]) // Handle file input
-  formData.append('product_description', data.product_description)
-  formData.append('price', data.price)
-  formData.append('discount_price', data.discount_price)
-  formData.append('quantity', data.quantity)
-  formData.append('discount_type', data.discount_type)
+  const onSubmit = async data => {
+    console.log(
+      data,
+      selectedCategory,
+      selectedColor,
+      selectedSize,
+      ' data paisi',
+    )
 
-  // Append gallery images (multiple files)
-  Array.from(data.galleryImages).forEach(file =>
-    formData.append('gallery[]', file),
-  )
+    const formData = new FormData()
+    formData.append('name', data.name)
+    formData.append('category_id', selectedCategory)
+    formData.append('thumbnail_image', data.thumbnail_image[0])
+    formData.append('product_description', data.product_description)
+    formData.append('price', data.price)
+    formData.append('discount_price', data.discount_price)
+    formData.append('quantity', data.quantity)
+    formData.append('discount_type', data.discount_type)
+    Array.from(data.gallery).forEach(file => formData.append('gallery[]', file))
+    formData.append('colors', selectedColor)
+    formData.append('sizes', selectedSize)
 
-  formData.append('colors', JSON.stringify(data.colors)) // Convert to string
-  formData.append('sizes', JSON.stringify(data.sizes)) // Convert to string
-
-  try {
-    await addProduct(formData).unwrap()
-    toast.success('Product added successfully!')
-    reset() // Reset form after success
-  } catch (error) {
-    toast.error('Failed to add product.')
+    try {
+      await addProduct(formData).unwrap()
+      toast.success('Product added successfully!')
+      reset()
+    } catch (error) {
+      toast.error('Failed to add product.')
+    }
   }
-}
 
   // const handleDescriptionChange = value => {
   //   setDescription(value)
   // }
-
-  const handleAddMetaKeyword = () => {
-    const keyword = document.getElementById('newMetaKeyword').value.trim()
-    if (keyword && !metaKeywords.includes(keyword)) {
-      setMetaKeywords([...metaKeywords, keyword])
-      document.getElementById('newMetaKeyword').value = ''
-    }
-  }
 
   const pageTitle = 'Add Product'
   const productLinks = [
@@ -133,7 +148,6 @@ const onSubmit = async data => {
                   placeholder="Enter product name"
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                 />
-                {/* {errors.title && <span>This field is required</span>} */}
               </div>
 
               <div className="p-4 border rounded-lg shadow-sm bg-white">
@@ -158,14 +172,16 @@ const onSubmit = async data => {
                             <input
                               type="checkbox"
                               checked={selectedCategories.includes(category.id)}
-                              onChange={() => toggleCategory(category.id)}
+                              onChange={e =>
+                                toggleData(e, category.id, 'category')
+                              }
                               className="form-checkbox text-blue-600 rounded"
                             />
                             <span className="text-sm text-gray-700">
                               {category.name}
                             </span>
                           </div>
-                          {/* Render subcategories if they exist */}
+
                           {category.sub_categories?.length > 0 && (
                             <ul className="ml-6 mt-2 space-y-1">
                               {category.sub_categories.map(subCategory => (
@@ -178,8 +194,8 @@ const onSubmit = async data => {
                                     checked={selectedCategories.includes(
                                       subCategory.id,
                                     )}
-                                    onChange={() =>
-                                      toggleCategory(subCategory.id)
+                                    onChange={e =>
+                                      toggleData(e, subCategory.id, 'category')
                                     }
                                     className="form-checkbox text-blue-600 rounded"
                                   />
@@ -237,9 +253,7 @@ const onSubmit = async data => {
                     Unit price <span className="text-error-200">*</span>
                   </label>
                   <input
-                    type="text"
-                    id="productName"
-                    name="productName"
+                    type="number"
                     placeholder="10"
                     className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                     {...register('unitPrice', { required: true })}
@@ -287,7 +301,7 @@ const onSubmit = async data => {
                             <input
                               type="checkbox"
                               checked={selectedSizes.includes(size.id)}
-                              onChange={() => toggleSize(size.id)}
+                              onChange={e => toggleData(e, size.id, 'size')}
                               className="form-checkbox text-primaryColor rounded"
                             />
                             <span className="text-sm text-gray-700">
@@ -332,7 +346,7 @@ const onSubmit = async data => {
                             <input
                               type="checkbox"
                               checked={selectedColors.includes(color.id)}
-                              onChange={() => toggleColor(color.id)}
+                              onChange={e => toggleData(e, color.id, 'color')}
                               className="form-checkbox text-primaryColor rounded"
                             />
                             <div
@@ -370,7 +384,7 @@ const onSubmit = async data => {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('galleryImages', { required: true })}
+                    {...register('gallery', { required: true })}
                     multiple
                   />
                   {/* {errors.galleryImages && <span>This field is required</span>} */}
@@ -384,7 +398,7 @@ const onSubmit = async data => {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('thumbnailImage', { required: true })}
+                    {...register('thumbnail_image', { required: true })}
                   />
                   {/* {errors.thumbnailImage && <span>This field is required</span>} */}
                 </div>
@@ -409,54 +423,6 @@ const onSubmit = async data => {
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                   {...register('metaTitle')}
                 />
-              </div>
-
-              <div className="mb-4">
-                <label
-                  for="metaKeyword"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Meta Keywords
-                </label>
-                <div
-                  id="metaKeywordContainer"
-                  className="flex flex-wrap gap-2 mt-1 mb-1"
-                ></div>
-                <div className="flex flex-col">
-                  <input
-                    type="text"
-                    id="newMetaKeyword"
-                    placeholder="Enter meta keyword"
-                    className={`form-control mt-1 p-3 border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
-                    {...register('metaKeywords')}
-                  />
-                  <Button
-                    text="Add"
-                    onClick={handleAddMetaKeyword}
-                    className="bg-black mt-2 w-[100px] justify-center py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-                  ></Button>
-                  <ul>
-                    {metaKeywords.map((keyword, index) => (
-                      <span
-                        key={index}
-                        className="inline-block bg-gray-200 text-gray-800 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2"
-                      >
-                        {keyword}
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setMetaKeywords(
-                              metaKeywords.filter((k, i) => i !== index),
-                            )
-                          }
-                          className="ml-2 text-red-500"
-                        >
-                          <FaTimes />
-                        </button>
-                      </span>
-                    ))}
-                  </ul>
-                </div>
               </div>
 
               <div className="mb-4">
