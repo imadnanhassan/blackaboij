@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import { Link } from 'react-router-dom'
@@ -7,10 +6,13 @@ import { FaRegHeart } from 'react-icons/fa'
 import { Toaster } from 'sonner'
 import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
 import '../HelperCss/home-hotsale.css'
-import { HiFire } from 'react-icons/hi'
+
 import { categories } from '../../../../data/index'
+import { useGetNewArrivalsQuery } from '../../../redux/features/api/newArrivals/newArrivals'
 
 const HomeNewArrivals = () => {
+  const [data] = useGetNewArrivalsQuery()
+  console.log(data)
   return (
     <section>
       <div className="md:section-gap pt-[50px]">
@@ -62,7 +64,9 @@ const HomeNewArrivals = () => {
                           <FaRegHeart />
                         </button>
 
-                        <button className='absolute top-0 right-0  text-white bg-[#000000] md:px-4 md:py-1 md:text-[16px] text-[12px] px-2  py-[2px]  '>New</button>
+                        <button className="absolute top-0 right-0  text-white bg-[#000000] md:px-4 md:py-1 md:text-[16px] text-[12px] px-2  py-[2px]  ">
+                          New
+                        </button>
 
                         <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black text-[16px] text-white">
                           {product.product_title}
@@ -91,4 +95,4 @@ const HomeNewArrivals = () => {
   )
 }
 
-export default HomeNewArrivals ;
+export default HomeNewArrivals
