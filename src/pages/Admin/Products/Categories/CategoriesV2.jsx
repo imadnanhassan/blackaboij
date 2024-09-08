@@ -11,7 +11,8 @@ import React from 'react'
 export default function CategoriesV2() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
 
-  const { data: categories, error, isLoading } = useGetCategoryQuery()
+  const { data: categories, error, isLoading } = useGetCategoryQuery();
+  
   // const [deleteCategory, { isLoading: isDeleting }] =
   //   useDeleteCategoryMutation()
 

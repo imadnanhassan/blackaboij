@@ -69,7 +69,7 @@ const FRONTEND_ROUTES = [
   { path: '/fav', element: <Fav></Fav>},
   { path: '/checkout', element: <Checkout></Checkout>},
   { path: '/store', element: <Store></Store>},
-  { path: '/categories', element: <Categories></Categories>},
+  { path: '/men', element: <Categories></Categories>},
 
 ]
 
