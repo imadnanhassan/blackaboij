@@ -12,7 +12,7 @@ import { useGetNewArrivalsQuery } from '../../../redux/features/api/newArrivals/
 
 
 const HomeNewArrivals = () => {
-  const [data] = useGetNewArrivalsQuery()
+  const { data, error, isLoading } = useGetNewArrivalsQuery()
   console.log(data)
 
   return (
