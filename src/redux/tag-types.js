@@ -6,6 +6,7 @@ export const tagTypes = {
   sizes: 'attributes',
   color: 'color',
   brand: 'brand',
+  newArrivals: "newArrivals"
 }
 
 export const tagTypesList = [
@@ -16,4 +17,7 @@ export const tagTypesList = [
   tagTypes.sizes,
   tagTypes.color,
   tagTypes.brand,
+  tagTypes.newArrivals
+  
 ]
+
