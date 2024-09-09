@@ -112,7 +112,7 @@ const FrontendHeader = () => {
                 <Link
                   key={category.id}
                   to={`/${category.slug}`}
-                  className={`relative px-[15px] py-[10px] text-[15px] group ${isHovered(category.id) ? 'border-b-2' : 'border-b-2 border-black'
+                  className={`relative mx-[15px] py-[10px] text-[15px] group ${isHovered(category.id) ? 'border-b-2' : 'border-b-2 border-black'
                     }`}
                   onMouseEnter={() => setIsHovered(category.id, true)}
                   onMouseLeave={() => setIsHovered(category.id, false)}
@@ -147,7 +147,7 @@ const FrontendHeader = () => {
 
               <Link to="/accessories">
                 <li
-                  className={`relative px-[15px] py-[10px] text-[15px] group ${isAccessoriesHovered ? 'border-b-2' : ''
+                  className={`relative mx-[15px] py-[10px] text-[15px] group ${isAccessoriesHovered ? 'border-b-2' : ''
                     }`}
                   onMouseEnter={() => SetIsAccessoriesHovered(true)}
                   onMouseLeave={() => SetIsAccessoriesHovered(false)}
@@ -155,7 +155,7 @@ const FrontendHeader = () => {
                   ACCESSORIES
                   {isAccessoriesHovered && (
                     <Fade direction="left">
-                      <ul className="absolute pl-6 pr-[250px] py-5 text-[12px] top-[46px] whitespace-nowrap bg-black">
+                      <ul className="absolute pl-6 pr-[200px] py-5 text-[12px] top-[46px] whitespace-nowrap bg-black">
                         <li className="p-[2px]">
                           <Link to="/accessories/men-accessories" className='uppercase text-[12px]'>Men Accessories</Link>
                         </li>
