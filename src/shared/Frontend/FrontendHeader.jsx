@@ -21,7 +21,7 @@ const FrontendHeader = () => {
   const [hoveredCategory, setHoveredCategory] = useState(null)
 
   const { data: categories, error, isLoading } = useGetCategoryQuery()
-  const categoryList = categories?.categories ?? [] ;
+  const categoryList = categories?.categories ?? [];
   console.log(categoryList)
 
   const setIsHovered = (id, value) => {
@@ -185,29 +185,14 @@ const FrontendHeader = () => {
 
       {/* Mobile Menu */}
       <div className={`header md:hidden z-50 block w-full ${isSticky ? 'fixed top-0' : ''} bg-black text-white`}>
-        <div className={`grid grid-cols-3 items-center py-[18px] px-[20px]`}>
-          <div className="flex relative">
-            <Link to="/signin" className="pr-[6px]">
-              <span style={{ fontSize: `18px` }}>
-                <FaRegUser className="text-white " />
-              </span>
-            </Link>
-            <Link className="pr-[6px] relative">
-              <span style={{ fontSize: `18px` }}>
-                <IoBagOutline className="text-white " />
-                <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[1px]">
-                  2
-                </span>
-              </span>
-            </Link>
-            <Link className="relative">
-              <span style={{ fontSize: `18px` }}>
-                <AiOutlineShoppingCart className="text-white " />
-                <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
-                  2
-                </span>
-              </span>
-            </Link>
+        <div className={`grid grid-cols-3 items-center justify-between py-[20px] px-[20px]`}>
+
+          <div className="menu-icon flex items-center justify-start">
+            {isMobileMenuOpen ? (
+              <HiMiniXMark onClick={toggleMobileMenu} className="text-[20px] text-white cursor-pointer" />
+            ) : (
+              <HiBars3BottomRight onClick={toggleMobileMenu} className="text-[20px] text-white cursor-pointer" />
+            )}
           </div>
 
           <div className="flex items-center justify-center">
@@ -216,13 +201,30 @@ const FrontendHeader = () => {
             </Link>
           </div>
 
-          <div className="menu-icon flex items-center justify-end">
-            {isMobileMenuOpen ? (
-              <HiMiniXMark onClick={toggleMobileMenu} className="text-[20px] text-white cursor-pointer" />
-            ) : (
-              <HiBars3BottomRight onClick={toggleMobileMenu} className="text-[20px] text-white cursor-pointer" />
-            )}
+          <div className="flex relative justify-end">
+            <Link to="/signin" className="pr-[6px]">
+              <span style={{ fontSize: `18px` }}>
+                <FaRegUser className="text-white " />
+              </span>
+            </Link>
+            <Link className="sm:pr-[6px] pr-[12px] relative">
+              <span style={{ fontSize: `18px` }}>
+                <IoBagOutline className="text-white " />
+                <span className="text-[8px] font-bold absolute top-[-3px] sm:top-[-4px] text-black px-[4px] bg-white rounded-full sm:right-[1px] right-[4px]">
+                  2
+                </span>
+              </span>
+            </Link>
+            <Link className="relative">
+              <span style={{ fontSize: `18px` }}>
+                <AiOutlineShoppingCart className="text-white " />
+                <span className="text-[8px] font-bold absolute top-[-4px] sm:top-[-4px] text-black px-[4px] bg-white rounded-full sm:right-[-3px] right-[-8px]">
+                  7
+                </span>
+              </span>
+            </Link>
           </div>
+
         </div>
 
         {isMobileMenuOpen && (

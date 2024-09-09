@@ -15,7 +15,7 @@ const FrontendFooter = () => {
           />
         </div>
 
-        <div className="md:flex md:justify-between  grid grid-cols-2 mx-[20px] md:mx-[50px] ">
+        <div className="md:flex md:justify-between   grid grid-cols-1 mx-[20px] md:mx-[50px] ">
           {/* ======== Footer collections menu */}
           <div>
             <h2 className="py-3 text-white">COLLECTIONS</h2>

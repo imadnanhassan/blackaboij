@@ -55,23 +55,23 @@ const HomeHotSale = () => {
                         </Link>
 
                         <button
-                          style={{ fontSize: '30px' }}
-                          className="absolute top-2 left-2 text-white"
+                          
+                          className="text-[20px] md:text-[30px] absolute top-2 left-2 text-white"
                         >
                           <FaRegHeart />
                         </button>
 
                         <button
-                          style={{ fontSize: '30px' }}
-                          className="absolute top-2 right-2 text-white "
+                          
+                          className="text-[20px] md:text-[30px] absolute top-2 right-2 text-white "
                         >
                           <HiFire className="text-red-700 transition-colors duration-700 ease-in-out animate-pulse" />
                         </button>
 
-                        <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black text-[16px] text-white">
+                        <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black sm:text-[16px] text-[13px] text-white">
                           {product.product_title}
                         </h3>
-                        <div className="md:pb-4 pb-1 px-2 md:px-4 md:text-[15px] text-[12px] bg-black text-white flex justify-between">
+                        <div className="md:pb-4 pb-2 pt-2 px-2 md:px-4 md:text-[15px] text-[12px] bg-black text-white flex justify-between">
                           <div className="flex justify-center items-center">
                             <MdEuroSymbol /> {product.price}
                           </div>
