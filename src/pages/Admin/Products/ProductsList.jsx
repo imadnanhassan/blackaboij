@@ -24,7 +24,7 @@ import { useEffect, useState } from 'react'
 
 export default function ProductsList() {
   const { data: products, isLoading } = useGetProductListQuery()
-  const [productsData, setProductsData] = useState(products?.products ?? [])
+  const [productsData, setProductsData] = useState([])
   const [deleteProduct] = useDeleteProductMutation()
   const { selectAll, checkboxes } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -34,10 +34,8 @@ export default function ProductsList() {
   }
 
   useEffect(() => {
-    setProductsData(products?.products ?? [])
+    setProductsData(products?.products?.data ?? [])
   }, [products])
-
-  console.log(productsData.length)
 
 
   const handleDeleteProduct = async productId => {

@@ -32,7 +32,7 @@ export default function AddProductV2() {
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
-  const [addProduct, { isLoading }] = useAddProductMutation()
+  const [addProduct] = useAddProductMutation()
 
   const categoryList = categories?.categories ?? []
   const sizeData = size?.sizes || []
@@ -115,9 +115,9 @@ export default function AddProductV2() {
   //   setDescription(value)
   // }
 
-  if (isLoading) {
-    return <SkeletonLoader />
-  }
+  // if (isLoading) {
+  //   return <SkeletonLoader />
+  // }
   const pageTitle = 'Add Product'
   const productLinks = [
     { title: <GoHome />, link: '/' },
