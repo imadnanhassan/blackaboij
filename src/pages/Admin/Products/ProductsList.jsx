@@ -37,6 +37,7 @@ export default function ProductsList() {
     setProductsData(products?.products?.data ?? [])
   }, [products])
 
+  console.log(products?.products?.data)
 
   const handleDeleteProduct = async productId => {
     Swal.fire({

@@ -16,7 +16,7 @@ import {
   useGetProductCategoryListQuery,
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
-import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
+// import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
 
 export default function AddProductV2() {
   // const [description, setDescription] = useState('')
@@ -86,7 +86,6 @@ export default function AddProductV2() {
       selectedCategory,
       selectedColor,
       selectedSize,
-      ' data paisi',
     )
 
     const formData = new FormData()
@@ -111,9 +110,7 @@ export default function AddProductV2() {
     }
   }
 
-  // const handleDescriptionChange = value => {
-  //   setDescription(value)
-  // }
+ 
 
   // if (isLoading) {
   //   return <SkeletonLoader />
