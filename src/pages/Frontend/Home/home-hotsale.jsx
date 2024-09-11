@@ -17,93 +17,13 @@ const HomeHotSale = () => {
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading data...</p>
-  const categories = data.categories;
-  console.log(categories)
+  const categories = data.data;
+  console.log(data , "get objects")
 
 
 
   return (
-    // <section>
-    //   <div className="md:section-gap pt-[50px]">
-    //     <Toaster />
-    //     <div className="flex flex-col">
-    //       <h1 className="mb-[10px] md:mb-[20px] text-center text-3xl font-bold">
-    //         Hot Sale
-    //       </h1>
-    //       <div>
-    //         <Tabs>
-    //           <div className="mb-[20px] md:mb-[50px] font-custom text-center">
-    //             <TabList className="custom-tab-list md:flex md:justify-center cursor-pointer md:text-[16px] text-[12px] md:gap-6 gap-[10px]">
-    //               {categories?.map((category, index) => (
-    //                 <Tab className="custom-tab" key={index}>
-    //                   {category.category_name}
-    //                 </Tab>
-    //               ))}
-    //             </TabList>
-    //           </div>
 
-
-    //           {categories?.map((category, index) => (
-    //             <TabPanel key={index}>
-    //               <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px]">
-    //                 {category.products.slice(0, 6).map(product => (
-    //                   <div
-    //                     key={product.slug}
-    //                     className="bg-[#B7B7B7] product-card font-custom relative"
-    //                   >
-    //                     <Link to={`hotSale/${product.slug}`}>
-    //                       <img
-    //                         src={product.img}
-    //                         alt={product.product_title}
-    //                         className="front-img w-full object-cover"
-    //                       />
-    //                     </Link>
-    //                     <Link to={`hotSale/${product.slug}`}>
-    //                       <img
-    //                         src={product.backImg}
-    //                         alt={product.product_title}
-    //                         className="absolute top-0 opacity-0 hover:opacity-100 transition-opacity duration-1000 ease-in-out w-full object-cover"
-    //                       />
-    //                     </Link>
-
-    //                     <button
-
-    //                       className="text-[20px] md:text-[30px] absolute top-2 left-2 text-white"
-    //                     >
-    //                       <FaRegHeart />
-    //                     </button>
-
-    //                     <button
-
-    //                       className="text-[20px] md:text-[30px] absolute top-2 right-2 text-white "
-    //                     >
-    //                       <HiFire className="text-red-700 transition-colors duration-700 ease-in-out animate-pulse" />
-    //                     </button>
-
-    //                     <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black sm:text-[16px] text-[13px] text-white">
-    //                       {product.product_title}
-    //                     </h3>
-    //                     <div className="md:pb-4 pb-2 pt-2 px-2 md:px-4 md:text-[15px] text-[12px] bg-black text-white flex justify-between">
-    //                       <div className="flex justify-center items-center">
-    //                         <MdEuroSymbol /> {product.price}
-    //                       </div>
-    //                       <div className="">
-    //                         <BuyNowButton buttonText="Buy Now"></BuyNowButton>
-    //                       </div>
-    //                     </div>
-    //                   </div>
-    //                 ))}
-    //               </div>
-    //               <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px]">
-    //                 <AnimatedButton buttonText="SHOW ALL"></AnimatedButton>
-    //               </p>
-    //             </TabPanel>
-    //           ))}
-    //         </Tabs>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </section>
     <section>
       <div className="md:section-gap pt-[50px]">
         <Toaster />
@@ -157,7 +77,7 @@ const HomeHotSale = () => {
                         </button>
 
                         <button className="absolute top-0 right-0  text-white bg-[#000000] md:px-4 md:py-1 md:text-[16px] text-[12px] px-2  py-[2px]  ">
-                          New
+                          Hot
                         </button>
 
                         <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black text-[16px] text-white">

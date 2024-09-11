@@ -15,7 +15,7 @@ const HomeNewArrivals = () => {
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading data...</p>
-  const categories = data.categories;  
+  const categories = data.data;  
   console.log(categories)
 
 
