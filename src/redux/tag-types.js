@@ -6,8 +6,12 @@ export const tagTypes = {
   sizes: 'attributes',
   color: 'color',
   brand: 'brand',
-  newArrivals: "newArrivals",
-  hotSale: "hotSale"
+  newArrivals: 'newArrivals',
+  hotSale: 'hotSale',
+  menCollection: 'menCollection',
+  womenCollection: 'womenCollection',
+  accessoriesCollection: 'accessoriesCollection',
+  singleProduct: 'singleProduct',
 }
 
 export const tagTypesList = [
@@ -19,7 +23,9 @@ export const tagTypesList = [
   tagTypes.color,
   tagTypes.brand,
   tagTypes.newArrivals,
-  tagTypes.hotSale
-  
+  tagTypes.hotSale,
+  tagTypes.menCollection,
+  tagTypes.womenCollection,
+  tagTypes.accessoriesCollection,
+  tagTypes.singleProduct,
 ]
-
