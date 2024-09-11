@@ -7,17 +7,17 @@ import { baseApi } from '../baseApi/baseApi'
 //     ? JSON.parse(localStorage.getItem('userData')).token
 //     : ''
 
-export const newArrivalsApi = baseApi.injectEndpoints({
+export const hotSaleApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getNewArrivals: builder.query({
+    gethotSale: builder.query({
       query: () => ({
-        url: '/api/v1/front/product/new-arrival/all',
+        url: '/api/v1/front/product/hot-sale/all',
         method: 'GET',
         // headers: { Authorization: `Bearer ${token}` },
       }),
-      providesTags: [tagTypes.newArrivals],
+      providesTags: [tagTypes.hotSale],
     }),
   }),
 })
 
-export const { useGetNewArrivalsQuery } = newArrivalsApi ;
+export const { useGetHotSaleQuery } = hotSaleApi ;

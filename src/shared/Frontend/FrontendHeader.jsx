@@ -22,7 +22,7 @@ const FrontendHeader = () => {
 
   const { data: categories, error, isLoading } = useGetCategoryQuery()
   const categoryList = categories?.categories ?? [];
-  console.log(categoryList)
+
 
   const setIsHovered = (id, value) => {
     setHoveredCategory(value ? id : null)

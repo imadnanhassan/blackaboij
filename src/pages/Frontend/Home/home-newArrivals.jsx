@@ -7,16 +7,17 @@ import { Toaster } from 'sonner'
 import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
 import '../HelperCss/home-hotsale.css'
 import { useGetNewArrivalsQuery } from '../../../redux/features/api/newArrivals/newArrivals'
+import { baseUrl } from '../../../hooks/useThumbnailImage'
+
 
 const HomeNewArrivals = () => {
   const { data, error, isLoading } = useGetNewArrivalsQuery()
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading data...</p>
-
-  // Assuming the data is an array of categories, and each category has a "category_wise_product" array
-  const categories = data;  
+  const categories = data.categories;  
   console.log(categories)
+
 
   return (
     <section>
@@ -43,15 +44,15 @@ const HomeNewArrivals = () => {
 
                 <TabPanel key={index}>
                   <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px]">
-                    {category.category_wise_product.slice(0, 6).map(product => (
+                    {category.data.map(product => (
                       <div
-                        key={product.slug}
+                        key={product?.slug}
                         className="bg-[#B7B7B7] product-card font-custom relative"
                       >
-                        <Link to={`categories/${product.slug}`}>
+                        <Link to={`categories/${product?.slug}`}>
                           <img
-                            src={product.thumbnail_image}
-                            alt={product.name}
+                            src={`${baseUrl}/products/${product?.thumbnail_image}`}
+                            alt={product?.name}
                             className="front-img w-full object-cover"
                           />
                         </Link>
