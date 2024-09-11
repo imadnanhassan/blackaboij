@@ -2,13 +2,11 @@ import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { MdEuroSymbol } from 'react-icons/md'
 import { Toaster, toast } from 'sonner'
-import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { categories } from '../../../../../data/index'
-import '../../../../assets/css/frontend.css'
-import CommonDetailsAccordian from '../CommonDetailsAccordian/common-details-accordian'
+import { categories } from '../../../../data/index'
+import "../../../assets/css/frontend.css"
 
-const NewArrivalsDetailsPage = () => {
+const CategoriesDetailsPage = () => {
   const { slug } = useParams()
 
   // Find the product by slug
@@ -94,14 +92,12 @@ const NewArrivalsDetailsPage = () => {
             </button>
           </div>
 
-          {/* common accordian for every page */}
-          <div className=" ml-0 ">
-            <CommonDetailsAccordian></CommonDetailsAccordian>
-          </div>
+         
+          
         </div>
       </div>
     </div>
   )
 }
 
-export default NewArrivalsDetailsPage
+export default CategoriesDetailsPage ;
