@@ -111,7 +111,7 @@ const FrontendHeader = () => {
               {categoryList.map((category) => (
                 <Link
                   key={category.id}
-                  to={`/${category.slug}`}
+                  
                   className={`relative mx-[15px] py-[10px] text-[15px] group ${isHovered(category.id) ? 'border-b-2' : 'border-b-2 border-black'
                     }`}
                   onMouseEnter={() => setIsHovered(category.id, true)}
@@ -232,7 +232,7 @@ const FrontendHeader = () => {
             {categoryList.map((category) => (
               <li key={category.id} className="border-b-[1px] py-4 text-[15px]">
                 <div className="flex justify-between items-center">
-                  <Link to={`/${category.slug}`} onClick={closeMobileMenu}>
+                  <Link  onClick={closeMobileMenu}>
                     {category.parent_name.toUpperCase()}
                   </Link>
                   {category.slug === 'men' && (
