@@ -15,8 +15,10 @@ export const productApi = baseApi.injectEndpoints({
         body: data,
         headers: {
           Authorization: `Bearer ${getToken()}`,
+          'Content-Type': 'multipart/form-data',
         },
       }),
+      invalidatesTags: [tagTypes.product],
     }),
 
     updateProduct: builder.mutation({

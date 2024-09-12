@@ -97,12 +97,14 @@ export default function AddProductV2() {
     formData.append('discount_price', data.discount_price)
     formData.append('quantity', data.quantity)
     formData.append('discount_type', data.discount_type)
-    Array.from(data.gallery).forEach(file => formData.append('gallery[]', file))
+    formData.append('gallery', data.gallery)
     formData.append('colors', selectedColor)
     formData.append('sizes', selectedSize)
 
+
+    console.log(data.gallery)
     try {
-      await addProduct(formData).unwrap()
+      await addProduct(formData)
       toast.success('Product added successfully!')
       reset()
     } catch (error) {
@@ -149,6 +151,7 @@ export default function AddProductV2() {
                   placeholder="Enter product name"
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                 />
+                {/* {errors.name && <span>This field is required</span>} */}
               </div>
 
               <div className="p-4 border rounded-lg shadow-sm bg-white">
