@@ -70,6 +70,16 @@ export const productApi = baseApi.injectEndpoints({
         }
       })
     }),
+    deleteProductGalleryImage: builder.mutation({
+      query: (id) => ({
+        url: `/api/v1/admin/product/gallery-image/delete/${id}`,
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${getToken()}`
+        }
+      })
+    }),
     getSingleProduct: builder.query({
       query: slug => ({
         url: `/api/front/products/${slug}`,
@@ -96,5 +106,6 @@ export const {
   useGetProductListQuery,
   useGetSingleProductQuery,
   useGetProductCategoryListQuery,
-  useEditProductQuery
+  useEditProductQuery,
+  useDeleteProductGalleryImageMutation
 } = productApi

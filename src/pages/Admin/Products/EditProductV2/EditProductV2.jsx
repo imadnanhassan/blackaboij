@@ -15,12 +15,14 @@ import {
   useAddProductMutation,
   useGetProductCategoryListQuery,
   useEditProductQuery,
-  useUpdateProductMutation
+  useUpdateProductMutation,
+  useDeleteProductGalleryImageMutation
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { InfinitySpin } from 'react-loader-spinner'
+import { baseUrl } from '../../../../hooks/useThumbnailImage'
 // import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
 
 export default function EditProductV2() {
@@ -44,7 +46,8 @@ export default function EditProductV2() {
   const { data: color } = useGetColorQuery()
   const [addProduct] = useAddProductMutation()
   const {data: productInfo, isLoading} = useEditProductQuery(id);
-  const [updateProduct] = useUpdateProductMutation();
+  const [updateProduct, {isLoading: updateIsPending}] = useUpdateProductMutation();
+  const [deleteGalleryImage] = useDeleteProductGalleryImageMutation();
   // const [] = 
   
   console.log(productInfo)
@@ -67,8 +70,57 @@ export default function EditProductV2() {
   }
 
   // Remove a single gallery image preview
-  const handleGalleryRemove = index => {
-    setGalleryPreviews(prev => prev.filter((_, i) => i !== index))
+  const handleGalleryRemove = async (e,index, id = null) => {
+    if(id == null){
+      
+      setGalleryPreviews(prev => prev.filter((_,i) => i != index))
+    }else{
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'Do you really want to delete this product?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'Cancel',
+        }).then(async result => {
+          if (result.isConfirmed) {
+            try {
+              const deleteResponse = await deleteGalleryImage(id)
+              if (deleteResponse?.data.status == 200) {
+                e.target.closest('div').remove();
+                toast.success(deleteResponse?.data?.message, {
+                  position: 'bottom-right',
+                  autoClose: 3000,
+                })
+              } else if (response?.data.status == 404) {
+                toast.error(deleteResponse?.data?.message, {
+                  position: 'bottom-right',
+                  autoClose: 3000,
+                })
+              } else if (deleteResponse?.data.status == 402) {
+                toast.error(deleteResponse?.data?.message, {
+                  position: 'bottom-right',
+                  autoClose: 3000,
+                })
+              } else {
+                toast.error('Somthing wrong, please try again ', {
+                  position: 'bottom-right',
+                  autoClose: 3000,
+                })
+              }
+            } catch (error) {
+              toast.error('Failed to delete the product. Please try again.', {
+                position: 'bottom-right',
+                autoClose: 3000,
+              })
+            }
+          }
+        })
+    }
+
+
   }
 
   // Remove thumbnail image preview
@@ -521,7 +573,7 @@ export default function EditProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('gallery', { required: true })}
+                    {...register('gallery')}
                     multiple
                     onChange={handleGalleryChange}
                   />
@@ -535,13 +587,31 @@ export default function EditProductV2() {
                         />
                         <button
                           type="button"
-                          onClick={() => handleGalleryRemove(index)}
+                          onClick={(e) => handleGalleryRemove(e,index)}
                           className="absolute top-0 right-0 px-2 bg-red-500 text-white rounded-[26%]"
                         >
                           &times;
                         </button>
                       </div>
                     ))}
+                    {
+                      galleryPreviews.length == 0 ? productInfo?.galleries?.map((image, index) => (
+                        <div key={index} className="relative ">
+                          <img
+                            src={`${baseUrl}/products/${image?.name}`}
+                            alt={`Gallery Image ${index + 1}`}
+                            className="w-24 h-24 object-cover rounded"
+                          />
+                          <button
+                            type="button"
+                            onClick={(e) => handleGalleryRemove(e,index,image?.id)}
+                            className="absolute top-0 right-0 px-2 bg-red-500 text-white rounded-[26%]"
+                          >
+                            &times;
+                          </button>
+                      </div>
+                      )) : ''
+                    }
                   </div>
                 </div>
 
@@ -554,7 +624,7 @@ export default function EditProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('thumbnail_image', { required: true })}
+                    {...register('thumbnail_image')}
                     onChange={handleThumbnailChange}
                   />
                   {thumbnailPreview && (
@@ -573,6 +643,17 @@ export default function EditProductV2() {
                       </button>
                     </div>
                   )}
+                  {
+                    !thumbnailPreview && (
+                      <div className="relative mt-2">
+                        <img
+                          src={`${baseUrl}/products/${product?.thumbnail_image}`}
+                          alt="Thumbnail Preview"
+                          className="w-24 h-24 object-cover rounded"
+                        />
+                      </div>
+                    )
+                  }
                 </div>
               </div>
             </div>
@@ -621,8 +702,7 @@ export default function EditProductV2() {
             <Button
               type="submit"
               text="Updated Product"
-              disabled={true}
-              className={`py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center ${!isLoading ? 'bg-primaryColor' : 'bg-'}`}
+              className={`py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center bg-primaryColor`}
               icon={FaPlus}
             ></Button>
           </div>
