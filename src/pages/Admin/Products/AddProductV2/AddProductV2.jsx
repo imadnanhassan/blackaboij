@@ -445,7 +445,7 @@ export default function AddProductV2() {
 
               <div className="mb-4">
                 <label
-                  for="metaDescription"
+                  htmlFor="metaDescription"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Meta Description

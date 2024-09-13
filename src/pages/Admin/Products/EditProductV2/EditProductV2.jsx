@@ -14,7 +14,8 @@ import { Controller, useForm } from 'react-hook-form'
 import {
   useAddProductMutation,
   useGetProductCategoryListQuery,
-  useEditProductQuery
+  useEditProductQuery,
+  useUpdateProductMutation
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
@@ -39,6 +40,8 @@ export default function EditProductV2() {
   const { data: color } = useGetColorQuery()
   const [addProduct] = useAddProductMutation()
   const {data: productInfo, isLoading} = useEditProductQuery(id);
+  const [updateProduct] = useUpdateProductMutation();
+  // const [] = 
   
   console.log(productInfo)
 
@@ -57,10 +60,14 @@ export default function EditProductV2() {
       }
     }
 
+    checkProductFound();
+  },[isLoading, product])
+
+  useEffect(() => {
     
     const convertStringIdToArray = (stringId) => {
       const id = JSON.parse(stringId)
-      const arr = id.split(',').map(Number);
+      const arr = id?.split(',').map(Number);
       return arr;
     }
 
@@ -78,9 +85,7 @@ export default function EditProductV2() {
       setSelectedColors(colorsArrFindId(productInfo?.colors))
       setSelectedSizes(sizesArrFindId(productInfo?.sizes))
     }
-
-    checkProductFound();
-  },[isLoading, product])
+  },[])
 
 
   const categoryList = categories?.categories ?? []
@@ -132,8 +137,9 @@ export default function EditProductV2() {
   const onSubmit = async data => {
     const formData = new FormData()
     formData.append('name', data.name)
+    formData.append('slug', data.slug)
     formData.append('id',id)
-    formData.append('category_id', selectedCategory)
+    formData.append('category_id', selectedCategories)
     formData.append('thumbnail_image', data.thumbnail_image[0])
     formData.append('description', data.description)
     formData.append('price', data.price)
@@ -152,7 +158,8 @@ export default function EditProductV2() {
 
 
     try {
-      const response = await addProduct(formData)
+      const response = await updateProduct(formData)
+      console.log(response)
       if(response?.data?.status === 200){
         toast.success(response.data.message)
       }else if(response?.data?.status === 401){
@@ -209,6 +216,24 @@ export default function EditProductV2() {
                   {...register('name', { required: true })}
                   placeholder="Enter product name"
                   defaultValue={product?.name}
+                  className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
+                />
+                {/* {errors.name && <span>This field is required</span>} */}
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="productName"
+                  className={`block text-sm font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
+                >
+                  Slug
+                </label>
+                <input
+                  type="text"
+                  id="slug"
+                  name="slug"
+                  {...register('slug', { required: true })}
+                  placeholder="Enter Product Slug"
+                  defaultValue={product?.slug}
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                 />
                 {/* {errors.name && <span>This field is required</span>} */}
@@ -450,7 +475,7 @@ export default function EditProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('gallery', { required: true })}
+                    {...register('gallery')}
                     multiple
                   />
                   {/* {errors.galleryImages && <span>This field is required</span>} */}
@@ -464,7 +489,7 @@ export default function EditProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('thumbnail_image', { required: true })}
+                    {...register('thumbnail_image')}
                   />
                   {/* {errors.thumbnailImage && <span>This field is required</span>} */}
                 </div>
@@ -494,7 +519,7 @@ export default function EditProductV2() {
 
               <div className="mb-4">
                 <label
-                  for="metaDescription"
+                  htmlFor="metaDescription"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Meta Description

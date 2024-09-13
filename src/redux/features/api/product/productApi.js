@@ -20,16 +20,16 @@ export const productApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.product],
     }),
 
-    updateProduct: builder.mutation({
-      query: ({ id, product }) => ({
-        url: `/api/front/products/${id}`,
-        method: 'PUT',
-        body: product,
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }),
-    }),
+    // updateProduct: builder.mutation({
+    //   query: ({ id, product }) => ({
+    //     url: `/api/front/products/${id}`,
+    //     method: 'PUT',
+    //     body: product,
+    //     headers: {
+    //       Authorization: `Bearer ${getToken()}`,
+    //     },
+    //   }),
+    // }),
 
     deleteProduct: builder.mutation({
       query: id => ({
@@ -59,6 +59,17 @@ export const productApi = baseApi.injectEndpoints({
         }
       })
     }),
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: '/api/v1/admin/product/update',
+        method: 'POST',
+        body: data,
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          Accept: 'application/json'
+        }
+      })
+    }),
     getSingleProduct: builder.query({
       query: slug => ({
         url: `/api/front/products/${slug}`,
@@ -85,5 +96,5 @@ export const {
   useGetProductListQuery,
   useGetSingleProductQuery,
   useGetProductCategoryListQuery,
-  useEditProductQuery,
+  useEditProductQuery
 } = productApi
