@@ -13,7 +13,8 @@ export const newArrivalsApi = baseApi.injectEndpoints({
       query: () => ({
         url: '/api/v1/front/product/new-arrival/all',
         method: 'GET',
-        // headers: { Authorization: `Bearer ${token}` },
+        headers: { Accept: 'application/json'},
+      
       }),
       providesTags: [tagTypes.newArrivals],
     }),
