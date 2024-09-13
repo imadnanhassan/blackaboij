@@ -16,12 +16,9 @@ import {
   useGetProductCategoryListQuery,
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
-// import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
 
 export default function AddProductV2() {
-  // const [description, setDescription] = useState('')
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-
   const [selectedCategories, setSelectedCategories] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedColors, setSelectedColors] = useState([])
@@ -32,7 +29,7 @@ export default function AddProductV2() {
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
-  const [addProduct, {isLoading}] = useAddProductMutation()
+  const [addProduct] = useAddProductMutation()
 
   const categoryList = categories?.categories ?? []
   const sizeData = size?.sizes || []
@@ -73,13 +70,9 @@ export default function AddProductV2() {
       }
     }
   }
-  // console.log(selectedCategory, 'category')
-  // console.log(selectedSize, 'size')
-  // console.log(selectedColor, 'color')
 
   // add product
   const { register, handleSubmit, reset, control } = useForm()
-
   const onSubmit = async data => {
     const formData = new FormData()
     formData.append('name', data.name)
@@ -90,34 +83,33 @@ export default function AddProductV2() {
     // formData.append('discount_price', data.discount_price)
     formData.append('quantity', data.quantity)
     // formData.append('discount_type', data.discount_type)
-    if(data.gallery.length > 0){
-      for(let i = 0; i<data.gallery.length;i++){
-        formData.append('gallery[]',data.gallery[i])
+    if (data.gallery.length > 0) {
+      for (let i = 0; i < data.gallery.length; i++) {
+        formData.append('gallery[]', data.gallery[i])
       }
     }
-    if(selectedColor.length > 0){
-      for(let c = 0; c < selectedColor.length; c++){
+    if (selectedColor.length > 0) {
+      for (let c = 0; c < selectedColor.length; c++) {
         formData.append('colors[]', selectedColor[c])
       }
     }
-    if(selectedSize.length > 0){
-      for(let c = 0; c < selectedSize.length; c++){
+    if (selectedSize.length > 0) {
+      for (let c = 0; c < selectedSize.length; c++) {
         formData.append('sizes[]', selectedSize[c])
       }
     }
-    formData.append('metaDescription',data.metaDescription)
-    formData.append('metaTitle',data.metaTitle)
-
+    formData.append('metaDescription', data.metaDescription)
+    formData.append('metaTitle', data.metaTitle)
 
     try {
       const response = await addProduct(formData)
-      if(response?.data?.status === 200){
+      if (response?.data?.status === 200) {
         toast.success(response.data.message)
-      }else if(response?.data?.status === 401){
+      } else if (response?.data?.status === 401) {
         response.data.errors.forEach(el => toast.error(el))
-      }else if(response?.data?.status === 402){
+      } else if (response?.data?.status === 402) {
         toast.error(response.data.message)
-      }else{
+      } else {
         toast.error('Something went wrong. Please try again.')
       }
       reset()
@@ -126,11 +118,6 @@ export default function AddProductV2() {
     }
   }
 
- 
-
-  // if (isLoading) {
-  //   return <SkeletonLoader />
-  // }
   const pageTitle = 'Add Product'
   const productLinks = [
     { title: <GoHome />, link: '/' },
