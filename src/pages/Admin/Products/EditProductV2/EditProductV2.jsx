@@ -20,6 +20,7 @@ import {
 import { toast } from 'react-toastify'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { InfinitySpin } from 'react-loader-spinner'
 // import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
 
 export default function EditProductV2() {
@@ -34,6 +35,9 @@ export default function EditProductV2() {
   const [selectedColor, setSelectedColor] = useState([])
   const {id} = useParams();
   
+  
+  const [galleryPreviews, setGalleryPreviews] = useState([])
+  const [thumbnailPreview, setThumbnailPreview] = useState(null)
 
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
@@ -48,7 +52,29 @@ export default function EditProductV2() {
   const product = productInfo?.product;
   const navigate = useNavigate();
 
+  
+  // Handle gallery image selection
+  const handleGalleryChange = e => {
+    const files = Array.from(e.target.files)
+    const previews = files.map(file => URL.createObjectURL(file))
+    setGalleryPreviews(previews)
+  }
 
+  // Handle thumbnail image selection
+  const handleThumbnailChange = e => {
+    const file = e.target.files[0]
+    setThumbnailPreview(URL.createObjectURL(file))
+  }
+
+  // Remove a single gallery image preview
+  const handleGalleryRemove = index => {
+    setGalleryPreviews(prev => prev.filter((_, i) => i !== index))
+  }
+
+  // Remove thumbnail image preview
+  const handleThumbnailRemove = () => {
+    setThumbnailPreview(null)
+  }
 
   useEffect(() =>{
     const checkProductFound = () => {
@@ -85,7 +111,7 @@ export default function EditProductV2() {
       setSelectedColors(colorsArrFindId(productInfo?.colors))
       setSelectedSizes(sizesArrFindId(productInfo?.sizes))
     }
-  },[])
+  },[product])
 
 
   const categoryList = categories?.categories ?? []
@@ -135,6 +161,12 @@ export default function EditProductV2() {
   const { register, handleSubmit, reset, control } = useForm()
 
   const onSubmit = async data => {
+    console.log({
+      data,
+      selectedCategories,
+      selectedColors,
+      selectedSizes
+    })
     const formData = new FormData()
     formData.append('name', data.name)
     formData.append('slug', data.slug)
@@ -151,8 +183,13 @@ export default function EditProductV2() {
         formData.append('gallery[]',data.gallery[i])
       }
     }
-    formData.append('colors', selectedColor)
-    formData.append('sizes', selectedSize)
+
+    for(let c = 0; c<selectedColors.length;c++){
+      formData.append('colors[]', selectedColors[c])
+    }
+    for(let s = 0; s<selectedSizes.length;s++){
+      formData.append('sizes[]', selectedSizes[s])
+    }
     formData.append('metaDescription',data.metaDescription)
     formData.append('metaTitle',data.metaTitle)
 
@@ -169,7 +206,7 @@ export default function EditProductV2() {
       }else{
         toast.error('Something went wrong. Please try again.')
       }
-      reset()
+      // reset()
     } catch (error) {
       toast.error('Failed to add product.')
     }
@@ -187,7 +224,16 @@ export default function EditProductV2() {
     { title: 'Edit Product' },
   ]
   
-  if (isLoading) return <p>Loading products...</p>
+  if (isLoading) {
+    return (
+      <InfinitySpin
+        visible={true}
+        width="200"
+        color="#4fa94d"
+        ariaLabel="infinity-spin-loading"
+      />
+    )
+  }
 
   return (
     <section
@@ -465,7 +511,7 @@ export default function EditProductV2() {
             {/* images */}
             <div>
               <h4 className="text-center py-7">Product Files & Media</h4>
-              <div className="flex gap-4 ">
+              <div className="flex gap-4">
                 <div className="mb-4 w-full">
                   <label
                     className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
@@ -475,11 +521,30 @@ export default function EditProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('gallery')}
+                    {...register('gallery', { required: true })}
                     multiple
+                    onChange={handleGalleryChange}
                   />
-                  {/* {errors.galleryImages && <span>This field is required</span>} */}
+                  <div className="grid grid-cols-5 gap-2 mt-2">
+                    {galleryPreviews.map((preview, index) => (
+                      <div key={index} className="relative ">
+                        <img
+                          src={preview}
+                          alt={`Gallery Image ${index + 1}`}
+                          className="w-24 h-24 object-cover rounded"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleGalleryRemove(index)}
+                          className="absolute top-0 right-0 px-2 bg-red-500 text-white rounded-[26%]"
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+
                 <div className="mb-4 w-full">
                   <label
                     className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
@@ -489,9 +554,25 @@ export default function EditProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('thumbnail_image')}
+                    {...register('thumbnail_image', { required: true })}
+                    onChange={handleThumbnailChange}
                   />
-                  {/* {errors.thumbnailImage && <span>This field is required</span>} */}
+                  {thumbnailPreview && (
+                    <div className="relative mt-2">
+                      <img
+                        src={thumbnailPreview}
+                        alt="Thumbnail Preview"
+                        className="w-24 h-24 object-cover rounded"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleThumbnailRemove}
+                        className="absolute top-0 left-[70px] px-2 bg-red-500 text-white rounded-[26%]"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -539,8 +620,9 @@ export default function EditProductV2() {
           <div className="flex justify-end gap-3 items-center mt-5">
             <Button
               type="submit"
-              text="Add Product"
-              className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
+              text="Updated Product"
+              disabled={true}
+              className={`py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center ${!isLoading ? 'bg-primaryColor' : 'bg-'}`}
               icon={FaPlus}
             ></Button>
           </div>

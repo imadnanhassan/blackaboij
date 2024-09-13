@@ -1,9 +1,9 @@
 import { IoIosSearch } from "react-icons/io";
 import { Link } from "react-router-dom";
 
-export default function Button({ text, onClick, className, icon: Icon }) {
+export default function Button({ text, onClick, className, icon: Icon, rest }) {
   return (
-    <button className={className} onClick={onClick}>
+    <button className={className} onClick={onClick} {...rest}>
       {Icon && <Icon className="hidden lg:block" />}
       <span className="text-sm">{text}</span>
     </button>
