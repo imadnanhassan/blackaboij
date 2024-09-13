@@ -1,19 +1,12 @@
 import { FiEdit } from 'react-icons/fi'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import { FiEye } from 'react-icons/fi'
-
 import { FaPlus } from 'react-icons/fa6'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { GoHome } from 'react-icons/go'
-import {
-  toggleCheckbox,
-  toggleSelectAll,
-} from '../../../redux/features/checkBox/checkBoxSlice'
-
 import { Link } from 'react-router-dom'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import Button from '../../../common/Button/Button'
-
 import {
   useDeleteProductMutation,
   useGetProductListQuery,
@@ -26,12 +19,7 @@ export default function ProductsList() {
   const { data: products, isLoading } = useGetProductListQuery()
   const [productsData, setProductsData] = useState([])
   const [deleteProduct] = useDeleteProductMutation()
-  const { selectAll, checkboxes } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-  const dispatch = useDispatch()
-  const handleHeaderCheckboxChange = () => {
-    dispatch(toggleSelectAll(!selectAll))
-  }
 
   useEffect(() => {
     setProductsData(products?.products?.data ?? [])
@@ -89,10 +77,6 @@ export default function ProductsList() {
         }
       }
     })
-  }
-
-  const handleCheckboxChange = index => () => {
-    dispatch(toggleCheckbox(index))
   }
 
   const pageTitle = 'Products List'
@@ -223,23 +207,11 @@ export default function ProductsList() {
                 className={`${isDarkMode ? 'bg-[#131A26]' : 'bg-gray-100'}`}
               >
                 <tr>
-                  <th className="">
-                    <input
-                      type="checkbox"
-                      className={`form-checkbox h-4 w-4 ${isDarkMode ? 'text-black' : 'text-indigo-600'}`}
-                      checked={selectAll}
-                      onChange={handleHeaderCheckboxChange}
-                    />
-                  </th>
+                  <th className="">SL</th>
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
                     PRODUCT
-                  </th>
-                  <th
-                    className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
-                  >
-                    PRODUCT Catergory
                   </th>
 
                   <th
@@ -270,20 +242,12 @@ export default function ProductsList() {
               <tbody className="divide-y divide-gray-200">
                 {productsData.map((product, index) => (
                   <tr key={product.id}>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="form-checkbox h-4 w-4 text-Vindigo-800 lg:ml-4 "
-                        checked={checkboxes[index] || false}
-                        onChange={handleCheckboxChange(index)}
-                      />
-                    </td>
+                    <td className="text-center">{++index}</td>
                     <td className="border-l pl-2 py-4 whitespace-nowrap flex gap-2">
                       <div
                         className={`w-[40px] h-[40px] rounded-md p-2 ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
                       >
                         <img
-                          // src={item.thumbnail_image}
                           src={`${import.meta.env.VITE_BASE_URL}/products/${product.thumbnail_image}`}
                           alt=""
                           className="w-full"
@@ -302,21 +266,14 @@ export default function ProductsList() {
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${product.isStatus ? 'bg-success-100 text-success-400' : 'text-[#7367f0] bg-gray-100'}`}
                       >
-                        {product.category_name}
-                      </span>
-                    </td>
-                    <td className="border-l pl-2 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${product.isStatus ? 'bg-success-100 text-success-400' : 'text-[#7367f0] bg-gray-100'}`}
-                      >
-                        {product.isStatus ? 'In Stock' : 'Out of stock'}
+                        {product.quantity > 0 ? 'In Stock' : 'Out of STOCK'}
                       </span>
                     </td>
 
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      {product.price}
+                      {product.price} $
                     </td>
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
@@ -329,7 +286,10 @@ export default function ProductsList() {
                         <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#eab3081a] hover:bg-[#eab308] text-[#eab308] hover:text-lightColor ">
                           <FiEye className=" text-[12px]" />
                         </button>
-                        <Link to={`/dashboard/edit-product/${product.id}`} className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor">
+                        <Link
+                          to={`/dashboard/edit-product/${product.id}`}
+                          className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor"
+                        >
                           <FiEdit className=" text-[12px] " />
                         </Link>
                         <button
