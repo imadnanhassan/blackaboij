@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux'
 import { MdOutlineShoppingBag } from 'react-icons/md'
 import { AiFillDollarCircle } from 'react-icons/ai'
-import { FaHeart } from 'react-icons/fa6'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import ColumnChart from '../../../components/ColumnChart/ColumnChart'
 import TotalOrder from './TotalOrder'
@@ -14,9 +13,8 @@ const Dashboard = () => {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const { data: products, isLoading } = useGetProductListQuery()
 
-  const productdata = products?.products || []
-  console.log(productdata.length)
-
+  const productdata = products?.products?.total || []
+ 
   if (isLoading) {
     return <p>Loading..</p>
   }
@@ -73,7 +71,7 @@ const Dashboard = () => {
         >
           <div className="dashboardCard">
             <div className="bg-[#E8F9EF] px-4 py-3 rounded flex flex-col items-center justify-center">
-              <FaHeart className="text-[32px] bg-success-200 rounded text-white p-2" />
+              <AiFillDollarCircle className="text-[32px] bg-success-200 rounded text-white p-2" />
             </div>
             <div className="md:mt-2">
               <p className="lg:text-[14px] md:text-[12px] font-normal lg:mb-1 md:mb-[2px]">
@@ -82,7 +80,7 @@ const Dashboard = () => {
               <p
                 className={`text-[20px] font-medium mb-1 ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText'}`}
               >
-                {productdata.length}
+                {productdata}
               </p>
             </div>
           </div>
