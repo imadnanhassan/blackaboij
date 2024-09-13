@@ -138,6 +138,11 @@ export default function AddProductV2() {
       } else {
         toast.error('Something went wrong. Please try again.')
       }
+      setSelectedCategories([])
+      setSelectedColors([])
+      setSelectedSizes([])
+      setGalleryPreviews([])
+      setThumbnailPreview(null)
       reset()
     } catch (error) {
       toast.error('Failed to add product.')
