@@ -14,11 +14,15 @@ import { Controller, useForm } from 'react-hook-form'
 import {
   useAddProductMutation,
   useGetProductCategoryListQuery,
-  useEditProductQuery
+  useEditProductQuery,
+  useUpdateProductMutation,
+  useDeleteProductGalleryImageMutation
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { InfinitySpin } from 'react-loader-spinner'
+import { baseUrl } from '../../../../hooks/useThumbnailImage'
 // import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
 
 export default function EditProductV2() {
@@ -33,19 +37,96 @@ export default function EditProductV2() {
   const [selectedColor, setSelectedColor] = useState([])
   const {id} = useParams();
   
+  
+  const [galleryPreviews, setGalleryPreviews] = useState([])
+  const [thumbnailPreview, setThumbnailPreview] = useState(null)
 
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
   const [addProduct] = useAddProductMutation()
   const {data: productInfo, isLoading} = useEditProductQuery(id);
+  const [updateProduct, {isLoading: updateIsPending}] = useUpdateProductMutation();
+  const [deleteGalleryImage] = useDeleteProductGalleryImageMutation();
+  // const [] = 
   
   console.log(productInfo)
 
   const product = productInfo?.product;
   const navigate = useNavigate();
 
+  
+  // Handle gallery image selection
+  const handleGalleryChange = e => {
+    const files = Array.from(e.target.files)
+    const previews = files.map(file => URL.createObjectURL(file))
+    setGalleryPreviews(previews)
+  }
 
+  // Handle thumbnail image selection
+  const handleThumbnailChange = e => {
+    const file = e.target.files[0]
+    setThumbnailPreview(URL.createObjectURL(file))
+  }
+
+  // Remove a single gallery image preview
+  const handleGalleryRemove = async (e,index, id = null) => {
+    if(id == null){
+      
+      setGalleryPreviews(prev => prev.filter((_,i) => i != index))
+    }else{
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'Do you really want to delete this product?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'Cancel',
+        }).then(async result => {
+          if (result.isConfirmed) {
+            try {
+              const deleteResponse = await deleteGalleryImage(id)
+              if (deleteResponse?.data.status == 200) {
+                e.target.closest('div').remove();
+                toast.success(deleteResponse?.data?.message, {
+                  position: 'bottom-right',
+                  autoClose: 3000,
+                })
+              } else if (response?.data.status == 404) {
+                toast.error(deleteResponse?.data?.message, {
+                  position: 'bottom-right',
+                  autoClose: 3000,
+                })
+              } else if (deleteResponse?.data.status == 402) {
+                toast.error(deleteResponse?.data?.message, {
+                  position: 'bottom-right',
+                  autoClose: 3000,
+                })
+              } else {
+                toast.error('Somthing wrong, please try again ', {
+                  position: 'bottom-right',
+                  autoClose: 3000,
+                })
+              }
+            } catch (error) {
+              toast.error('Failed to delete the product. Please try again.', {
+                position: 'bottom-right',
+                autoClose: 3000,
+              })
+            }
+          }
+        })
+    }
+
+
+  }
+
+  // Remove thumbnail image preview
+  const handleThumbnailRemove = () => {
+    setThumbnailPreview(null)
+  }
 
   useEffect(() =>{
     const checkProductFound = () => {
@@ -57,10 +138,14 @@ export default function EditProductV2() {
       }
     }
 
+    checkProductFound();
+  },[isLoading, product])
+
+  useEffect(() => {
     
     const convertStringIdToArray = (stringId) => {
       const id = JSON.parse(stringId)
-      const arr = id.split(',').map(Number);
+      const arr = id?.split(',').map(Number);
       return arr;
     }
 
@@ -78,9 +163,7 @@ export default function EditProductV2() {
       setSelectedColors(colorsArrFindId(productInfo?.colors))
       setSelectedSizes(sizesArrFindId(productInfo?.sizes))
     }
-
-    checkProductFound();
-  },[isLoading, product])
+  },[product])
 
 
   const categoryList = categories?.categories ?? []
@@ -130,10 +213,17 @@ export default function EditProductV2() {
   const { register, handleSubmit, reset, control } = useForm()
 
   const onSubmit = async data => {
+    console.log({
+      data,
+      selectedCategories,
+      selectedColors,
+      selectedSizes
+    })
     const formData = new FormData()
     formData.append('name', data.name)
+    formData.append('slug', data.slug)
     formData.append('id',id)
-    formData.append('category_id', selectedCategory)
+    formData.append('category_id', selectedCategories)
     formData.append('thumbnail_image', data.thumbnail_image[0])
     formData.append('description', data.description)
     formData.append('price', data.price)
@@ -145,14 +235,20 @@ export default function EditProductV2() {
         formData.append('gallery[]',data.gallery[i])
       }
     }
-    formData.append('colors', selectedColor)
-    formData.append('sizes', selectedSize)
+
+    for(let c = 0; c<selectedColors.length;c++){
+      formData.append('colors[]', selectedColors[c])
+    }
+    for(let s = 0; s<selectedSizes.length;s++){
+      formData.append('sizes[]', selectedSizes[s])
+    }
     formData.append('metaDescription',data.metaDescription)
     formData.append('metaTitle',data.metaTitle)
 
 
     try {
-      const response = await addProduct(formData)
+      const response = await updateProduct(formData)
+      console.log(response)
       if(response?.data?.status === 200){
         toast.success(response.data.message)
       }else if(response?.data?.status === 401){
@@ -162,7 +258,7 @@ export default function EditProductV2() {
       }else{
         toast.error('Something went wrong. Please try again.')
       }
-      reset()
+      // reset()
     } catch (error) {
       toast.error('Failed to add product.')
     }
@@ -180,7 +276,16 @@ export default function EditProductV2() {
     { title: 'Edit Product' },
   ]
   
-  if (isLoading) return <p>Loading products...</p>
+  if (isLoading) {
+    return (
+      <InfinitySpin
+        visible={true}
+        width="200"
+        color="#4fa94d"
+        ariaLabel="infinity-spin-loading"
+      />
+    )
+  }
 
   return (
     <section
@@ -209,6 +314,24 @@ export default function EditProductV2() {
                   {...register('name', { required: true })}
                   placeholder="Enter product name"
                   defaultValue={product?.name}
+                  className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
+                />
+                {/* {errors.name && <span>This field is required</span>} */}
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="productName"
+                  className={`block text-sm font-medium ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
+                >
+                  Slug
+                </label>
+                <input
+                  type="text"
+                  id="slug"
+                  name="slug"
+                  {...register('slug', { required: true })}
+                  placeholder="Enter Product Slug"
+                  defaultValue={product?.slug}
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                 />
                 {/* {errors.name && <span>This field is required</span>} */}
@@ -440,7 +563,7 @@ export default function EditProductV2() {
             {/* images */}
             <div>
               <h4 className="text-center py-7">Product Files & Media</h4>
-              <div className="flex gap-4 ">
+              <div className="flex gap-4">
                 <div className="mb-4 w-full">
                   <label
                     className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
@@ -450,11 +573,48 @@ export default function EditProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('gallery', { required: true })}
+                    {...register('gallery')}
                     multiple
+                    onChange={handleGalleryChange}
                   />
-                  {/* {errors.galleryImages && <span>This field is required</span>} */}
+                  <div className="grid grid-cols-5 gap-2 mt-2">
+                    {galleryPreviews.map((preview, index) => (
+                      <div key={index} className="relative ">
+                        <img
+                          src={preview}
+                          alt={`Gallery Image ${index + 1}`}
+                          className="w-24 h-24 object-cover rounded"
+                        />
+                        <button
+                          type="button"
+                          onClick={(e) => handleGalleryRemove(e,index)}
+                          className="absolute top-0 right-0 px-2 bg-red-500 text-white rounded-[26%]"
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                    {
+                      galleryPreviews.length == 0 ? productInfo?.galleries?.map((image, index) => (
+                        <div key={index} className="relative ">
+                          <img
+                            src={`${baseUrl}/products/${image?.name}`}
+                            alt={`Gallery Image ${index + 1}`}
+                            className="w-24 h-24 object-cover rounded"
+                          />
+                          <button
+                            type="button"
+                            onClick={(e) => handleGalleryRemove(e,index,image?.id)}
+                            className="absolute top-0 right-0 px-2 bg-red-500 text-white rounded-[26%]"
+                          >
+                            &times;
+                          </button>
+                      </div>
+                      )) : ''
+                    }
+                  </div>
                 </div>
+
                 <div className="mb-4 w-full">
                   <label
                     className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
@@ -464,9 +624,36 @@ export default function EditProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('thumbnail_image', { required: true })}
+                    {...register('thumbnail_image')}
+                    onChange={handleThumbnailChange}
                   />
-                  {/* {errors.thumbnailImage && <span>This field is required</span>} */}
+                  {thumbnailPreview && (
+                    <div className="relative mt-2">
+                      <img
+                        src={thumbnailPreview}
+                        alt="Thumbnail Preview"
+                        className="w-24 h-24 object-cover rounded"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleThumbnailRemove}
+                        className="absolute top-0 left-[70px] px-2 bg-red-500 text-white rounded-[26%]"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  )}
+                  {
+                    !thumbnailPreview && (
+                      <div className="relative mt-2">
+                        <img
+                          src={`${baseUrl}/products/${product?.thumbnail_image}`}
+                          alt="Thumbnail Preview"
+                          className="w-24 h-24 object-cover rounded"
+                        />
+                      </div>
+                    )
+                  }
                 </div>
               </div>
             </div>
@@ -494,7 +681,7 @@ export default function EditProductV2() {
 
               <div className="mb-4">
                 <label
-                  for="metaDescription"
+                  htmlFor="metaDescription"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Meta Description
@@ -514,8 +701,8 @@ export default function EditProductV2() {
           <div className="flex justify-end gap-3 items-center mt-5">
             <Button
               type="submit"
-              text="Add Product"
-              className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
+              text="Updated Product"
+              className={`py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center bg-primaryColor`}
               icon={FaPlus}
             ></Button>
           </div>

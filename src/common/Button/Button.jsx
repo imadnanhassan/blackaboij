@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Button({ text, onClick, className, icon: Icon }) {
   return (
-    <button className={className} onClick={onClick}>
+    <button className={className} onClick={onClick} type="submit">
       {Icon && <Icon className="hidden lg:block" />}
       <span className="text-sm">{text}</span>
     </button>

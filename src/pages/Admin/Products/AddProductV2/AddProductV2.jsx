@@ -139,6 +139,11 @@ export default function AddProductV2() {
       } else {
         toast.error('Something went wrong. Please try again.')
       }
+      setSelectedCategories([])
+      setSelectedColors([])
+      setSelectedSizes([])
+      setGalleryPreviews([])
+      setThumbnailPreview(null)
       reset()
     } catch (error) {
       toast.error('Failed to add product.')
@@ -432,7 +437,7 @@ export default function AddProductV2() {
                   <input
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
-                    {...register('gallery', { required: true })}
+                    {...register('gallery')}
                     multiple
                     onChange={handleGalleryChange}
                   />
@@ -510,7 +515,7 @@ export default function AddProductV2() {
 
               <div className="mb-4">
                 <label
-                  for="metaDescription"
+                  htmlFor="metaDescription"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Meta Description
