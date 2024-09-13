@@ -329,9 +329,9 @@ export default function ProductsList() {
                         <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#eab3081a] hover:bg-[#eab308] text-[#eab308] hover:text-lightColor ">
                           <FiEye className=" text-[12px]" />
                         </button>
-                        <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor">
+                        <Link to={`/dashboard/edit-product/${product.id}`} className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor">
                           <FiEdit className=" text-[12px] " />
-                        </button>
+                        </Link>
                         <button
                           onClick={() => handleDeleteProduct(product.id)}
                           className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"

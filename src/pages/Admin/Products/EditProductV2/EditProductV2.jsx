@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoHome } from 'react-icons/go'
 import { useSelector } from 'react-redux'
 import { FaPlus } from 'react-icons/fa'
@@ -14,11 +14,14 @@ import { Controller, useForm } from 'react-hook-form'
 import {
   useAddProductMutation,
   useGetProductCategoryListQuery,
+  useEditProductQuery
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import Swal from 'sweetalert2'
 // import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
 
-export default function AddProductV2() {
+export default function EditProductV2() {
   // const [description, setDescription] = useState('')
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
 
@@ -28,11 +31,57 @@ export default function AddProductV2() {
   const [selectedCategory, setSelectedCategory] = useState([])
   const [selectedSize, setSelectedSize] = useState([])
   const [selectedColor, setSelectedColor] = useState([])
+  const {id} = useParams();
+  
 
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
-  const [addProduct, {isLoading}] = useAddProductMutation()
+  const [addProduct] = useAddProductMutation()
+  const {data: productInfo, isLoading} = useEditProductQuery(id);
+  
+  console.log(productInfo)
+
+  const product = productInfo?.product;
+  const navigate = useNavigate();
+
+
+
+  useEffect(() =>{
+    const checkProductFound = () => {
+      if(product?.status === 404){
+        Swal.fire('Error',product.message,'error')
+            return navigate('/dashboard/products-list',{
+            replace: true
+          })
+      }
+    }
+
+    
+    const convertStringIdToArray = (stringId) => {
+      const id = JSON.parse(stringId)
+      const arr = id.split(',').map(Number);
+      return arr;
+    }
+
+    const colorsArrFindId = (datas) => {
+      const ids = datas?.map(el => el.color_id);
+      return ids
+    }
+    const sizesArrFindId = (datas) => {
+      const ids = datas?.map(el => el.size_id);
+      return ids
+    }
+    
+    if(product){
+      setSelectedCategories(convertStringIdToArray(product?.category_id))
+      setSelectedColors(colorsArrFindId(productInfo?.colors))
+      setSelectedSizes(sizesArrFindId(productInfo?.sizes))
+    }
+
+    checkProductFound();
+  },[isLoading, product])
+
 
   const categoryList = categories?.categories ?? []
   const sizeData = size?.sizes || []
@@ -83,6 +132,7 @@ export default function AddProductV2() {
   const onSubmit = async data => {
     const formData = new FormData()
     formData.append('name', data.name)
+    formData.append('id',id)
     formData.append('category_id', selectedCategory)
     formData.append('thumbnail_image', data.thumbnail_image[0])
     formData.append('description', data.description)
@@ -95,16 +145,8 @@ export default function AddProductV2() {
         formData.append('gallery[]',data.gallery[i])
       }
     }
-    if(selectedColor.length > 0){
-      for(let c = 0; c < selectedColor.length; c++){
-        formData.append('colors[]', selectedColor[c])
-      }
-    }
-    if(selectedSize.length > 0){
-      for(let c = 0; c < selectedSize.length; c++){
-        formData.append('sizes[]', selectedSize[c])
-      }
-    }
+    formData.append('colors', selectedColor)
+    formData.append('sizes', selectedSize)
     formData.append('metaDescription',data.metaDescription)
     formData.append('metaTitle',data.metaTitle)
 
@@ -131,12 +173,15 @@ export default function AddProductV2() {
   // if (isLoading) {
   //   return <SkeletonLoader />
   // }
-  const pageTitle = 'Add Product'
+  const pageTitle = 'Edit Product'
   const productLinks = [
     { title: <GoHome />, link: '/' },
     { title: 'Products' },
-    { title: 'Add Product' },
+    { title: 'Edit Product' },
   ]
+  
+  if (isLoading) return <p>Loading products...</p>
+
   return (
     <section
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}
@@ -163,6 +208,7 @@ export default function AddProductV2() {
                   name="productName"
                   {...register('name', { required: true })}
                   placeholder="Enter product name"
+                  defaultValue={product?.name}
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                 />
                 {/* {errors.name && <span>This field is required</span>} */}
@@ -245,7 +291,7 @@ export default function AddProductV2() {
                 <Controller
                   name="description"
                   control={control}
-                  defaultValue=""
+                  defaultValue={product?.product_description}
                   rules={{ required: true }}
                   render={({ field }) => (
                     <ReactQuill
@@ -273,6 +319,7 @@ export default function AddProductV2() {
                   <input
                     type="number"
                     placeholder="10"
+                    defaultValue={product?.price}
                     className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                     {...register('price', { required: true })}
                   />
@@ -288,6 +335,7 @@ export default function AddProductV2() {
                   <input
                     type="text"
                     placeholder="10"
+                    defaultValue={product?.quantity}
                     className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                     {...register('quantity')}
                   />
@@ -438,6 +486,7 @@ export default function AddProductV2() {
                   id="metaTitle"
                   name="metaTitle"
                   placeholder="Enter meta title"
+                  defaultValue={product?.meta_title}
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                   {...register('metaTitle')}
                 />
@@ -454,6 +503,7 @@ export default function AddProductV2() {
                   id="metaDescription"
                   name="metaDescription"
                   placeholder="Enter meta description"
+                  defaultValue={product?.meta_description}
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                   {...register('metaDescription')}
                 ></textarea>
