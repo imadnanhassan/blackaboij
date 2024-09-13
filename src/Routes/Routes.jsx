@@ -32,6 +32,7 @@ import DashboardForgotPassword from '../pages/Admin/Auth/DashboardForgotPassword
 import CategoriesV2 from '../pages/Admin/Products/Categories/CategoriesV2'
 import EditCategoriesV2 from '../pages/Admin/Products/Categories/EditCategoriesV2'
 import AddProductV2 from '../pages/Admin/Products/AddProductV2/AddProductV2'
+import EditProductV2 from '../pages/Admin/Products/EditProductV2/EditProductV2'
 import EditSize from '../pages/Admin/Products/Size/editSize'
 import Unit from '../pages/Admin/Products/Units/Unit'
 import AddVendor from '../pages/Admin/Vendor/AddVendor'
@@ -88,6 +89,7 @@ const DASHBOARD_ROUTES = [
   },
   { path: 'dashboard/products-list', element: <ProductsList /> },
   { path: 'dashboard/add-product', element: <AddProductV2 /> },
+  { path: 'dashboard/edit-product/:id', element: <EditProductV2 /> },
   { path: 'dashboard/products-details', element: <ProductsDetails /> },
 
   { path: 'dashboard/category', element: <CategoriesV2 /> },

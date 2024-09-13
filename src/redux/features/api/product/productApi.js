@@ -51,7 +51,14 @@ export const productApi = baseApi.injectEndpoints({
         },
       }),
     }),
-
+    editProduct: builder.query({
+      query: (id) => ({
+        url: `/api/v1/admin/product/edit/${id}`,
+        headers: {
+          Authorization: `Bearer ${getToken()}`
+        }
+      })
+    }),
     getSingleProduct: builder.query({
       query: slug => ({
         url: `/api/front/products/${slug}`,
@@ -78,4 +85,5 @@ export const {
   useGetProductListQuery,
   useGetSingleProductQuery,
   useGetProductCategoryListQuery,
+  useEditProductQuery,
 } = productApi
