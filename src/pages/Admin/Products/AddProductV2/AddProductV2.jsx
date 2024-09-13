@@ -26,6 +26,9 @@ export default function AddProductV2() {
   const [selectedSize, setSelectedSize] = useState([])
   const [selectedColor, setSelectedColor] = useState([])
 
+  const [galleryPreviews, setGalleryPreviews] = useState([])
+  const [thumbnailPreview, setThumbnailPreview] = useState(null)
+
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
@@ -69,6 +72,29 @@ export default function AddProductV2() {
         setSelectedColor(currentSelectedColor)
       }
     }
+  }
+
+  // Handle gallery image selection
+  const handleGalleryChange = e => {
+    const files = Array.from(e.target.files)
+    const previews = files.map(file => URL.createObjectURL(file))
+    setGalleryPreviews(previews)
+  }
+
+  // Handle thumbnail image selection
+  const handleThumbnailChange = e => {
+    const file = e.target.files[0]
+    setThumbnailPreview(URL.createObjectURL(file))
+  }
+
+  // Remove a single gallery image preview
+  const handleGalleryRemove = index => {
+    setGalleryPreviews(prev => prev.filter((_, i) => i !== index))
+  }
+
+  // Remove thumbnail image preview
+  const handleThumbnailRemove = () => {
+    setThumbnailPreview(null)
   }
 
   // add product
@@ -379,7 +405,7 @@ export default function AddProductV2() {
             {/* images */}
             <div>
               <h4 className="text-center py-7">Product Files & Media</h4>
-              <div className="flex gap-4 ">
+              <div className="flex gap-4">
                 <div className="mb-4 w-full">
                   <label
                     className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
@@ -391,9 +417,28 @@ export default function AddProductV2() {
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
                     {...register('gallery', { required: true })}
                     multiple
+                    onChange={handleGalleryChange}
                   />
-                  {/* {errors.galleryImages && <span>This field is required</span>} */}
+                  <div className="grid grid-cols-5 gap-2 mt-2">
+                    {galleryPreviews.map((preview, index) => (
+                      <div key={index} className="relative ">
+                        <img
+                          src={preview}
+                          alt={`Gallery Image ${index + 1}`}
+                          className="w-24 h-24 object-cover rounded"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleGalleryRemove(index)}
+                          className="absolute top-0 right-0 px-2 bg-red-500 text-white rounded-[26%]"
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+
                 <div className="mb-4 w-full">
                   <label
                     className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-darkColorText' : 'text-gray-700'}`}
@@ -404,8 +449,24 @@ export default function AddProductV2() {
                     type="file"
                     className={`w-full text-sm border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 rounded focus:outline-none focus:border-primaryColor ${isDarkMode ? 'bg-darkColorCard file:bg-primaryColor border-primaryColor text-lightColor file:text-black' : 'bg-lightColor hover:border-primaryColor/50 file:text-white file:bg-primaryColor file:hover:bg-primaryColor/90 border-primaryColor/30 text-black'}`}
                     {...register('thumbnail_image', { required: true })}
+                    onChange={handleThumbnailChange}
                   />
-                  {/* {errors.thumbnailImage && <span>This field is required</span>} */}
+                  {thumbnailPreview && (
+                    <div className="relative mt-2">
+                      <img
+                        src={thumbnailPreview}
+                        alt="Thumbnail Preview"
+                        className="w-24 h-24 object-cover rounded"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleThumbnailRemove}
+                        className="absolute top-0 left-[70px] px-2 bg-red-500 text-white rounded-[26%]"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
