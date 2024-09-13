@@ -16,6 +16,7 @@ import {
   useGetProductCategoryListQuery,
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
+import { InfinitySpin } from 'react-loader-spinner'
 
 export default function AddProductV2() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -29,7 +30,7 @@ export default function AddProductV2() {
   const [galleryPreviews, setGalleryPreviews] = useState([])
   const [thumbnailPreview, setThumbnailPreview] = useState(null)
 
-  const { data: categories } = useGetProductCategoryListQuery()
+  const { data: categories, isLoading } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
   const [addProduct] = useAddProductMutation()
@@ -147,6 +148,18 @@ export default function AddProductV2() {
     } catch (error) {
       toast.error('Failed to add product.')
     }
+  }
+
+
+  if (isLoading) {
+    return (
+      <InfinitySpin
+        visible={true}
+        width="200"
+        color="#4fa94d"
+        ariaLabel="infinity-spin-loading"
+      />
+    )
   }
 
   const pageTitle = 'Add Product'
