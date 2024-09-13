@@ -81,31 +81,37 @@ export default function AddProductV2() {
   const { register, handleSubmit, reset, control } = useForm()
 
   const onSubmit = async data => {
-    console.log(
-      data,
-      selectedCategory,
-      selectedColor,
-      selectedSize,
-    )
-
     const formData = new FormData()
     formData.append('name', data.name)
     formData.append('category_id', selectedCategory)
     formData.append('thumbnail_image', data.thumbnail_image[0])
-    formData.append('product_description', data.product_description)
+    formData.append('description', data.description)
     formData.append('price', data.price)
-    formData.append('discount_price', data.discount_price)
+    // formData.append('discount_price', data.discount_price)
     formData.append('quantity', data.quantity)
-    formData.append('discount_type', data.discount_type)
-    formData.append('gallery', data.gallery)
+    // formData.append('discount_type', data.discount_type)
+    if(data.gallery.length > 0){
+      for(let i = 0; i<data.gallery.length;i++){
+        formData.append('gallery[]',data.gallery[i])
+      }
+    }
     formData.append('colors', selectedColor)
     formData.append('sizes', selectedSize)
+    formData.append('metaDescription',data.metaDescription)
+    formData.append('metaTitle',data.metaTitle)
 
 
-    console.log(data.gallery)
     try {
-      await addProduct(formData)
-      toast.success('Product added successfully!')
+      const response = await addProduct(formData)
+      if(response?.data?.status === 200){
+        toast.success(response.data.message)
+      }else if(response?.data?.status === 401){
+        response.data.errors.forEach(el => toast.error(el))
+      }else if(response?.data?.status === 402){
+        toast.error(response.data.message)
+      }else{
+        toast.error('Something went wrong. Please try again.')
+      }
       reset()
     } catch (error) {
       toast.error('Failed to add product.')
@@ -260,7 +266,7 @@ export default function AddProductV2() {
                     type="number"
                     placeholder="10"
                     className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
-                    {...register('unitPrice', { required: true })}
+                    {...register('price', { required: true })}
                   />
                   {/* {errors.unitPrice && <span>This field is required</span>} */}
                 </div>
@@ -414,7 +420,7 @@ export default function AddProductV2() {
               <h4 className="text-center py-7">Product SEO</h4>
               <div className="mb-4">
                 <label
-                  for="metaTitle"
+                  htmlFor="metaTitle"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Meta Title

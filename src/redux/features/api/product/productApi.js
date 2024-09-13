@@ -14,8 +14,7 @@ export const productApi = baseApi.injectEndpoints({
         method: 'POST',
         body: data,
         headers: {
-          Authorization: `Bearer ${getToken()}`,
-          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${getToken()}`
         },
       }),
       invalidatesTags: [tagTypes.product],
