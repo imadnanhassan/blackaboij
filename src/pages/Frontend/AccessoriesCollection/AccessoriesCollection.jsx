@@ -1,17 +1,19 @@
+import React from 'react'
 import { MdEuroSymbol } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { Zoom } from 'react-awesome-reveal'
-import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
 import { FaRegHeart } from 'react-icons/fa'
-import { useGetMenCollectionQuery } from '../../../redux/features/api/menNewCollection/menNewCollection'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
+import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
+import { useGetAccessoriesQuery } from '../../../redux/features/api/accessoriesCollection/accessoriesCollection'
 
-const MenCollection = () => {
-  const { data, isLoading } = useGetMenCollectionQuery()
-  console.log(data)
+export default function AccessoriesCollection() {
+  const { data, isLoading } = useGetAccessoriesQuery()
+  console.log(data?.products?.data)
+  const accessoriesData = data?.products?.data
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <p>Loading...</p>
   }
   return (
     <div>
@@ -28,13 +30,13 @@ const MenCollection = () => {
         }}
       >
         <Zoom>
-          <h2 className="md:md:text-6xl text-[20px] text-2xl text-white font-custom font-bold whitespace-nowrap">
-            MEN NEW COLLECTIONS
+          <h2 className="md:md:text-6xl uppercase text-[20px] text-2xl text-white font-custom font-bold whitespace-nowrap">
+            Accessories COLLECTIONS
           </h2>
         </Zoom>
       </div>
       <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px] mt-5 lg:mt-10  ">
-        {data?.data.map((item, index) => (
+        {accessoriesData?.map((item, index) => (
           <div
             key={index}
             className="bg-[#B7B7B7] product-card font-custom relative"
@@ -46,7 +48,7 @@ const MenCollection = () => {
                 className="front-img w-full object-cover"
               />
             </Link>
-        
+
             <button
               style={{ fontSize: '30px' }}
               className="absolute top-2 left-2 text-white"
@@ -55,7 +57,7 @@ const MenCollection = () => {
             </button>
 
             <button className="absolute top-0 right-0  text-white bg-[#000000] md:px-4 md:py-1 md:text-[16px] text-[12px] px-2  py-[2px]  ">
-              MEN
+              Accessories
             </button>
 
             <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black text-[16px] text-white">
@@ -79,5 +81,3 @@ const MenCollection = () => {
     </div>
   )
 }
-
-export default MenCollection

@@ -162,28 +162,6 @@ const FrontendHeader = ({ categoryList }) => {
                   onMouseLeave={() => SetIsAccessoriesHovered(false)}
                 >
                   ACCESSORIES
-                  {isAccessoriesHovered && (
-                    <Fade direction="left">
-                      <ul className="absolute pl-6 pr-[200px] py-5 text-[12px] top-[46px] whitespace-nowrap bg-black">
-                        <li className="p-[2px]">
-                          <Link
-                            to="/accessories/men-accessories"
-                            className="uppercase text-[12px]"
-                          >
-                            Men Accessories
-                          </Link>
-                        </li>
-                        <li className="p-[2px]">
-                          <Link
-                            to="/accessories/women-accessories"
-                            className="uppercase text-[12px]"
-                          >
-                            Women Accessories
-                          </Link>
-                        </li>
-                      </ul>
-                    </Fade>
-                  )}
                 </li>
               </Link>
 

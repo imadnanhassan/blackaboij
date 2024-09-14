@@ -11,10 +11,15 @@ const productLinks = [{ title: <></>, link: '/' }]
 
 const Dashboard = () => {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-  const { data: products, isLoading } = useGetProductListQuery()
+  const { data: products, isLoading } = useGetProductListQuery({
+    page: 1,
+    perpage: 10,
+  })
 
   const productdata = products?.products?.total || []
- 
+
+  console.log(productdata)
+
   if (isLoading) {
     return <p>Loading..</p>
   }

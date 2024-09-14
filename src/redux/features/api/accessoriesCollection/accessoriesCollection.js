@@ -7,10 +7,13 @@ export const accessoriesCollectionApi = baseApi.injectEndpoints({
       query: () => ({
         url: '/api/v1/front/collection/accessories',
         method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
       }),
       providesTags: [tagTypes.accessoriesCollection],
     }),
   }),
 })
 
-export const { useGetAccessoriesCollectionQuery } = accessoriesCollectionApi
+export const { useGetAccessoriesQuery } = accessoriesCollectionApi

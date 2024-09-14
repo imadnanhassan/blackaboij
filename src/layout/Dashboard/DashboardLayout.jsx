@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import SideBar from './SideBar/SideBar'
 import MainContent from './MainContent/MainContent'
 import Loader from '../../common/Loader/Loader'
+import { useGetProductListQuery } from '../../redux/features/api/product/productApi'
 
 export default function DashboardLayout() {
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 3000)
-  }, [])
-
   const [isSideBarOpen, setIsSideBarOpen] = useState()
-
+  const { isLoading } = useGetProductListQuery()
   const toggleSidebar = () => {
     setIsSideBarOpen(!isSideBarOpen)
   }
-
   return (
     <>
-      {loading ? (
-        <Loader />
+      {isLoading ? (
+        <Loader lable="Loading" />
       ) : (
         <>
           <div className="flex h-screen">

@@ -57,6 +57,7 @@ import CustomerPanel from '../pages/Frontend/CustomerPanel/CustomerPanel'
 import CategoriesDetailsPage from '../pages/Frontend/categoriesDetailsPage/categories_details_page'
 import MenCollection from '../pages/Frontend/MenCollection/MenCollection'
 import WomenCollection from '../pages/Frontend/WomenCollection/WomenCollection'
+import AccessoriesCollection from '../pages/Frontend/AccessoriesCollection/AccessoriesCollection'
 
 const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
@@ -71,6 +72,10 @@ const FRONTEND_ROUTES = [
   { path: '/store', element: <Store></Store> },
   { path: '/men-collection', element: <MenCollection></MenCollection> },
   { path: '/women-collection', element: <WomenCollection></WomenCollection> },
+  {
+    path: '/accessories',
+    element: <AccessoriesCollection></AccessoriesCollection>,
+  },
 ]
 
 const CUSTOMER_PANEL_ROUTES = [
