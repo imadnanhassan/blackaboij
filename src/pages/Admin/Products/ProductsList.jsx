@@ -19,6 +19,7 @@ export default function ProductsList() {
 
   const [pageLinks, setPageLinks] = useState([]);
   const [pages, setPages] = useState(1)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [perPage, setPerPage] = useState(10)
 
   const { data: products, isLoading } = useGetProductListQuery({page: pages, perpage: perPage})
