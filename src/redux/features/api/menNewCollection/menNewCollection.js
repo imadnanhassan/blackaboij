@@ -5,8 +5,11 @@ export const menCollectionApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getMenCollection: builder.query({
       query: () => ({
-        url: '/api/v1/front/product/new-arrival/all',
+        url: '/api/v1/front/collection/men-new-arrival',
         method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
       }),
       providesTags: [tagTypes.menCollection],
     }),

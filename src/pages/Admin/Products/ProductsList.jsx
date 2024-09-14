@@ -31,8 +31,8 @@ export default function ProductsList() {
     setPageLinks(products?.products?.links)
   }, [products])
 
-  console.log(products?.products)
-  console.log(pageLinks)
+  console.log(products?.products?.data)
+  // console.log(pageLinks)
 
 
   const handlePageChange = (page = 1) => {
