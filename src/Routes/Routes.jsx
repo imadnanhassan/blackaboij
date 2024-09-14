@@ -54,10 +54,9 @@ import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
 import CustomerProfile from '../pages/Frontend/CustomerPanel/CustomerProfile'
 import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
 import CustomerPanel from '../pages/Frontend/CustomerPanel/CustomerPanel'
-import Categories from '../pages/Frontend/Categories/Categories'
 import CategoriesDetailsPage from '../pages/Frontend/categoriesDetailsPage/categories_details_page'
-
-
+import MenCollection from '../pages/Frontend/MenCollection/MenCollection'
+import WomenCollection from '../pages/Frontend/WomenCollection/WomenCollection'
 
 const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
@@ -65,13 +64,13 @@ const FRONTEND_ROUTES = [
   { path: '/hotSale/:slug', element: <HotSaleDetailsPage /> },
   { path: '/signin', element: <FrontendSignIn></FrontendSignIn> },
   { path: '/signup', element: <FrontendSignUp></FrontendSignUp> },
-  { path: '/search', element: <SeearchPage></SeearchPage>},
-  { path: '/cart', element: <Cart></Cart>},
-  { path: '/fav', element: <Fav></Fav>},
-  { path: '/checkout', element: <Checkout></Checkout>},
-  { path: '/store', element: <Store></Store>},
-  { path: '/men', element: <Categories></Categories>},
-
+  { path: '/search', element: <SeearchPage></SeearchPage> },
+  { path: '/cart', element: <Cart></Cart> },
+  { path: '/fav', element: <Fav></Fav> },
+  { path: '/checkout', element: <Checkout></Checkout> },
+  { path: '/store', element: <Store></Store> },
+  { path: '/men-collection', element: <MenCollection></MenCollection> },
+  { path: '/women-collection', element: <WomenCollection></WomenCollection> },
 ]
 
 const CUSTOMER_PANEL_ROUTES = [

@@ -4,26 +4,20 @@ import FrontendHeader from '../../shared/Frontend/FrontendHeader'
 // import Loader from '../../common/Loader/Loader'
 import FrontendFooter from '../../shared/Frontend/FrontendFooter'
 import ScrollToTopButton from '../../common/ScrollToTopButton/ScrollToTopButton'
+import { useGetCategoryQuery } from '../../redux/features/api/category/categoryApi'
+import Loader from '../../common/Loader/Loader'
 
 export default function FrontendLayout() {
-  // const [loading, setLoading] = useState(true)
+  const { data: categories, isLoading } = useGetCategoryQuery()
+  const categoryList = categories?.categories ?? []
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setLoading(false)
-  //   }, 2000)
-  // }, [])
+  if (isLoading) {
+    return <Loader lable="Loading" />
+  }
+
   return (
     <>
-      {/* {loading ? (
-        <Loader />
-      ) : (
-        <>
-         
-        </>
-      )} */}
-
-      <FrontendHeader />
+      <FrontendHeader categoryList={categoryList} />
       <Outlet />
       <FrontendFooter />
       <ScrollToTopButton />
