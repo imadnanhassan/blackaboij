@@ -16,16 +16,40 @@ import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
 
 export default function ProductsList() {
-  const { data: products, isLoading } = useGetProductListQuery()
+
+  const [pageLinks, setPageLinks] = useState([]);
+  const [pages, setPages] = useState(1)
+  const [perPage, setPerPage] = useState(10)
+
+  const { data: products, isLoading } = useGetProductListQuery({page: pages, perpage: perPage})
   const [productsData, setProductsData] = useState([])
   const [deleteProduct] = useDeleteProductMutation()
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
 
   useEffect(() => {
     setProductsData(products?.products?.data ?? [])
+    setPageLinks(products?.products?.links)
   }, [products])
 
-  console.log(products?.products?.data)
+  console.log(products?.products)
+  console.log(pageLinks)
+
+
+  const handlePageChange = (page = 1) => {
+
+    if(page == 'previous'){
+      if(products?.products.current_page != 1){
+        setPages(products?.products.current_page - 1)
+      }
+    }else if(page == 'next'){
+      if(products?.products.last_page != products?.products.current_page){
+        setPages(products?.products.current_page + 1)
+      }
+    }else{
+      setPages(page)
+    }
+    
+  }
 
   const handleDeleteProduct = async productId => {
     Swal.fire({
@@ -242,7 +266,7 @@ export default function ProductsList() {
               <tbody className="divide-y divide-gray-200">
                 {productsData.map((product, index) => (
                   <tr key={product.id}>
-                    <td className="text-center">{++index}</td>
+                    <td className="text-center">{products?.products.from + index}</td>
                     <td className="border-l pl-2 py-4 whitespace-nowrap flex gap-2">
                       <div
                         className={`w-[40px] h-[40px] rounded-md p-2 ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
@@ -304,6 +328,23 @@ export default function ProductsList() {
                 ))}
               </tbody>
             </table>
+            <div className="flex gap-3 mt-4 justify-end">
+              {
+                pageLinks?.map((el, index) => {
+                    if(index == 0){
+                      return <button key={index} onClick={() => handlePageChange('previous')} className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}>{el.label.split(' ')[1]}</button>
+                    }else if((products.products.links.length - 1) == index){
+                      return <button key={index} onClick={() => handlePageChange('next')} className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-darkblack-300 cursor-not-allowed' : 'bg-black cursor-pointer'}`}>Next</button>
+                    }
+                    return <button key={index} onClick={() => handlePageChange(Number(el.label))} className={`px-3 py-2 rounded text-white  cursor-pointer ${el.active ? 'bg-blue-900' : 'bg-green-600'}`}>{el.label.split(' ')[0]}</button>
+                    
+                })
+              }
+              {/* <Link className="px-3 py-2 rounded text-white bg-red-600 cursor-pointer">Previous</Link>
+              <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">1</Link>
+              <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">2</Link>
+              <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">Previous</Link> */}
+            </div>
           </div>
         </div>
       </div>
