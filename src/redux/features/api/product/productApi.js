@@ -44,8 +44,8 @@ export const productApi = baseApi.injectEndpoints({
     }),
 
     getProductList: builder.query({
-      query: () => ({
-        url: '/api/v1/admin/product/all',
+      query: ({page, perpage}) => ({
+        url: `/api/v1/admin/product/all?page=${page}&perpage=${perpage}`,
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
