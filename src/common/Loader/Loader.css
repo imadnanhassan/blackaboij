@@ -39,7 +39,31 @@
 .c-test {
   border: 1px solid rgb(142, 247, 255);
   opacity: 0;
-  background: linear-gradient(90deg, rgb(11, 42, 48) 0%, rgb(57, 176, 184) 100%);
+  background: linear-gradient(
+    90deg,
+    rgb(11, 42, 48) 0%,
+    rgb(57, 176, 184) 100%
+  );
+}
+
+.dot-animate::after {
+  content: '...';
+  animation: dot-flashing 1.5s infinite linear;
+}
+
+@keyframes dot-flashing {
+  0% {
+    content: '';
+  }
+  33% {
+    content: '.';
+  }
+  66% {
+    content: '..';
+  }
+  100% {
+    content: '...';
+  }
 }
 
 @keyframes pullme {

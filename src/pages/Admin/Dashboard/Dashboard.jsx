@@ -80,7 +80,7 @@ const Dashboard = () => {
               <p
                 className={`text-[20px] font-medium mb-1 ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText'}`}
               >
-                {productdata}
+                {productdata > 0 ? productdata : '0'}
               </p>
             </div>
           </div>
