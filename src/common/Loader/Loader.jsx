@@ -7,7 +7,7 @@ export default function Loader({ lable }) {
     <>
       <div className="bg-black h-[100vh] flex gap-3 flex-col justify-center items-center">
         <PuffLoader
-          color="#05ffe1"
+          color="#fff"
           cssOverride={{}}
           loading
           size={99}
