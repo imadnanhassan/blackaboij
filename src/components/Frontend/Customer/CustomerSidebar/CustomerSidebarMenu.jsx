@@ -7,7 +7,6 @@ import {
   // FaWallet,
   // FaTags,
   FaHeart,
-  FaRegStickyNote,
   FaShoppingBag,
   FaUser,
 } from 'react-icons/fa'
@@ -62,12 +61,12 @@ export default function CustomerSidebarMenu() {
     //   label: 'Coupons',
     //   isNavLink: false,
     // },
-    {
-      to: 'user/purcheshistory',
-      icon: <FaRegStickyNote size={16} />,
-      label: 'Purchase History',
-      isNavLink: false,
-    },
+    // {
+    //   to: 'user/purcheshistory',
+    //   icon: <FaRegStickyNote size={16} />,
+    //   label: 'Purchase History',
+    //   isNavLink: false,
+    // },
   ]
   return (
     <ul className="user_dashboard_list">

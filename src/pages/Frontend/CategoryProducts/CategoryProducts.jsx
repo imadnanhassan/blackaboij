@@ -12,11 +12,20 @@ export default function CategoryProducts() {
   const { slug } = useParams()
   const { data } = useGetSingleCategoryQuery(slug)
   let title = ''
-  if (data.category.parent_id == 1) {
+  if (data?.category?.parent_id == 1) {
     title = `MEN ${data?.category?.name} COLLECTIONS`
-  } else if (data.category.parent_id == 8) {
+  } else if (data?.category?.parent_id == 8) {
     title = `WOMEN ${data?.category?.name} COLLECTIONS`
   }
+
+  let badge = ''
+  if (data?.category?.parent_id == 1) {
+    badge = `MEN `
+  } else if (data?.category?.parent_id == 8) {
+    badge = `WOMEN`
+  }
+
+  console.log(data)
   return (
     <div>
       <div
@@ -43,7 +52,7 @@ export default function CategoryProducts() {
             key={index}
             className="bg-[#B7B7B7] product-card font-custom relative"
           >
-            <Link>
+            <Link to={`/product/${item.slug}`}>
               <img
                 src={`${baseUrl}/products/${item.thumbnail_image}`}
                 alt=""
@@ -59,7 +68,7 @@ export default function CategoryProducts() {
             </button>
 
             <button className="absolute top-0 right-0  text-white bg-[#000000] md:px-4 md:py-1 md:text-[16px] text-[12px] px-2  py-[2px]  ">
-              MEN
+              {badge}
             </button>
 
             <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black text-[16px] text-white">

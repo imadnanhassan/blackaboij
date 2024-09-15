@@ -53,8 +53,6 @@ import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
 import CustomerProfile from '../pages/Frontend/CustomerPanel/CustomerProfile'
 import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
 import CustomerPanel from '../pages/Frontend/CustomerPanel/CustomerPanel'
-
-
 import MenCollection from '../pages/Frontend/MenCollection/MenCollection'
 import WomenCollection from '../pages/Frontend/WomenCollection/WomenCollection'
 import AccessoriesCollection from '../pages/Frontend/AccessoriesCollection/AccessoriesCollection'
