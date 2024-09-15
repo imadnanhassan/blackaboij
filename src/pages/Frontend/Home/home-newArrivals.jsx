@@ -49,7 +49,7 @@ const HomeNewArrivals = () => {
                         key={product?.slug}
                         className="bg-[#B7B7B7] product-card font-custom relative"
                       >
-                        <Link to={`categories/${product?.slug}`}>
+                        <Link to={`product/${product?.slug}`}>
                           <img
                             src={`${baseUrl}/products/${product?.thumbnail_image}`}
                             alt={product?.name}

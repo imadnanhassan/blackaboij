@@ -39,7 +39,6 @@ import AddVendor from '../pages/Admin/Vendor/AddVendor'
 import VendorList from '../pages/Admin/Vendor/VendorList'
 import VendorProfile from '../pages/Admin/Vendor/VendorProfile'
 import AddCategoryV2 from '../pages/Admin/Products/Categories/AddCategoryV2'
-import HotSaleDetailsPage from '../pages/Frontend/Home/HotSaleDetailsPage/hot-sale-details-page'
 import FrontendSignIn from '../pages/Frontend/Auth/SignIn'
 import FrontendSignUp from '../pages/Frontend/Auth/SignUp'
 import SeearchPage from '../pages/Frontend/SearchPage/search_page'
@@ -55,14 +54,16 @@ import CustomerProfile from '../pages/Frontend/CustomerPanel/CustomerProfile'
 import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
 import CustomerPanel from '../pages/Frontend/CustomerPanel/CustomerPanel'
 
+
 import MenCollection from '../pages/Frontend/MenCollection/MenCollection'
 import WomenCollection from '../pages/Frontend/WomenCollection/WomenCollection'
 import AccessoriesCollection from '../pages/Frontend/AccessoriesCollection/AccessoriesCollection'
 import CategoryProducts from '../pages/Frontend/CategoryProducts/CategoryProducts'
+import SingleProductDetails from '../pages/Frontend/Product/Single-Product-details'
 
 const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
-  { path: '/hotSale/:slug', element: <HotSaleDetailsPage /> },
+  { path: '/product/:slug', element: <SingleProductDetails /> },
   { path: '/signin', element: <FrontendSignIn></FrontendSignIn> },
   { path: '/signup', element: <FrontendSignUp></FrontendSignUp> },
   { path: '/search', element: <SeearchPage></SeearchPage> },
