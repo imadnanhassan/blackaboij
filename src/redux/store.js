@@ -5,6 +5,7 @@ import themeSlice from './features/themes/themeSlice'
 
 import { baseApi } from './features/api/baseApi/baseApi'
 import { productApi } from './features/api/product/productApi'
+import cartSlice from './features/cart/cartSlice'
 
 export default configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export default configureStore({
     counter: counterReducer,
     checkBox: checkBoxSlice,
     theme: themeSlice,
+    cart: cartSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(baseApi.middleware, productApi.middleware),

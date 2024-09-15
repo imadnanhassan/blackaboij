@@ -9,13 +9,26 @@ import { useGetSingleProductQuery } from '../../../redux/features/api/product/pr
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 import { BuyNowButton } from '../../../common/Button/Button'
 import { Markup } from 'interweave'
+import NotFound from '../Error/NotFound'
+import { useDispatch, useSelector } from 'react-redux'
+import { incrementQuantity } from '../../../redux/features/cart/cartSlice'
 
 export default function SingleProductDetails() {
   const { slug } = useParams()
   const { data, error, isLoading } = useGetSingleProductQuery(slug)
-
+  const cart = useSelector((state) => state.cart)
+  const dispatch = useDispatch();
+  console.log(cart, 'cart')
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading data...</p>
+  console.log(data?.status)
+  if(data?.status == 404){
+    return <NotFound />
+  }
+
+  const handleAddToCart = (id) => {
+    dispatch(incrementQuantity(id))
+  }
 
   const product = data?.product
   const galleries = data?.galleries
@@ -93,7 +106,7 @@ export default function SingleProductDetails() {
 
             {/* add to cart and add to favourite btn here */}
             <div className="grid grid-cols-2 items-center md:mt-[50px] my-[15px] md:gap-2 gap-1">
-              <button className="md:py-[14px] md:px-[20px] py-[7px] px-[5px] md:text-[14px] text-[10px]  bg-black text-white">
+              <button onClick={() => handleAddToCart(product?.id)} className="md:py-[14px] md:px-[20px] py-[7px] px-[5px] md:text-[14px] text-[10px]  bg-black text-white">
                 ADD TO CART
               </button>
               <button className="md:py-[14px] md:px-[20px] py-[7px] px-[5px] md:text-[14px] text-[10px]  bg-black text-white">
