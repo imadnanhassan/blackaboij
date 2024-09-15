@@ -9,16 +9,22 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 // import { useCart } from '../Utilites/CartContext';
 
 import { useForm } from 'react-hook-form'
+import { useRegisterCustomerMutation } from '../../../redux/features/api/Customer/customer'
+import { toast } from 'react-toastify'
+import Swal from 'sweetalert2'
 
 const defaultTheme = createTheme()
 
 export default function FrontendSignUp() {
   // const { tokenSet } = useCart;
   // const navigate = useNavigate()
+
+  const [userRegistration] = useRegisterCustomerMutation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -27,26 +33,24 @@ export default function FrontendSignUp() {
   } = useForm({})
 
   const onSubmit = async data => {
-    try {
-      const response = await fetch(
-        console.log(
-          response,
-        )`${import.meta.env.VITE_BASE_URL}/api/v1/front/customer/registration`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        },
-      )
-      if (!response.ok) {
-        throw new Error('Registration failed')
-      }
-      const result = await response.json()
-      console.log('Registration successful:', result)
-    } catch (error) {
-      console.log('Error:', error.message)
+    // console.log(data)
+    const formData = new FormData();
+    formData.append('name',data.name)
+    formData.append('email',data.email)
+    formData.append('password',data.password)
+    const response = await userRegistration(formData)
+    if(response?.data.status === 200){
+      localStorage.setItem('customerToken',response.data.token)
+      navigate('/user/dashboard',{
+        replace: true
+      })
+      toast.success(response.data.message)
+    }else if(response?.data.status === 401){
+      response.data.errors.forEach(el => toast.error(el))
+    }else if(response?.data.status === 402){
+      Swal.fire('Error',response.data.message,'error')
+    }else{
+      Swal.fire('Error','Something went wrong. Please try again.','error')
     }
   }
 

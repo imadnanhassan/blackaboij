@@ -13,26 +13,44 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useUserLoginMutation } from '../../../redux/features/api/Customer/customer'
+import { toast } from 'react-toastify'
 
 const defaultTheme = createTheme()
 
 export default function FrontendSignIn() {
   //   const navigate = useNavigate()
   // eslint-disable-next-line no-unused-vars
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [userLogin] = useUserLoginMutation();
 
-  const handleLogin = async event => {
-    event.preventDefault()
+  const {handleSubmit, register, reset} = useForm()
+  const navigate = useNavigate()
+  const handleLogin = async data => {
+    console.log(data)
+    const formData = new FormData();
+    formData.append('email',data.email)
+    formData.append('password',data.password)
+    formData.append('remember_me',data.remember_me)
 
-    // Prepare login data
-    const loginData = {
-      email,
-      password,
+    const response = await userLogin(formData);
+    console.log(response)
+    if(response?.data.status === 200){
+      toast.success(response.data.message)
+      localStorage.setItem('customerToken',response.data.token)
+      navigate('/user/dashboard',{
+        replace: true
+      })
+    }else if(response?.data.status === 401){
+      response.data.errors.forEach(el => toast.error(el))
+    }else if(response?.data.status === 402){
+      Swal.fire('Error',response.data.message,'error')
+    }else{
+      Swal.fire('Error','Something went wrong. Please try again.','error')
     }
-    console.log(loginData)
+
   }
 
   return (
@@ -56,7 +74,7 @@ export default function FrontendSignIn() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleLogin}
+            onSubmit={handleSubmit(handleLogin)}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -67,6 +85,9 @@ export default function FrontendSignIn() {
               id="email"
               label="Email Address"
               name="email"
+              {...register('email',{
+                required: true
+              })}
               autoComplete="email"
               autoFocus
               sx={{
@@ -82,7 +103,7 @@ export default function FrontendSignIn() {
                     border: '1px solid #757575',
                   },
               }}
-              onChange={e => setEmail(e.target.value)}
+              
             />
             <TextField
               margin="normal"
@@ -106,10 +127,12 @@ export default function FrontendSignIn() {
                     border: '1px solid #757575',
                   },
               }}
-              onChange={e => setPassword(e.target.value)}
+              {...register('password',{
+                required: true
+              })}
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox {...register('remember_me')} value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
