@@ -18,7 +18,10 @@ const HomeHotSale = () => {
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading data...</p>
   const categories = data.data;
-  console.log(data , "get objects")
+  
+
+  
+  
 
 
 
@@ -53,21 +56,14 @@ const HomeHotSale = () => {
                         key={product?.slug}
                         className="bg-[#B7B7B7] product-card font-custom relative"
                       >
-                        <Link to={`categories/${product?.slug}`}>
+                        <Link to={`product/${product?.slug}`}>
                           <img
                             src={`${baseUrl}/products/${product?.thumbnail_image}`}
                             alt={product?.name}
                             className="front-img w-full object-cover"
                           />
                         </Link>
-                        {/* Assuming you have another image for hover effect */}
-                        {/* <Link to={`newArrivals/${product.slug}`}>
-                        <img
-                          src={product.backImg}
-                          alt={product.name}
-                          className="absolute top-0 opacity-0 hover:opacity-100 transition-opacity duration-1000 ease-in-out w-full object-cover"
-                        />
-                      </Link> */}
+                       
 
                         <button
                           style={{ fontSize: '30px' }}

@@ -82,9 +82,9 @@ export const productApi = baseApi.injectEndpoints({
     }),
     getSingleProduct: builder.query({
       query: slug => ({
-        url: `/api/front/products/${slug}`,
+        url: `/api/v1/front/product/${slug}`,
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Accept: `application/json`,
         },
       }),
     }),
