@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { GoHome } from 'react-icons/go'
 import { useSelector } from 'react-redux'
-import { FaPlus } from 'react-icons/fa'
+import { FaPlus, FaSpinner } from 'react-icons/fa'
 
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
 import Button from '../../../../common/Button/Button'
@@ -16,7 +16,7 @@ import {
   useGetProductCategoryListQuery,
   useEditProductQuery,
   useUpdateProductMutation,
-  useDeleteProductGalleryImageMutation
+  useDeleteProductGalleryImageMutation,
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
@@ -35,27 +35,25 @@ export default function EditProductV2() {
   const [selectedCategory, setSelectedCategory] = useState([])
   const [selectedSize, setSelectedSize] = useState([])
   const [selectedColor, setSelectedColor] = useState([])
-  const {id} = useParams();
-  
-  
+  const { id } = useParams()
+
   const [galleryPreviews, setGalleryPreviews] = useState([])
   const [thumbnailPreview, setThumbnailPreview] = useState(null)
 
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
-  
-  const {data: productInfo, isLoading} = useEditProductQuery(id);
-  const [updateProduct, {isLoading: updateIsPending}] = useUpdateProductMutation();
-  const [deleteGalleryImage] = useDeleteProductGalleryImageMutation();
-  // const [] = 
-  
-  console.log(productInfo)
 
-  const product = productInfo?.product;
-  const navigate = useNavigate();
+  const { data: productInfo, isLoading } = useEditProductQuery(id)
+  const [updateProduct, { isLoading: updateIsPending }] =
+    useUpdateProductMutation()
+  const [deleteGalleryImage] = useDeleteProductGalleryImageMutation()
 
-  
+  // console.log(productInfo)
+
+  const product = productInfo?.product
+  const navigate = useNavigate()
+
   // Handle gallery image selection
   const handleGalleryChange = e => {
     const files = Array.from(e.target.files)
@@ -70,57 +68,54 @@ export default function EditProductV2() {
   }
 
   // Remove a single gallery image preview
-  const handleGalleryRemove = async (e,index, id = null) => {
-    if(id == null){
-      
-      setGalleryPreviews(prev => prev.filter((_,i) => i != index))
-    }else{
-        Swal.fire({
-          title: 'Are you sure?',
-          text: 'Do you really want to delete this product?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!',
-          cancelButtonText: 'Cancel',
-        }).then(async result => {
-          if (result.isConfirmed) {
-            try {
-              const deleteResponse = await deleteGalleryImage(id)
-              if (deleteResponse?.data.status == 200) {
-                e.target.closest('div').remove();
-                toast.success(deleteResponse?.data?.message, {
-                  position: 'bottom-right',
-                  autoClose: 3000,
-                })
-              } else if (response?.data.status == 404) {
-                toast.error(deleteResponse?.data?.message, {
-                  position: 'bottom-right',
-                  autoClose: 3000,
-                })
-              } else if (deleteResponse?.data.status == 402) {
-                toast.error(deleteResponse?.data?.message, {
-                  position: 'bottom-right',
-                  autoClose: 3000,
-                })
-              } else {
-                toast.error('Somthing wrong, please try again ', {
-                  position: 'bottom-right',
-                  autoClose: 3000,
-                })
-              }
-            } catch (error) {
-              toast.error('Failed to delete the product. Please try again.', {
+  const handleGalleryRemove = async (e, index, id = null) => {
+    if (id == null) {
+      setGalleryPreviews(prev => prev.filter((_, i) => i != index))
+    } else {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you really want to delete this product?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+      }).then(async result => {
+        if (result.isConfirmed) {
+          try {
+            const deleteResponse = await deleteGalleryImage(id)
+            if (deleteResponse?.data.status == 200) {
+              e.target.closest('div').remove()
+              toast.success(deleteResponse?.data?.message, {
+                position: 'bottom-right',
+                autoClose: 3000,
+              })
+            } else if (deleteResponse?.data.status == 404) {
+              toast.error(deleteResponse?.data?.message, {
+                position: 'bottom-right',
+                autoClose: 3000,
+              })
+            } else if (deleteResponse?.data.status == 402) {
+              toast.error(deleteResponse?.data?.message, {
+                position: 'bottom-right',
+                autoClose: 3000,
+              })
+            } else {
+              toast.error('Somthing wrong, please try again ', {
                 position: 'bottom-right',
                 autoClose: 3000,
               })
             }
+          } catch (error) {
+            toast.error('Failed to delete the product. Please try again.', {
+              position: 'bottom-right',
+              autoClose: 3000,
+            })
           }
-        })
+        }
+      })
     }
-
-
   }
 
   // Remove thumbnail image preview
@@ -128,43 +123,35 @@ export default function EditProductV2() {
     setThumbnailPreview(null)
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     const checkProductFound = () => {
-      if(product?.status === 404){
-        Swal.fire('Error',product.message,'error')
-            return navigate('/dashboard/products-list',{
-            replace: true
-          })
+      if (productInfo?.status === 404) {
+        Swal.fire('Error', productInfo?.message, 'error')
+        return navigate('/dashboard/products-list', {
+          replace: true,
+        })
       }
     }
 
-    checkProductFound();
-  },[isLoading, product])
+    checkProductFound()
+  }, [isLoading, productInfo])
 
   useEffect(() => {
-    
-    const convertStringIdToArray = (stringId) => {
-      const id = JSON.parse(stringId)
-      const arr = id?.split(',').map(Number);
-      return arr;
+    const colorsArrFindId = datas => {
+      const ids = datas?.map(el => el.color_id)
+      return ids
+    }
+    const sizesArrFindId = datas => {
+      const ids = datas?.map(el => el.size_id)
+      return ids
     }
 
-    const colorsArrFindId = (datas) => {
-      const ids = datas?.map(el => el.color_id);
-      return ids
-    }
-    const sizesArrFindId = (datas) => {
-      const ids = datas?.map(el => el.size_id);
-      return ids
-    }
-    
-    if(product){
-      setSelectedCategories(convertStringIdToArray(product?.category_id))
+    if (product) {
+      setSelectedCategories(JSON.parse(product.category_id))
       setSelectedColors(colorsArrFindId(productInfo?.colors))
       setSelectedSizes(sizesArrFindId(productInfo?.sizes))
     }
-  },[product])
-
+  }, [product])
 
   const categoryList = categories?.categories ?? []
   const sizeData = size?.sizes || []
@@ -205,57 +192,57 @@ export default function EditProductV2() {
       }
     }
   }
-  // console.log(selectedCategory, 'category')
-  // console.log(selectedSize, 'size')
-  // console.log(selectedColor, 'color')
 
-  // add product
-  const { register, handleSubmit, reset, control } = useForm()
+  // Update product
+  const { register, handleSubmit, control } = useForm()
 
   const onSubmit = async data => {
     console.log({
       data,
       selectedCategories,
       selectedColors,
-      selectedSizes
+      selectedSizes,
     })
     const formData = new FormData()
     formData.append('name', data.name)
     formData.append('slug', data.slug)
-    formData.append('id',id)
-    formData.append('category_id', selectedCategories)
+    formData.append('id', id)
     formData.append('thumbnail_image', data.thumbnail_image[0])
     formData.append('description', data.description)
     formData.append('price', data.price)
-    // formData.append('discount_price', data.discount_price)
     formData.append('quantity', data.quantity)
-    // formData.append('discount_type', data.discount_type)
-    if(data.gallery.length > 0){
-      for(let i = 0; i<data.gallery.length;i++){
-        formData.append('gallery[]',data.gallery[i])
+    if (data.gallery.length > 0) {
+      for (let i = 0; i < data.gallery.length; i++) {
+        formData.append('gallery[]', data.gallery[i])
       }
     }
-
-    for(let c = 0; c<selectedColors.length;c++){
+    if (selectedCategory.length > 0) {
+      for (let ct = 0; ct < selectedCategory.length; ct++) {
+        formData.append('category_id[]', selectedCategory[ct])
+      }
+    }
+    for (let c = 0; c < selectedColors.length; c++) {
       formData.append('colors[]', selectedColors[c])
     }
-    for(let s = 0; s<selectedSizes.length;s++){
+    for (let s = 0; s < selectedSizes.length; s++) {
       formData.append('sizes[]', selectedSizes[s])
     }
-    formData.append('metaDescription',data.metaDescription)
-    formData.append('metaTitle',data.metaTitle)
-
-
+    formData.append('metaDescription', data.metaDescription)
+    formData.append('metaTitle', data.metaTitle)
     try {
       const response = await updateProduct(formData)
       console.log(response)
-      if(response?.data?.status === 200){
+
+      if (response?.data?.status === 200) {
         toast.success(response.data.message)
-      }else if(response?.data?.status === 401){
+        navigate('/dashboard/products-list', {
+          replace: true,
+        })
+      } else if (response?.data?.status === 401) {
         response.data.errors.forEach(el => toast.error(el))
-      }else if(response?.data?.status === 402){
+      } else if (response?.data?.status === 402) {
         toast.error(response.data.message)
-      }else{
+      } else {
         toast.error('Something went wrong. Please try again.')
       }
       // reset()
@@ -264,18 +251,13 @@ export default function EditProductV2() {
     }
   }
 
- 
-
-  // if (isLoading) {
-  //   return <SkeletonLoader />
-  // }
   const pageTitle = 'Edit Product'
   const productLinks = [
     { title: <GoHome />, link: '/' },
     { title: 'Products' },
     { title: 'Edit Product' },
   ]
-  
+
   if (isLoading) {
     return (
       <InfinitySpin
@@ -587,31 +569,33 @@ export default function EditProductV2() {
                         />
                         <button
                           type="button"
-                          onClick={(e) => handleGalleryRemove(e,index)}
+                          onClick={e => handleGalleryRemove(e, index)}
                           className="absolute top-0 right-0 px-2 bg-red-500 text-white rounded-[26%]"
                         >
                           &times;
                         </button>
                       </div>
                     ))}
-                    {
-                      galleryPreviews.length == 0 ? productInfo?.galleries?.map((image, index) => (
-                        <div key={index} className="relative ">
-                          <img
-                            src={`${baseUrl}/products/${image?.name}`}
-                            alt={`Gallery Image ${index + 1}`}
-                            className="w-24 h-24 object-cover rounded"
-                          />
-                          <button
-                            type="button"
-                            onClick={(e) => handleGalleryRemove(e,index,image?.id)}
-                            className="absolute top-0 right-0 px-2 bg-red-500 text-white rounded-[26%]"
-                          >
-                            &times;
-                          </button>
-                      </div>
-                      )) : ''
-                    }
+                    {galleryPreviews.length == 0
+                      ? productInfo?.galleries?.map((image, index) => (
+                          <div key={index} className="relative ">
+                            <img
+                              src={`${baseUrl}/products/${image?.name}`}
+                              alt={`Gallery Image ${index + 1}`}
+                              className="w-24 h-24 object-cover rounded"
+                            />
+                            <button
+                              type="button"
+                              onClick={e =>
+                                handleGalleryRemove(e, index, image?.id)
+                              }
+                              className="absolute top-0 right-0 px-2 bg-red-500 text-white rounded-[26%]"
+                            >
+                              &times;
+                            </button>
+                          </div>
+                        ))
+                      : ''}
                   </div>
                 </div>
 
@@ -643,17 +627,15 @@ export default function EditProductV2() {
                       </button>
                     </div>
                   )}
-                  {
-                    !thumbnailPreview && (
-                      <div className="relative mt-2">
-                        <img
-                          src={`${baseUrl}/products/${product?.thumbnail_image}`}
-                          alt="Thumbnail Preview"
-                          className="w-24 h-24 object-cover rounded"
-                        />
-                      </div>
-                    )
-                  }
+                  {!thumbnailPreview && (
+                    <div className="relative mt-2">
+                      <img
+                        src={`${baseUrl}/products/${product?.thumbnail_image}`}
+                        alt="Thumbnail Preview"
+                        className="w-24 h-24 object-cover rounded"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -699,12 +681,22 @@ export default function EditProductV2() {
           </div>
 
           <div className="flex justify-end gap-3 items-center mt-5">
-            <Button
+            <button
               type="submit"
-              text="Updated Product"
-              className={`py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center bg-primaryColor`}
-              icon={FaPlus}
-            ></Button>
+              className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
+            >
+              {updateIsPending ? (
+                <>
+                  <FaSpinner className="animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <FaPlus />
+                  Update Product
+                </>
+              )}
+            </button>
           </div>
         </div>
       </form>

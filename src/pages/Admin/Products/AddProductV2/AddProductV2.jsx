@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { GoHome } from 'react-icons/go'
 import { useSelector } from 'react-redux'
-import { FaPlus } from 'react-icons/fa'
+import { FaPlus, FaSpinner } from 'react-icons/fa'
 
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
-import Button from '../../../../common/Button/Button'
 
 import ReactQuill from 'react-quill'
 
@@ -33,7 +32,7 @@ export default function AddProductV2() {
   const { data: categories, isLoading } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
-  const [addProduct] = useAddProductMutation()
+  const [addProduct, { isLoading: isSubmitting }] = useAddProductMutation()
 
   const categoryList = categories?.categories ?? []
   const sizeData = size?.sizes || []
@@ -540,12 +539,24 @@ export default function AddProductV2() {
           </div>
 
           <div className="flex justify-end gap-3 items-center mt-5">
-            <Button
+           
+
+            <button
               type="submit"
-              text="Add Product"
               className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-              icon={FaPlus}
-            ></Button>
+            >
+              {isSubmitting ? (
+                <>
+                  <FaSpinner className="animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <FaPlus />
+                  Add Product
+                </>
+              )}
+            </button>
           </div>
         </div>
       </form>
