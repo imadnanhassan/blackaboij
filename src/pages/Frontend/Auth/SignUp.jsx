@@ -13,75 +13,25 @@ import { Link } from 'react-router-dom'
 // import { useCart } from '../Utilites/CartContext';
 
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 
 const defaultTheme = createTheme()
 
 export default function FrontendSignUp() {
   // const { tokenSet } = useCart;
   // const navigate = useNavigate()
-  // const handleSubmit = async event => {
-  //   event.preventDefault()
-  //   const data = new FormData(event.currentTarget)
-
-  //   // Prepare user registration data
-  //   const userData = {
-  //     name: data.get('fullName'),
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   }
-
-  //   try {
-  //     // Make a POST request to the backend server
-  //     const response = await fetch('http://localhost:9000/v1/auth/register', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(userData),
-  //     })
-
-  //     // Handle the response accordingly
-  //     if (response.ok) {
-  //       console.log(response.ok, response)
-  //       const result = await response.json()
-  //       localStorage.setItem('token', result.tokens.access.token)
-  //       console.log(result)
-  //       navigate('/signIn')
-  //     } else {
-  //       console.error(response)
-  //     }
-  //   } catch (error) {
-  //     console.error('Error:', error)
-  //   }
-  // }
-
-  // Validation schema
-  
-  
-  const schema = yup.object().shape({
-    fullName: yup.string().required('Full Name is required'),
-    email: yup.string().email('Invalid email').required('Email is required'),
-    password: yup
-      .string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
-    terms: yup.bool().oneOf([true], 'You must accept the terms and conditions'),
-  })
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema), 
-  })
+  } = useForm({})
 
   const onSubmit = async data => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/v1/front/customer/registration`,
+        console.log(
+          response,
+        )`${import.meta.env.VITE_BASE_URL}/api/v1/front/customer/registration`,
         {
           method: 'POST',
           headers: {
@@ -90,15 +40,13 @@ export default function FrontendSignUp() {
           body: JSON.stringify(data),
         },
       )
-
       if (!response.ok) {
         throw new Error('Registration failed')
       }
-
       const result = await response.json()
       console.log('Registration successful:', result)
     } catch (error) {
-      console.error('Error:', error.message)
+      console.log('Error:', error.message)
     }
   }
 

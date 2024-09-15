@@ -13,6 +13,7 @@ export const tagTypes = {
   accessoriesCollection: 'accessoriesCollection',
   singleProduct: 'singleProduct',
   categoryProduct: 'categoryProduct',
+  customerRegister: 'customerRegister',
 }
 
 export const tagTypesList = [
@@ -29,5 +30,6 @@ export const tagTypesList = [
   tagTypes.womenCollection,
   tagTypes.accessoriesCollection,
   tagTypes.singleProduct,
-  tagTypes.categoryProduct, // for category product page
+  tagTypes.categoryProduct,
+  tagTypes.customerRegister, 
 ]
