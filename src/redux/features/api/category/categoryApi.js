@@ -60,9 +60,9 @@ export const categoryApi = baseApi.injectEndpoints({
 
     getSingleCategory: builder.query({
       query: slug => ({
-        url: `/api/front/category/${slug}`,
+        url: `/api/v1/front/category/${slug}`,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
         },
       }),
       providesTags: [tagTypes.category],

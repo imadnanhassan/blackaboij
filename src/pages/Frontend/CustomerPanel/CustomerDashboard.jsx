@@ -2,7 +2,6 @@ import { FaSpinner } from 'react-icons/fa6'
 import { PiCube } from 'react-icons/pi'
 import { LuBadgeCheck } from 'react-icons/lu'
 import { HiMiniXMark } from 'react-icons/hi2'
-import WelcomeMessage from '../../../common/WelcomeMessage/WelcomeMessage'
 import CustomerHead from './CustomerHead'
 
 export default function CustomerDashboard() {
@@ -32,8 +31,7 @@ export default function CustomerDashboard() {
       icon: <HiMiniXMark className="w-6 h-6" />,
     },
   ]
-  const isNewCustomer = true
-  const customerName = 'Miss. Lamiya'
+
   return (
     <>
       <CustomerHead title="Dashboard" />
@@ -57,10 +55,7 @@ export default function CustomerDashboard() {
           </div>
         </div>
 
-        <WelcomeMessage
-          customerName={customerName}
-          isNewCustomer={isNewCustomer}
-        />
+        
       </>
     </>
   )

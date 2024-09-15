@@ -56,6 +56,7 @@ import CustomerPanel from '../pages/Frontend/CustomerPanel/CustomerPanel'
 import MenCollection from '../pages/Frontend/MenCollection/MenCollection'
 import WomenCollection from '../pages/Frontend/WomenCollection/WomenCollection'
 import AccessoriesCollection from '../pages/Frontend/AccessoriesCollection/AccessoriesCollection'
+import CategoryProducts from '../pages/Frontend/CategoryProducts/CategoryProducts'
 import SingleProductDetails from '../pages/Frontend/Product/Single-Product-details'
 
 const FRONTEND_ROUTES = [
@@ -70,10 +71,8 @@ const FRONTEND_ROUTES = [
   { path: '/store', element: <Store></Store> },
   { path: '/men-collection', element: <MenCollection></MenCollection> },
   { path: '/women-collection', element: <WomenCollection></WomenCollection> },
-  {
-    path: '/accessories',
-    element: <AccessoriesCollection></AccessoriesCollection>,
-  },
+  { path: '/accessories', element: <AccessoriesCollection /> },
+  { path: '/category/:slug', element: <CategoryProducts /> },
 ]
 
 const CUSTOMER_PANEL_ROUTES = [
@@ -104,7 +103,6 @@ const DASHBOARD_ROUTES = [
     path: '/dashboard/attributes/edit/:attributeId',
     element: <EditSize />,
   },
-  // { path: 'dashboard/attributes/add-value/1', element: <AddValue /> },
   { path: 'dashboard/color', element: <AddColor /> },
   { path: 'dashboard/coupons-list', element: <CouponsList /> },
   { path: 'dashboard/create-coupon', element: <CreateCoupon /> },
