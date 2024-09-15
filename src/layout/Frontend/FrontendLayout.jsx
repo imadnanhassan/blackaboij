@@ -1,11 +1,10 @@
 import { Outlet } from 'react-router-dom'
 import FrontendHeader from '../../shared/Frontend/FrontendHeader'
-// import { useEffect, useState } from 'react'
-// import Loader from '../../common/Loader/Loader'
 import FrontendFooter from '../../shared/Frontend/FrontendFooter'
 import ScrollToTopButton from '../../common/ScrollToTopButton/ScrollToTopButton'
 import { useGetCategoryQuery } from '../../redux/features/api/category/categoryApi'
 import Loader from '../../common/Loader/Loader'
+import CartDrawer from '../../pages/Frontend/CartDrawer/CartDrawer'
 
 export default function FrontendLayout() {
   const { data: categories, isLoading } = useGetCategoryQuery()
@@ -21,6 +20,7 @@ export default function FrontendLayout() {
       <Outlet />
       <FrontendFooter />
       <ScrollToTopButton />
+      <CartDrawer />
     </>
   )
 }
