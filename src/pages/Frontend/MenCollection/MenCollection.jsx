@@ -39,7 +39,7 @@ const MenCollection = () => {
             key={index}
             className="bg-[#B7B7B7] product-card font-custom relative"
           >
-            <Link>
+            <Link to={`/product/${item.slug}`}>
               <img
                 src={`${baseUrl}/products/${item.thumbnail_image}`}
                 alt=""

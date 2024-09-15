@@ -40,7 +40,7 @@ export default function WomenCollection() {
             key={index}
             className="bg-[#B7B7B7] product-card font-custom relative"
           >
-            <Link>
+            <Link to={`/product/${item.slug}`}>
               <img
                 src={`${baseUrl}/products/${item.thumbnail_image}`}
                 alt=""
@@ -73,8 +73,6 @@ export default function WomenCollection() {
             </div>
           </div>
         ))}
-
-       
       </div>
       <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px] mb-5 lg:mb-10">
         <AnimatedButton buttonText="SHOW ALL"></AnimatedButton>
