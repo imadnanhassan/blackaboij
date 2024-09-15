@@ -143,7 +143,7 @@ const FrontendHeader = ({ categoryList }) => {
                       )}
                       {category.sub_categories.map(subCategory => (
                         <li key={subCategory.id} className="p-[2px]">
-                          <Link to={`/${subCategory.slug}`}>
+                          <Link to={`/category/${subCategory.slug}`}>
                             {subCategory.name}
                           </Link>
                         </li>
