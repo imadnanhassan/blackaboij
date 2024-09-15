@@ -120,8 +120,8 @@ export default function ProductsList() {
       <div
         className={`px-5 py-5 rounded  ${isDarkMode ? 'bg-darkColorCard' : 'bg-lightColor'}`}
       >
-        <div>
-          {/* Products filtering */}
+        {/* Products filtering */}
+        {/* <div>
           <div className="pt-3 pb-5">
             <h3
               className={` text-[20px] font-medium ${isDarkMode ? 'text-darkColorText' : 'text-bgray-800'}`}
@@ -142,12 +142,12 @@ export default function ProductsList() {
                 name="vendor1"
                 className={`form-control mt-1 p-3   block w-full shadow-sm sm:text-sm  rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody border text-darkColorText ' : 'bg-lightColor hover:border-gray-400 border-gray-300 border'}`}
               >
-                {/* Vendor options */}
+               
                 <option>Status </option>
                 <option>Scheduled</option>
                 <option>Publish</option>
                 <option>Inactive</option>
-                {/* Add more options as needed */}
+              
               </select>
             </div>
             <div className="mb-4 flex-1 lg:mx-4">
@@ -162,13 +162,13 @@ export default function ProductsList() {
                 name="vendor2"
                 className={`form-control mt-1 p-3   block w-full shadow-sm sm:text-sm rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody border text-darkColorText ' : 'bg-lightColor hover:border-gray-400 border-gray-300 border'}`}
               >
-                {/* Vendor options */}
+              
                 <option>Category</option>
                 <option>Household</option>
                 <option>Office</option>
                 <option>Electronics</option>
                 <option>Shoes</option>
-                {/* Add more options as needed */}
+             
               </select>
             </div>
             <div className="mb-4 flex-1">
@@ -183,15 +183,13 @@ export default function ProductsList() {
                 name="vendor3"
                 className={`form-control mt-1 p-3   block w-full shadow-sm sm:text-sm  rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText border ' : 'bg-lightColor hover:border-gray-400 border border-gray-300 '}`}
               >
-                {/* Vendor options */}
                 <option>Stock</option>
                 <option>Out Of Stock</option>
                 <option>In Stock</option>
-                {/* Add more options as needed */}
               </select>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* search product and addProducts */}
         <div className="flex items-center justify-between gap-6 py-3 ">
@@ -267,15 +265,17 @@ export default function ProductsList() {
               <tbody className="divide-y divide-gray-200">
                 {productsData.map((product, index) => (
                   <tr key={product.id}>
-                    <td className="text-center">{products?.products.from + index}</td>
+                    <td className="text-center">
+                      {products?.products.from + index}
+                    </td>
                     <td className="border-l pl-2 py-4 whitespace-nowrap flex gap-2">
                       <div
-                        className={`w-[40px] h-[40px] rounded-md p-2 ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
+                        className={`w-[50px] h-[50px]  ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
                       >
                         <img
                           src={`${import.meta.env.VITE_BASE_URL}/products/${product.thumbnail_image}`}
                           alt=""
-                          className="w-full"
+                          className="w-full p-1 rounded"
                         />
                       </div>
                       <span>
@@ -330,17 +330,38 @@ export default function ProductsList() {
               </tbody>
             </table>
             <div className="flex gap-3 mt-4 justify-end">
-              {
-                pageLinks?.map((el, index) => {
-                    if(index == 0){
-                      return <button key={index} onClick={() => handlePageChange('previous')} className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}>{el.label.split(' ')[1]}</button>
-                    }else if((products.products.links.length - 1) == index){
-                      return <button key={index} onClick={() => handlePageChange('next')} className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-darkblack-300 cursor-not-allowed' : 'bg-black cursor-pointer'}`}>Next</button>
-                    }
-                    return <button key={index} onClick={() => handlePageChange(Number(el.label))} className={`px-3 py-2 rounded text-white  cursor-pointer ${el.active ? 'bg-blue-900' : 'bg-green-600'}`}>{el.label.split(' ')[0]}</button>
-                    
-                })
-              }
+              {pageLinks?.map((el, index) => {
+                if (index == 0) {
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handlePageChange('previous')}
+                      className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}
+                    >
+                      {el.label.split(' ')[1]}
+                    </button>
+                  )
+                } else if (products.products.links.length - 1 == index) {
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handlePageChange('next')}
+                      className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-darkblack-300 cursor-not-allowed' : 'bg-black cursor-pointer'}`}
+                    >
+                      Next
+                    </button>
+                  )
+                }
+                return (
+                  <button
+                    key={index}
+                    onClick={() => handlePageChange(Number(el.label))}
+                    className={`px-3 py-2 rounded text-white  cursor-pointer ${el.active ? 'bg-blue-900' : 'bg-green-600'}`}
+                  >
+                    {el.label.split(' ')[0]}
+                  </button>
+                )
+              })}
               {/* <Link className="px-3 py-2 rounded text-white bg-red-600 cursor-pointer">Previous</Link>
               <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">1</Link>
               <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">2</Link>

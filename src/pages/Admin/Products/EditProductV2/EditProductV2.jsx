@@ -44,7 +44,7 @@ export default function EditProductV2() {
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
-  const [addProduct] = useAddProductMutation()
+  
   const {data: productInfo, isLoading} = useEditProductQuery(id);
   const [updateProduct, {isLoading: updateIsPending}] = useUpdateProductMutation();
   const [deleteGalleryImage] = useDeleteProductGalleryImageMutation();

@@ -101,9 +101,11 @@ export default function AddProductV2() {
   // add product
   const { register, handleSubmit, reset, control } = useForm()
   const onSubmit = async data => {
+    console.log(data, selectedCategory, selectedColor, selectedSize)
+
     const formData = new FormData()
     formData.append('name', data.name)
-    formData.append('category_id', selectedCategory)
+    // formData.append('category_id', selectedCategory)
     formData.append('thumbnail_image', data.thumbnail_image[0])
     formData.append('description', data.description)
     formData.append('price', data.price)
@@ -120,6 +122,11 @@ export default function AddProductV2() {
         formData.append('colors[]', selectedColor[c])
       }
     }
+    if (selectedCategory.length > 0) {
+      for (let ct = 0; ct < selectedCategory.length; ct++) {
+        formData.append('category_id[]', selectedCategory[ct])
+      }
+    }
     if (selectedSize.length > 0) {
       for (let c = 0; c < selectedSize.length; c++) {
         formData.append('sizes[]', selectedSize[c])
@@ -130,10 +137,11 @@ export default function AddProductV2() {
 
     try {
       const response = await addProduct(formData)
+      console.log(response)
       if (response?.data?.status === 200) {
         toast.success(response.data.message)
       } else if (response?.data?.status === 401) {
-        response.data.errors.forEach(el => toast.error(el))
+        response.data.errors.forEach(el => toast.errors(el))
       } else if (response?.data?.status === 402) {
         toast.error(response.data.message)
       } else {

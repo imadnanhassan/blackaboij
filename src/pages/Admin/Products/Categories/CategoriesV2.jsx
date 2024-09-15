@@ -142,7 +142,6 @@ export default function CategoriesV2() {
                         >
                           <img
                             src={`${import.meta.env.VITE_BASE_URL}/category/${category.banner}`}
-                            
                             alt={category.name}
                             className="w-full"
                           />
@@ -193,7 +192,7 @@ export default function CategoriesV2() {
                             className={`w-[40px] h-[40px] rounded-md p-2 ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
                           >
                             <img
-                              src={`${import.meta.env.VITE_BASE_URL}/category/${category.banner}`}
+                              src={`${import.meta.env.VITE_BASE_URL}/category/${sub_category.banner}`}
                               className="w-full"
                             />
                           </div>
