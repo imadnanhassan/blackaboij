@@ -2,33 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { GoHome } from 'react-icons/go'
 import { useSelector } from 'react-redux'
 import { FaPlus, FaSpinner } from 'react-icons/fa'
-
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
-import Button from '../../../../common/Button/Button'
-
 import ReactQuill from 'react-quill'
-
 import { useGetColorQuery } from '../../../../redux/features/api/color/colorApi'
 import { useGetSizeQuery } from '../../../../redux/features/api/attribute/sizeApi'
 import { Controller, useForm } from 'react-hook-form'
 import {
-  useAddProductMutation,
   useGetProductCategoryListQuery,
   useEditProductQuery,
   useUpdateProductMutation,
   useDeleteProductGalleryImageMutation,
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { InfinitySpin } from 'react-loader-spinner'
 import { baseUrl } from '../../../../hooks/useThumbnailImage'
-// import SkeletonLoader from '../../../../common/Skeleton Loader/SkeletonLoader'
 
 export default function EditProductV2() {
-  // const [description, setDescription] = useState('')
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-
   const [selectedCategories, setSelectedCategories] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedColors, setSelectedColors] = useState([])
@@ -36,20 +28,15 @@ export default function EditProductV2() {
   const [selectedSize, setSelectedSize] = useState([])
   const [selectedColor, setSelectedColor] = useState([])
   const { id } = useParams()
-
   const [galleryPreviews, setGalleryPreviews] = useState([])
   const [thumbnailPreview, setThumbnailPreview] = useState(null)
-
   const { data: categories } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
-
   const { data: productInfo, isLoading } = useEditProductQuery(id)
   const [updateProduct, { isLoading: updateIsPending }] =
     useUpdateProductMutation()
   const [deleteGalleryImage] = useDeleteProductGalleryImageMutation()
-
-  // console.log(productInfo)
 
   const product = productInfo?.product
   const navigate = useNavigate()
@@ -192,6 +179,7 @@ export default function EditProductV2() {
       }
     }
   }
+  console.log(selectedCategories)
 
   // Update product
   const { register, handleSubmit, control } = useForm()
