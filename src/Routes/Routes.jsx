@@ -54,14 +54,13 @@ import CustomerWishlist from '../pages/Frontend/CustomerPanel/CustomerWishlist'
 import CustomerProfile from '../pages/Frontend/CustomerPanel/CustomerProfile'
 import CustomerOrder from '../pages/Frontend/CustomerPanel/CustomerOrder'
 import CustomerPanel from '../pages/Frontend/CustomerPanel/CustomerPanel'
-import CategoriesDetailsPage from '../pages/Frontend/categoriesDetailsPage/categories_details_page'
+
 import MenCollection from '../pages/Frontend/MenCollection/MenCollection'
 import WomenCollection from '../pages/Frontend/WomenCollection/WomenCollection'
 import AccessoriesCollection from '../pages/Frontend/AccessoriesCollection/AccessoriesCollection'
 
 const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
-  { path: '/categories/:slug', element: <CategoriesDetailsPage /> },
   { path: '/hotSale/:slug', element: <HotSaleDetailsPage /> },
   { path: '/signin', element: <FrontendSignIn></FrontendSignIn> },
   { path: '/signup', element: <FrontendSignUp></FrontendSignUp> },
@@ -72,10 +71,7 @@ const FRONTEND_ROUTES = [
   { path: '/store', element: <Store></Store> },
   { path: '/men-collection', element: <MenCollection></MenCollection> },
   { path: '/women-collection', element: <WomenCollection></WomenCollection> },
-  {
-    path: '/accessories',
-    element: <AccessoriesCollection></AccessoriesCollection>,
-  },
+  { path: '/accessories', element: <AccessoriesCollection /> },
 ]
 
 const CUSTOMER_PANEL_ROUTES = [
@@ -106,7 +102,6 @@ const DASHBOARD_ROUTES = [
     path: '/dashboard/attributes/edit/:attributeId',
     element: <EditSize />,
   },
-  // { path: 'dashboard/attributes/add-value/1', element: <AddValue /> },
   { path: 'dashboard/color', element: <AddColor /> },
   { path: 'dashboard/coupons-list', element: <CouponsList /> },
   { path: 'dashboard/create-coupon', element: <CreateCoupon /> },
