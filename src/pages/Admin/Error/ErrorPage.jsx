@@ -1,9 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function ErrorPage() {
   return (
-    <section className="relative z-10 bg-primary py-[120px]">
-      <div className="container mx-auto">
+    <section className="relative z-10 bg-black h-screen ">
+      <div className="container mx-auto py-[170px]">
         <div className="-mx-4 flex">
           <div className="w-full px-4">
             <div className="mx-auto max-w-[400px] text-center">
@@ -16,12 +17,12 @@ export default function ErrorPage() {
               <p className="mb-8 text-lg text-white">
                 The page you are looking for it maybe deleted
               </p>
-              <a
-                href="javascript:void(0)"
-                className="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-primary"
+              <Link
+                to={'/dashboard'}
+                className="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-black"
               >
                 Go To Home
-              </a>
+              </Link>
             </div>
           </div>
         </div>

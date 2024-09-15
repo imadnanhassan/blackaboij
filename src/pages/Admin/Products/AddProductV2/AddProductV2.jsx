@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { GoHome } from 'react-icons/go'
 import { useSelector } from 'react-redux'
-import { FaPlus } from 'react-icons/fa'
+import { FaPlus, FaSpinner } from 'react-icons/fa'
 
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
-import Button from '../../../../common/Button/Button'
 
 import ReactQuill from 'react-quill'
 
@@ -33,7 +32,7 @@ export default function AddProductV2() {
   const { data: categories, isLoading } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
   const { data: color } = useGetColorQuery()
-  const [addProduct] = useAddProductMutation()
+  const [addProduct, { isLoading: isSubmitting }] = useAddProductMutation()
 
   const categoryList = categories?.categories ?? []
   const sizeData = size?.sizes || []
@@ -101,9 +100,11 @@ export default function AddProductV2() {
   // add product
   const { register, handleSubmit, reset, control } = useForm()
   const onSubmit = async data => {
+    console.log(data, selectedCategory, selectedColor, selectedSize)
+
     const formData = new FormData()
     formData.append('name', data.name)
-    formData.append('category_id', selectedCategory)
+    // formData.append('category_id', selectedCategory)
     formData.append('thumbnail_image', data.thumbnail_image[0])
     formData.append('description', data.description)
     formData.append('price', data.price)
@@ -120,6 +121,11 @@ export default function AddProductV2() {
         formData.append('colors[]', selectedColor[c])
       }
     }
+    if (selectedCategory.length > 0) {
+      for (let ct = 0; ct < selectedCategory.length; ct++) {
+        formData.append('category_id[]', selectedCategory[ct])
+      }
+    }
     if (selectedSize.length > 0) {
       for (let c = 0; c < selectedSize.length; c++) {
         formData.append('sizes[]', selectedSize[c])
@@ -130,10 +136,11 @@ export default function AddProductV2() {
 
     try {
       const response = await addProduct(formData)
+      console.log(response)
       if (response?.data?.status === 200) {
         toast.success(response.data.message)
       } else if (response?.data?.status === 401) {
-        response.data.errors.forEach(el => toast.error(el))
+        response.data.errors.forEach(el => toast.errors(el))
       } else if (response?.data?.status === 402) {
         toast.error(response.data.message)
       } else {
@@ -532,12 +539,24 @@ export default function AddProductV2() {
           </div>
 
           <div className="flex justify-end gap-3 items-center mt-5">
-            <Button
+           
+
+            <button
               type="submit"
-              text="Add Product"
               className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-              icon={FaPlus}
-            ></Button>
+            >
+              {isSubmitting ? (
+                <>
+                  <FaSpinner className="animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <FaPlus />
+                  Add Product
+                </>
+              )}
+            </button>
           </div>
         </div>
       </form>

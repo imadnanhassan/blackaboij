@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../../../common/Button/Button'
-import { FaPlus } from 'react-icons/fa'
+import { FaPlus, FaSpinner } from 'react-icons/fa'
 
 import { useSelector } from 'react-redux'
 import { useAddCategoryMutation } from '../../../../redux/features/api/category/categoryApi'
@@ -99,11 +99,21 @@ export default function AddCategoryV2() {
               </div>
 
               <Button
-                text={isSubmitting ? 'Submitting...' : 'Submit'}
                 type="submit"
                 className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-                icon={FaPlus}
-              />
+              >
+                {isSubmitting ? (
+                  <>
+                    <FaSpinner className="animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    <FaPlus />
+                    Submit
+                  </>
+                )}
+              </Button>
             </div>
           </form>
         </div>
