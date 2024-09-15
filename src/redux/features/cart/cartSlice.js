@@ -1,39 +1,61 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = [];
+const initialState = {
+  items: JSON.parse(localStorage.getItem('cartItems')) || [],
+  isCartOpen: false,
+}
 
 const cartSlice = createSlice({
-  name: 'cartSlice',
-  initialState: initialState,
+  name: 'cart',
+  initialState,
   reducers: {
+    addProduct: (state, action) => {
+      const product = action.payload
+      const existingProduct = state.items.find(item => item.id === product.id)
+      if (existingProduct) {
+        existingProduct.quantity += 1
+      } else {
+        state.items.push({ ...product, quantity: 1 })
+      }
+      state.isCartOpen = true
+      localStorage.setItem('cartItems', JSON.stringify(state.items))
+    },
     incrementQuantity: (state, action) => {
       const productId = action.payload
-      const existingProductIndex = state.findIndex(
-        product => product.id === productId,
-      )
-      if (existingProductIndex !== -1) {
-        state[existingProductIndex].quantity += 1
+      const existingProduct = state.items.find(item => item.id === productId)
+      if (existingProduct) {
+        existingProduct.quantity += 1
+        localStorage.setItem('cartItems', JSON.stringify(state.items))
       }
     },
     decrementQuantity: (state, action) => {
       const productId = action.payload
-      const existingProductIndex = state.findIndex(
-        product => product.id === productId,
-      )
-      if (
-        existingProductIndex !== -1 &&
-        state[existingProductIndex].quantity > 1
-      ) {
-        state[existingProductIndex].quantity -= 1
+      const existingProduct = state.items.find(item => item.id === productId)
+      if (existingProduct && existingProduct.quantity > 1) {
+        existingProduct.quantity -= 1
+        localStorage.setItem('cartItems', JSON.stringify(state.items))
       }
     },
     removeProduct: (state, action) => {
       const productId = action.payload
-      return state.filter(product => product.id !== productId)
+      state.items = state.items.filter(item => item.id !== productId)
+      localStorage.setItem('cartItems', JSON.stringify(state.items))
+    },
+    toggleCartDrawer: state => {
+      state.isCartOpen = !state.isCartOpen
     },
   },
 })
 
-export const { incrementQuantity, decrementQuantity, removeProduct } = cartSlice.actions
+export const {
+  addProduct,
+  incrementQuantity,
+  decrementQuantity,
+  removeProduct,
+  toggleCartDrawer,
+} = cartSlice.actions
+
+export const selectCartItems = state => state.cart?.items || []
+export const selectIsCartOpen = state => state.cart?.isCartOpen || false
 
 export default cartSlice.reducer

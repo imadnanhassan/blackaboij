@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-undef */
 import { HiMiniChevronUp, HiMiniChevronDown } from 'react-icons/hi2'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -7,6 +9,11 @@ import { IoBagOutline } from 'react-icons/io5'
 import { FaRegUser } from 'react-icons/fa6'
 import { Fade } from 'react-awesome-reveal'
 import { SearchBtn } from '../../common/Button/Button'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  selectCartItems,
+  toggleCartDrawer,
+} from '../../redux/features/cart/cartSlice'
 
 const FrontendHeader = ({ categoryList }) => {
   const [isSticky, setIsSticky] = useState(false)
@@ -16,6 +23,18 @@ const FrontendHeader = ({ categoryList }) => {
   const [isListMenuOpen, setIsListMenuOpen] = useState(false)
   const [isListMenuOpenWomen, setIsListMenuOpenWomen] = useState(false)
   const [hoveredCategory, setHoveredCategory] = useState(null)
+
+  const dispatch = useDispatch()
+  const cartItems = useSelector(selectCartItems)
+
+  const totalQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  )
+
+  const handleCartClick = () => {
+    dispatch(toggleCartDrawer())
+  }
 
   const setIsHovered = (id, value) => {
     setHoveredCategory(value ? id : null)
@@ -80,22 +99,25 @@ const FrontendHeader = ({ categoryList }) => {
                     <FaRegUser className="text-white" />
                   </span>
                 </Link>
-                <Link>
+                <button onClick={handleCartClick}>
                   <span style={{ fontSize: `${iconSize}px` }}>
                     <IoBagOutline className="text-white" />
-                    <span className="text-[9px] font-bold absolute top-[-3px] text-black px-[4px] bg-white rounded-full right-[25px]">
-                      1
-                    </span>
+
+                    {totalQuantity > 0 && (
+                      <span className="text-[9px] font-bold absolute top-[-3px] text-black px-[4px] bg-white rounded-full right-[25px]">
+                        {totalQuantity}
+                      </span>
+                    )}
                   </span>
-                </Link>
-                <Link>
+                </button>
+                <button>
                   <span style={{ fontSize: `${iconSize}px` }}>
                     <AiOutlineShoppingCart className="text-white" />
                     <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
                       4
                     </span>
                   </span>
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -170,6 +192,7 @@ const FrontendHeader = ({ categoryList }) => {
                   className={`relative px-[15px] py-[10px] text-[15px] group ${
                     isStoreHovered ? 'border-b-2' : ''
                   }`}
+                  // eslint-disable-next-line no-undef
                   onMouseEnter={() => setIsStoreHovered(true)}
                   onMouseLeave={() => setIsStoreHovered(false)}
                 >
