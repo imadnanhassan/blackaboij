@@ -9,47 +9,96 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // import { useCart } from '../Utilites/CartContext';
+
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 const defaultTheme = createTheme()
 
 export default function FrontendSignUp() {
   // const { tokenSet } = useCart;
-  const navigate = useNavigate()
-  const handleSubmit = async event => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
+  // const navigate = useNavigate()
+  // const handleSubmit = async event => {
+  //   event.preventDefault()
+  //   const data = new FormData(event.currentTarget)
 
-    // Prepare user registration data
-    const userData = {
-      name: data.get('fullName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    }
+  //   // Prepare user registration data
+  //   const userData = {
+  //     name: data.get('fullName'),
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   }
 
+  //   try {
+  //     // Make a POST request to the backend server
+  //     const response = await fetch('http://localhost:9000/v1/auth/register', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(userData),
+  //     })
+
+  //     // Handle the response accordingly
+  //     if (response.ok) {
+  //       console.log(response.ok, response)
+  //       const result = await response.json()
+  //       localStorage.setItem('token', result.tokens.access.token)
+  //       console.log(result)
+  //       navigate('/signIn')
+  //     } else {
+  //       console.error(response)
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error)
+  //   }
+  // }
+
+  // Validation schema
+  
+  
+  const schema = yup.object().shape({
+    fullName: yup.string().required('Full Name is required'),
+    email: yup.string().email('Invalid email').required('Email is required'),
+    password: yup
+      .string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+    terms: yup.bool().oneOf([true], 'You must accept the terms and conditions'),
+  })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema), 
+  })
+
+  const onSubmit = async data => {
     try {
-      // Make a POST request to the backend server
-      const response = await fetch('http://localhost:9000/v1/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/v1/front/customer/registration`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(userData),
-      })
+      )
 
-      // Handle the response accordingly
-      if (response.ok) {
-        console.log(response.ok, response)
-        const result = await response.json()
-        localStorage.setItem('token', result.tokens.access.token)
-        console.log(result)
-        navigate('/signIn')
-      } else {
-        console.error(response)
+      if (!response.ok) {
+        throw new Error('Registration failed')
       }
+
+      const result = await response.json()
+      console.log('Registration successful:', result)
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Error:', error.message)
     }
   }
 
@@ -64,7 +113,6 @@ export default function FrontendSignUp() {
             justifyContent: 'center',
             alignItems: 'center',
             height: '80vh',
-            
           }}
         >
           <Typography component="h1" variant="h5">
@@ -73,12 +121,13 @@ export default function FrontendSignUp() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
             sx={{ mt: 3 }}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12}>
                 <TextField
+                  {...register('fullName')}
                   autoComplete="given-name"
                   name="fullName"
                   required
@@ -104,6 +153,13 @@ export default function FrontendSignUp() {
 
               <Grid item xs={12}>
                 <TextField
+                  {...register('email', {
+                    required: 'Email is required',
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: 'Invalid email address',
+                    },
+                  })}
                   required
                   fullWidth
                   id="email"
@@ -128,6 +184,7 @@ export default function FrontendSignUp() {
               <Grid item xs={12}>
                 <TextField
                   required
+                  {...register('password')}
                   fullWidth
                   name="password"
                   label="Password"
@@ -151,11 +208,12 @@ export default function FrontendSignUp() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="Accept Terms and Condtions"
+                  control={<Checkbox {...register('terms')} color="primary" />}
+                  label="Accept Terms and Conditions"
                 />
+                {errors.terms && (
+                  <p style={{ color: 'red' }}>{errors.terms.message}</p>
+                )}
               </Grid>
             </Grid>
             <Button
