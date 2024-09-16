@@ -22,15 +22,15 @@ export default function Checkout() {
                             <input type="text" placeholder="Your First Name" />
                         </div>
 
-                        <div className="address_item">
+                        {/* <div className="address_item">
                             <label htmlFor="">Last Name</label>
                             <input type="text" placeholder="Your Last Name" />
-                        </div>
+                        </div> */}
 
-                        <div className="address_item">
+                        {/* <div className="address_item">
                             <label htmlFor="">Company (Optional)</label>
                             <input type="text" placeholder="Your Last Name" />
-                        </div>
+                        </div> */}
 
                         <div className="address_item">
                             <label htmlFor="">Email Adress</label>
@@ -57,12 +57,12 @@ export default function Checkout() {
                             <input type="text" placeholder="Your State Name" />
                         </div>
 
-                        <div className="address_item">
+                        {/* <div className="address_item">
                             <label htmlFor="">Country</label>
                             <input type="text" placeholder="Your Country Name" />
-                        </div>
+                        </div> */}
 
-                        <div className="address_item">
+                        <div className="address_item w-[100vw]">
                             <label htmlFor="">Zip/Postal Code</label>
                             <input type="text" placeholder="City Name" />
                         </div>
