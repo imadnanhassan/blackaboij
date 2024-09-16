@@ -97,7 +97,7 @@ export default function AddProductV2() {
   // add product
   const { register, handleSubmit, reset, control } = useForm()
   const onSubmit = async data => {
-    console.log(data, selectedCategory, selectedColor, selectedSize)
+    console.log( "check",data, selectedCategory)
 
     const formData = new FormData()
     formData.append('name', data.name)
