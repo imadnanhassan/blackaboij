@@ -57,8 +57,8 @@ export default function AdminProfileSettings() {
           className="bg-primaryColor hover:bg-primaryColor/90 py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
         ></Button>
       </div>
-      <div className="lg:flex lg:gap-5 sm:gap-6 ">
-        <form >
+      <form>
+        <div className="lg:flex lg:gap-5 sm:gap-6 ">
           <div
             className={`lg:w-[50%] px-5 py-5 rounded ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText '}`}
           >
@@ -252,8 +252,8 @@ export default function AdminProfileSettings() {
               ></textarea>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </section>
   )
 }
