@@ -8,25 +8,25 @@ export default function CustomerDashboard() {
   const customerDashboardData = [
     {
       id: 1,
-      order: 'Total Orders',
+      title: 'Total Orders',
       orderNumber: '110',
       icon: <PiCube className="w-6 h-6" />,
     },
     {
       id: 2,
-      order: 'Pending Orders',
+      title: 'Pending Orders',
       orderNumber: '25',
       icon: <FaSpinner className="w-6 h-6" />,
     },
     {
       id: 3,
-      order: 'Completed Orders',
+      title: 'Completed Orders',
       orderNumber: '80',
       icon: <LuBadgeCheck className="w-6 h-6" />,
     },
     {
       id: 4,
-      order: 'Cancelled Orders',
+      title: 'Cancelled Orders',
       orderNumber: '5',
       icon: <HiMiniXMark className="w-6 h-6" />,
     },
@@ -46,9 +46,9 @@ export default function CustomerDashboard() {
                     <span>{items.icon}</span>
                   </div>
                   <h3 className="text-[#041826] text-[18px] font-medium">
-                    Total Orders
+                    { items.title}
                   </h3>
-                  <p className="text-[#0f172a99] text-[24px] font-medium">5</p>
+                  <p className="text-[#0f172a99] text-[24px] font-medium">0</p>
                 </div>
               </div>
             ))}
