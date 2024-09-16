@@ -1,38 +1,45 @@
 import { createContext, useState, useEffect } from 'react'
+import axios from 'axios'
 
 export const CustomerContext = createContext()
 
 const CustomerProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
-  const [CustomerData, setCustomerData] = useState(null)
-
-  const id = CustomerData?.customer?.id
-  const token = CustomerData?.token
+  const [customerData, setCustomerData] = useState(null)
 
   useEffect(() => {
-    //   localStorage.setItem('customerData', JSON.stringify(CustomerData))
+    const verifyCustomer = async () => {
+      const storedData = JSON.parse(localStorage.getItem('customerData'))
 
-    //   // Remove customerData from localStorage after 30 days
-    //   const expirationDate = new Date(
-    //     new Date().getTime() + 30 * 24 * 60 * 60 * 1000
-    //   )
-    //   localStorage.setItem('expirationDate', expirationDate.toISOString())
-    // }, [CustomerData])
-    const storedUserData = JSON.parse(localStorage.getItem('customerData'))
-    if (storedUserData) {
-      setCustomerData(storedUserData)
+      if (storedData) {
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_BASE_URL}/api/v1/front/customer-check`,
+            {
+              headers: { Authorization: `Bearer ${storedData.token}` },
+            },
+          )
+          if (response.status === 200) setCustomerData(storedData)
+          else localStorage.removeItem('customerData')
+        } catch {
+          localStorage.removeItem('customerData')
+        }
+      }
+
+      setLoading(false)
     }
-    setLoading(false)
+
+    verifyCustomer()
   }, [])
 
-  const CustomerAuthInfo = {
-    id,
-    token,
-    loading,
-  }
-
   return (
-    <CustomerContext.Provider value={CustomerAuthInfo}>
+    <CustomerContext.Provider
+      value={{
+        id: customerData?.customer?.id,
+        token: customerData?.token,
+        loading,
+      }}
+    >
       {children}
     </CustomerContext.Provider>
   )
