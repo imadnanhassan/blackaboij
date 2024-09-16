@@ -15,8 +15,10 @@ import {
   useDeleteSizeMutation,
   useGetSizeQuery,
 } from '../../../../redux/features/api/attribute/sizeApi'
+import { FaPlus, FaSpinner } from 'react-icons/fa'
 
 export default function AddSize() {
+  //  const [id, setId] = useState()
   const [isOpen, setIsOpen] = useState(false)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const [deleteSize] = useDeleteSizeMutation()
@@ -30,7 +32,7 @@ export default function AddSize() {
     reset,
   } = useForm()
 
-  const [addSize] = useAddSizeMutation()
+  const [addSize, { isLoading: isSubmitting }] = useAddSizeMutation()
 
   const onSubmit = async data => {
     try {
@@ -139,10 +141,19 @@ export default function AddSize() {
 
                 <button
                   type="submit"
-                  className="bg-black py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-                  disabled={isLoading}
+                  className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
                 >
-                  {isLoading ? 'Adding...' : 'Submit'}
+                  {isSubmitting ? (
+                    <>
+                      <FaSpinner className="animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <FaPlus />
+                      Add Size
+                    </>
+                  )}
                 </button>
               </form>
             </div>

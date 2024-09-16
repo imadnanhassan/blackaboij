@@ -19,9 +19,6 @@ export default function EditColor({ id, setIsOpen, refetch }) {
   })
   const colors = colorData?.color
 
-  // const { data, isLoading, error } = useGetSingleColorQuery(id)
-  console.log(colors)
-
   const onSubmit = async data => {
     const formData = new FormData()
     formData.append('name', data.name)

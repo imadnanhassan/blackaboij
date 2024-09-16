@@ -3,7 +3,7 @@ export const tagTypes = {
   category: 'category',
   language: 'language',
   product: 'product',
-  sizes: 'attributes',
+  sizes: 'sizes',
   color: 'color',
   brand: 'brand',
   newArrivals: 'newArrivals',

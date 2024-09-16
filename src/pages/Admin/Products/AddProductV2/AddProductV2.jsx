@@ -2,11 +2,8 @@ import React, { useState } from 'react'
 import { GoHome } from 'react-icons/go'
 import { useSelector } from 'react-redux'
 import { FaPlus, FaSpinner } from 'react-icons/fa'
-
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
-
 import ReactQuill from 'react-quill'
-
 import { useGetColorQuery } from '../../../../redux/features/api/color/colorApi'
 import { useGetSizeQuery } from '../../../../redux/features/api/attribute/sizeApi'
 import { Controller, useForm } from 'react-hook-form'
@@ -104,13 +101,10 @@ export default function AddProductV2() {
 
     const formData = new FormData()
     formData.append('name', data.name)
-    // formData.append('category_id', selectedCategory)
     formData.append('thumbnail_image', data.thumbnail_image[0])
     formData.append('description', data.description)
     formData.append('price', data.price)
-    // formData.append('discount_price', data.discount_price)
     formData.append('quantity', data.quantity)
-    // formData.append('discount_type', data.discount_type)
     if (data.gallery.length > 0) {
       for (let i = 0; i < data.gallery.length; i++) {
         formData.append('gallery[]', data.gallery[i])
@@ -207,7 +201,7 @@ export default function AddProductV2() {
                   placeholder="Enter product name"
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
                 />
-                {/* {errors.name && <span>This field is required</span>} */}
+                {/* {errors.name && <span>This field is required</span>}  */}
               </div>
 
               <div className="p-4 border rounded-lg shadow-sm bg-white">
@@ -223,7 +217,7 @@ export default function AddProductV2() {
                   </ul>
                 </div>
 
-                <div className="max-h-40 overflow-y-auto">
+                <div className="max-h-64 overflow-y-auto">
                   <ul className="space-y-2">
                     {categoryList.length > 0 ? (
                       categoryList.map(category => (
@@ -350,7 +344,7 @@ export default function AddProductV2() {
                     </ul>
                   </div>
 
-                  <div className="max-h-40 overflow-y-auto">
+                  <div className="max-h-56 overflow-y-auto">
                     <ul className="space-y-2">
                       {sizeData.length > 0 ? (
                         sizeData.map(size => (
@@ -391,7 +385,7 @@ export default function AddProductV2() {
                     </ul>
                   </div>
 
-                  <div className="max-h-40 overflow-y-auto">
+                  <div className="max-h-56 overflow-y-auto">
                     <ul className="space-y-2">
                       {colordata.length > 0 ? (
                         colordata.map(color => (
@@ -529,6 +523,8 @@ export default function AddProductV2() {
                 </label>
                 <textarea
                   id="metaDescription"
+                  rows="4"
+                  cols="50"
                   name="metaDescription"
                   placeholder="Enter meta description"
                   className={`form-control mt-1 p-3  border block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-primaryColor  ${isDarkMode ? 'bg-darkColorCard border-darkColorBody text-darkColorText ' : 'bg-lightColor hover:border-gray-400'}`}
@@ -539,8 +535,6 @@ export default function AddProductV2() {
           </div>
 
           <div className="flex justify-end gap-3 items-center mt-5">
-           
-
             <button
               type="submit"
               className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
