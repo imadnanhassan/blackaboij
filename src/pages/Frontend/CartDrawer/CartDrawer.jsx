@@ -7,11 +7,11 @@ import {
   selectCartItems,
   toggleCartDrawer,
 } from '../../../redux/features/cart/cartSlice'
+import { baseUrl } from '../../../hooks/useThumbnailImage'
 
 const CartDrawer = () => {
   const dispatch = useDispatch()
   const cartItems = useSelector(selectCartItems)
-  console.log(cartItems)
   const isCartOpen = useSelector(state => state.cart.isCartOpen)
 
   const handleIncrement = id => {
@@ -52,12 +52,13 @@ const CartDrawer = () => {
               className="flex items-center space-x-4 border-b border-gray-200 pb-4"
             >
               <img
-                src={item.image}
+                src={`${baseUrl}/products/${item.thumbnail_image }`}
+                
                 alt={item.title}
                 className="w-16 h-16 object-cover rounded shadow-md"
               />
               <div className="flex-1">
-                <h3 className="font-medium text-gray-800">{item.title}</h3>
+                <h3 className="font-medium text-gray-800 text-xs ">{item.name}</h3>
                 <p className="text-sm text-gray-500">${item.price}</p>
                 <div className="flex items-center space-x-2 mt-2">
                   <button
@@ -99,7 +100,7 @@ const CartDrawer = () => {
             .toFixed(2)
           }
         </p>
-        <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors duration-200">
+        <button className="mt-4 w-full bg-black text-white py-2 rounded hover:bg-white hover:text-black transition-colors duration-200">
           Checkout
         </button>
       </div>
