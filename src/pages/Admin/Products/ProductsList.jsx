@@ -16,13 +16,15 @@ import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
 
 export default function ProductsList() {
-
-  const [pageLinks, setPageLinks] = useState([]);
+  const [pageLinks, setPageLinks] = useState([])
   const [pages, setPages] = useState(1)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [perPage, setPerPage] = useState(10)
 
-  const { data: products, isLoading } = useGetProductListQuery({page: pages, perpage: perPage})
+  const { data: products, isLoading } = useGetProductListQuery({
+    page: pages,
+    perpage: perPage,
+  })
   const [productsData, setProductsData] = useState([])
   const [deleteProduct] = useDeleteProductMutation()
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -35,21 +37,18 @@ export default function ProductsList() {
   console.log(products?.products?.data)
   // console.log(pageLinks)
 
-
   const handlePageChange = (page = 1) => {
-
-    if(page == 'previous'){
-      if(products?.products.current_page != 1){
+    if (page == 'previous') {
+      if (products?.products.current_page != 1) {
         setPages(products?.products.current_page - 1)
       }
-    }else if(page == 'next'){
-      if(products?.products.last_page != products?.products.current_page){
+    } else if (page == 'next') {
+      if (products?.products.last_page != products?.products.current_page) {
         setPages(products?.products.current_page + 1)
       }
-    }else{
+    } else {
       setPages(page)
     }
-    
   }
 
   const handleDeleteProduct = async productId => {
@@ -308,9 +307,12 @@ export default function ProductsList() {
 
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-2">
-                        <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#eab3081a] hover:bg-[#eab308] text-[#eab308] hover:text-lightColor ">
+                        <Link
+                          to={`/product/${product.slug}`}
+                          className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#eab3081a] hover:bg-[#eab308] text-[#eab308] hover:text-lightColor "
+                        >
                           <FiEye className=" text-[12px]" />
-                        </button>
+                        </Link>
                         <Link
                           to={`/dashboard/edit-product/${product.id}`}
                           className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor"
