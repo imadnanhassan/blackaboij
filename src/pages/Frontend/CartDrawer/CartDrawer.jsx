@@ -8,6 +8,7 @@ import {
   toggleCartDrawer,
 } from '../../../redux/features/cart/cartSlice'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
+import { Link } from 'react-router-dom'
 
 const CartDrawer = () => {
   const dispatch = useDispatch()
@@ -52,13 +53,14 @@ const CartDrawer = () => {
               className="flex items-center space-x-4 border-b border-gray-200 pb-4"
             >
               <img
-                src={`${baseUrl}/products/${item.thumbnail_image }`}
-                
+                src={`${baseUrl}/products/${item.thumbnail_image}`}
                 alt={item.title}
                 className="w-16 h-16 object-cover rounded shadow-md"
               />
               <div className="flex-1">
-                <h3 className="font-medium text-gray-800 text-xs ">{item.name}</h3>
+                <h3 className="font-medium text-gray-800 text-xs ">
+                  {item.name}
+                </h3>
                 <p className="text-sm text-gray-500">${item.price}</p>
                 <div className="flex items-center space-x-2 mt-2">
                   <button
@@ -97,12 +99,13 @@ const CartDrawer = () => {
           Subtotal: $
           {cartItems
             .reduce((total, item) => total + item.price * item.cartQuantity, 0)
-            .toFixed(2)
-          }
+            .toFixed(2)}
         </p>
-        <button className="mt-4 w-full bg-black text-white py-2 rounded hover:bg-white hover:text-black transition-colors duration-200">
-          Checkout
-        </button>
+        <Link to={'/checkout'}>
+          <button className="mt-4 w-full bg-black text-white py-2 rounded hover:bg-white hover:text-black transition-colors duration-200">
+            Checkout
+          </button>
+        </Link>
       </div>
     </div>
   )

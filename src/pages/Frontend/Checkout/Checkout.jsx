@@ -1,12 +1,19 @@
 import { Link } from 'react-router-dom'
-import images from '../../../assets/img/images'
 import '../HelperCss/checkout.css'
 
 export default function Checkout() {
     const payment = [
-
-        { id: '1', methodName: 'Upay', images: "https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp" },
-        { id: '2', methodName: 'Visa', images: "https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp" },
+      {
+        id: '1',
+        methodName: 'COD',
+        images:
+          'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpngtree.com%2Ffreepng%2Fcash-on-delivery-truck-icon_6350450.html&psig=AOvVaw3VftUI8LeMbQTWXsVg1GdY&ust=1726598511682000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPjWxOqOyIgDFQAAAAAdAAAAABAE',
+      },
+      {
+        id: '2',
+        methodName: 'Paypal',
+        images: 'https://i.ibb.co/n3q9t6z/BLACKNOV0954-360x.webp',
+      },
     ]
     return (
         <section className="es_container px-3 py-8 xl:py-28">
@@ -43,7 +50,7 @@ export default function Checkout() {
                         </div>
 
                         <div className="address_item">
-                            <label htmlFor="">Delivery Address</label>
+                            <label htmlFor="">Street Address</label>
                             <input type="text" placeholder="Type Your Address" />
                         </div>
 
