@@ -18,8 +18,8 @@ export default function SingleProductDetails() {
   const { data, isLoading } = useGetSingleProductQuery(slug)
 
   const dispatch = useDispatch()
-  const handleAddProduct = id => {
-    dispatch(addProduct(id))
+  const handleAddProduct = data => {
+    dispatch(addProduct(data))
   }
 
   if (isLoading) return <p>Loading...</p>
@@ -104,7 +104,7 @@ export default function SingleProductDetails() {
             {/* add to cart and add to favourite btn here */}
             <div className="grid grid-cols-2 items-center md:mt-[50px] my-[15px] md:gap-2 gap-1">
               <button
-                onClick={() => handleAddProduct(product.id)}
+                onClick={() => handleAddProduct(product)}
                 className="md:py-[14px] md:px-[20px] py-[7px] px-[5px] md:text-[14px] text-[10px]  bg-black text-white"
               >
                 ADD TO CART

@@ -67,7 +67,7 @@ const CartDrawer = () => {
                     -
                   </button>
                   <span className="font-semibold text-gray-700">
-                    {item.quantity}
+                    {item.cartQuantity}
                   </span>
                   <button
                     onClick={() => handleIncrement(item.id)}
@@ -95,8 +95,9 @@ const CartDrawer = () => {
         <p className="text-lg font-semibold text-gray-800">
           Subtotal: $
           {cartItems
-            .reduce((total, item) => total + item.price * item.quantity, 0)
-            .toFixed(2)}
+            .reduce((total, item) => total + item.price * item.cartQuantity, 0)
+            .toFixed(2)
+          }
         </p>
         <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors duration-200">
           Checkout
