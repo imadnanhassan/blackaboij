@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  items: JSON.parse(localStorage.getItem('cartItems')) || [],
+  // items: JSON.parse(localStorage.getItem('cartItems')) || [],
+  items: [],
   isCartOpen: false,
 }
 
@@ -13,9 +14,9 @@ const cartSlice = createSlice({
       const product = action.payload
       const existingProduct = state.items.find(item => item.id === product.id)
       if (existingProduct) {
-        existingProduct.quantity += 1
+        existingProduct.cartQuantity += 1
       } else {
-        state.items.push({ ...product, quantity: 1 })
+        state.items.push({ ...product, cartQuantity: 1 })
       }
       state.isCartOpen = true
       localStorage.setItem('cartItems', JSON.stringify(state.items))
@@ -24,15 +25,15 @@ const cartSlice = createSlice({
       const productId = action.payload
       const existingProduct = state.items.find(item => item.id === productId)
       if (existingProduct) {
-        existingProduct.quantity += 1
+        existingProduct.cartQuantity += 1
         localStorage.setItem('cartItems', JSON.stringify(state.items))
       }
     },
     decrementQuantity: (state, action) => {
       const productId = action.payload
       const existingProduct = state.items.find(item => item.id === productId)
-      if (existingProduct && existingProduct.quantity > 1) {
-        existingProduct.quantity -= 1
+      if (existingProduct && existingProduct.cartQuantity > 1) {
+        existingProduct.cartQuantity -= 1
         localStorage.setItem('cartItems', JSON.stringify(state.items))
       }
     },
