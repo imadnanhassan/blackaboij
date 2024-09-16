@@ -11,17 +11,17 @@ import {
   useDeleteColorMutation,
   useGetColorQuery,
 } from '../../../../redux/features/api/color/colorApi'
-import Button from '../../../../common/Button/Button'
 import Tooltip from '../../../../common/Tooltip/Tooltip'
 import EditColor from './EditColor'
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
 import Swal from 'sweetalert2'
+import { FaPlus, FaSpinner } from 'react-icons/fa'
 
 export default function AddColor() {
   const [id, setId] = useState()
   const [isOpen, setIsOpen] = useState(false)
   const [selectedColor, setSelectedColor] = useState('#000000')
-  const [addColor] = useAddColorMutation()
+  const [addColor, { isLoading: isSubmitting }] = useAddColorMutation()
   const [deleteColor] = useDeleteColorMutation()
   const { data: color, isLoading, refetch } = useGetColorQuery()
   const colordata = color?.colors
@@ -179,11 +179,22 @@ export default function AddColor() {
                   </div>
                 </div>
 
-                <Button
-                  text="Save"
+                <button
                   type="submit"
                   className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-                ></Button>
+                >
+                  {isSubmitting ? (
+                    <>
+                      <FaSpinner className="animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <FaPlus />
+                      Add Color
+                    </>
+                  )}
+                </button>
               </form>
             </div>
           </div>

@@ -29,20 +29,20 @@ export const sizeApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.sizes],
     }),
 
-    updateSize: builder.mutation({
-      query: data => {
-        return {
-          url: `/api/v1/admin/size/edit/${data?.id}`,
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: data.attributes,
-        }
-      },
-      invalidatesTags: [tagTypes.sizes],
-    }),
+    // updateSize: builder.mutation({
+    //   query: data => {
+    //     return {
+    //       url: `/api/v1/admin/size/edit/${data?.id}`,
+    //       method: 'PUT',
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: data.attributes,
+    //     }
+    //   },
+    //   invalidatesTags: [tagTypes.sizes],
+    // }),
 
     deleteSize: builder.mutation({
       query: id => ({
@@ -58,9 +58,11 @@ export const sizeApi = baseApi.injectEndpoints({
 
     getSingleSize: builder.query({
       query: id => ({
-        url: `/api/admins/attributes/show-data/${id}`,
+        url: `/api/v1/admin/size/edit/${id}`,
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         },
       }),
       providesTags: [tagTypes.sizes],
