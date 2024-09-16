@@ -58,6 +58,7 @@ import WomenCollection from '../pages/Frontend/WomenCollection/WomenCollection'
 import AccessoriesCollection from '../pages/Frontend/AccessoriesCollection/AccessoriesCollection'
 import CategoryProducts from '../pages/Frontend/CategoryProducts/CategoryProducts'
 import SingleProductDetails from '../pages/Frontend/Product/Single-Product-details'
+import AdminProfileSettings from '../pages/Admin/AdminProfileSettings/AdminProfileSettings'
 
 const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
@@ -84,25 +85,18 @@ const CUSTOMER_PANEL_ROUTES = [
 ]
 
 const DASHBOARD_ROUTES = [
-  {
-    path: '/dashboard',
-    element: <Dashboard />,
-  },
+  { path: '/dashboard',element: <Dashboard />,},
   { path: 'dashboard/products-list', element: <ProductsList /> },
   { path: 'dashboard/add-product', element: <AddProductV2 /> },
   { path: 'dashboard/edit-product/:id', element: <EditProductV2 /> },
   { path: 'dashboard/products-details', element: <ProductsDetails /> },
-
   { path: 'dashboard/category', element: <CategoriesV2 /> },
   { path: 'dashboard/add-category', element: <AddCategoryV2 /> },
   { path: 'dashboard/categoryV2/edit/:id', element: <EditCategoriesV2 /> },
   { path: 'dashboard/brand', element: <Brand /> },
   { path: 'dashboard/unit', element: <Unit /> },
   { path: 'dashboard/size', element: <AddSize /> },
-  {
-    path: '/dashboard/attributes/edit/:attributeId',
-    element: <EditSize />,
-  },
+  {path: '/dashboard/attributes/edit/:attributeId',element: <EditSize />,},
   { path: 'dashboard/color', element: <AddColor /> },
   { path: 'dashboard/coupons-list', element: <CouponsList /> },
   { path: 'dashboard/create-coupon', element: <CreateCoupon /> },
@@ -121,7 +115,7 @@ const DASHBOARD_ROUTES = [
   { path: 'dashboard/uploaded-files', element: <UploadedFiles /> },
   { path: 'dashboard/campaign-add', element: <CampaignAdd /> },
   { path: 'dashboard/campaign-list', element: <CampaignList /> },
-  // { path: 'dashboard/settings', element: <Settings /> },
+  { path: 'dashboard/settings', element: <AdminProfileSettings /> },
   { path: 'dashboard/settings/language', element: <Language /> },
   { path: 'dashboard/pos', element: <PointOfSale /> },
   { path: 'dashboard/theme', element: <Theme /> },

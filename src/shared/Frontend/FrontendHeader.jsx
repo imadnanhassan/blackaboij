@@ -26,11 +26,12 @@ const FrontendHeader = ({ categoryList }) => {
 
   const dispatch = useDispatch()
   const cartItems = useSelector(selectCartItems)
+  // console.log(cartItems.length)
 
-  const totalQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0,
-  )
+  // const totalQuantity = cartItems.reduce(
+  //   (total, item) => total + item.quantity,
+  //   0,
+  // )
 
   const handleCartClick = () => {
     dispatch(toggleCartDrawer())
@@ -103,9 +104,9 @@ const FrontendHeader = ({ categoryList }) => {
                   <span style={{ fontSize: `${iconSize}px` }}>
                     <IoBagOutline className="text-white" />
 
-                    {totalQuantity > 0 && (
+                    {cartItems.length > 0 && (
                       <span className="text-[9px] font-bold absolute top-[-3px] text-black px-[4px] bg-white rounded-full right-[25px]">
-                        {totalQuantity}
+                        {cartItems.length}
                       </span>
                     )}
                   </span>
