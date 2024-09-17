@@ -25,27 +25,12 @@ const CustomerProvider = ({ children }) => {
           setLoading(false)
           setCustomerData(false)
         }
-      }).catch(error => {
+      }).catch(() => {
         setLoading(false)
+        setCustomerData(false)
       })
 
-      // axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/front/customer-check`).then(response => {
-
-      //   console.log(response,'success')
-      //   if(response.data.status === 200){
-      //     setCustomerData(true)
-      //   }else{
-      //     setCustomerData(false)
-      //   }
-      //   setLoading(false)
-      //   // if (response.status === 200) 
-      //   // else localStorage.removeItem('customerData')
-      // }).catch(error => {
-
-      //   console.log(response,'error')
-      //   setLoading(false)
-      //   setCustomerData(false)
-      // })
+    
 
     }
 

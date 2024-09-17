@@ -1,34 +1,45 @@
-import { createContext, useState, useEffect } from 'react';
+import axios from 'axios'
+import { createContext, useState, useEffect } from 'react'
 
-export const AuthContext = createContext();
+export const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
-    const [loading, setLoading] = useState(true);
-    const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true)
+  const [adminData, setAdminData] = useState(false)
 
-    const email = userData?.admin?.email;
-    const token = userData?.token;
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken') ?? null
 
-    useEffect(() => {
-        const storedUserData = JSON.parse(localStorage.getItem("userData"));
-        if (storedUserData) {
-            setUserData(storedUserData);
-        }
-        setLoading(false);
-    }, []);
-
-
-    const authInfo = {
-        email,
-        token,
-        loading
+    if (token) {
+      axios
+        .get(`${import.meta.env.VITE_BASE_URL}/api/v1/admin/check-admin`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(response => {
+          console.log(response)
+          if (response.data.status === 200) {
+            setAdminData(response.data)
+          } else {
+            setAdminData(false)
+          }
+        })
+        .catch((error) => {
+            setAdminData(false)
+            console.log(error)
+        })
     }
 
-    return (
-        <AuthContext.Provider value={authInfo}>
-            {children}
-        </AuthContext.Provider>
-    );
-};
+    setLoading(false)
+  }, [])
 
-export default AuthProvider;
+  const data = {
+    loading,
+    adminData,
+  }
+
+  return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>
+}
+
+export default AuthProvider

@@ -3,7 +3,9 @@ import images from '../../../assets/img/images'
 import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import { useAddLoginMutation } from '../../../redux/features/api/signin/signinApi'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../../Providers/AuthProvider'
+import { dashboardUrl } from '../../../hooks/useDashboardUrl'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
@@ -11,6 +13,18 @@ export default function SignIn() {
   const [rememberMe, setRememberMe] = useState(false)
   const [addLogin] = useAddLoginMutation()
   const navigate = useNavigate()
+
+  const adminContent = useContext(AuthContext)
+
+  useEffect(() => {
+    if (adminContent.adminData) {
+      navigate(`/${dashboardUrl}`, {
+        replace: true,
+      })
+    }
+  }, [adminContent.adminData])
+
+  console.log(adminContent)
 
   const {
     register,
@@ -28,10 +42,9 @@ export default function SignIn() {
           position: 'top-right',
           autoClose: 3000,
         })
-        navigate('/dashboard')
-
+        navigate(`/${dashboardUrl}`)
         if (rememberMe) {
-          localStorage.setItem('userData', JSON.stringify(response?.data))
+          localStorage.setItem('adminToken', response?.data?.token)
         }
       } else if (response?.data?.status == 401) {
         response?.data?.errors?.forEach(error => {
@@ -53,7 +66,9 @@ export default function SignIn() {
   const togglePasswordVisibility = () => {
     setShowPassword(prevState => !prevState)
   }
-
+  if (adminContent.loading) {
+    return <>Loading...</>
+  }
   return (
     <section className="h-screen ">
       <div className="font-[sans-serif] bg-[#0C172C] text-[#333] md:h-screen">
