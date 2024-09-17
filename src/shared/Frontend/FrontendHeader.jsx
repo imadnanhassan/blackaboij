@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-undef */
-import { HiMiniChevronUp, HiMiniChevronDown } from 'react-icons/hi2'
+import { HiMiniChevronDown } from 'react-icons/hi2'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { HiBars3BottomRight, HiMiniXMark } from 'react-icons/hi2'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { IoBagOutline } from 'react-icons/io5'
 import { FaRegUser } from 'react-icons/fa6'
-import { Fade } from 'react-awesome-reveal'
 import { SearchBtn } from '../../common/Button/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -135,7 +134,7 @@ const FrontendHeader = ({ categoryList }) => {
                   onMouseLeave={() => setIsHovered(category.id, false)}
                 >
                   {category.name}
-                  <Fade direction="left">
+                  <div>
                     <ul
                       className={`absolute pl-6 pr-[250px] py-5 text-[12px] top-[46px] whitespace-nowrap ${
                         isHovered(category.id) ? 'block bg-black' : 'hidden'
@@ -169,7 +168,7 @@ const FrontendHeader = ({ categoryList }) => {
                         </li>
                       ))}
                     </ul>
-                  </Fade>
+                  </div>
                 </Link>
               ))}
 
@@ -181,7 +180,7 @@ const FrontendHeader = ({ categoryList }) => {
                   onMouseEnter={() => SetIsAccessoriesHovered(true)}
                   onMouseLeave={() => SetIsAccessoriesHovered(false)}
                 >
-                  ACCESSORIES
+                  Accessories
                 </li>
               </Link>
 
@@ -194,7 +193,7 @@ const FrontendHeader = ({ categoryList }) => {
                   onMouseEnter={() => setIsStoreHovered(true)}
                   onMouseLeave={() => setIsStoreHovered(false)}
                 >
-                  STORE
+                  Store
                 </li>
               </Link>
             </div>
@@ -262,18 +261,18 @@ const FrontendHeader = ({ categoryList }) => {
           <ul className="absolute w-full bg-black min-h-[60vh] top-[55px] left-0 text-white pl-5 pr-[40px] pt-6 pb-[40px] z-50">
             {categoryList.map(category => (
               <li key={category.id} className="border-b-[1px] py-4 text-[15px]">
-                <div className="flex justify-between items-center">
-                  <Link onClick={closeMobileMenu}>
-                    {category.parent_name.toUpperCase()}
+                <div className="flex justify-between items-center ">
+                  <Link onClick={closeMobileMenu} className='text-white'>
+                    {category.name}
                   </Link>
                   {category.slug === 'men' && (
-                    <HiMiniChevronUp
+                    <HiMiniChevronDown
                       onClick={toggleListMenu}
                       className="cursor-pointer text-[25px]"
                     />
                   )}
                   {category.slug === 'women' && (
-                    <HiMiniChevronUp
+                    <HiMiniChevronDown
                       onClick={toggleListMenuWomen}
                       className="cursor-pointer  text-[25px]"
                     />
@@ -281,10 +280,10 @@ const FrontendHeader = ({ categoryList }) => {
                 </div>
 
                 {isListMenuOpen && category.slug === 'men' && (
-                  <ul className="mt-3 pl-5 mb-4 text-[15px] list-disc">
+                  <ul className="mt-3 pl-5 mb-4 text-[15px]  list-disc">
                     <li className="py-[3px]">
                       <Link
-                        to="/men-new-arrivals"
+                        to="/category/men-new-arrivals"
                         className="text-[12px] uppercase"
                         onClick={closeMobileMenu}
                       >
@@ -297,7 +296,7 @@ const FrontendHeader = ({ categoryList }) => {
                         className="py-[2px] text-[12px] uppercase"
                       >
                         <Link
-                          to={`/${subCategory.slug}`}
+                          to={`/category/${subCategory.slug}`}
                           onClick={closeMobileMenu}
                         >
                           {subCategory.name}
@@ -311,7 +310,7 @@ const FrontendHeader = ({ categoryList }) => {
                   <ul className="mt-3 pl-5 text-[15px] list-disc">
                     <li className="py-[2px]">
                       <Link
-                        to="/women-new-arrivals"
+                        to="/category/women-new-arrivals"
                         className="text-[12px] uppercase"
                         onClick={closeMobileMenu}
                       >
@@ -337,48 +336,15 @@ const FrontendHeader = ({ categoryList }) => {
               <div
                 className={`flex justify-between items-center border-b-[1px] pb-4 pt-4 text-[15px]`}
               >
-                <p>ACCESSORIES</p>
-                <p>
-                  {isAccessoriesHovered ? (
-                    <HiMiniChevronUp
-                      onClick={() => SetIsAccessoriesHovered(false)}
-                      className="text-[25px]"
-                    />
-                  ) : (
-                    <HiMiniChevronDown
-                      onClick={() => SetIsAccessoriesHovered(true)}
-                      className="text-[25px]"
-                    />
-                  )}
-                </p>
+                <p><Link to="/accessories">Accessories </Link></p>
+               
               </div>
-              {isAccessoriesHovered && (
-                <div>
-                  <ul className="pl-6 list-disc">
-                    <li className="pt-[5px]">
-                      <Link
-                        to="/accessories/men-accessories"
-                        className="text-[12px] uppercase"
-                      >
-                        Men Accessories
-                      </Link>
-                    </li>
-                    <li className="pt-[5px]">
-                      <Link
-                        to="/accessories/women-accessories"
-                        className="text-[12px] uppercase"
-                      >
-                        Women Accessories
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              )}
+             
             </li>
 
             <li className="pt-4 text-[15px]">
               <Link to="/store" onClick={closeMobileMenu}>
-                STORE
+                Store
               </Link>
             </li>
           </ul>
