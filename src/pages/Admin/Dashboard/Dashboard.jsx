@@ -18,7 +18,7 @@ const Dashboard = () => {
 
   const productdata = products?.products?.total || []
 
-  console.log(productdata)
+  console.log(products)
 
   if (isLoading) {
     return <p>Loading..</p>

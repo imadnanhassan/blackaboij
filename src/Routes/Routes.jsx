@@ -59,6 +59,7 @@ import AccessoriesCollection from '../pages/Frontend/AccessoriesCollection/Acces
 import CategoryProducts from '../pages/Frontend/CategoryProducts/CategoryProducts'
 import SingleProductDetails from '../pages/Frontend/Product/Single-Product-details'
 import AdminProfileSettings from '../pages/Admin/AdminProfileSettings/AdminProfileSettings'
+import PrivateRoute from '../PrivateRoute/PrivateRoute'
 
 const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
@@ -85,7 +86,14 @@ const CUSTOMER_PANEL_ROUTES = [
 ]
 
 const DASHBOARD_ROUTES = [
-  { path: '/dashboard',element: <Dashboard />,},
+  {
+    path: '/dashboard',
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+  },
   { path: 'dashboard/products-list', element: <ProductsList /> },
   { path: 'dashboard/add-product', element: <AddProductV2 /> },
   { path: 'dashboard/edit-product/:id', element: <EditProductV2 /> },
@@ -96,7 +104,7 @@ const DASHBOARD_ROUTES = [
   { path: 'dashboard/brand', element: <Brand /> },
   { path: 'dashboard/unit', element: <Unit /> },
   { path: 'dashboard/size', element: <AddSize /> },
-  {path: '/dashboard/attributes/edit/:attributeId',element: <EditSize />,},
+  { path: '/dashboard/attributes/edit/:attributeId', element: <EditSize /> },
   { path: 'dashboard/color', element: <AddColor /> },
   { path: 'dashboard/coupons-list', element: <CouponsList /> },
   { path: 'dashboard/create-coupon', element: <CreateCoupon /> },
@@ -146,7 +154,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     errorElement: <ErrorPage />,
 
     children: DASHBOARD_ROUTES,

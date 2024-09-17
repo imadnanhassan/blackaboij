@@ -67,6 +67,13 @@ export const categoryApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.category],
     }),
+
+    getMenuCategory: builder.query({
+      query: () => ({
+        url: '/api/v1/front/menu-category/get-menu',
+      }),
+      providesTags: [tagTypes.category],
+    }),
   }),
 })
 
@@ -76,4 +83,5 @@ export const {
   useDeleteCategoryMutation,
   useUpdateCategoryMutation,
   useGetSingleCategoryQuery,
+  useGetMenuCategoryQuery,
 } = categoryApi

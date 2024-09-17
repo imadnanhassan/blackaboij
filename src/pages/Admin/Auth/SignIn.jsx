@@ -3,14 +3,34 @@ import images from '../../../assets/img/images'
 import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import { useAddLoginMutation } from '../../../redux/features/api/signin/signinApi'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../../Providers/AuthProvider'
+import { dashboardUrl } from '../../../hooks/useDashboardUrl'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
+  // const [rememberMe, setRememberMe] = useState(false)
   const [addLogin] = useAddLoginMutation()
   const navigate = useNavigate()
+
+  const {
+    loading: adminLoading,
+    adminData,
+    adminCheck,
+  } = useContext(AuthContext)
+
+
+
+  useEffect(() => {
+    if (adminData) {
+      navigate(`/${dashboardUrl}`, {
+        replace: true,
+      })
+    }
+  }, [adminData])
+
+  console.log(adminData)
 
   const {
     register,
@@ -28,11 +48,9 @@ export default function SignIn() {
           position: 'top-right',
           autoClose: 3000,
         })
-        navigate('/dashboard')
-
-        if (rememberMe) {
-          localStorage.setItem('userData', JSON.stringify(response?.data))
-        }
+        adminCheck()
+        localStorage.setItem('adminToken', response?.data?.token)
+        navigate(`/${dashboardUrl}`)
       } else if (response?.data?.status == 401) {
         response?.data?.errors?.forEach(error => {
           toast.error(error)
@@ -47,13 +65,13 @@ export default function SignIn() {
     }
   }
 
-  const handleRememberMeChange = e => {
-    setRememberMe(e.target.checked)
-  }
   const togglePasswordVisibility = () => {
     setShowPassword(prevState => !prevState)
   }
-
+  console.log(adminLoading)
+  if (adminLoading) {
+    return <>Loading...</>
+  }
   return (
     <section className="h-screen ">
       <div className="font-[sans-serif] bg-[#0C172C] text-[#333] md:h-screen">
@@ -160,7 +178,7 @@ export default function SignIn() {
                 )}
               </div>
               <div className="flex items-center justify-between gap-2 mt-5">
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <input
                     id="remember-me"
                     name="remember-me"
@@ -171,7 +189,7 @@ export default function SignIn() {
                   <label htmlFor="remember-me" className="ml-3 block text-sm">
                     Remember me
                   </label>
-                </div>
+                </div> */}
                 <div>
                   <Link
                     to="/dashboard/signin/forgetpassword"
@@ -185,7 +203,7 @@ export default function SignIn() {
                 <button
                   type="submit"
                   className="relative w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded-full text-white bg-primaryColor hover:bg-primaryColor/80 focus:outline-none "
-                  disabled={loading || rememberMe === false}
+                  // disabled={loading || rememberMe === false}
                 >
                   {loading ? 'Loading...' : 'Sign in'}
                 </button>

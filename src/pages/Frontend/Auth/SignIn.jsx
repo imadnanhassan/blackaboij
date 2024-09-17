@@ -14,15 +14,18 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useUserLoginMutation } from '../../../redux/features/api/Customer/customer'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
+import { CustomerContext } from '../../../Providers/CustomerProvider'
 
 const defaultTheme = createTheme()
 
 export default function FrontendSignIn() {
+  const customerContext = useContext(CustomerContext)
+  console.log(customerContext)
   //   const navigate = useNavigate()
   // eslint-disable-next-line no-unused-vars
   const [userLogin] = useUserLoginMutation();
