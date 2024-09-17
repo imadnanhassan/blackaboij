@@ -11,9 +11,11 @@ const HomeAllShades = () => {
 
     };
 
+    // mb-[50px] md:mb-[100px] line 18
+
     return (
         <section>
-            <div style={sectionStyle} className="md:h-[500px] h-[300px] mb-[50px] md:mb-[100px]">
+            <div style={sectionStyle} className="md:h-[500px] h-[300px] ">
                 <div className="flex flex-col text-white justify-center items-center h-full">
                     <h2 className="md:text-[80px] text-[30px] font-semibold  text-center">All shades of black available.</h2>
                     <h4 className="md:py-10 py-3">
