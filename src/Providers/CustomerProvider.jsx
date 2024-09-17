@@ -8,16 +8,18 @@ const CustomerProvider = ({ children }) => {
   const [customerData, setCustomerData] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem('customerToken') ?? null;
+    const token = localStorage.getItem('customerToken') ?? null
 
-    if (token) {
-
-
-      axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/front/customer/customer-check`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then(response => {
+    axios
+      .get(
+        `${import.meta.env.VITE_BASE_URL}/api/v1/front/customer/customer-check`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(response => {
         if (response.data.status === 200) {
           setLoading(false)
           setCustomerData(response.data)
@@ -25,28 +27,20 @@ const CustomerProvider = ({ children }) => {
           setLoading(false)
           setCustomerData(false)
         }
-      }).catch(() => {
+      })
+      .catch(() => {
         setLoading(false)
         setCustomerData(false)
       })
-
-    
-
-    }
-
   }, [])
 
   const data = {
     loading,
-    customerData
+    customerData,
   }
 
   return (
-    <CustomerContext.Provider
-      value={data}
-    >
-      {children}
-    </CustomerContext.Provider>
+    <CustomerContext.Provider value={data}>{children}</CustomerContext.Provider>
   )
 }
 
