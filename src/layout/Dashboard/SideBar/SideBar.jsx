@@ -3,18 +3,15 @@ import { GoHome } from 'react-icons/go'
 import { FaShoppingBag } from 'react-icons/fa'
 import { CiShoppingBasket } from 'react-icons/ci'
 import { FaClipboardList } from 'react-icons/fa6'
-
 import { FaCircleNotch } from 'react-icons/fa'
 import { IoLogOutOutline } from 'react-icons/io5'
-
 import { AiFillDollarCircle, AiFillSetting } from 'react-icons/ai'
-
 
 export default function SideBar({ isSideBarOpen }) {
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    localStorage.removeItem('userData')
+    localStorage.removeItem('adminToken')
     navigate('dashboard/signin')
   }
   return (
@@ -271,12 +268,6 @@ export default function SideBar({ isSideBarOpen }) {
                   </ul>
                 </details>
               </li>
-
-             
-
-              {/* Settings */}
-
-              {/* seetings */}
               <li id="sidebar">
                 <NavLink
                   to="dashboard/settings"

@@ -26,12 +26,9 @@ const FrontendHeader = ({ categoryList }) => {
 
   const dispatch = useDispatch()
   const cartItems = useSelector(selectCartItems)
-  // console.log(cartItems.length)
 
-  // const totalQuantity = cartItems.reduce(
-  //   (total, item) => total + item.quantity,
-  //   0,
-  // )
+
+  console.log(categoryList)
 
   const handleCartClick = () => {
     dispatch(toggleCartDrawer())
@@ -137,7 +134,7 @@ const FrontendHeader = ({ categoryList }) => {
                   onMouseEnter={() => setIsHovered(category.id, true)}
                   onMouseLeave={() => setIsHovered(category.id, false)}
                 >
-                  {category.parent_name.toUpperCase()}
+                  {category.name}
                   <Fade direction="left">
                     <ul
                       className={`absolute pl-6 pr-[250px] py-5 text-[12px] top-[46px] whitespace-nowrap ${
