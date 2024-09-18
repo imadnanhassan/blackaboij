@@ -91,9 +91,9 @@ const HomeHotSale = () => {
                     ))}
                   </div>
 
-                  <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px]">
+                  {/* <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px]">
                     <AnimatedButton buttonText="SHOW ALL"></AnimatedButton>
-                  </p>
+                  </p> */}
                 </TabPanel>
               ))}
             </Tabs>
