@@ -6,6 +6,8 @@ import { useAddLoginMutation } from '../../../redux/features/api/signin/signinAp
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../../Providers/AuthProvider'
 import { dashboardUrl } from '../../../hooks/useDashboardUrl'
+import { useDispatch, useSelector } from 'react-redux'
+import { setAdmin, toggleLoading } from '../../../redux/features/api/signin/adminCheck'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
@@ -15,28 +17,27 @@ export default function SignIn() {
   const navigate = useNavigate()
 
   const {
-    loading: adminLoading,
-    adminData,
-    adminCheck,
+    admin,
+    loading: adminLoading
   } = useContext(AuthContext)
 
 
 
   useEffect(() => {
-    if (adminData) {
+    if (admin) {
       navigate(`/${dashboardUrl}`, {
         replace: true,
       })
     }
-  }, [adminData])
+  }, [admin])
 
-  console.log(adminData)
 
   const {
     register,
     handleSubmit: onSubmitHandler,
     formState: { errors },
   } = useForm()
+
 
   const onSubmit = async data => {
     try {
@@ -48,9 +49,10 @@ export default function SignIn() {
           position: 'top-right',
           autoClose: 3000,
         })
-        adminCheck()
         localStorage.setItem('adminToken', response?.data?.token)
-        navigate(`/${dashboardUrl}`)
+        navigate(`/${dashboardUrl}`,{
+          replace: true
+        })
       } else if (response?.data?.status == 401) {
         response?.data?.errors?.forEach(error => {
           toast.error(error)

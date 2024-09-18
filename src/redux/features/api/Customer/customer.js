@@ -1,8 +1,7 @@
 import { baseApi } from '../baseApi/baseApi'
 
-const getToken = () => {
-  const customerToken = localStorage.getItem('customerToken')
-  return customerToken
+const getToken = (token = 'adminToken') => {
+  return localStorage?.getItem(token)
 }
 
 export const customerApi = baseApi.injectEndpoints({

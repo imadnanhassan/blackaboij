@@ -1,15 +1,17 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { AuthContext } from '../Providers/AuthProvider'
+import { useDispatch, useSelector } from 'react-redux'
+import { setAdmin, toggleLoading } from '../redux/features/api/signin/adminCheck'
 
 const PrivateRoute = ({ children }) => {
-  const {  loading, adminData } = useContext(AuthContext)
+  const {  admin, loading } = useContext(AuthContext)
   const location = useLocation()
 
   if (loading) {
-    return <progress className="progress w-56"></progress>
+    return 'Loading...'
   }
-  if (adminData) {
+  if (admin && localStorage.getItem('adminToken')) {
     return children
   }
 

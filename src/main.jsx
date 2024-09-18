@@ -14,19 +14,19 @@ import CustomerProvider from './Providers/CustomerProvider.jsx'
 import axios from 'axios'
 
 // axios.interceptors.request.use(function(config){
-//   const token = localStorage.getItem('customerToken') ?? null;
-//   config.headers.Authorization = token ? `Bearer ${token}` : null
+//   const token = localStorage.getItem('adminToken') ?? null;
+//   config.headers.Authorization = token != null ? `Bearer ${token}` : null
 // })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      <CustomerProvider>
-        <Provider store={store}>
+    <Provider store={store}>
+      <AuthProvider>
+        <CustomerProvider>
           <ToastContainer />
           <RouterProvider router={router} />
-        </Provider>
-      </CustomerProvider>
-    </AuthProvider>
+        </CustomerProvider>
+      </AuthProvider>
+    </Provider>
   </React.StrictMode>,
 )

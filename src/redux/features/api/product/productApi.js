@@ -1,9 +1,8 @@
 import { tagTypes } from '../../../tag-types'
 import { baseApi } from '../baseApi/baseApi'
 
-const getToken = () => {
-  const userD = JSON.parse(localStorage?.getItem('userData'))
-  return userD?.token
+const getToken = (token = 'adminToken') => {
+  return localStorage?.getItem(token)
 }
 
 export const productApi = baseApi.injectEndpoints({

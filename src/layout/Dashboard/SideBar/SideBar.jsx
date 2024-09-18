@@ -6,12 +6,16 @@ import { FaClipboardList } from 'react-icons/fa6'
 import { FaCircleNotch } from 'react-icons/fa'
 import { IoLogOutOutline } from 'react-icons/io5'
 import { AiFillDollarCircle, AiFillSetting } from 'react-icons/ai'
+import { useCustomerLogoutQuery } from '../../../redux/features/api/Customer/logout'
 
 export default function SideBar({ isSideBarOpen }) {
   const navigate = useNavigate()
 
+  const {logout} = useCustomerLogoutQuery();
+
   const handleLogout = () => {
     localStorage.removeItem('adminToken')
+    logout();
     navigate('dashboard/signin')
   }
   return (
