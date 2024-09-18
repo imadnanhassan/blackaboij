@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom'
 import '../HelperCss/checkout.css'
 import { useForm } from 'react-hook-form'
+import { useContext } from 'react'
+import { CustomerContext } from '../../../Providers/CustomerProvider'
 
 export default function Checkout() {
+  const {loading, customerData} = useContext(CustomerContext)
+
+  console.log(customerData)
   const {handleSubmit, register, reset} = useForm()
   const payment = [
     {
@@ -17,6 +22,8 @@ export default function Checkout() {
   const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
   const onSubmit = (data) => {
     console.log(data)
+
+
   }
   return (
     <section className="es_container px-3 py-8 xl:py-28">
@@ -97,11 +104,9 @@ export default function Checkout() {
             </div>
             {/* submit button */}
             <div className="submit_button">
-              <Link>
                 <button type="submit" className="main_btn">
                   Confirm Order
                 </button>
-              </Link>
             </div>
           </div>
         </div>

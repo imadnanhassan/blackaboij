@@ -1,20 +1,19 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { AuthContext } from '../Providers/AuthProvider'
-import { useDispatch, useSelector } from 'react-redux'
-import { setAdmin, toggleLoading } from '../redux/features/api/signin/adminCheck'
+import { AdminContext } from '../Providers/AuthProvider'
 
 const PrivateRoute = ({ children }) => {
-  const {  admin, loading } = useContext(AuthContext)
+
   const location = useLocation()
 
-  if (loading) {
-    return 'Loading...'
+  const {admin, loading} = useContext(AdminContext)
+  if(loading){
+    return 'loading...'
   }
-  if (admin && localStorage.getItem('adminToken')) {
-    return children
+  console.log(admin,'private route')
+  if(admin){
+    return children;
   }
-
   return (
     <Navigate
       to="/dashboard/signin"

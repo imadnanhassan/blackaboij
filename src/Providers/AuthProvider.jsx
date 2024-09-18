@@ -1,36 +1,44 @@
-import axios from 'axios'
-import { createContext, useState, useEffect } from 'react'
-export const AuthContext = createContext()
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
+import { createContext } from "react";
+import { baseUrl } from "../hooks/useThumbnailImage";
 
-const AuthProvider = ({ children }) => {
-  const [admin, setAdmin] = useState(false)
+
+
+export const AdminContext = createContext();
+
+
+export default function AuthProvider({children}){
+  const [admin, setAdmin] = useState(false);
+
   const [loading, setLoading] = useState(true)
-  const token = localStorage.getItem('adminToken') ?? null;
-  console.log(token)
+  const token = localStorage.getItem('adminToken') ?? null
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/admin/check-admin`, {
+    axios.get(`${baseUrl}/api/v1/admin/check-admin`,{
       headers: {
         Authorization: `Bearer ${token}`
       }
     }).then(response => {
-      console.log(response,'auth provider data')
-      if (response?.data.status == 200) {
-        setAdmin(response.data)
-      } else {
+      if(response.data.status === 200){
+        setAdmin(true)
+      }else{
         setAdmin(false)
       }
       setLoading(false)
     }).catch(error => {
-      console.log(error,'auth provider error')
       setLoading(false)
+      setAdmin(false)
     })
-  }, [])
+  },[])
+
   const data = {
+    loading,
     admin,
-    loading
+    setAdmin
   }
 
-  return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>
+  return <AdminContext.Provider value={data}>
+    {children}
+  </AdminContext.Provider>
 }
-
-export default AuthProvider

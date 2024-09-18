@@ -4,39 +4,33 @@ import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import { useAddLoginMutation } from '../../../redux/features/api/signin/signinApi'
 import { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../../../Providers/AuthProvider'
+import { AdminContext } from '../../../Providers/AuthProvider'
 import { dashboardUrl } from '../../../hooks/useDashboardUrl'
-import { useDispatch, useSelector } from 'react-redux'
-import { setAdmin, toggleLoading } from '../../../redux/features/api/signin/adminCheck'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
   // const [rememberMe, setRememberMe] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const {admin, loading:adminLoading, setAdmin} = useContext(AdminContext)
   const [addLogin] = useAddLoginMutation()
   const navigate = useNavigate()
-
-  const {
-    admin,
-    loading: adminLoading
-  } = useContext(AuthContext)
-
-
-
-  useEffect(() => {
-    if (admin) {
-      navigate(`/${dashboardUrl}`, {
-        replace: true,
-      })
-    }
-  }, [admin])
-
-
   const {
     register,
     handleSubmit: onSubmitHandler,
     formState: { errors },
   } = useForm()
+
+  useEffect(() => {
+    if(admin && !adminLoading){
+      navigate(`/${dashboardUrl}`,{
+        replace: true
+      })
+    }
+  },[adminLoading])
+
+  if(adminLoading){
+    return <>Loading...</>
+  }
 
 
   const onSubmit = async data => {
@@ -50,6 +44,7 @@ export default function SignIn() {
           autoClose: 3000,
         })
         localStorage.setItem('adminToken', response?.data?.token)
+        setAdmin(true)
         navigate(`/${dashboardUrl}`,{
           replace: true
         })
@@ -69,10 +64,6 @@ export default function SignIn() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(prevState => !prevState)
-  }
-  console.log(adminLoading)
-  if (adminLoading) {
-    return <>Loading...</>
   }
   return (
     <section className="h-screen ">

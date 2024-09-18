@@ -25,7 +25,7 @@ export const customerApi = baseApi.injectEndpoints({
           Accept: 'application/json',
         },
       }),
-    }),
+    })
   }),
 })
 
