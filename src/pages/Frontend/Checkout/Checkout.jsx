@@ -1,14 +1,30 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import '../HelperCss/checkout.css'
 import { useForm } from 'react-hook-form'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
 
 export default function Checkout() {
-  const {loading, customer} = useContext(CustomerContext)
-
-  console.log(customer)
+  const navigate = useNavigate();
+  const {loading:customerLoading, customer} = useContext(CustomerContext)
   const {handleSubmit, register, reset} = useForm()
+  const [paymentMethod, setPaymentMethod] = useState(null)
+  const handleMethodChange = (name) => {
+    setPaymentMethod(name)
+  }
+  useEffect(() => {
+    if(!customer && !customerLoading){
+      navigate('/user/signin',{
+        replace: true
+      })
+    }
+  },[customerLoading])
+
+  if(customerLoading){
+    return <>Loading...</>
+  }
+
+
   const payment = [
     {
       id: '1',
@@ -18,12 +34,16 @@ export default function Checkout() {
     },
     
   ]
+  console.log(customer)
 
   const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
   const onSubmit = (data) => {
-    console.log(data)
-
-
+    console.log(data, paymentMethod)
+    const formData = new FormData();
+    formData.append('products',cartItems)
+    formData.append('customer_id',customer.currentCustomer.id)
+    formData.append('payment_method',paymentMethod)
+    // formData.append()
   }
   return (
     <section className="es_container px-3 py-8 xl:py-28">
@@ -94,7 +114,7 @@ export default function Checkout() {
             <div className="payment_item_wraper">
               {payment.slice(0, 5).map(method => (
                 <label className="payment_item" key={method.id}>
-                  <input type="radio" name="payment" />
+                  <input onChange={() => handleMethodChange(method.methodName)} type="radio" name="payment" />
                   <span className="payment_image">
                     <img src={method.images} alt="" />
                     {method.methodName}

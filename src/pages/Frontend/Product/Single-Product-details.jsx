@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { MdEuroSymbol } from 'react-icons/md'
@@ -17,10 +17,22 @@ export default function SingleProductDetails() {
   const { slug } = useParams()
   const { data, isLoading } = useGetSingleProductQuery(slug)
 
+  const [colorId, setColorId] = useState(null)
+  const [sizeId, setSizeId] = useState(null)
+
   const dispatch = useDispatch()
   const handleAddProduct = data => {
     dispatch(addProduct(data))
   }
+
+  useEffect(() => {
+    // setColorId(data.)
+  },[])
+
+  console.log(data)
+
+  const handleColor = (id) => {}
+  const handleSize = (id) => {}
 
   if (isLoading) return <p>Loading...</p>
   if (data?.status == 404) {
@@ -76,6 +88,7 @@ export default function SingleProductDetails() {
                 <div className="flex space-x-4">
                   {sizes?.map(size => (
                     <div
+                      onClick={() => handleSize(size.id)}
                       key={size.id}
                       className="text-lg px-4 border hover:text-white hover:bg-black "
                     >
@@ -91,6 +104,7 @@ export default function SingleProductDetails() {
                 <div className="flex space-x-2">
                   {colors?.map(color => (
                     <div
+                      onClick={() => handleColor(color.id)}
                       key={color.id}
                       className="w-8 h-8 rounded-full"
                       style={{ backgroundColor: color.code }}
