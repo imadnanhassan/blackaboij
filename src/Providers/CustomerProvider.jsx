@@ -14,12 +14,9 @@ const CustomerProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       }).then(response => {
-        console.log(response, 'customer provider')
         if (response?.data?.status == 200) {
-          console.log('this is true data')
           setCustomer(response.data)
         } else {
-          console.log('this is false data')
           setCustomer(false)
         }
         setLoading(false)
