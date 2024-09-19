@@ -1,18 +1,19 @@
 import React from 'react'
 import { MdEuroSymbol } from 'react-icons/md'
 import { Link } from 'react-router-dom'
-import { Fade, Zoom } from 'react-awesome-reveal'
+import { Fade } from 'react-awesome-reveal'
 import { FaRegHeart } from 'react-icons/fa'
 import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
 import { useGetWomenCollectionQuery } from '../../../redux/features/api/womenNewCollection/womenNewCollection'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
+import FrontLoader from '../../../common/FrontLoader/FrontLoader'
 
 export default function WomenCollection() {
   const { data, isLoading } = useGetWomenCollectionQuery()
   console.log(data?.data)
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <FrontLoader />
   }
   return (
     <div>

@@ -3,14 +3,16 @@ import '../HelperCss/checkout.css'
 import { useForm } from 'react-hook-form'
 import { useContext, useEffect, useState } from 'react'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
+import { useSubmitOrderMutation } from '../../../redux/features/api/Customer/order'
 
 export default function Checkout() {
   const navigate = useNavigate();
   const {loading:customerLoading, customer} = useContext(CustomerContext)
   const {handleSubmit, register, reset} = useForm()
   const [paymentMethod, setPaymentMethod] = useState(null)
-  const handleMethodChange = (name) => {
-    setPaymentMethod(name)
+  const [addToCart] = useSubmitOrderMutation()
+  const handleMethodChange = (methodName) => {
+    setPaymentMethod(methodName)
   }
   useEffect(() => {
     if(!customer && !customerLoading){
@@ -34,16 +36,29 @@ export default function Checkout() {
     },
     
   ]
-  console.log(customer)
+
 
   const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data, paymentMethod)
     const formData = new FormData();
-    formData.append('products',cartItems)
+    for(let p = 0; p<cartItems.length; p++){
+      formData.append('products[]',JSON.stringify(cartItems[p]))
+    }
     formData.append('customer_id',customer.currentCustomer.id)
     formData.append('payment_method',paymentMethod)
-    // formData.append()
+    formData.append('name', data.name)
+    formData.append('email', data.email)
+    formData.append('phone_number', data.phone_number)
+    formData.append('delivery_address', data.delivery_address)
+    formData.append('state', data.state)
+    formData.append('city', data.city)
+    formData.append('zip_code', data.zip_code)
+
+    const response = await addToCart(formData)
+
+    console.log(response)
+    
   }
   return (
     <section className="es_container px-3 py-8 xl:py-28">
@@ -55,8 +70,8 @@ export default function Checkout() {
 
           <div className="checkout_address">
             <div className="address_item">
-              <label htmlFor="">First Name</label>
-              <input type="text" placeholder="Your First Name" {...register('first_name')} />
+              <label htmlFor="">Name</label>
+              <input type="text" placeholder="Your First Name" {...register('name')} />
             </div>
 
             <div className="address_item">
@@ -71,7 +86,7 @@ export default function Checkout() {
 
             <div className="address_item">
               <label htmlFor="">Street Address</label>
-              <input type="text" placeholder="Type Your Address" {...register('address')} />
+              <input type="text" placeholder="Type Your Address" {...register('delivery_address')} />
             </div>
 
             <div className="address_item">

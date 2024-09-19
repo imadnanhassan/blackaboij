@@ -4,14 +4,7 @@ export default function OrderTrackingBtn() {
   const [selectedOption, setSelectedOption] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  const options = [
-    'Payment',
-    'Processing',
-    'Packing',
-    'Ready to ship',
-    'Shipping',
-    'Complete',
-  ]
+  const options = ['Complete', 'Cancel']
 
   const handleOptionClick = option => {
     setSelectedOption(option)
@@ -28,9 +21,8 @@ export default function OrderTrackingBtn() {
         aria-expanded="true"
       >
         {selectedOption || 'Select an option'}
-        {/* Arrow */}
         <svg
-          className={`-mr-1 ml-2 h-5 w-5 transition-transform transform ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+          className={`-mr-1 ml-2 h-5 w-5 transition-transform transform ${isOpen ? 'rotate-0' : 'rotate-180'}`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -40,7 +32,6 @@ export default function OrderTrackingBtn() {
         </svg>
       </button>
 
-      {/* Dropdown Items */}
       {isOpen && (
         <div
           className="z-30 origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"

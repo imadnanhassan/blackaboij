@@ -5,13 +5,14 @@ import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
 import { FaRegHeart } from 'react-icons/fa'
 import { useGetMenCollectionQuery } from '../../../redux/features/api/menNewCollection/menNewCollection'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
+import FrontLoader from '../../../common/FrontLoader/FrontLoader'
 
 const MenCollection = () => {
   const { data, isLoading } = useGetMenCollectionQuery()
   console.log(data)
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <FrontLoader />
   }
   return (
     <div>
@@ -46,7 +47,7 @@ const MenCollection = () => {
                 className="front-img w-full object-cover"
               />
             </Link>
-        
+
             <button
               style={{ fontSize: '30px' }}
               className="absolute top-2 left-2 text-white"

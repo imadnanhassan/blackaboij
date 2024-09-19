@@ -1,5 +1,5 @@
 import { RxCross1 } from 'react-icons/rx'
-import OrderTracking from './OrderTracking'
+// import OrderTracking from './OrderTracking'
 
 export default function OrderInformationModal({
   isOpen,
@@ -31,7 +31,7 @@ export default function OrderInformationModal({
 
             <div id="invoicePrintArea">
               <section className="bg-white py-5 rounded-md overflow-x-auto overflow-hidden">
-                <OrderTracking />
+                {/* <OrderTracking /> */}
               </section>
 
               <div className="flex items-start justify-between mx-8 mt-6 gap-14">

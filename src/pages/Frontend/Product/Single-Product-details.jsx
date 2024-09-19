@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import { MdEuroSymbol } from 'react-icons/md'
+import { MdEuroSymbol, MdOutlineDoNotDisturbOnTotalSilence } from 'react-icons/md'
 import { Toaster } from 'sonner'
 import { Link, useParams } from 'react-router-dom'
 import '../../../assets/css/frontend.css'
@@ -13,6 +13,7 @@ import { Markup } from 'interweave'
 import NotFound from '../Error/NotFound'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '../../../redux/features/cart/cartSlice'
+import FrontLoader from '../../../common/FrontLoader/FrontLoader'
 export default function SingleProductDetails() {
   const { slug } = useParams()
   const { data, isLoading } = useGetSingleProductQuery(slug)
@@ -21,20 +22,25 @@ export default function SingleProductDetails() {
   const [sizeId, setSizeId] = useState(null)
 
   const dispatch = useDispatch()
-  const handleAddProduct = data => {
-    dispatch(addProduct(data))
+  const handleAddProduct = product => {
+    dispatch(addProduct({product, colorId, sizeId}))
   }
 
   useEffect(() => {
-    // setColorId(data.)
-  },[])
+    setColorId(data?.colors[0].color_id)
+    setSizeId(data?.sizes[0].size_id)
+  },[isLoading])
 
-  console.log(data)
 
-  const handleColor = (id) => {}
-  const handleSize = (id) => {}
+  const handleColor = (id) => {
+    setColorId(id)
+  }
+  const handleSize = (id) => {
+    setSizeId(id)
+  }
 
   if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <FrontLoader />
   if (data?.status == 404) {
     return <NotFound />
   }
@@ -90,7 +96,7 @@ export default function SingleProductDetails() {
                     <div
                       onClick={() => handleSize(size.id)}
                       key={size.id}
-                      className="text-lg px-4 border hover:text-white hover:bg-black "
+                      className={`text-lg px-4 border cursor-pointer hover:text-white hover:bg-black ${size.id == sizeId ? 'bg-black text-white' : ''}`}
                     >
                       {size.name}
                     </div>
@@ -106,7 +112,7 @@ export default function SingleProductDetails() {
                     <div
                       onClick={() => handleColor(color.id)}
                       key={color.id}
-                      className="w-8 h-8 rounded-full"
+                      className={`w-8 h-8 cursor-pointer rounded-full ${color.id == colorId ? 'outline-2 outline-blue-800 outline outline-offset-2' : ''}`}
                       style={{ backgroundColor: color.code }}
                       title={color.name}
                     ></div>
@@ -149,7 +155,7 @@ export default function SingleProductDetails() {
                     {recommendedProduct.name}
                   </h3>
                   <div className="flex justify-between ">
-                    <span className="block mt-2 font-bold flex items-center">
+                    <span className="mt-2 font-bold flex items-center">
                       <MdEuroSymbol />
                       {recommendedProduct.price}
                     </span>

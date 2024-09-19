@@ -9,9 +9,9 @@ const order = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         submitOrder: builder.mutation({
             query: (data) => ({
-                url: `/api/v1/customer/order/create-order`,
+                url: `/api/v1/front/customer/order/create-order`,
                 method: 'POST',
-                body: JSON.stringify(data),
+                body: data,
                 headers: {
                     Authorization: `Bearer ${getToken()}`
                 }
@@ -19,3 +19,5 @@ const order = baseApi.injectEndpoints({
         })
     })
 })
+
+export const { useSubmitOrderMutation } = order;
