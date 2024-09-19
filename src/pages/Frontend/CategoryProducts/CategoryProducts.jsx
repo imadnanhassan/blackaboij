@@ -25,7 +25,6 @@ export default function CategoryProducts() {
     badge = `WOMEN`
   }
 
-  console.log(data)
   return (
     <div>
       <div

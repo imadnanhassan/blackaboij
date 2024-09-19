@@ -55,7 +55,7 @@ export default function CustomerSidebar() {
           <h4 className="user_profile_name">
             {customer?.currentCustomer?.name}
           </h4>
-          <h4 className="user_profile_name">
+          <h4 className="user_profile_email">
             {customer?.currentCustomer?.email}
           </h4>
         </div>

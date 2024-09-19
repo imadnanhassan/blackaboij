@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
+
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import { Link } from 'react-router-dom'
 import { MdEuroSymbol } from 'react-icons/md'
 import { FaRegHeart } from 'react-icons/fa'
 import { Toaster } from 'sonner'
-import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
+import { BuyNowButton } from '../../../common/Button/Button'
 import '../HelperCss/home-hotsale.css'
-import { HiFire } from 'react-icons/hi'
+
 import { useGetNewArrivalsQuery } from '../../../redux/features/api/newArrivals/newArrivals'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 const HomeHotSale = () => {
@@ -46,7 +46,7 @@ const HomeHotSale = () => {
                 </TabList>
               </div>
 
-              {/* Show data category-wise, displaying a maximum of six products per category */}
+              
               {categories?.map((category, index) => (
 
                 <TabPanel key={index}>
