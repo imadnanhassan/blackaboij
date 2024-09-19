@@ -60,6 +60,7 @@ import CategoryProducts from '../pages/Frontend/CategoryProducts/CategoryProduct
 import SingleProductDetails from '../pages/Frontend/Product/Single-Product-details'
 import AdminProfileSettings from '../pages/Admin/AdminProfileSettings/AdminProfileSettings'
 import PrivateRoute from '../PrivateRoute/PrivateRoute'
+import CustomerPrivateRoute from '../PrivateRoute/CustomerPrivateRoute'
 
 const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
@@ -147,7 +148,11 @@ const router = createBrowserRouter([
       ...FRONTEND_ROUTES,
       {
         path: '/',
-        element: <CustomerPanel></CustomerPanel>,
+        element: (
+          <CustomerPrivateRoute>
+            <CustomerPanel />
+          </CustomerPrivateRoute>
+        ),
         children: CUSTOMER_PANEL_ROUTES,
       },
     ],

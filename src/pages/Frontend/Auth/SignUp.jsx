@@ -16,15 +16,15 @@ import { useForm } from 'react-hook-form'
 import { useRegisterCustomerMutation } from '../../../redux/features/api/Customer/customer'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
+import { useContext } from 'react'
+import { CustomerContext } from '../../../Providers/CustomerProvider'
 
 const defaultTheme = createTheme()
 
 export default function FrontendSignUp() {
-  // const { tokenSet } = useCart;
-  // const navigate = useNavigate()
-
-  const [userRegistration] = useRegisterCustomerMutation();
-  const navigate = useNavigate();
+  const { setCustomer } = useContext(CustomerContext)
+  const [userRegistration] = useRegisterCustomerMutation()
+  const navigate = useNavigate()
 
   const {
     register,
@@ -34,24 +34,25 @@ export default function FrontendSignUp() {
 
   const onSubmit = async data => {
     console.log(data)
-    const formData = new FormData();
-    formData.append('name',data.name)
-    formData.append('email',data.email)
-    formData.append('password',data.password)
+    const formData = new FormData()
+    formData.append('name', data.fullName)
+    formData.append('email', data.email)
+    formData.append('password', data.password)
     const response = await userRegistration(formData)
-    if(response?.data.status === 200){
-      localStorage.setItem('customerToken',response.data.token)
-      navigate('/user/dashboard',{
-        replace: true
+    if (response?.data.status === 200) {
+      localStorage.setItem('customerToken', response.data.token)
+      setCustomer(response?.data?.customer)
+      navigate('/user/dashboard', {
+        replace: true,
       })
-      
+
       toast.success(response.data.message)
-    }else if(response?.data.status === 401){
+    } else if (response?.data.status === 401) {
       response.data.errors.forEach(el => toast.error(el))
-    }else if(response?.data.status === 402){
-      Swal.fire('Error',response.data.message,'error')
-    }else{
-      Swal.fire('Error','Something went wrong. Please try again.','error')
+    } else if (response?.data.status === 402) {
+      Swal.fire('Error', response.data.message, 'error')
+    } else {
+      Swal.fire('Error', 'Something went wrong. Please try again.', 'error')
     }
   }
 

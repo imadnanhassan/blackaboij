@@ -7,24 +7,30 @@ const CustomerProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [customer, setCustomer] = useState(false)
   const token = localStorage.getItem('customerToken') ?? null
-  
+
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/front/customer/customer-check`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    axios
+      .get(
+        `${import.meta.env.VITE_BASE_URL}/api/v1/front/customer/customer-check`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }).then(response => {
+      )
+      .then(response => {
         if (response?.data?.status == 200) {
           setCustomer(response.data)
         } else {
           setCustomer(false)
         }
         setLoading(false)
-      }).catch(error => {
+      })
+      .catch(() => {
         setCustomer(false)
         setLoading(false)
       })
-}, [])
+  }, [])
 
   const data = {
     loading,
