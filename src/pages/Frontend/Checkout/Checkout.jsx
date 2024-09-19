@@ -5,9 +5,9 @@ import { useContext } from 'react'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
 
 export default function Checkout() {
-  const {customer, loading} = useContext(CustomerContext)
+  const {loading, customer} = useContext(CustomerContext)
 
-  console.log(customerData)
+  console.log(customer)
   const {handleSubmit, register, reset} = useForm()
   const payment = [
     {
