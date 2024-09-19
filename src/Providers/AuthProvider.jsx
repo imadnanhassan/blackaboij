@@ -21,7 +21,7 @@ export default function AuthProvider({children}){
       }
     }).then(response => {
       if(response.data.status === 200){
-        setAdmin(true)
+        setAdmin(response.data)
       }else{
         setAdmin(false)
       }

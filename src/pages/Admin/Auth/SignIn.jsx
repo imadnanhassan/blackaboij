@@ -44,7 +44,7 @@ export default function SignIn() {
           autoClose: 3000,
         })
         localStorage.setItem('adminToken', response?.data?.token)
-        setAdmin(true)
+        setAdmin(response?.data.admin)
         navigate(`/${dashboardUrl}`,{
           replace: true
         })
