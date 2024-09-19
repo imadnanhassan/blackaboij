@@ -5,11 +5,10 @@ export const CustomerContext = createContext()
 
 const CustomerProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
-  const [customerData, setCustomerData] = useState(false)
+  const [customer, setCustomer] = useState(false)
+  const token = localStorage.getItem('customerToken') ?? null
 
   useEffect(() => {
-    const token = localStorage.getItem('customerToken') ?? null
-
     axios
       .get(
         `${import.meta.env.VITE_BASE_URL}/api/v1/front/customer/customer-check`,
@@ -20,23 +19,23 @@ const CustomerProvider = ({ children }) => {
         },
       )
       .then(response => {
-        if (response.data.status === 200) {
-          setLoading(false)
-          setCustomerData(response.data)
+        if (response?.data?.status == 200) {
+          setCustomer(response.data)
         } else {
-          setLoading(false)
-          setCustomerData(false)
+          setCustomer(false)
         }
+        setLoading(false)
       })
       .catch(() => {
+        setCustomer(false)
         setLoading(false)
-        setCustomerData(false)
       })
   }, [])
 
   const data = {
     loading,
-    customerData,
+    customer,
+    setCustomer,
   }
 
   return (

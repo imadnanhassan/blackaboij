@@ -6,6 +6,7 @@ import { FaRegHeart } from 'react-icons/fa'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
 import { useGetAccessoriesQuery } from '../../../redux/features/api/accessoriesCollection/accessoriesCollection'
+import FrontLoader from '../../../common/FrontLoader/FrontLoader'
 
 export default function AccessoriesCollection() {
   const { data, isLoading } = useGetAccessoriesQuery()
@@ -13,7 +14,7 @@ export default function AccessoriesCollection() {
   const accessoriesData = data?.products?.data
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <FrontLoader />
   }
   return (
     <div>

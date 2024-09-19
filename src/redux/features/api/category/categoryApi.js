@@ -1,7 +1,8 @@
 import { tagTypes } from '../../../tag-types'
 import { baseApi } from '../baseApi/baseApi'
-let userD = JSON.parse(localStorage?.getItem('userData'))
-let token = userD?.token
+const getToken = (token = 'adminToken') => {
+  return localStorage?.getItem(token)
+}
 export const categoryApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     addCategory: builder.mutation({
@@ -25,7 +26,7 @@ export const categoryApi = baseApi.injectEndpoints({
           url: `/api/v1/admin/category/edit/${data?.id}`,
           method: 'PUT',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getToken()}`,
             'Content-Type': 'application/json',
           },
           body: data.category,
@@ -40,7 +41,7 @@ export const categoryApi = baseApi.injectEndpoints({
           url: `/api/v1/admin/category/delete/${id}`,
           method: 'DELETE',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getToken()}`,
             'Content-Type': 'application/json',
           },
         }
@@ -52,7 +53,7 @@ export const categoryApi = baseApi.injectEndpoints({
       query: () => ({
         url: '/api/v1/admin/category/all',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }),
       providesTags: [tagTypes.category],

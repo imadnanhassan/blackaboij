@@ -13,6 +13,7 @@ import { Markup } from 'interweave'
 import NotFound from '../Error/NotFound'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '../../../redux/features/cart/cartSlice'
+import FrontLoader from '../../../common/FrontLoader/FrontLoader'
 export default function SingleProductDetails() {
   const { slug } = useParams()
   const { data, isLoading } = useGetSingleProductQuery(slug)
@@ -22,7 +23,7 @@ export default function SingleProductDetails() {
     dispatch(addProduct(data))
   }
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <FrontLoader />
   if (data?.status == 404) {
     return <NotFound />
   }
@@ -135,7 +136,7 @@ export default function SingleProductDetails() {
                     {recommendedProduct.name}
                   </h3>
                   <div className="flex justify-between ">
-                    <span className="block mt-2 font-bold flex items-center">
+                    <span className="mt-2 font-bold flex items-center">
                       <MdEuroSymbol />
                       {recommendedProduct.price}
                     </span>

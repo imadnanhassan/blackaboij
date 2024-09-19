@@ -16,6 +16,7 @@ const Dashboard = () => {
     perpage: 10,
   })
 
+
   const productdata = products?.products?.total || []
 
   console.log(products)

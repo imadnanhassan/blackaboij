@@ -8,9 +8,9 @@ export default function CustomerHead({ title }) {
 
   return (
     <>
-      <div className="p-4 bg-white rounded-xl mb-6 flex items-center justify-between">
+      <div className="p-4 bg-white  mb-6 flex items-center justify-between">
         <h2 className="text-black font-bold text-[18px]">{title}</h2>
-        <div>
+        <div className='lg:hidden'>
           <span onClick={() => setIsCustomerMenuOpen(true)}>
             <HiOutlineMenuAlt2 className="border rounded-full w-8 h-8 !p-1" />
           </span>

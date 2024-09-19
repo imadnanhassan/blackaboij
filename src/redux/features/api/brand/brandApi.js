@@ -1,8 +1,9 @@
 import { tagTypes } from '../../../tag-types'
 import { baseApi } from '../baseApi/baseApi'
 
-let userD = JSON.parse(localStorage?.getItem('userData'))
-let token = userD?.token
+const getToken = (token = 'adminToken') => {
+  return localStorage?.getItem(token)
+}
 
 export const brandApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -11,7 +12,7 @@ export const brandApi = baseApi.injectEndpoints({
         url: '/api/v1/admin/brands/store',
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
           enctype: 'multipart/form-data',
         },
         body: data,

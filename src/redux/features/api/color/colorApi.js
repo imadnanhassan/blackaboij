@@ -1,8 +1,9 @@
 import { tagTypes } from '../../../tag-types'
 import { baseApi } from '../baseApi/baseApi'
 
-let userD = JSON.parse(localStorage?.getItem('userData'))
-let token = userD?.token
+const getToken = (token = 'adminToken') => {
+  return localStorage?.getItem(token)
+}
 
 export const colorApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -11,7 +12,7 @@ export const colorApi = baseApi.injectEndpoints({
         url: '/api/v1/admin/color/store',
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
@@ -24,7 +25,7 @@ export const colorApi = baseApi.injectEndpoints({
         url: `/api/v1/admin/color/update/${data?.id}`,
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
           'Content-Type': 'multipart/form-data',
         },
         body: data.color,
@@ -37,7 +38,7 @@ export const colorApi = baseApi.injectEndpoints({
         url: `/api/v1/admin/color/delete/${id}`,
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
           'Content-Type': 'application/json',
         },
       }),
@@ -49,7 +50,7 @@ export const colorApi = baseApi.injectEndpoints({
         url: '/api/v1/admin/color/all',
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }),
       providesTags: [tagTypes.color],
@@ -60,7 +61,7 @@ export const colorApi = baseApi.injectEndpoints({
         url: `/api/v1/admin/color/edit/${id}`,
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }),
       invalidatesTags: [tagTypes.color],

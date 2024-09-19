@@ -4,39 +4,34 @@ import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import { useAddLoginMutation } from '../../../redux/features/api/signin/signinApi'
 import { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../../../Providers/AuthProvider'
+import { AdminContext } from '../../../Providers/AuthProvider'
 import { dashboardUrl } from '../../../hooks/useDashboardUrl'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
   // const [rememberMe, setRememberMe] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const {admin, loading:adminLoading, setAdmin} = useContext(AdminContext)
   const [addLogin] = useAddLoginMutation()
   const navigate = useNavigate()
-
-  const {
-    loading: adminLoading,
-    adminData,
-    adminCheck,
-  } = useContext(AuthContext)
-
-
-
-  useEffect(() => {
-    if (adminData) {
-      navigate(`/${dashboardUrl}`, {
-        replace: true,
-      })
-    }
-  }, [adminData])
-
-  console.log(adminData)
-
   const {
     register,
     handleSubmit: onSubmitHandler,
     formState: { errors },
   } = useForm()
+
+  useEffect(() => {
+    if(admin && !adminLoading){
+      navigate(`/${dashboardUrl}`,{
+        replace: true
+      })
+    }
+  },[adminLoading])
+
+  if(adminLoading){
+    return <>Loading...</>
+  }
+
 
   const onSubmit = async data => {
     try {
@@ -48,9 +43,11 @@ export default function SignIn() {
           position: 'top-right',
           autoClose: 3000,
         })
-        adminCheck()
         localStorage.setItem('adminToken', response?.data?.token)
-        navigate(`/${dashboardUrl}`)
+        setAdmin(response?.data.admin)
+        navigate(`/${dashboardUrl}`,{
+          replace: true
+        })
       } else if (response?.data?.status == 401) {
         response?.data?.errors?.forEach(error => {
           toast.error(error)
@@ -67,10 +64,6 @@ export default function SignIn() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(prevState => !prevState)
-  }
-  console.log(adminLoading)
-  if (adminLoading) {
-    return <>Loading...</>
   }
   return (
     <section className="h-screen ">

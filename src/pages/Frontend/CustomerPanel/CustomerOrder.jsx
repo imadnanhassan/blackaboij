@@ -53,11 +53,11 @@ export default function CustomerOrder() {
     <div>
       <CustomerHead title="My Orders" />
 
-      <div className="p-2 bg-white rounded-xl mb-6">
+      <div className="p-2 bg-white  mb-6">
         <div className="flex flex-col">
           <div className="-m-1.5 overflow-x-auto">
-            <div className="p-1.5 min-w-full inline-block align-middle">
-              <div className="border rounded-lg shadow overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
+            <div className=" min-w-full inline-block align-middle">
+              <div className="border overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                   <thead className="bg-gray-50 dark:bg-neutral-700">
                     <tr>
@@ -97,13 +97,13 @@ export default function CustomerOrder() {
                   <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                     {orders.map(order => (
                       <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
                           {order.date}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
                           {order.amount}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
                           {order.productDetails}
                         </td>
                         <td

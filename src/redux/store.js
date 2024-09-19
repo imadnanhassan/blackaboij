@@ -6,6 +6,8 @@ import cartReducer from './features/cart/cartSlice'
 
 import { baseApi } from './features/api/baseApi/baseApi'
 import { productApi } from './features/api/product/productApi'
+import adminSlice from './features/api/Auth/adminSlice'
+import { thunk } from 'redux-thunk'
 
 export default configureStore({
   reducer: {
@@ -15,7 +17,8 @@ export default configureStore({
     checkBox: checkBoxSlice,
     theme: themeSlice,
     cart: cartReducer,
+    admin: adminSlice
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(baseApi.middleware, productApi.middleware),
+    getDefaultMiddleware().concat(baseApi.middleware, productApi.middleware, thunk)
 })
