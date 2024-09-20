@@ -56,7 +56,7 @@ export default function Checkout() {
     formData.append('state', data.state)
     formData.append('city', data.city)
     formData.append('zip_code', data.zip_code)
-
+    formData.append('amount',cartItems.reduce((total, item) => total + item.price * item.cartQuantity,0).toFixed(2))
     const response = await addToCart(formData)
 
     if(response?.data.status == 200){
