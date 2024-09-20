@@ -112,7 +112,7 @@ const FrontendHeader = ({ categoryList }) => {
                   <span style={{ fontSize: `${iconSize}px` }}>
                     <CiHeart className="text-white" />
                     <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
-                      4
+                      {''}
                     </span>
                   </span>
                 </button>
