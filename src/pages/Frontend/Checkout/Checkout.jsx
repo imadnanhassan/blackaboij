@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { useContext, useEffect, useState } from 'react'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
 import { useSubmitOrderMutation } from '../../../redux/features/api/Customer/order'
+import { toast } from 'react-toastify'
+import Swal from 'sweetalert2'
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -40,7 +42,7 @@ export default function Checkout() {
 
   const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
   const onSubmit = async (data) => {
-    console.log(data, paymentMethod)
+    console.log(data, paymentMethod, cartItems)
     const formData = new FormData();
     for(let p = 0; p<cartItems.length; p++){
       formData.append('products[]',JSON.stringify(cartItems[p]))
@@ -57,7 +59,17 @@ export default function Checkout() {
 
     const response = await addToCart(formData)
 
-    console.log(response)
+    if(response?.data.status == 200){
+      localStorage.removeItem('cartItems');
+      Swal.fire('Success',response.data.message,'success')
+      navigate('/user/orders',{
+        replace: true
+      })
+    }else if(response?.data.status == 401){
+      response.data.errors.forEach(el => toast.error(el))
+    }else{
+      Swal.fire('Error',response.data.message,'error')
+    }
     
   }
   return (
