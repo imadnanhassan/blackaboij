@@ -23,7 +23,7 @@ import { FaSpinner } from 'react-icons/fa'
 const defaultTheme = createTheme()
 
 export default function FrontendSignUp() {
-  const { loading, setCustomer } = useContext(CustomerContext)
+  const { loading,setCustomer } = useContext(CustomerContext)
   const [userRegistration] = useRegisterCustomerMutation()
   const navigate = useNavigate()
 

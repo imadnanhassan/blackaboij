@@ -11,7 +11,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, action) => {
-      const {product, colorId, sizeId} = action.payload
+      const { product, colorId, sizeId } = action.payload
       const existingProduct = state.items.find(item => item.id === product.id)
       if (existingProduct) {
         existingProduct.cartQuantity += 1
@@ -47,6 +47,9 @@ const cartSlice = createSlice({
     toggleCartDrawer: state => {
       state.isCartOpen = !state.isCartOpen
     },
+    closeCartDrawer: state => {
+      state.isCartOpen = false
+    },
   },
 })
 
@@ -56,6 +59,7 @@ export const {
   decrementQuantity,
   removeProduct,
   toggleCartDrawer,
+  closeCartDrawer,
 } = cartSlice.actions
 
 export const selectCartItems = state => state.cart?.items || []
