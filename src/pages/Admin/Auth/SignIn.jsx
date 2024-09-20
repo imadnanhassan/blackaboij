@@ -6,12 +6,13 @@ import { useAddLoginMutation } from '../../../redux/features/api/signin/signinAp
 import { useContext, useEffect, useState } from 'react'
 import { AdminContext } from '../../../Providers/AuthProvider'
 import { dashboardUrl } from '../../../hooks/useDashboardUrl'
+import { FaSpinner } from 'react-icons/fa'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
   // const [rememberMe, setRememberMe] = useState(false)
   const [loading, setLoading] = useState(false)
-  const {admin, loading:adminLoading, setAdmin} = useContext(AdminContext)
+  const { admin, loading: adminLoading, setAdmin } = useContext(AdminContext)
   const [addLogin] = useAddLoginMutation()
   const navigate = useNavigate()
   const {
@@ -21,17 +22,16 @@ export default function SignIn() {
   } = useForm()
 
   useEffect(() => {
-    if(admin && !adminLoading){
-      navigate(`/${dashboardUrl}`,{
-        replace: true
+    if (admin && !adminLoading) {
+      navigate(`/${dashboardUrl}`, {
+        replace: true,
       })
     }
-  },[adminLoading])
+  }, [adminLoading])
 
-  if(adminLoading){
+  if (adminLoading) {
     return <>Loading...</>
   }
-
 
   const onSubmit = async data => {
     try {
@@ -45,8 +45,8 @@ export default function SignIn() {
         })
         localStorage.setItem('adminToken', response?.data?.token)
         setAdmin(response?.data.admin)
-        navigate(`/${dashboardUrl}`,{
-          replace: true
+        navigate(`/${dashboardUrl}`, {
+          replace: true,
         })
       } else if (response?.data?.status == 401) {
         response?.data?.errors?.forEach(error => {
@@ -195,10 +195,18 @@ export default function SignIn() {
               <div className="mt-12">
                 <button
                   type="submit"
-                  className="relative w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded-full text-white bg-primaryColor hover:bg-primaryColor/80 focus:outline-none "
-                  // disabled={loading || rememberMe === false}
+                  className="relative w-full shadow-xl text-center flex items-center justify-center py-4 px-4 text-sm font-semibold rounded-full text-white bg-primaryColor hover:bg-primaryColor/80 focus:outline-none "
                 >
-                  {loading ? 'Loading...' : 'Sign in'}
+                  {loading ? (
+                    <>
+                      <FaSpinner className="animate-spin text-center" />
+                     
+                    </>
+                  ) : (
+                    <>
+                      Sign in
+                    </>
+                  )}
                 </button>
               </div>
             </form>

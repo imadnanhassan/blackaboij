@@ -18,11 +18,12 @@ import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import { useContext } from 'react'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
+import { FaSpinner } from 'react-icons/fa'
 
 const defaultTheme = createTheme()
 
 export default function FrontendSignUp() {
-  const { setCustomer } = useContext(CustomerContext)
+  const { loading, setCustomer } = useContext(CustomerContext)
   const [userRegistration] = useRegisterCustomerMutation()
   const navigate = useNavigate()
 
@@ -183,7 +184,14 @@ export default function FrontendSignUp() {
                 backgroundColor: 'black',
               }}
             >
-              Sign Up
+              {loading ? (
+                <>
+                  <FaSpinner className="animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                <>Sign Up</>
+              )}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
