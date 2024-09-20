@@ -16,7 +16,7 @@ export default function Checkout() {
   }
   useEffect(() => {
     if(!customer && !customerLoading){
-      navigate('/user/signin',{
+      navigate('/signin',{
         replace: true
       })
     }
