@@ -1,12 +1,13 @@
 import { FaBarsStaggered } from 'react-icons/fa6'
 
 import userLogo from '../../assets/img/user/user-1.jpg'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useContext, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { RiFullscreenLine } from 'react-icons/ri'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { TbWorld } from 'react-icons/tb'
 import Tooltip from '../../common/Tooltip/Tooltip'
+import { AdminContext } from '../../Providers/AuthProvider'
 
 export default function HeaderMenu({ toggleSidebar }) {
   const [isOpenUser, setIsOpenUser] = useState(false)
@@ -14,8 +15,15 @@ export default function HeaderMenu({ toggleSidebar }) {
   const [isFullscreen, setIsFullscreen] = useState(false)
 
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const dispatch = useDispatch()
+
+  const { admin, setAdmin } = useContext(AdminContext)
+  console.log(admin)
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminToken')
+    setAdmin(false)
+    Navigate('dashboard/signin', { replace: true })
+  }
 
   // User Open Function
   const toggleMenu = () => {
@@ -84,9 +92,9 @@ export default function HeaderMenu({ toggleSidebar }) {
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className=" text-sm text-sideBarTextColor">
-                      Lalisa Manobal
+                      {admin?.first_name}  {admin?.last_name}
                     </p>
-                    <p className="text-sm text-white/50">Web Developer</p>
+                    <p className="text-sm text-white/50">{admin?.email}</p>
                   </div>
                 </div>
 
@@ -97,7 +105,10 @@ export default function HeaderMenu({ toggleSidebar }) {
                   <button className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left">
                     <Link to={'dashboard/settings'}>Settings</Link>
                   </button>
-                  <button className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left">
+                  <button
+                    onClick={handleLogout}
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left"
+                  >
                     Log out
                   </button>
                 </div>
