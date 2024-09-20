@@ -46,7 +46,6 @@ export default function FrontendSignUp() {
       navigate('/user/dashboard', {
         replace: true,
       })
-
       toast.success(response.data.message)
     } else if (response?.data.status === 401) {
       response.data.errors.forEach(el => toast.error(el))
