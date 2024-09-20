@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import { MdEuroSymbol } from 'react-icons/md'
+import { MdEuroSymbol, MdOutlineDoNotDisturbOnTotalSilence } from 'react-icons/md'
 import { Toaster } from 'sonner'
 import { Link, useParams } from 'react-router-dom'
 import '../../../assets/css/frontend.css'
@@ -18,11 +18,28 @@ export default function SingleProductDetails() {
   const { slug } = useParams()
   const { data, isLoading } = useGetSingleProductQuery(slug)
 
+  const [colorId, setColorId] = useState(null)
+  const [sizeId, setSizeId] = useState(null)
+
   const dispatch = useDispatch()
-  const handleAddProduct = data => {
-    dispatch(addProduct(data))
+  const handleAddProduct = product => {
+    dispatch(addProduct({product, colorId, sizeId}))
   }
 
+  useEffect(() => {
+    setColorId(data?.colors[0].color_id)
+    setSizeId(data?.sizes[0].size_id)
+  },[isLoading])
+
+
+  const handleColor = (id) => {
+    setColorId(id)
+  }
+  const handleSize = (id) => {
+    setSizeId(id)
+  }
+
+  if (isLoading) return <p>Loading...</p>
   if (isLoading) return <FrontLoader />
   if (data?.status == 404) {
     return <NotFound />
@@ -77,8 +94,9 @@ export default function SingleProductDetails() {
                 <div className="flex space-x-4">
                   {sizes?.map(size => (
                     <div
+                      onClick={() => handleSize(size.id)}
                       key={size.id}
-                      className="text-lg px-4 border hover:text-white hover:bg-black "
+                      className={`text-lg px-4 border cursor-pointer hover:text-white hover:bg-black ${size.id == sizeId ? 'bg-black text-white' : ''}`}
                     >
                       {size.name}
                     </div>
@@ -92,8 +110,9 @@ export default function SingleProductDetails() {
                 <div className="flex space-x-2">
                   {colors?.map(color => (
                     <div
+                      onClick={() => handleColor(color.id)}
                       key={color.id}
-                      className="w-8 h-8 rounded-full"
+                      className={`w-8 h-8 cursor-pointer rounded-full ${color.id == colorId ? 'outline-2 outline-blue-800 outline outline-offset-2' : ''}`}
                       style={{ backgroundColor: color.code }}
                       title={color.name}
                     ></div>
