@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { Link, useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useUserLoginMutation } from '../../../redux/features/api/Customer/customer'
 import { toast } from 'react-toastify'
@@ -25,11 +25,17 @@ import { FaSpinner } from 'react-icons/fa'
 const defaultTheme = createTheme()
 
 export default function FrontendSignIn() {
-  const { loading, setCustomer } = useContext(CustomerContext)
+  const { loading, customer, setCustomer } = useContext(CustomerContext)
   const [userLogin] = useUserLoginMutation()
 
   const { handleSubmit, register } = useForm()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!loading && customer) {
+      navigate('/user/dashboard')
+    }
+  }, [loading, customer, navigate])
 
   if (loading) {
     return <FaSpinner className="animate-spin" />

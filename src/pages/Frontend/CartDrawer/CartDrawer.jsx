@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
+  closeCartDrawer,
   decrementQuantity,
   incrementQuantity,
   removeProduct,
@@ -25,6 +26,10 @@ const CartDrawer = () => {
 
   const handleRemove = id => {
     dispatch(removeProduct(id))
+  }
+
+  const handleCartClick = () => {
+    dispatch(closeCartDrawer())
   }
 
   return (
@@ -101,7 +106,7 @@ const CartDrawer = () => {
             .reduce((total, item) => total + item.price * item.cartQuantity, 0)
             .toFixed(2)}
         </p>
-        <Link to={'/checkout'}>
+        <Link onClick={handleCartClick} to={'/checkout'}>
           <button className="mt-4 w-full bg-black text-white py-2 rounded hover:bg-white hover:text-black transition-colors duration-200">
             Checkout
           </button>

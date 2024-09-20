@@ -8,6 +8,7 @@ import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { IoBagOutline } from 'react-icons/io5'
 import { FaRegUser } from 'react-icons/fa6'
 import { SearchBtn } from '../../common/Button/Button'
+import { CiHeart } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectCartItems,
@@ -55,7 +56,7 @@ const FrontendHeader = ({ categoryList }) => {
     setIsMobileMenuOpen(false)
   }
 
-  const iconSize = 19
+  const iconSize = 22
 
   return (
     <nav>
@@ -109,9 +110,9 @@ const FrontendHeader = ({ categoryList }) => {
                 </button>
                 <button>
                   <span style={{ fontSize: `${iconSize}px` }}>
-                    <AiOutlineShoppingCart className="text-white" />
+                    <CiHeart className="text-white" />
                     <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
-                      4
+                      {''}
                     </span>
                   </span>
                 </button>
@@ -262,7 +263,7 @@ const FrontendHeader = ({ categoryList }) => {
             {categoryList.map(category => (
               <li key={category.id} className="border-b-[1px] py-4 text-[15px]">
                 <div className="flex justify-between items-center ">
-                  <Link onClick={closeMobileMenu} className='text-white'>
+                  <Link onClick={closeMobileMenu} className="text-white">
                     {category.name}
                   </Link>
                   {category.slug === 'men' && (
@@ -336,10 +337,10 @@ const FrontendHeader = ({ categoryList }) => {
               <div
                 className={`flex justify-between items-center border-b-[1px] pb-4 pt-4 text-[15px]`}
               >
-                <p><Link to="/accessories">Accessories </Link></p>
-               
+                <p>
+                  <Link to="/accessories">Accessories </Link>
+                </p>
               </div>
-             
             </li>
 
             <li className="pt-4 text-[15px]">
