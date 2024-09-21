@@ -5,11 +5,10 @@ import { useSelector } from 'react-redux'
 import { FaSpinner } from 'react-icons/fa6'
 
 export default function OrderInformationModal({ isOpen, onClose, selectedId }) {
-  const { data, isLoading } = useGetOrderDetailsQuery(selectedId)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-  console.log(data?.orderItems)
+  const { data, isLoading } = useGetOrderDetailsQuery(selectedId)
   const formattedDate = useFormattedDate(data?.order?.created_at)
-  if (isLoading) {
+  if (isLoading && isOpen) {
     return <FaSpinner className="animate-spin" />
   }
   return (
