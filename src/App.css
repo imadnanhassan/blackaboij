@@ -419,15 +419,15 @@ body {
   background-color: black;
   color: white;
   text-align: center;
-  border-radius: 6px;
-  padding: 5px;
+  border-radius: 5px;
+  padding:  5px 10px;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
+  bottom: -100%;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .tooltip-container:hover .tooltip-text {

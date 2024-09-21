@@ -16,7 +16,7 @@ export default function OrderList() {
   const [data, setData] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
-  const {data:orders, isLoading} = useGetAdminOrderListQuery();
+  const { data: orders, isLoading } = useGetAdminOrderListQuery()
 
   const { selectAll } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -36,6 +36,12 @@ export default function OrderList() {
     setSelectedId(null)
   }
 
+  useEffect(() => {
+    if (orders && !isLoading) {
+      setData(orders?.data)
+    }
+    return () => setData([])
+  }, [isLoading])
 
   const pageTitle = 'Order List'
   const productLinks = [
@@ -43,12 +49,6 @@ export default function OrderList() {
     { title: 'Order' },
     { title: 'Order List' },
   ]
-
-  useEffect(() => {
-    if(orders && !isLoading){
-      setData(orders)
-    }
-  }, [isLoading])
 
   console.log(data, 'order list data')
 
@@ -62,7 +62,6 @@ export default function OrderList() {
         className={`px-5 py-5 rounded  ${isDarkMode ? 'bg-darkColorCard' : 'bg-lightColor'}`}
       >
         <div>
-          {/* Products filtering */}
           <div className="pt-3 pb-5">
             <h3
               className={` text-[20px] font-medium ${isDarkMode ? 'text-darkColorText' : 'text-bgray-800'}`}
@@ -90,12 +89,8 @@ export default function OrderList() {
                 {/* Add more options as needed */}
               </select>
             </div>
-
-
           </div>
         </div>
-
-        {/* Products table */}
 
         <div className="py-5">
           <div className="overflow-x-auto">
@@ -156,7 +151,7 @@ export default function OrderList() {
               </thead>
 
               <tbody className="divide-y divide-gray-200">
-                {data.map((item, index) => (
+                {data?.map((item, index) => (
                   <tr key={index}>
                     <td className="p-2">
                       <input
@@ -194,13 +189,15 @@ export default function OrderList() {
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      {item?.payment_method == 'COD' ? 'Cash On Delivery' : item?.payment_method}
+                      {item?.payment_method == 'COD'
+                        ? 'Cash On Delivery'
+                        : item?.payment_method}
                     </td>
 
                     <td
-                      className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
+                      className={`border-l pl-2 py-4 whitespace-nowrap flex justify-center ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      <OrderTrackingBtn />
+                      <OrderTrackingBtn id={item?.id} status={item?.status} />
                     </td>
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-2">
