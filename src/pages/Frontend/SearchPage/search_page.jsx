@@ -8,6 +8,7 @@ import { HiFire } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { IoFilter } from "react-icons/io5";
 import { IoClose } from 'react-icons/io5'; // Import the close icon
+import { Fade } from 'react-awesome-reveal';
 
 export default function SearchPage() {
   const [showCategoryProduct, setShowCategoryProduct] = useState(true);
@@ -80,85 +81,87 @@ export default function SearchPage() {
 
       {/* Drawer Sidebar */}
       <aside
-        className={`abosolute w-full bg-white shadow-md h-full ${drawerOpen ? 'absolute top-0 left-0' : 'hidden'} scroll-auto `}
+        className={`abosolute w-full bg-white  shadow-md h-full   ${drawerOpen ? 'absolute top-0 left-0 ' : 'hidden'} scroll-auto `}
         style={{ zIndex: 9999 }}
       >
-        <div className="p-4 relative">
-          {/* Close Button */}
-          <button
-            onClick={() => setDrawerOpen(false)}
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-          >
-            <IoClose className="text-xl" />
-          </button>
-
-          {/* Men category box */}
-          <div>
+        <Fade duration={500} direction='left'>
+          <div className="p-4 relative">
+            {/* Close Button */}
             <button
-              onClick={() => getCategoryData('Men', 'Men New Arrivals')}
-              className="w-full text-left text-sm font-bold border-b py-2"
+              onClick={() => setDrawerOpen(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
             >
-              Men Collections
+              <IoClose className="text-xl" />
             </button>
-            <div className="pl-4 text-xs sm:text-sm md:text-base pt-3 sm:pt-4">
-              {['Men New Arrivals', 'Tees', 'Hoodies And Sweaters', 'Pants', 'Shoes', 'Outwear', 'Men Accessories'].map(subcategory => (
-                <label key={subcategory} className=" cursor-pointer flex ">
+
+            {/* Men category box */}
+            <div>
+              <button
+                onClick={() => getCategoryData('Men', 'Men New Arrivals')}
+                className="w-full text-left text-sm font-bold border-b py-2"
+              >
+                Men Collections
+              </button>
+              <div className="pl-4 text-xs sm:text-sm md:text-base pt-3 sm:pt-4">
+                {['Men New Arrivals', 'Tees', 'Hoodies And Sweaters', 'Pants', 'Shoes', 'Outwear', 'Men Accessories'].map(subcategory => (
+                  <label key={subcategory} className=" cursor-pointer flex ">
+                    <input
+                      type="radio"
+                      name="category"
+                      className="mr-2"
+                      onClick={() => getCategoryData('Men', subcategory)}
+                    />
+                    <p>{subcategory}</p>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Women category box */}
+            <div className="mt-4 ">
+              <button
+                onClick={() => getCategoryData('Women', 'Women New Arrivals')}
+                className="w-full text-left text-sm font-bold border-b py-2"
+              >
+                Women Collections
+              </button>
+              <div className="pl-4 text-xs sm:text-sm md:text-base pt-3 sm:pt-4">
+                {['Women New Arrivals', 'Tees', 'Hoodies And Sweaters', 'Pants', 'Shoes', 'Outerwear', 'Women Accessories'].map(subcategory => (
+                  <label key={subcategory} className="flex cursor-pointer">
+                    <input
+                      type="radio"
+                      name="category"
+                      className="mr-2"
+                      onClick={() => getCategoryData('Women', subcategory)}
+                    />
+                    <p>{subcategory}</p>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Accessories category box */}
+            <div className="mt-4">
+              <button
+                onClick={() => getCategoryData('Accessories', 'New Arrivals')}
+                className="w-full text-left text-sm font-bold border-b py-2"
+              >
+                Accessories
+              </button>
+              <div className="pl-4 text-xs sm:text-sm md:text-base pt-3 sm:pt-4">
+                <label className="flex cursor-pointer">
                   <input
                     type="radio"
                     name="category"
                     className="mr-2"
-                    onClick={() => getCategoryData('Men', subcategory)}
+                    onClick={() => getCategoryData('Accessories', 'Accessories')}
                   />
-                  <p>{subcategory}</p>
+                  <p>Accessories</p>
                 </label>
-              ))}
+              </div>
             </div>
           </div>
-
-          {/* Women category box */}
-          <div className="mt-4 ">
-            <button
-              onClick={() => getCategoryData('Women', 'Women New Arrivals')}
-              className="w-full text-left text-sm font-bold border-b py-2"
-            >
-              Women Collections
-            </button>
-            <div className="pl-4 text-xs sm:text-sm md:text-base pt-3 sm:pt-4">
-              {['Women New Arrivals', 'Tees', 'Hoodies And Sweaters', 'Pants', 'Shoes', 'Outerwear', 'Women Accessories'].map(subcategory => (
-                <label key={subcategory} className="flex cursor-pointer">
-                  <input
-                    type="radio"
-                    name="category"
-                    className="mr-2"
-                    onClick={() => getCategoryData('Women', subcategory)}
-                  />
-                  <p>{subcategory}</p>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Accessories category box */}
-          <div className="mt-4">
-            <button
-              onClick={() => getCategoryData('Accessories', 'New Arrivals')}
-              className="w-full text-left text-sm font-bold border-b py-2"
-            >
-              Accessories
-            </button>
-            <div className="pl-4 text-xs sm:text-sm md:text-base pt-3 sm:pt-4">
-              <label className="flex cursor-pointer">
-                <input
-                  type="radio"
-                  name="category"
-                  className="mr-2"
-                  onClick={() => getCategoryData('Accessories', 'Accessories')}
-                />
-                <p>Accessories</p>
-              </label>
-            </div>
-          </div>
-        </div>
+        </Fade>
       </aside>
 
       <main className={`p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16 transition-all ${drawerOpen ? 'ml-64' : 'ml-0'} ${drawerOpen ? 'md:ml-0' : ''}`}>
