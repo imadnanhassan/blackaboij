@@ -10,11 +10,13 @@ import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import Pagination from '../../../common/Pagination/Pagination'
 import OrderInformationModal from './OrderInformationModal'
 import OrderTrackingBtn from './OrderTrackingBtn'
+import { useGetAdminOrderListQuery } from '../../../redux/features/api/Customer/order'
 
 export default function OrderList() {
   const [data, setData] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
+  const {data:orders, isLoading} = useGetAdminOrderListQuery();
 
   const { selectAll } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -34,119 +36,6 @@ export default function OrderList() {
     setSelectedId(null)
   }
 
-  // table data
-  const tableData = [
-    {
-      id: 1,
-      orderCode: 20220912,
-      customerName: 'Elon Mask',
-      phone: '+880 1423657850',
-      amount: '$999.00',
-      deliveryStatus: true,
-      paymentMethod: 'Cash On Delivery',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-    {
-      id: 2,
-      orderCode: 20220913,
-      customerName: 'Jeff Bezos',
-      phone: '+880 1423657851',
-      amount: '$1500.00',
-      deliveryStatus: false,
-      paymentMethod: 'Credit Card',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-    {
-      id: 3,
-      orderCode: 20220914,
-      customerName: 'Bill Gates',
-      phone: '+880 1423657852',
-      amount: '$800.00',
-      deliveryStatus: true,
-      paymentMethod: 'PayPal',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-    {
-      id: 4,
-      orderCode: 20220915,
-      customerName: 'Mark Zuckerberg',
-      phone: '+880 1423657853',
-      amount: '$1200.00',
-      deliveryStatus: true,
-      paymentMethod: 'Cash On Delivery',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-    {
-      id: 5,
-      orderCode: 20220916,
-      customerName: 'Larry Page',
-      phone: '+880 1423657854',
-      amount: '$2000.00',
-      deliveryStatus: false,
-      paymentMethod: 'Cash On Delivery',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-    {
-      id: 6,
-      orderCode: 20220917,
-      customerName: 'Sergey Brin',
-      phone: '+880 1423657855',
-      amount: '$1800.00',
-      deliveryStatus: true,
-      paymentMethod: 'Credit Card',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-    {
-      id: 7,
-      orderCode: 20220918,
-      customerName: 'Tim Cook',
-      phone: '+880 1423657856',
-      amount: '$1000.00',
-      deliveryStatus: true,
-      paymentMethod: 'PayPal',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-    {
-      id: 8,
-      orderCode: 20220919,
-      customerName: 'Satya Nadella',
-      phone: '+880 1423657857',
-      amount: '$850.00',
-      deliveryStatus: false,
-      paymentMethod: 'Cash On Delivery',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-    {
-      id: 9,
-      orderCode: 20220920,
-      customerName: 'Jack Ma',
-      phone: '+880 1423657858',
-      amount: '$1100.00',
-      deliveryStatus: true,
-      paymentMethod: 'Credit Card',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-    {
-      id: 10,
-      orderCode: 20220921,
-      customerName: 'Steve Jobs',
-      phone: '+880 1423657859',
-      amount: '$950.00',
-      deliveryStatus: true,
-      paymentMethod: 'Cash On Delivery',
-      paymentStatus: true,
-      refund: 'Not Found',
-    },
-  ]
 
   const pageTitle = 'Order List'
   const productLinks = [
@@ -156,8 +45,12 @@ export default function OrderList() {
   ]
 
   useEffect(() => {
-    setData(tableData)
-  }, [])
+    if(orders && !isLoading){
+      setData(orders)
+    }
+  }, [isLoading])
+
+  console.log(data, 'order list data')
 
   return (
     <section
@@ -197,8 +90,8 @@ export default function OrderList() {
                 {/* Add more options as needed */}
               </select>
             </div>
-           
-            
+
+
           </div>
         </div>
 
@@ -275,33 +168,33 @@ export default function OrderList() {
                       <h6
                         className={`text-[15px] pb-1 font-medium ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                       >
-                        {item.orderCode}
+                        {item?.order_id}
                       </h6>
                     </td>
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      {item.customerName}
+                      {item?.customer?.name}
                     </td>
 
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      {item.amount}
+                      {item?.amount}
                     </td>
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.deliveryStatus ? 'bg-[#E8F9EF] text-[#22c55e]' : 'bg-gray-100 text-gray-400'}`}
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item?.deliveryStatus ? 'bg-[#E8F9EF] text-[#22c55e]' : 'bg-gray-100 text-gray-400'}`}
                       >
-                        {item.deliveryStatus ? 'Delivered' : 'Pending'}
+                        {item?.status}
                       </span>
                     </td>
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      {item.paymentMethod}
+                      {item?.payment_method == 'COD' ? 'Cash On Delivery' : item?.payment_method}
                     </td>
 
                     <td
@@ -312,7 +205,7 @@ export default function OrderList() {
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-2">
                         <button
-                          onClick={() => openModal(item.id)}
+                          onClick={() => openModal(item?.id)}
                           className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#eab3081a] hover:bg-[#eab308] text-[#eab308] hover:text-lightColor"
                         >
                           <FiEye className="text-[12px]" />
@@ -320,7 +213,7 @@ export default function OrderList() {
                         <OrderInformationModal
                           isOpen={modalOpen}
                           onClose={closeModal}
-                          tableData={tableData}
+                          tableData={data}
                           selectedId={selectedId}
                         />
                         <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor">
