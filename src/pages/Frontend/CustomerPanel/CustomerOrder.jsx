@@ -1,46 +1,21 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CustomerHead from './CustomerHead'
+import { useGetCustomerOrderListQuery } from '../../../redux/features/api/Customer/order'
+import { CustomerContext } from '../../../Providers/CustomerProvider'
 
-const initialOrders = [
-  {
-    id: 1,
-    date: '2024-05-01',
-    amount: '$150.00',
-    productDetails: 'Product A, Product B',
-    status: 'Pending',
-  },
-  {
-    id: 2,
-    date: '2024-05-02',
-    amount: '$250.00',
-    productDetails: 'Product C, Product D',
-    status: 'Shipped',
-  },
-  {
-    id: 3,
-    date: '2024-05-03',
-    amount: '$350.00',
-    productDetails: 'Product E',
-    status: 'Pending',
-  },
-  {
-    id: 4,
-    date: '2024-05-03',
-    amount: '$350.00',
-    productDetails: 'Product F',
-    status: 'Success',
-  },
-  {
-    id: 5,
-    date: '2024-05-03',
-    amount: '$350.00',
-    productDetails: 'Product G',
-    status: 'Processing',
-  },
-]
 export default function CustomerOrder() {
-  const [orders, setOrders] = useState(initialOrders)
-
+  const [orders, setOrders] = useState(undefined)
+  const {loading, customer} = useContext(CustomerContext)
+  const {data, isLoading} = useGetCustomerOrderListQuery(customer?.currentCustomer.id);
+  useEffect(() => {
+      if(data && !(isLoading && loading)){
+        setOrders(data?.orders?.data ?? [])
+      }
+  },[isLoading, loading])
+  if(loading && isLoading){
+    return <>Loading...</>
+  }
+  console.log(orders)
   const cancelOrder = orderId => {
     setOrders(
       orders.map(order =>
@@ -95,40 +70,40 @@ export default function CustomerOrder() {
                   </thead>
 
                   <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                    {orders.map(order => (
+                    {orders?.map(order => (
                       <tr>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
-                          {order.date}
+                          {order?.date}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
-                          {order.amount}
+                          {order?.amount}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
-                          {order.productDetails}
+                          {order?.productDetails}
                         </td>
                         <td
                           className={`py-2 px-4 border-b text-sm font-medium ${
-                            order.status === 'Success'
+                            order?.status === 'Success'
                               ? 'bg-green-100 text-green-700'
-                              : order.status === 'Pending'
+                              : order?.status === 'Pending'
                                 ? 'bg-yellow-100 text-yellow-700'
-                                : order.status === 'Shipped'
+                                : order?.status === 'Shipped'
                                   ? 'bg-sky-100 text-sky-700'
-                                  : order.status === 'Processing'
+                                  : order?.status === 'Processing'
                                     ? 'bg-purple-100 text-purple-700'
-                                    : order.status === 'Cancelled'
+                                    : order?.status === 'Cancelled'
                                       ? 'bg-red-100 text-red-700'
                                       : ''
                           }`}
                         >
-                          {order.status}
+                          {order?.status}
                         </td>
                         <td
                           className={`px-6 py-4 whitespace-nowrap text-end text-sm font-medium `}
                         >
-                          {order.status === 'Pending' && (
+                          {order?.status === 'Pending' && (
                             <button
-                              onClick={() => cancelOrder(order.id)}
+                              onClick={() => cancelOrder(order?.id)}
                               className="text-red-500  rounded"
                             >
                               Cancel

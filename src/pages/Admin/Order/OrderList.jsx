@@ -1,7 +1,7 @@
 import { LiaDownloadSolid } from 'react-icons/lia'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import { FiEye } from 'react-icons/fi'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GoHome } from 'react-icons/go'
 import { toggleSelectAll } from '../../../redux/features/checkBox/checkBoxSlice'
@@ -10,7 +10,7 @@ import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import Pagination from '../../../common/Pagination/Pagination'
 import OrderInformationModal from './OrderInformationModal'
 import OrderTrackingBtn from './OrderTrackingBtn'
-import { useGetAdminOrderListQuery } from '../../../redux/features/api/Customer/order'
+import { useGetAdminOrderListQuery, useGetCustomerOrderListQuery } from '../../../redux/features/api/Customer/order'
 
 export default function OrderList() {
   const [data, setData] = useState([])
