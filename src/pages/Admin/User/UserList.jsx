@@ -2,30 +2,13 @@ import { FiEdit } from 'react-icons/fi'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import { FiEye } from 'react-icons/fi'
 import { useEffect, useState } from 'react'
-import { FaPlus } from 'react-icons/fa6'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { GoHome } from 'react-icons/go'
-import {
-  toggleCheckbox,
-  toggleSelectAll,
-} from '../../../redux/features/checkBox/checkBoxSlice'
-
-import { Link } from 'react-router-dom'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
-import Button from '../../../common/Button/Button'
 
 export default function UserList() {
   const [data, setData] = useState([])
-  const { selectAll, checkboxes } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-  const dispatch = useDispatch()
-  const handleHeaderCheckboxChange = () => {
-    dispatch(toggleSelectAll(!selectAll))
-  }
-
-  const handleCheckboxChange = index => () => {
-    dispatch(toggleCheckbox(index))
-  }
 
   const tableData = [
     {
@@ -156,19 +139,9 @@ export default function UserList() {
               </button>
             </div>
           </div>
-          <div className="flex items-center gap-[30px]">
-            <Link to="/dashboard/">
-              <Button
-                text="User"
-                className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
-                icon={FaPlus}
-              />
-            </Link>
-          </div>
         </div>
 
         {/* User table */}
-
         <div className="py-5">
           <div className="overflow-x-auto">
             <table
@@ -183,8 +156,6 @@ export default function UserList() {
                     <input
                       type="checkbox"
                       className={`form-checkbox h-4 w-4 ${isDarkMode ? 'text-black' : 'text-indigo-600'}`}
-                      checked={selectAll}
-                      onChange={handleHeaderCheckboxChange}
                     />
                   </th>
                   <th
@@ -228,13 +199,11 @@ export default function UserList() {
 
               <tbody className="divide-y divide-gray-200">
                 {data.map((item, index) => (
-                  <tr key={item.id}>
+                  <tr key={index}>
                     <td className="">
                       <input
                         type="checkbox"
-                        className="form-checkbox h-4 w-4 text-Vindigo-800 ml-5"
-                        checked={checkboxes[index] || false}
-                        onChange={handleCheckboxChange(index)}
+                        className="form-checkbox h-4 w-4 text-Vindigo-800 ml-[10px]"
                       />
                     </td>
                     <td className="border-l pl-2 py-4 whitespace-nowrap items-center flex gap-3">

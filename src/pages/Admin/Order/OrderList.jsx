@@ -46,7 +46,7 @@ export default function OrderList() {
 
   useEffect(() => {
     if(orders && !isLoading){
-      setData(orders)
+      setData(orders?.data)
     }
   }, [isLoading])
 
@@ -156,7 +156,7 @@ export default function OrderList() {
               </thead>
 
               <tbody className="divide-y divide-gray-200">
-                {data.map((item, index) => (
+                {data?.map((item, index) => (
                   <tr key={index}>
                     <td className="p-2">
                       <input
