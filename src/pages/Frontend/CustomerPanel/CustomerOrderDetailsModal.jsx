@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import { RxCross1 } from 'react-icons/rx'
 import { FaSpinner } from 'react-icons/fa6'
 import { useGetCustomerOrderDetailsQuery } from '../../../redux/features/api/orderDetails/orderDetails'
+import { LiaDownloadSolid } from 'react-icons/lia'
+import Tooltip from '../../../common/Tooltip/Tooltip'
 
 export default function CustomerOrderDetailsModal({
   isOpen,
@@ -30,12 +32,20 @@ export default function CustomerOrderDetailsModal({
               >
                 Order Information
               </h3>
-              <button
-                onClick={onClose}
-                className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
-              >
-                <RxCross1 size={20} />
-              </button>
+              <div className="flex gap-3">
+                <Tooltip text="Print">
+                  <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor">
+                    <LiaDownloadSolid className=" text-[20px] " />
+                  </button>
+                </Tooltip>
+
+                <button
+                  onClick={onClose}
+                  className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
+                >
+                  <RxCross1 size={20} />
+                </button>
+              </div>
             </div>
 
             <div className="px-3 my-1">

@@ -1,41 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { useChangeOrderStatusByAdminMutation } from '../../../redux/features/api/Customer/order'
-import Swal from 'sweetalert2';
-import { toast } from 'react-toastify';
-import { FaSpinner } from 'react-icons/fa6';
+import Swal from 'sweetalert2'
+import { toast } from 'react-toastify'
+import { FaSpinner } from 'react-icons/fa6'
 
-export default function OrderTrackingBtn({id, status}) {
+export default function OrderTrackingBtn({ id, status }) {
   const [selectedOption, setSelectedOption] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
-  const [changeStatus,{isLoading}] = useChangeOrderStatusByAdminMutation();
+  const [changeStatus, { isLoading }] = useChangeOrderStatusByAdminMutation()
   const [change, setChange] = useState(status)
 
-  const options = ['Pending', 'Complete', 'Cancel']
+  const options = ['Pending', 'Processing', 'Shipped', 'Complete', 'Cancel']
 
   useEffect(() => {
-    if(!isLoading){
+    if (!isLoading) {
       setSelectedOption(change)
     }
-  },[change])
+  }, [change])
 
-  if(isLoading){
+  if (isLoading) {
     return <FaSpinner className="animate-spin" />
   }
 
-  const handleOptionClick = async (option) => {
+  const handleOptionClick = async option => {
     setSelectedOption(option)
     setIsOpen(false)
-    const formData = new FormData();
-    formData.append('status',option)
-    formData.append('id',id)
+    const formData = new FormData()
+    formData.append('status', option)
+    formData.append('id', id)
     const response = await changeStatus(formData)
-    if(response?.data.status == 200){
-      Swal.fire('Success',response.data.message,'success')
+    if (response?.data.status == 200) {
+      Swal.fire('Success', response.data.message, 'success')
       setChange(option)
-    }else if(response?.data.status == 401){
+    } else if (response?.data.status == 401) {
       response.data.errors.forEach(el => toast.error(el))
-    }else{
-      Swal.fire('Error','Something went wrong. Please try again.')
+    } else {
+      Swal.fire('Error', 'Something went wrong. Please try again.')
     }
   }
   return (

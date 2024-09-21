@@ -1,9 +1,10 @@
+import { getToken } from '../../../../hooks/useAuthorization'
 import { tagTypes } from '../../../tag-types'
 import { baseApi } from '../baseApi/baseApi'
 
-const getToken = (token = 'adminToken') => {
-  return localStorage?.getItem(token)
-}
+// const getToken = (token = 'adminToken') => {
+//   return localStorage?.getItem(token)
+// }
 
 export const colorApi = baseApi.injectEndpoints({
   endpoints: builder => ({

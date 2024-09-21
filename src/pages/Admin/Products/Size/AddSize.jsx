@@ -1,13 +1,11 @@
 import { useSelector } from 'react-redux'
 import { GoHome } from 'react-icons/go'
-import { FiEdit } from 'react-icons/fi'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
 import Tooltip from '../../../../common/Tooltip/Tooltip'
 import EditSize from './editSize'
 import { useState } from 'react'
 import { RxCross1 } from 'react-icons/rx'
-import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import {
@@ -97,9 +95,9 @@ export default function AddSize() {
     setIsOpen(false)
   }
 
-  const handleEdit = () => {
-    setIsOpen(true)
-  }
+  // const handleEdit = () => {
+  //   setIsOpen(true)
+  // }
 
   return (
     <section
@@ -210,8 +208,7 @@ export default function AddSize() {
 
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center space-x-2">
-                          <Link
-                          // to={`/dashboard/Size/edit/${attribute?.id}`}
+                          {/* <Link
                           >
                             <Tooltip text="Edit">
                               <button
@@ -221,7 +218,7 @@ export default function AddSize() {
                                 <FiEdit className="text-[12px]" />
                               </button>
                             </Tooltip>
-                          </Link>
+                          </Link> */}
 
                           {isOpen && (
                             <div className="fixed inset-0 bg-gray-800/10  transition-all duration-300 z-50">
