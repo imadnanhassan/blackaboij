@@ -132,12 +132,12 @@ export default function CustomerOrder() {
                                 selectedId={selectedId}
                               />
 
-                              {order?.status == 'pending' ? (
+                              {order?.status !== 'pending' ? (
                                 <>
                                   <Tooltip text="You can't cancel this Product">
                                     <button
                                       disabled
-                                      className={`focus:outline-none  transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor`}
+                                      className={`focus:outline-none  transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e]`}
                                     >
                                       Cancel Order
                                     </button>
