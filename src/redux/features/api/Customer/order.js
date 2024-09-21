@@ -16,8 +16,16 @@ const order = baseApi.injectEndpoints({
                     Authorization: `Bearer ${getToken()}`
                 }
             })
+        }),
+        getAdminOrderList: builder.query({
+            query: () => ({
+                url: `/api/v1/admin/order/order-lists`,
+                headers: {
+                    Authorization: `Bearer ${getToken('adminToken')}`
+                }
+            })
         })
     })
 })
 
-export const { useSubmitOrderMutation } = order;
+export const { useSubmitOrderMutation, useGetAdminOrderListQuery } = order;
