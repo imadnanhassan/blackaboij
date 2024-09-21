@@ -1,4 +1,5 @@
 import { RxCross1 } from 'react-icons/rx'
+import { useGetOrderDetailsQuery } from '../../../redux/features/api/orderDetails/orderDetails'
 // import OrderTracking from './OrderTracking'
 
 export default function OrderInformationModal({
@@ -8,6 +9,14 @@ export default function OrderInformationModal({
   selectedId,
 }) {
   const selectedData = tableData.find(item => item.id === selectedId)
+
+  const { data, isLoading } = useGetOrderDetailsQuery(selectedId)
+
+  console.log(data)
+
+  if (isLoading) {
+    return 'Loading...'
+  }
   return (
     <>
       {isOpen && (
