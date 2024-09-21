@@ -1,19 +1,12 @@
 import { RxCross1 } from 'react-icons/rx'
 import { useGetOrderDetailsQuery } from '../../../redux/features/api/orderDetails/orderDetails'
-// import OrderTracking from './OrderTracking'
+import { useFormattedDate } from '../../../hooks/useFormattedDate'
 
-export default function OrderInformationModal({
-  isOpen,
-  onClose,
-  tableData,
-  selectedId,
-}) {
-  const selectedData = tableData.find(item => item.id === selectedId)
-
+export default function OrderInformationModal({ isOpen, onClose, selectedId }) {
   const { data, isLoading } = useGetOrderDetailsQuery(selectedId)
 
   console.log(data)
-
+  const formattedDate = useFormattedDate(data?.order?.created_at)
   if (isLoading) {
     return 'Loading...'
   }
@@ -27,8 +20,7 @@ export default function OrderInformationModal({
                 className="text-[26px] font-bold text-[#0A0A0A] capitalize"
                 id="modal-title"
               >
-                {' '}
-                Order Information{' '}
+                Order Information
               </h3>
               <button
                 onClick={onClose}
@@ -39,19 +31,18 @@ export default function OrderInformationModal({
             </div>
 
             <div id="invoicePrintArea">
-              <section className="bg-white py-5 rounded-md overflow-x-auto overflow-hidden">
-                {/* <OrderTracking /> */}
-              </section>
-
               <div className="flex items-start justify-between mx-8 mt-6 gap-14">
                 <table className="table-auto">
+                  <h3 className="py-1 px-2 text-lg font-medium border-b-2">
+                    Order Information
+                  </h3>
                   <tbody>
                     <tr>
                       <td className="px-2 py-1 w-[150px]">
                         <strong>Date </strong>
                       </td>
                       <td className="px-2 py-1">
-                        <strong>: </strong> Date
+                        <strong>: </strong> {formattedDate}
                       </td>
                     </tr>
                     <tr className="">
@@ -60,7 +51,7 @@ export default function OrderInformationModal({
                       </td>
                       <td className="px-2 py-1">
                         <strong>: </strong>
-                        order ID
+                        {data?.order?.order_id}
                       </td>
                     </tr>
                     <tr className="">
@@ -71,57 +62,31 @@ export default function OrderInformationModal({
                         <strong>: </strong> Transaction ID
                       </td>
                     </tr>
-                    <tr className="">
-                      <td className="px-2 py-1">
-                        <strong>Payment Status</strong>
-                      </td>
-                      <td className="px-2 py-1">
-                        <strong>: </strong> Payment Status
-                      </td>
-                    </tr>
+
                     <tr className="">
                       <td className="px-2 py-1">
                         <strong>Method</strong>
                       </td>
                       <td className="px-2 py-1">
-                        <strong>: </strong> {selectedData.paymentMethod}
+                        <strong>: </strong> {data?.order?.payment_method}
                       </td>
                     </tr>
                     <tr className="">
                       <td className="px-2 py-1">
-                        <strong> Total Price</strong>
-                      </td>
-                      <td className="px-2 py-1">{selectedData.amount}</td>
-                    </tr>
-                    {/* {isViewData?.coupon_id && (
-                  <>
-                    <tr className="">
-                      <td className="px-2 py-1">
-                        <strong> Coupon</strong>
+                        <strong>Total Price</strong>
                       </td>
                       <td className="px-2 py-1">
-                        <strong>: </strong> {isViewData?.coupon_id?.coupon_code}
+                        <strong>: </strong> {data?.order?.amount}$
                       </td>
                     </tr>
-                    <tr className="">
-                      <td className="px-2 py-1">
-                        <strong> Coupon Bill</strong>
-                      </td>
-                      <td className="px-2 py-1">
-                        <strong>: </strong>{' '}
-                        {isViewData?.coupon_id?.coupon_amount}{' '}
-                        {isViewData?.coupon_id?.coupon_type}
-                      </td>
-                    </tr>
-                  </>
-                )} */}
+
                     <tr className="">
                       <td className="px-2 py-1">
                         <strong>Order Status</strong>
                       </td>
-                      <td className="px-2 py-1">
+                      <td className="px-2 py-1 capitalize">
                         <strong>: </strong>
-                        {selectedData?.deliveryStatus}
+                        {data?.order?.status}
                       </td>
                     </tr>
                     <tr className="">
@@ -136,54 +101,55 @@ export default function OrderInformationModal({
                 </table>
 
                 <table className="table-auto">
-                  {selectedData && (
-                    <tbody>
-                      <tr>
-                        <td className="px-2 py-1 w-[150px]">
-                          <strong>Customer Name </strong>
-                        </td>
-                        <td className="px-2 py-1">
-                          <strong>: </strong>
-                          {selectedData.customerName}
-                        </td>
-                      </tr>
-                      <tr className="">
-                        <td className="px-2 py-1">
-                          <strong>Customer Phone</strong>
-                        </td>
-                        <td className="px-2 py-1">
-                          <strong>: </strong> {selectedData.phone}
-                        </td>
-                      </tr>
-                      <tr className="">
-                        <td className="px-2 py-1">
-                          <strong>Division</strong>
-                        </td>
-                        <td className="px-2 py-1">
-                          <strong>: </strong> Division
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="px-2 py-1 w-[180px]">
-                          <strong>District </strong>
-                        </td>
-                        <td className="px-2 py-1">
-                          <strong>: </strong>
-                          District
-                        </td>
-                      </tr>
+                  <h3 className="py-1 px-2 text-lg font-medium border-b-2">
+                    Shipping Information
+                  </h3>
+                  <tbody>
+                    <tr>
+                      <td className="px-2 py-1 w-[150px]">
+                        <strong>Customer Name </strong>
+                      </td>
+                      <td className="px-2 py-1">
+                        <strong>: </strong>
+                        {data?.shipping?.name}
+                      </td>
+                    </tr>
+                    <tr className="">
+                      <td className="px-2 py-1">
+                        <strong>Customer Phone</strong>
+                      </td>
+                      <td className="px-2 py-1">
+                        <strong>: </strong> {data?.shipping?.phone_number}
+                      </td>
+                    </tr>
+                    <tr className="">
+                      <td className="px-2 py-1">
+                        <strong>Email</strong>
+                      </td>
+                      <td className="px-2 py-1">
+                        <strong>: </strong> {data?.shipping?.email}
+                      </td>
+                    </tr>
+                    {/* <tr>
+                      <td className="px-2 py-1 w-[180px]">
+                        <strong>District </strong>
+                      </td>
+                      <td className="px-2 py-1">
+                        <strong>: </strong>
+                        {data?.shipping?.city}
+                      </td>
+                    </tr> */}
 
-                      <tr className="">
-                        <td className="px-2 py-1">
-                          <strong>City</strong>
-                        </td>
-                        <td className="px-2 py-1">
-                          <strong>: </strong>
-                          City
-                        </td>
-                      </tr>
-                    </tbody>
-                  )}
+                    <tr className="">
+                      <td className="px-2 py-1">
+                        <strong>City</strong>
+                      </td>
+                      <td className="px-2 py-1">
+                        <strong>: </strong>
+                        {data?.shipping?.city}
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
