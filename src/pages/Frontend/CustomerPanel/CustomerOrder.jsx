@@ -70,10 +70,10 @@ export default function CustomerOrder() {
                   </thead>
 
                   <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                    {orders?.map(order => (
-                      <tr>
+                    {orders?.map((order, index) => (
+                      <tr key={index}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
-                          {order?.date}
+                          {order?.order_id}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
                           {order?.amount}
