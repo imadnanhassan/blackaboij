@@ -1,7 +1,7 @@
 import { LiaDownloadSolid } from 'react-icons/lia'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import { FiEye } from 'react-icons/fi'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GoHome } from 'react-icons/go'
 import { toggleSelectAll } from '../../../redux/features/checkBox/checkBoxSlice'
@@ -10,13 +10,13 @@ import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import Pagination from '../../../common/Pagination/Pagination'
 import OrderInformationModal from './OrderInformationModal'
 import OrderTrackingBtn from './OrderTrackingBtn'
-import { useGetAdminOrderListQuery, useGetCustomerOrderListQuery } from '../../../redux/features/api/Customer/order'
+import { useGetAdminOrderListQuery } from '../../../redux/features/api/Customer/order'
 
 export default function OrderList() {
   const [data, setData] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
-  const {data:orders, isLoading} = useGetAdminOrderListQuery();
+  const { data: orders, isLoading } = useGetAdminOrderListQuery()
 
   const { selectAll } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -36,6 +36,11 @@ export default function OrderList() {
     setSelectedId(null)
   }
 
+  useEffect(() => {
+    if (orders && !isLoading) {
+      setData(orders?.data)
+    }
+  }, [isLoading])
 
   const pageTitle = 'Order List'
   const productLinks = [
@@ -43,12 +48,6 @@ export default function OrderList() {
     { title: 'Order' },
     { title: 'Order List' },
   ]
-
-  useEffect(() => {
-    if(orders && !isLoading){
-      setData(orders?.data)
-    }
-  }, [isLoading])
 
   console.log(data, 'order list data')
 
@@ -62,7 +61,6 @@ export default function OrderList() {
         className={`px-5 py-5 rounded  ${isDarkMode ? 'bg-darkColorCard' : 'bg-lightColor'}`}
       >
         <div>
-          {/* Products filtering */}
           <div className="pt-3 pb-5">
             <h3
               className={` text-[20px] font-medium ${isDarkMode ? 'text-darkColorText' : 'text-bgray-800'}`}
@@ -90,12 +88,8 @@ export default function OrderList() {
                 {/* Add more options as needed */}
               </select>
             </div>
-
-
           </div>
         </div>
-
-        {/* Products table */}
 
         <div className="py-5">
           <div className="overflow-x-auto">
@@ -194,7 +188,9 @@ export default function OrderList() {
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      {item?.payment_method == 'COD' ? 'Cash On Delivery' : item?.payment_method}
+                      {item?.payment_method == 'COD'
+                        ? 'Cash On Delivery'
+                        : item?.payment_method}
                     </td>
 
                     <td

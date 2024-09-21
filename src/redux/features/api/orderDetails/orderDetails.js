@@ -15,7 +15,19 @@ export const orderDetailsApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.orderDetails],
     }),
+    getCustomerOrderDetails: builder.query({
+      query: id => ({
+        url: `/api/v1/front/customer/order/order-details/${id}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${getToken('customerToken')}`,
+        },
+      }),
+      providesTags: [tagTypes.customerOrderDetails],
+    }),
   }),
 })
 
-export const { useGetOrderDetailsQuery } = orderDetailsApi
+export const { useGetOrderDetailsQuery, useGetCustomerOrderDetailsQuery } =
+  orderDetailsApi

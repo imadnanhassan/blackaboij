@@ -15,6 +15,7 @@ export const tagTypes = {
   categoryProduct: 'categoryProduct',
   customerRegister: 'customerRegister',
   orderDetails: 'orderDetails',
+  customerOrderDetails: 'customerOrderDetails',
 }
 
 export const tagTypesList = [
@@ -34,4 +35,5 @@ export const tagTypesList = [
   tagTypes.categoryProduct,
   tagTypes.customerRegister,
   tagTypes.orderDetails,
+  tagTypes.customerOrderDetails,
 ]

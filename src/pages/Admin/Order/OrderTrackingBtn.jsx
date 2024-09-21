@@ -4,7 +4,7 @@ export default function OrderTrackingBtn() {
   const [selectedOption, setSelectedOption] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  const options = ['Complete', 'Cancel']
+  const options = ['Pending', 'Complete', 'Cancel']
 
   const handleOptionClick = option => {
     setSelectedOption(option)
