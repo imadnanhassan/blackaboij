@@ -29,7 +29,7 @@ const MenCollection = () => {
         }}
       >
         <Zoom>
-          <h2 className="md:md:text-6xl text-[20px] text-2xl text-white font-custom font-bold whitespace-nowrap">
+          <h2 className="xl:text-[80px] text-2xl md:text-4xl lg:text-4xl xl:text-5xl font-semibold text-white whitespace-nowrap">
             MEN NEW COLLECTIONS
           </h2>
         </Zoom>
