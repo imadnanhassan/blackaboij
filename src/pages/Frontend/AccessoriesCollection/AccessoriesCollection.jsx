@@ -31,8 +31,8 @@ export default function AccessoriesCollection() {
         }}
       >
         <Zoom>
-          <h2 className="md:md:text-6xl uppercase text-[20px] text-2xl text-white font-custom font-bold whitespace-nowrap">
-            Accessories COLLECTIONS
+          <h2 className="xl:text-[80px] text-2xl md:text-4xl lg:text-4xl xl:text-5xl font-semibold  text-white font-custom whitespace-nowrap">
+            ACCESSORIES COLLECTIONS
           </h2>
         </Zoom>
       </div>
