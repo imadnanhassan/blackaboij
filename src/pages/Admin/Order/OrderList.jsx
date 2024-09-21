@@ -40,6 +40,7 @@ export default function OrderList() {
     if (orders && !isLoading) {
       setData(orders?.data)
     }
+    return () => setData([])
   }, [isLoading])
 
   const pageTitle = 'Order List'
@@ -194,9 +195,9 @@ export default function OrderList() {
                     </td>
 
                     <td
-                      className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
+                      className={`border-l pl-2 py-4 whitespace-nowrap flex justify-center ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      <OrderTrackingBtn />
+                      <OrderTrackingBtn id={item?.id} status={item?.status} />
                     </td>
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-2">

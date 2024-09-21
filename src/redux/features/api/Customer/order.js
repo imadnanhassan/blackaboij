@@ -32,8 +32,19 @@ const order = baseApi.injectEndpoints({
                     Authorization: `Bearer ${getToken('customerToken')}`
                 }
             })
+        }),
+        changeOrderStatusByAdmin: builder.mutation({
+            query: (data) => ({
+                url: `/api/v1/admin/order/change-order-status`,
+                method: 'POST',
+                body: data,
+                headers: {
+                    Authorization: `Bearer ${getToken('adminToken')}`,
+                    Accept: 'application/json'
+                }
+            })
         })
     })
 })
 
-export const { useSubmitOrderMutation, useGetAdminOrderListQuery, useGetCustomerOrderListQuery } = order;
+export const { useSubmitOrderMutation, useGetAdminOrderListQuery, useGetCustomerOrderListQuery, useChangeOrderStatusByAdminMutation } = order;
