@@ -16,6 +16,7 @@ export const tagTypes = {
   customerRegister: 'customerRegister',
   orderDetails: 'orderDetails',
   customerOrderDetails: 'customerOrderDetails',
+  cancelOrder: 'cancelOrder',
 }
 
 export const tagTypesList = [
@@ -36,4 +37,5 @@ export const tagTypesList = [
   tagTypes.customerRegister,
   tagTypes.orderDetails,
   tagTypes.customerOrderDetails,
+  tagTypes.cancelOrder,
 ]

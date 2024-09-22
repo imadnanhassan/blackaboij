@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import { MdEuroSymbol, MdOutlineDoNotDisturbOnTotalSilence } from 'react-icons/md'
+import { MdEuroSymbol } from 'react-icons/md'
 import { Toaster } from 'sonner'
 import { Link, useParams } from 'react-router-dom'
 import '../../../assets/css/frontend.css'
@@ -23,33 +23,38 @@ export default function SingleProductDetails() {
 
   const dispatch = useDispatch()
   const handleAddProduct = product => {
-    dispatch(addProduct({product, colorId, sizeId}))
-  }
-
-  useEffect(() => {
-    setColorId(data?.colors[0].color_id)
-    setSizeId(data?.sizes[0].size_id)
-  },[isLoading])
-
-
-  const handleColor = (id) => {
-    setColorId(id)
-  }
-  const handleSize = (id) => {
-    setSizeId(id)
-  }
-
-  if (isLoading) return <p>Loading...</p>
-  if (isLoading) return <FrontLoader />
-  if (data?.status == 404) {
-    return <NotFound />
+    dispatch(addProduct({ product, colorId, sizeId }))
   }
 
   const product = data?.product
+  
+
+
+  useEffect(() => {
+    setColorId(data?.colors[0]?.color_id)
+    setSizeId(data?.sizes[0]?.size_id)
+  }, [isLoading, product])
+
+  const handleColor = id => {
+    setColorId(id)
+  }
+  const handleSize = id => {
+    setSizeId(id)
+  }
+
+
+
   const galleries = data?.galleries
   const colors = data?.colors
   const sizes = data?.sizes
   const articleContent = product?.product_description
+
+    if (isLoading) return <FrontLoader />
+    if (data?.status == 404) {
+      return <NotFound />
+    }
+
+    console.log(product)
   return (
     <section>
       <div className="">

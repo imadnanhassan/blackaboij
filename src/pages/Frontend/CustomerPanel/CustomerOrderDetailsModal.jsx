@@ -14,7 +14,7 @@ export default function CustomerOrderDetailsModal({
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
 
   const { data, isLoading } = useGetCustomerOrderDetailsQuery(selectedId)
-  console.log(data?.orderItems)
+  // console.log(data)
 
   if (isLoading) {
     return <FaSpinner className="animate-spin" />

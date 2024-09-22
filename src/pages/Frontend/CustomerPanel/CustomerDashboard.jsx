@@ -6,6 +6,7 @@ import CustomerHead from './CustomerHead'
 import { useGetCustomerOrderListQuery } from '../../../redux/features/api/Customer/order'
 import { useContext } from 'react'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
+import CustomerLoader from '../../../common/CustomerLoader/CustomerLoader'
 
 export default function CustomerDashboard() {
   const { customer } = useContext(CustomerContext)
@@ -49,7 +50,7 @@ export default function CustomerDashboard() {
     },
   ]
   if (isLoading) {
-    return <FaSpinner className="animate-spin" />
+    return <CustomerLoader />
   }
   return (
     <>
