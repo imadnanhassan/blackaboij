@@ -192,11 +192,11 @@ export default function UserProfile() {
                 </table>
               </div>
             </div>
-            <div
+            {/* <div
               className={`rounded-sm w-full ${isDarkMode ? 'bg-darkColorCard' : 'bg-lightColor'}`}
             >
               Skill
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

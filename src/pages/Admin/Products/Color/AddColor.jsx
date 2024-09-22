@@ -211,7 +211,7 @@ export default function AddColor() {
 
           {/* Color table*/}
           <div className="py-5">
-            <div className="container mx-auto overflow-x-auto">
+            <div className="container mx-auto">
               <table
                 id="data-table"
                 className={`min-w-full border  table-auto  ${isDarkMode ? 'border-darkColorBody' : 'border-gray-200 divide-y divide-gray-200'}`}

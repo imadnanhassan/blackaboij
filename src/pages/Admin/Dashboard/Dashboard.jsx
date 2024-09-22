@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux'
 import { MdOutlineShoppingBag } from 'react-icons/md'
 import { AiFillDollarCircle } from 'react-icons/ai'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
-import ColumnChart from '../../../components/ColumnChart/ColumnChart'
+// import ColumnChart from '../../../components/ColumnChart/ColumnChart'
 import TotalOrder from './TotalOrder'
-import AreaCharts from '../../../components/ColumnChart/AreaCharts'
+// import AreaCharts from '../../../components/ColumnChart/AreaCharts'
 import { useGetProductListQuery } from '../../../redux/features/api/product/productApi'
 const pageTitle = 'Dashboard'
 const productLinks = [{ title: <></>, link: '/' }]
@@ -95,7 +95,7 @@ const Dashboard = () => {
 
       {/* Chart */}
 
-      <div className="grid lg:grid-cols-2 grid-cols-1 overflow-hidden gap-5 py-5">
+      {/* <div className="grid lg:grid-cols-2 grid-cols-1 overflow-hidden gap-5 py-5">
         <div
           className={` rounded w-full py-5 px-5 ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText '}`}
         >
@@ -106,7 +106,7 @@ const Dashboard = () => {
         >
           <AreaCharts />
         </div>
-      </div>
+      </div> */}
 
       {/* order, top category and top brand */}
 
