@@ -124,7 +124,7 @@ const FrontendHeader = ({ categoryList }) => {
               className={`flex justify-center list-none text-white border-t-[1px] border-[#6e6b6bdd]`}
             >
               {categoryList.map(category => (
-                <Link
+                <div
                   key={category.id}
                   className={`relative mx-[15px] py-[10px] text-[15px] group ${
                     isHovered(category.id)
@@ -170,7 +170,7 @@ const FrontendHeader = ({ categoryList }) => {
                       ))}
                     </ul>
                   </div>
-                </Link>
+                </div>
               ))}
 
               <Link to="/accessories">

@@ -44,6 +44,7 @@ export default function Checkout() {
   const cartItems = localStorage.getItem('cartItems')
     ? JSON.parse(localStorage.getItem('cartItems'))
     : []
+    console.log(cartItems)
   const onSubmit = async data => {
     console.log(data, paymentMethod, cartItems)
     const formData = new FormData()
@@ -97,7 +98,10 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your First Name"
+
+
                 {...register('name', { required: true })}
+
               />
               {errors.name?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">

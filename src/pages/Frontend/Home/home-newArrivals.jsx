@@ -15,7 +15,7 @@ const HomeNewArrivals = () => {
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading data...</p>
-  const categories = data.data;  
+  const categories = data.data;
   console.log(data?.data)
 
 
@@ -33,7 +33,7 @@ const HomeNewArrivals = () => {
                 <TabList className="custom-tab-list md:flex md:justify-center cursor-pointer md:text-[16px] text-[12px] md:gap-6 gap-[10px]">
                   {categories?.map((category, index) => (
                     <Tab className="custom-tab" key={index}>
-                      {category.name} 
+                      {category.name}
                     </Tab>
                   ))}
                 </TabList>
@@ -91,9 +91,12 @@ const HomeNewArrivals = () => {
                     ))}
                   </div>
 
-                  <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px]">
-                    <AnimatedButton buttonText="SHOW ALL"></AnimatedButton>
-                  </p>
+                  {/* todo */}
+                  {/* <Link to="">
+                    <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px]">
+                      <AnimatedButton buttonText="SHOW ALL"></AnimatedButton>
+                    </p>
+                  </Link> */}
                 </TabPanel>
               ))}
             </Tabs>
