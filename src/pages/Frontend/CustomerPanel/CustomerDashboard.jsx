@@ -3,35 +3,54 @@ import { PiCube } from 'react-icons/pi'
 import { LuBadgeCheck } from 'react-icons/lu'
 import { HiMiniXMark } from 'react-icons/hi2'
 import CustomerHead from './CustomerHead'
+import { useGetCustomerOrderListQuery } from '../../../redux/features/api/Customer/order'
+import { useContext } from 'react'
+import { CustomerContext } from '../../../Providers/CustomerProvider'
 
 export default function CustomerDashboard() {
+  const { customer } = useContext(CustomerContext)
+  const { data, isLoading } = useGetCustomerOrderListQuery(
+    customer?.currentCustomer.id,
+  )
+
+  const orders = data?.orders?.data || []
+  const pendingCount = orders.filter(order => order.status === 'pending').length
+  const processingCount = orders.filter(
+    order => order.status === 'Processing',
+  ).length
+  const completeCount = orders.filter(
+    order => order.status === 'Complete',
+  ).length
+
   const customerDashboardData = [
     {
       id: 1,
       title: 'Total Orders',
-      orderNumber: '110',
+      orderNumber: data?.orders?.total,
       icon: <PiCube className="w-6 h-6" />,
     },
     {
       id: 2,
       title: 'Pending Orders',
-      orderNumber: '25',
+      orderNumber: pendingCount,
       icon: <FaSpinner className="w-6 h-6" />,
     },
     {
       id: 3,
       title: 'Completed Orders',
-      orderNumber: '80',
+      orderNumber: completeCount,
       icon: <LuBadgeCheck className="w-6 h-6" />,
     },
     {
       id: 4,
       title: 'Cancelled Orders',
-      orderNumber: '5',
+      orderNumber: processingCount,
       icon: <HiMiniXMark className="w-6 h-6" />,
     },
   ]
-
+  if (isLoading) {
+    return <FaSpinner className="animate-spin" />
+  }
   return (
     <>
       <CustomerHead title="Dashboard" />
@@ -46,16 +65,17 @@ export default function CustomerDashboard() {
                     <span>{items.icon}</span>
                   </div>
                   <h3 className="text-[#041826] text-[18px] font-medium">
-                    { items.title}
+                    {items.title}
                   </h3>
-                  <p className="text-[#0f172a99] text-[24px] font-medium">0</p>
+                  <p className="text-[#0f172a99] text-[24px] font-medium">
+                    {' '}
+                    {items.orderNumber}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-
-        
       </>
     </>
   )
