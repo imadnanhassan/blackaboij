@@ -19,7 +19,7 @@ const HomeBlackFridaySale = () => {
                     <h3 className="text-[8px] md:text-xs xl:text-lg  md:pb-4 lg:pb-6 pb-2 xl:pb-8">UP TO 60% OFF ON SELECTED ITEMS</h3>
                     <h2 className="xl:text-[80px] text-2xl md:text-4xl lg:text-4xl ">Black Friday Sale</h2>
                     <h4 className="md:py-10 py-3">
-                        <Link to="/allProducts">
+                        <Link to="/search">
                             <AnimatedButton buttonText='SHOP NOW' ></AnimatedButton>
                         </Link>
                     </h4>

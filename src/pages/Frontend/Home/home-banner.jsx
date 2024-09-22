@@ -53,8 +53,8 @@ const HomeBanner = () => {
             <h1 className="xl:text-[80px] text-2xl md:text-4xl lg:text-4xl  font-custom whitespace-nowrap md:py-12 py-6 text-white">LIFE IS MADE OF CHOICE</h1>
           </div>
           <div className="flex md:gap-5 gap-2">
-            <Link to="/menCollections"> <AnimatedButton buttonText="SHOP MEN" ></AnimatedButton></Link>
-            <Link to="/menCollections"> <AnimatedButton buttonText="SHOP WOMEN" ></AnimatedButton></Link>
+            <Link to="/men-collection"> <AnimatedButton buttonText="SHOP MEN" ></AnimatedButton></Link>
+            <Link to="/women-collection"> <AnimatedButton buttonText="SHOP WOMEN" ></AnimatedButton></Link>
           </div>
         </div>
 
