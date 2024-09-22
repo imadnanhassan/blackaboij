@@ -1,8 +1,6 @@
+import { getToken } from '../../../../hooks/useAuthorization'
+import { tagTypes } from '../../../tag-types'
 import { baseApi } from '../baseApi/baseApi'
-
-const getToken = (token = 'adminToken') => {
-  return localStorage?.getItem(token)
-}
 
 export const customerApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -16,6 +14,7 @@ export const customerApi = baseApi.injectEndpoints({
         },
       }),
     }),
+
     userLogin: builder.mutation({
       query: data => ({
         url: '/api/v1/front/customer/login',
@@ -25,8 +24,24 @@ export const customerApi = baseApi.injectEndpoints({
           Accept: 'application/json',
         },
       }),
-    })
+    }),
+
+    getCustomerList: builder.query({
+      query: () => ({
+        url: '/api/v1/admin/customer/customer-lists',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          Accept: 'application/json',
+        },
+      }),
+      providesTags: [tagTypes.customerList],
+    }),
   }),
 })
 
-export const { useRegisterCustomerMutation, useUserLoginMutation } = customerApi
+export const {
+  useRegisterCustomerMutation,
+  useUserLoginMutation,
+  useGetCustomerListQuery,
+} = customerApi
