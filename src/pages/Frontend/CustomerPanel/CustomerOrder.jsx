@@ -48,8 +48,8 @@ export default function CustomerOrder() {
             <div className=" min-w-full inline-block align-middle">
               <div className=" overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700 ">
-                  <thead className="bg-gray-50 dark:bg-neutral-700  ">
-                    <tr className=''>
+                  <thead className="bg-gray-50 dark:bg-neutral-700">
+                    <tr className="">
                       <th
                         scope="col"
                         className="px-6 py-3 text-start text-xs md:text-sm text-gray-500 uppercase dark:text-neutral-400"
@@ -62,7 +62,6 @@ export default function CustomerOrder() {
                       >
                         Amount
                       </th>
-
                       <th
                         scope="col"
                         className="px-6 py-3 text-start text-xs md:text-sm text-gray-500 uppercase dark:text-neutral-400"
@@ -71,20 +70,19 @@ export default function CustomerOrder() {
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-start text-xs md:text-sm  text-gray-500 uppercase dark:text-neutral-400"
+                        className="px-6 py-3 text-center text-xs md:text-sm  text-gray-500 uppercase dark:text-neutral-400"
                       >
                         Action
                       </th>
                     </tr>
                   </thead>
 
-
                   {loading && isLoading ? (
                     <FaSpinner className="animate-spin" />
                   ) : (
-                    <tbody className="divide-y divide-gray-200 ">
+                    <tbody className="divide-y divide-gray-200">
                       {orders?.map((order, index) => (
-                        <tr key={index} className='hover:bg-gray-50'>
+                        <tr key={index} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
                             {useFormattedDate(order?.created_at)}
                           </td>
@@ -108,23 +106,11 @@ export default function CustomerOrder() {
                           >
                             {order?.status}
                           </td>
-                          <td
-                            className={`px-6 py-4 whitespace-nowrap text-end text-sm font-medium `}
-                          >
-                            {/* {order?.status === 'Pending' && (
-
-                            <button
-                              onClick={() => cancelOrder(order?.id)}
-                              className="text-red-500  rounded"
-                            >
-                              Cancel
-                            </button>
-                          )} 
-
+                          <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                             <div className="flex items-center space-x-2">
                               <button
                                 onClick={() => openModal(order?.id)}
-                                className="focus:outline-none transition-all duration-100 py-2 px-6 rounded-full bg-gray-100  hover:bg-gray-500 text-black hover:text-lightColor"
+                                className="focus:outline-none transition-all duration-100 py-2 px-6 rounded-full bg-gray-100 hover:bg-gray-500 text-black hover:text-lightColor"
                               >
                                 {/* <FiEye className="text-[12px]" /> */}
                                 View
@@ -137,30 +123,28 @@ export default function CustomerOrder() {
                               />
 
                               {order?.status !== 'pending' ? (
-                                <>
-                                  <Tooltip text="You can't cancel this Product">
-                                    <button
-                                      disabled
-                                      className={`focus:outline-none  transition-all duration-300 p-2  px-6  rounded-full bg-[#f43f5e1a] text-[#f43f5e]`}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </Tooltip>
-                                </>
-                              ) : (
-                                <>
+                                <Tooltip text="You can't cancel this Product">
                                   <button
-                                    className={`focus:outline-none transition-all duration-300 p-2 px-6 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor`}
-                                    >
-                                  Cancel Order
+                                    disabled
+                                    className="focus:outline-none transition-all duration-300 p-2 px-6 rounded-full bg-[#f43f5e1a] text-[#f43f5e]"
+                                  >
+                                    Cancel
+                                  </button>
+                                </Tooltip>
+                              ) : (
+                                <button
+                                  // onClick={() => cancelOrder(order?.id)}
+                                  className="focus:outline-none transition-all duration-300 p-2 px-6 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
+                                >
+                                  Cancel 
                                 </button>
-                              </>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  )}
                 </table>
               </div>
             </div>
