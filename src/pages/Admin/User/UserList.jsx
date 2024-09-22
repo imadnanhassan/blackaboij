@@ -1,6 +1,3 @@
-import { FiEdit } from 'react-icons/fi'
-import { RiDeleteBin7Line } from 'react-icons/ri'
-import { FiEye } from 'react-icons/fi'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { GoHome } from 'react-icons/go'
@@ -103,11 +100,11 @@ export default function UserList() {
     },
   ]
 
-  const pageTitle = 'User List'
+  const pageTitle = 'Customer List'
   const productLinks = [
     { title: <GoHome />, link: '/' },
-    { title: 'User' },
-    { title: 'User List' },
+    { title: 'Customer' },
+    { title: 'Customer List' },
   ]
 
   useEffect(() => {
@@ -123,24 +120,7 @@ export default function UserList() {
       <div
         className={`px-5 py-5 rounded  ${isDarkMode ? 'bg-darkColorCard' : 'bg-lightColor'}`}
       >
-        {/* search product and addProducts */}
-        <div className="flex items-center justify-between gap-6 py-3 ">
-          <div className="search flex items-center gap-5">
-            <div
-              className={` rounded-md flex items-center justify-between border border-[#4800C9] ${isDarkMode ? 'text-darkColorText ' : 'bg-[#ffffff]'}`}
-            >
-              <input
-                type="search"
-                className={`py-3 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer ${isDarkMode ? 'placeholder:text-slate-400' : 'placeholder:text-textColor'}`}
-                placeholder="Search User"
-              />
-              <button className="btn mt-0 rounded-[0px] rounded-r-md px-3">
-                <i className="fa-solid fa-magnifying-glass" />
-              </button>
-            </div>
-          </div>
-        </div>
-
+     
         {/* User table */}
         <div className="py-5">
           <div className="overflow-x-auto">
@@ -152,22 +132,17 @@ export default function UserList() {
                 className={`${isDarkMode ? 'bg-[#131A26]' : 'bg-gray-100'}`}
               >
                 <tr>
-                  <th className="p-2">
-                    <input
-                      type="checkbox"
-                      className={`form-checkbox h-4 w-4 ${isDarkMode ? 'text-black' : 'text-indigo-600'}`}
-                    />
+                  <th
+                    className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
+                  >
+                    SL
                   </th>
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
                     Name
                   </th>
-                  <th
-                    className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
-                  >
-                    User Name
-                  </th>
+                  
                   <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
@@ -189,23 +164,18 @@ export default function UserList() {
                   >
                     STATUS
                   </th>
-                  <th
+                  {/* <th
                     className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
                   >
                     ACTIONS
-                  </th>
+                  </th> */}
                 </tr>
               </thead>
 
               <tbody className="divide-y divide-gray-200">
                 {data.map((item, index) => (
                   <tr key={index}>
-                    <td className="">
-                      <input
-                        type="checkbox"
-                        className="form-checkbox h-4 w-4 text-Vindigo-800 ml-[10px]"
-                      />
-                    </td>
+                    <td className="text-center">{++index}</td>
                     <td className="border-l pl-2 py-4 whitespace-nowrap items-center flex gap-3">
                       <div
                         className={`w-[40px] h-[40px] rounded-md p-2 ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
@@ -224,11 +194,7 @@ export default function UserList() {
                         </h6>
                       </span>
                     </td>
-                    <td
-                      className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
-                    >
-                      {item.userName}
-                    </td>
+                    
                     <td className="border-l pl-2 py-4 whitespace-nowrap">
                       {item.email}
                     </td>
@@ -250,19 +216,13 @@ export default function UserList() {
                         {item.isStatus ? 'Active' : 'Inactive'}
                       </span>
                     </td>
-                    <td className="border-l pl-2 py-4 whitespace-nowrap">
+                    {/* <td className="border-l pl-2 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-2">
-                        <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#eab3081a] hover:bg-[#eab308] text-[#eab308] hover:text-lightColor ">
-                          <FiEye className=" text-[12px]" />
-                        </button>
-                        <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor">
-                          <FiEdit className=" text-[12px] " />
-                        </button>
-                        <button className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor">
-                          <RiDeleteBin7Line className="text-[12px]" />
+                        <button className="focus:outline-none transition-all duration-100 py-2 px-3 rounded-full bg-[#eab3081a] hover:bg-[#eab308] text-[#eab308] hover:text-lightColor ">
+                          View
                         </button>
                       </div>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
