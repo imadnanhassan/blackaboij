@@ -110,7 +110,7 @@
 }
 
 .payment_item input:checked~.payment_image {
-  border: 2px solid #eeeeee;
+  border: 1px solid #353935;
   border-radius: 2px;
 }
 
@@ -123,18 +123,21 @@
   font-size: 14px;
   font-weight: 500;
   color: #0f172a99;
+
 }
 
 .payment_image img {
-  width: 80px;
-  border: 1px solid #f2f2f2;
+
+ 
   padding: 5px;
   border-radius: 2px;
+  height: 50px;
+  width: 50px;
 }
 
 .submit_button {
   width: 100%;
-  margin-top: 15px;
+  
 }
 
 .submit_button button {

@@ -15,8 +15,6 @@
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
-    "@fileforge/client": "^0.1.18",
-    "@fileforge/react-print": "^0.1.150",
     "@hookform/resolvers": "^3.9.0",
     "@mui/material": "^5.16.7",
     "@reduxjs/toolkit": "^2.2.1",
