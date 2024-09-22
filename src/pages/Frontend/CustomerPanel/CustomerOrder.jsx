@@ -23,7 +23,7 @@ export default function CustomerOrder() {
     }
   }, [isLoading, loading])
 
-  console.log(orders)
+  console.log(data)
 
   // open moda
   const openModal = id => {
@@ -35,7 +35,9 @@ export default function CustomerOrder() {
     setModalOpen(false)
     setSelectedId(null)
   }
-
+  if (loading && isLoading) {
+    return <FaSpinner className="animate-spin" />
+  }
   return (
     <div>
       <CustomerHead title="My Orders" />
@@ -76,6 +78,7 @@ export default function CustomerOrder() {
                     </tr>
                   </thead>
 
+
                   {loading && isLoading ? (
                     <FaSpinner className="animate-spin" />
                   ) : (
@@ -109,13 +112,14 @@ export default function CustomerOrder() {
                             className={`px-6 py-4 whitespace-nowrap text-end text-sm font-medium `}
                           >
                             {/* {order?.status === 'Pending' && (
+
                             <button
                               onClick={() => cancelOrder(order?.id)}
                               className="text-red-500  rounded"
                             >
                               Cancel
                             </button>
-                          )} */}
+                          )} 
 
                             <div className="flex items-center space-x-2">
                               <button
@@ -147,17 +151,16 @@ export default function CustomerOrder() {
                                 <>
                                   <button
                                     className={`focus:outline-none transition-all duration-300 p-2 px-6 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor`}
-                                  >
-                                    Cancel 
-                                  </button>
-                                </>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  )}
+                                    >
+                                  Cancel Order
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               </div>
             </div>

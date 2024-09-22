@@ -1,17 +1,17 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { GoHome } from 'react-icons/go'
-import { FaShoppingBag } from 'react-icons/fa'
+import { FaShoppingBag, FaUser } from 'react-icons/fa'
 import { CiShoppingBasket } from 'react-icons/ci'
 import { FaClipboardList } from 'react-icons/fa6'
 import { FaCircleNotch } from 'react-icons/fa'
 import { IoLogOutOutline } from 'react-icons/io5'
-import { AiFillDollarCircle, AiFillSetting } from 'react-icons/ai'
+import { AiFillSetting } from 'react-icons/ai'
 import { useContext } from 'react'
 import { AdminContext } from '../../../Providers/AuthProvider'
 
 export default function SideBar({ isSideBarOpen }) {
   const navigate = useNavigate()
-  const {setAdmin} = useContext(AdminContext)
+  const { setAdmin } = useContext(AdminContext)
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken')
@@ -21,10 +21,11 @@ export default function SideBar({ isSideBarOpen }) {
   return (
     <aside
       className={` main-content overflow-y-auto bg-black lg:block hidden
-      ${isSideBarOpen
+      ${
+        isSideBarOpen
           ? 'w-0 transition-width duration-500 ease-in-out sm:block'
           : 'w-64 transition-width duration-500 ease-in-out sm:block'
-        }`}
+      }`}
     >
       {isSideBarOpen ? (
         <div className="sideBarCloseCollapse hidden lg:block">
@@ -206,7 +207,7 @@ export default function SideBar({ isSideBarOpen }) {
                 <details className="group [&_summary::-webkit-details-marker]:hidden">
                   <summary className="flex gap-3 cursor-pointer items-center  mb-1 px-8 py-2 text-white hover:bg-gray-100 hover:text-gray-700 ">
                     <span>
-                      <AiFillDollarCircle />
+                      <FaUser />
                     </span>
 
                     <span className="flex gap-[88px]">
@@ -242,7 +243,7 @@ export default function SideBar({ isSideBarOpen }) {
                         </span>
                       </NavLink>
                     </li>
-                    <li id="sidebar">
+                    {/* <li id="sidebar">
                       <NavLink
                         to={'dashboard/user-profile'}
                         className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
@@ -254,8 +255,8 @@ export default function SideBar({ isSideBarOpen }) {
                           Admin Profile
                         </span>
                       </NavLink>
-                    </li>
-                    <li id="sidebar">
+                    </li> */}
+                    {/* <li id="sidebar">
                       <NavLink
                         to={'dashboard/userprofile-settings'}
                         className="relative flex flex-row items-center h-9 focus:outline-none text-white hover:bg-[#3a3f50] hover:text-gray-100 transition-all duration-300 pl-6"
@@ -267,7 +268,7 @@ export default function SideBar({ isSideBarOpen }) {
                           Admin List
                         </span>
                       </NavLink>
-                    </li>
+                    </li> */}
                   </ul>
                 </details>
               </li>
@@ -275,7 +276,8 @@ export default function SideBar({ isSideBarOpen }) {
                 <NavLink
                   to="dashboard/settings"
                   className={({ isActive }) =>
-                    `hover:bg-gray-100  hover:text-gray-700  font-medium px-8 py-2  flex items-center gap-3 ${isActive ? 'bg-gray-200 text-gray-700' : 'text-gray-200'
+                    `hover:bg-gray-100  hover:text-gray-700  font-medium px-8 py-2  flex items-center gap-3 ${
+                      isActive ? 'bg-gray-200 text-gray-700' : 'text-gray-200'
                     }`
                   }
                 >

@@ -10,7 +10,11 @@ import Swal from 'sweetalert2'
 export default function Checkout() {
   const navigate = useNavigate()
   const { loading: customerLoading, customer } = useContext(CustomerContext)
-  const { handleSubmit, register } = useForm()
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm()
   const [paymentMethod, setPaymentMethod] = useState(null)
   const [addToCart] = useSubmitOrderMutation()
   const handleMethodChange = methodName => {
@@ -56,7 +60,12 @@ export default function Checkout() {
     formData.append('state', data.state)
     formData.append('city', data.city)
     formData.append('zip_code', data.zip_code)
-    formData.append('amount',cartItems.reduce((total, item) => total + item.price * item.cartQuantity,0).toFixed(2))
+    formData.append(
+      'amount',
+      cartItems
+        .reduce((total, item) => total + item.price * item.cartQuantity, 0)
+        .toFixed(2),
+    )
     const response = await addToCart(formData)
 
     if (response?.data.status == 200) {
@@ -89,8 +98,16 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your First Name"
-                {...register('name' , { required: true } )}
+
+
+                {...register('name', { required: true })}
+
               />
+              {errors.name?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  Name is required
+                </p>
+              )}
             </div>
 
             <div className="address_item">
@@ -98,8 +115,13 @@ export default function Checkout() {
               <input
                 type="email"
                 placeholder="Enter Your Email"
-                {...register('email')}
+                {...register('email', { required: true })}
               />
+              {errors.email?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  Email is required
+                </p>
+              )}
             </div>
 
             <div className="address_item">
@@ -107,8 +129,13 @@ export default function Checkout() {
               <input
                 type="tel"
                 placeholder="Enter Phone Number"
-                {...register('phone_number')}
+                {...register('phone_number', { required: true })}
               />
+              {errors.phone_number?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  Phone Number is required
+                </p>
+              )}
             </div>
 
             <div className="address_item">
@@ -116,8 +143,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Type Your Address"
-                {...register('delivery_address')}
+                {...register('delivery_address', { required: true })}
               />
+              {errors.delivery_address?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  Delivery Address is required
+                </p>
+              )}
             </div>
 
             <div className="address_item">
@@ -125,8 +157,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your City Name"
-                {...register('city')}
+                {...register('city', { required: true })}
               />
+              {errors.city?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  City name is required
+                </p>
+              )}
             </div>
 
             <div className="address_item">
@@ -134,8 +171,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your State Name"
-                {...register('state')}
+                {...register('state', { required: true })}
               />
+              {errors.state?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  State is required
+                </p>
+              )}
             </div>
 
             <div className="address_item w-[100vw]">
@@ -143,8 +185,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="City Name"
-                {...register('zip_code')}
+                {...register('zip_code', { required: true })}
               />
+              {errors.zip_code?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  Zipe code is required
+                </p>
+              )}
             </div>
           </div>
         </div>
