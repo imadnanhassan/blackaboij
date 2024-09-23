@@ -1,19 +1,51 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './CustomerProfile.css'
 import images from '../../../assets/img/images'
 import CustomerHead from './CustomerHead'
+import { CustomerContext } from '../../../Providers/CustomerProvider'
+import { baseUrl } from '../../../hooks/useThumbnailImage'
+import { useForm } from 'react-hook-form'
+import { useUpdateProfileMutation } from '../../../redux/features/api/Customer/profileUpdateApi'
+import { toast } from 'react-toastify'
+import Swal from 'sweetalert2'
 
 export default function CustomerProfile() {
   const [imagePreview, setImagePreview] = useState(null)
+  const { loading, customer } = useContext(CustomerContext)
+  const [updateProfile] = useUpdateProfileMutation()
+  const { handleSubmit, register } = useForm()
+  if (loading) {
+    return <>Loading...</>
+  }
+
+  const onSubmit = async (data) => {
+    console.log(data, imagePreview)
+    if (data.password == data.confirm_password) {
+      const formData = new FormData();
+      formData.append('id', customer?.currentCustomer.id)
+      formData.append('name', data.name)
+      formData.append('email', data.email)
+      formData.append('phone_number', data.phone_number)
+      formData.append('photo', imagePreview)
+      formData.append('password', data.confirm_password)
+      const response = await updateProfile(formData)
+      console.log(response)
+      if (response?.data.status == 200) {
+        Swal.fire('Success', response.data.message, 'success')
+      } else if (response?.data.status == 401) {
+        response.data.errors.forEach(el => toast.error(el))
+      } else {
+        Swal.fire('Error', response.data.message, 'error')
+      }
+    }else{
+      toast.error('Password and Confirm Password not matched.')
+    }
+  }
 
   const handleImageChange = event => {
     const file = event.target.files[0]
     if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setImagePreview(reader.result)
-      }
-      reader.readAsDataURL(file)
+      setImagePreview(file)
     }
   }
   return (
@@ -21,7 +53,7 @@ export default function CustomerProfile() {
       <CustomerHead title="Profile" />
 
       <div className="profile_form">
-        <form action="" className="profile_form_wrapper">
+        <form action="" className="profile_form_wrapper" onSubmit={handleSubmit(onSubmit)}>
           <div className="profile_form_inner">
             <label htmlFor="" className="">
               Full Name
@@ -30,6 +62,8 @@ export default function CustomerProfile() {
               type="text"
               className="input_control"
               placeholder="Miss. Lamiya"
+              defaultValue={customer?.currentCustomer.name}
+              {...register('name', { required: true })}
             />
           </div>
           <div className="profile_form_inner">
@@ -40,6 +74,8 @@ export default function CustomerProfile() {
               type="email"
               className="input_control"
               placeholder="lamiya@gmail.om"
+              defaultValue={customer?.currentCustomer.email}
+              {...register('email', { required: true })}
             />
           </div>
           <div className="profile_form_inner">
@@ -51,6 +87,8 @@ export default function CustomerProfile() {
               type="tel"
               className="input_control"
               placeholder="+0880 17235-07989"
+              defaultValue={customer?.currentCustomer.phone_number}
+              {...register('phone_number')}
             />
           </div>
           <div className="profile_form_inner">
@@ -61,6 +99,7 @@ export default function CustomerProfile() {
               type="password"
               className="input_control"
               placeholder="******"
+              {...register('password')}
             />
           </div>
           <div className="profile_form_inner">
@@ -71,6 +110,7 @@ export default function CustomerProfile() {
               type="password"
               className="input_control"
               placeholder="******"
+              {...register('confirm_password')}
             />
           </div>
           <div className="profile_form_inner">
@@ -80,12 +120,12 @@ export default function CustomerProfile() {
             <div className="profile_image_edit">
               <div className="profile_image_uploadview">
                 {imagePreview ? (
-                  <img id="user_profile" src={imagePreview} alt="Preview" />
+                  <img id="user_profile" src={URL.createObjectURL(imagePreview)} alt="Preview" />
                 ) : (
                   <img
                     id="user_profile"
-                    src={images.userprofile}
-                    alt="Default"
+                    src={`${baseUrl}/profile/${customer?.currentCustomer.photo}`}
+                    alt={customer?.currentCustomer.name}
                   />
                 )}
               </div>
