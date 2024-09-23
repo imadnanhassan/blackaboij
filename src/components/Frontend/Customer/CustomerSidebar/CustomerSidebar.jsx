@@ -34,11 +34,12 @@ export default function CustomerSidebar() {
         console.log('Customer logout success')
       })
   }
-  if (loading) return (
-    <div>
-      <FaSpinner className="animate-spin" />
-    </div>
-  )
+  if (loading)
+    return (
+      <div>
+        <FaSpinner className="animate-spin" />
+      </div>
+    )
   return (
     <div className="lg:block hidden">
       <div className="user_dashboard_nav">
@@ -49,7 +50,10 @@ export default function CustomerSidebar() {
         </div>
         <div className="user_profile">
           <div className="user_profile_image">
-            <img src={customer?.currentCustomer?.photo} alt="" />
+            <img
+              src={`${baseUrl}/profile/${customer?.currentCustomer?.photo}`}
+              alt=""
+            />
           </div>
 
           <h4 className="user_profile_name">
