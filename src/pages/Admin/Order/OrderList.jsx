@@ -22,6 +22,7 @@ export default function OrderList() {
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
   const { data: orders, isLoading } = useGetAdminOrderListQuery()
+  console.log(orders)
 
   const { selectAll } = useSelector(state => state.checkBox)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -43,7 +44,7 @@ export default function OrderList() {
 
   useEffect(() => {
     if (orders && !isLoading) {
-      setData(orders?.data)
+      setData(orders?.orders?.data)
     }
     return () => setData([])
   }, [isLoading])

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CustomerHead from './CustomerHead'
 import { useGetCustomerOrderListQuery } from '../../../redux/features/api/Customer/order'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
@@ -16,15 +16,31 @@ export default function CustomerOrder() {
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
   const { loading, customer } = useContext(CustomerContext)
+  const [orders, setOrders] = useState([])
   const { data, isLoading } = useGetCustomerOrderListQuery(
     customer?.currentCustomer.id,
   )
-  const orders = data?.orders?.data || []
-  console.log(orders)
   const [cancelOrder] = useCancelOrderMutation()
 
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     setOrders(data?.orders?.data || [])
+  //   }
+  //   return () => setOrders([])
+  // }, [isLoading])
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      setOrders(data?.orders?.data)
+    }
+    return () => setOrders([])
+  }, [isLoading, data])
+
+  console.log(data, 'customer order data')
+  console.log(orders, isLoading, 'Customer Order Confirm')
+
   // order cancel
-  const handelCancelOrder = async (id) => {
+  const handelCancelOrder = async id => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'Do you really want to cencel this product?',
@@ -79,6 +95,7 @@ export default function CustomerOrder() {
     setModalOpen(false)
     setSelectedId(null)
   }
+
   if (loading && isLoading) {
     return <CustomerLoader />
   }
@@ -175,7 +192,7 @@ export default function CustomerOrder() {
                               </Tooltip>
                             ) : (
                               <button
-                                onClick={()=>handelCancelOrder(order.id)}
+                                onClick={() => handelCancelOrder(order.id)}
                                 className="focus:outline-none transition-all duration-300 p-2 px-6 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
                               >
                                 Cancel

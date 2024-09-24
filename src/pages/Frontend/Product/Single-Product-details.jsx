@@ -11,24 +11,35 @@ import { BuyNowButton } from '../../../common/Button/Button'
 import { Markup } from 'interweave'
 
 import NotFound from '../Error/NotFound'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addProduct } from '../../../redux/features/cart/cartSlice'
 import FrontLoader from '../../../common/FrontLoader/FrontLoader'
+import {
+  addToWishList,
+  removeFromWishList,
+} from '../../../redux/features/wishList/wishList'
 export default function SingleProductDetails() {
   const { slug } = useParams()
-  const { data, isLoading } = useGetSingleProductQuery(slug)
-
   const [colorId, setColorId] = useState(null)
   const [sizeId, setSizeId] = useState(null)
-
+  const { data, isLoading } = useGetSingleProductQuery(slug)
+  const product = data?.product
   const dispatch = useDispatch()
+
   const handleAddProduct = product => {
     dispatch(addProduct({ product, colorId, sizeId }))
   }
 
-  const product = data?.product
-  
+  const wishList = useSelector(state => state.wishList.wishList)
 
+  const isProductInWishList = wishList.some(item => item.id === product)
+  const handleWishListClick = () => {
+    if (isProductInWishList) {
+      dispatch(removeFromWishList({ id: product.id }))
+    } else {
+      dispatch(addToWishList({ product, colorId, sizeId }))
+    }
+  }
 
   useEffect(() => {
     setColorId(data?.colors[0]?.color_id)
@@ -42,19 +53,17 @@ export default function SingleProductDetails() {
     setSizeId(id)
   }
 
-
-
   const galleries = data?.galleries
   const colors = data?.colors
   const sizes = data?.sizes
   const articleContent = product?.product_description
 
-    if (isLoading) return <FrontLoader />
-    if (data?.status == 404) {
-      return <NotFound />
-    }
+  if (isLoading) return <FrontLoader />
+  if (data?.status == 404) {
+    return <NotFound />
+  }
 
-    console.log(product)
+  console.log(wishList)
   return (
     <section>
       <div className="">
@@ -134,8 +143,13 @@ export default function SingleProductDetails() {
               >
                 ADD TO CART
               </button>
-              <button className="md:py-[14px] md:px-[20px] py-[7px] px-[5px] md:text-[14px] text-[10px]  bg-black text-white">
-                ADD TO FAVOURITE
+              <button
+                onClick={handleWishListClick}
+                className="md:py-[14px] md:px-[20px] py-[7px] px-[5px] md:text-[14px] text-[10px]  bg-black text-white"
+              >
+                {isProductInWishList
+                  ? 'Remove from Wish List'
+                  : 'Add to Wish List'}
               </button>
             </div>
           </div>
