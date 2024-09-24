@@ -26,9 +26,9 @@ const FrontendHeader = ({ categoryList }) => {
 
   const dispatch = useDispatch()
   const cartItems = useSelector(selectCartItems)
-
-
-  console.log(categoryList)
+  const wishList = useSelector((state) => state.wishList.wishList);
+ 
+  // console.log(wishList)
 
   const handleCartClick = () => {
     dispatch(toggleCartDrawer())
@@ -112,7 +112,7 @@ const FrontendHeader = ({ categoryList }) => {
                   <span style={{ fontSize: `${iconSize}px` }}>
                     <CiHeart className="text-white" />
                     <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
-                      {''}
+                      {wishList.length}
                     </span>
                   </span>
                 </button>
