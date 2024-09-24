@@ -7,15 +7,11 @@ import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
 import { useGetCategoryQuery } from '../../../../redux/features/api/category/categoryApi'
 // import Swal from 'sweetalert2'
 import React from 'react'
+import AdminLoader from '../../../../common/AdminLoader/AdminLoader'
 
 export default function CategoriesV2() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-
   const { data: categories, error, isLoading } = useGetCategoryQuery();
-  
-  // const [deleteCategory, { isLoading: isDeleting }] =
-  //   useDeleteCategoryMutation()
-
   const categoryList = Array.isArray(categories?.categories)
     ? categories.categories
     : []
@@ -24,7 +20,7 @@ export default function CategoriesV2() {
   if (!Array.isArray(categoryList)) {
     return <div>Unexpected data format received</div>
   }
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <AdminLoader />
   if (error) return <div>Error occurred: {error.message}</div>
 
   // const handleDeleteCategory = async id => {

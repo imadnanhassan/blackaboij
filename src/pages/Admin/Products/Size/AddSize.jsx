@@ -14,6 +14,7 @@ import {
   useGetSizeQuery,
 } from '../../../../redux/features/api/attribute/sizeApi'
 import { FaPlus, FaSpinner } from 'react-icons/fa'
+import AdminLoader from '../../../../common/AdminLoader/AdminLoader'
 
 export default function AddSize() {
   //  const [id, setId] = useState()
@@ -80,7 +81,7 @@ export default function AddSize() {
   }
 
   if (isLoading) {
-    return <p>Loading sizes...</p>
+    return <AdminLoader />
   }
 
   // Breadcrumbs

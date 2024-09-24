@@ -16,8 +16,8 @@ import {
 import { toast } from 'react-toastify'
 import { useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import { InfinitySpin } from 'react-loader-spinner'
 import { baseUrl } from '../../../../hooks/useThumbnailImage'
+import AdminLoader from '../../../../common/AdminLoader/AdminLoader'
 
 export default function EditProductV2() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -247,14 +247,7 @@ export default function EditProductV2() {
   ]
 
   if (isLoading) {
-    return (
-      <InfinitySpin
-        visible={true}
-        width="200"
-        color="#4fa94d"
-        ariaLabel="infinity-spin-loading"
-      />
-    )
+    return <AdminLoader />
   }
 
   return (

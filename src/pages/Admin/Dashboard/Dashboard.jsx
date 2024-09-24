@@ -5,24 +5,39 @@ import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 // import ColumnChart from '../../../components/ColumnChart/ColumnChart'
 import TotalOrder from './TotalOrder'
 // import AreaCharts from '../../../components/ColumnChart/AreaCharts'
-import { useGetProductListQuery } from '../../../redux/features/api/product/productApi'
+import { useGetDashboardQuery } from '../../../redux/features/api/dashboard/dashboardAnalysis'
+import AdminLoader from '../../../common/AdminLoader/AdminLoader'
 const pageTitle = 'Dashboard'
 const productLinks = [{ title: <></>, link: '/' }]
 
 const Dashboard = () => {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-  const { data: products, isLoading } = useGetProductListQuery({
-    page: 1,
-    perpage: 10,
-  })
+  const { data, isLoading } = useGetDashboardQuery()
 
+  const allOrder = data?.orders || []
+  // console.log(totalSales)
+  const totalOrderCount = allOrder.length
+  const calculateTotalAmount = orders => {
+    let totalAmount = 0
 
-  const productdata = products?.products?.total || []
+    orders.forEach(order => {
+      if (order.status === 'cancel') {
+        totalAmount -= order.amount
+      } else {
+        totalAmount += order.amount
+      }
+    })
 
-  console.log(products)
+    return totalAmount
+  }
+
+  // Calculate total
+  const totalOrderAmount = calculateTotalAmount(allOrder)
+
+  console.log(allOrder)
 
   if (isLoading) {
-    return <p>Loading..</p>
+    return <AdminLoader />
   }
 
   return (
@@ -30,7 +45,6 @@ const Dashboard = () => {
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}
     >
       <Breadcrumbs title={pageTitle} breadcrumbs={productLinks} />
-      {/* total info */}
       <div className="md:grid 2xl:grid-cols-3 xl:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 ">
         <div
           className={` rounded w-full py-5  ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText border'}`}
@@ -46,7 +60,7 @@ const Dashboard = () => {
               <p
                 className={`text-[20px]  font-medium mb-1 ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText'}`}
               >
-                12,088
+                {totalOrderCount}
               </p>
             </div>
           </div>
@@ -66,7 +80,7 @@ const Dashboard = () => {
               <p
                 className={`text-[20px] font-medium mb-1 ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText'}`}
               >
-                12,088
+                {totalOrderAmount}$
               </p>
             </div>
           </div>
@@ -86,7 +100,7 @@ const Dashboard = () => {
               <p
                 className={`text-[20px] font-medium mb-1 ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText'}`}
               >
-                {productdata > 0 ? productdata : '0'}
+                {data.products > 0 ? data.products : '0'}
               </p>
             </div>
           </div>
@@ -111,7 +125,7 @@ const Dashboard = () => {
       {/* order, top category and top brand */}
 
       <div className="grid lg:grid-cols-1 grid-cols-1 xl:grid-cols-1 mt-10 lg:gap-5 md:gap-3 mb-5">
-        <TotalOrder />
+        <TotalOrder totalOrderCount={totalOrderCount} allOrder={allOrder} />
       </div>
     </section>
   )

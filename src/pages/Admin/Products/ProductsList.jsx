@@ -14,6 +14,7 @@ import {
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
+import AdminLoader from '../../../common/AdminLoader/AdminLoader'
 
 export default function ProductsList() {
   const [pageLinks, setPageLinks] = useState([])
@@ -109,7 +110,7 @@ export default function ProductsList() {
     { title: 'Products' },
     { title: 'Products List' },
   ]
-  if (isLoading) return <p>Loading products...</p>
+  if (isLoading) return <AdminLoader />
   return (
     <section
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}

@@ -3,13 +3,13 @@ import { GoHome } from 'react-icons/go'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 import { useGetCustomerListQuery } from '../../../redux/features/api/Customer/customer'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
+import AdminLoader from '../../../common/AdminLoader/AdminLoader'
 
 export default function UserList() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
-  const { data } = useGetCustomerListQuery()
+  const { data, isLoading } = useGetCustomerListQuery()
 
   const customerList = data?.customers?.data || []
-  console.log(customerList)
 
   const pageTitle = 'Customer List'
   const productLinks = [
@@ -17,6 +17,10 @@ export default function UserList() {
     { title: 'Customer' },
     { title: 'Customer List' },
   ]
+
+  if (isLoading) {
+    return <AdminLoader />
+  }
 
   return (
     <section

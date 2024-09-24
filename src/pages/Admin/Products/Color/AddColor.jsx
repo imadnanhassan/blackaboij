@@ -16,6 +16,7 @@ import EditColor from './EditColor'
 import Breadcrumbs from '../../../../common/Breadcrumbs/Breadcrumbs'
 import Swal from 'sweetalert2'
 import { FaPlus, FaSpinner } from 'react-icons/fa'
+import AdminLoader from '../../../../common/AdminLoader/AdminLoader'
 
 export default function AddColor() {
   const [id, setId] = useState()
@@ -56,9 +57,7 @@ export default function AddColor() {
     }
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  
 
   // delete function
   const handleDelete = async colorId => {
@@ -112,6 +111,12 @@ export default function AddColor() {
     { title: 'Products' },
     { title: 'Color' },
   ]
+
+
+if (isLoading) {
+    return <AdminLoader />
+  }
+
   return (
     <section
       className={`main-container ${isDarkMode ? 'bg-darkColorBody' : 'bg-lightColorBody'}`}
