@@ -5,12 +5,12 @@ import { toast } from 'react-toastify'
 import { FaSpinner } from 'react-icons/fa6'
 
 export default function OrderTrackingBtn({ id, status }) {
-  const [selectedOption, setSelectedOption] = useState(null)
+  const [selectedOption, setSelectedOption] = useState(status)
   const [isOpen, setIsOpen] = useState(false)
   const [changeStatus, { isLoading }] = useChangeOrderStatusByAdminMutation()
   const [change, setChange] = useState(status)
 
-  const options = ['Pending', 'Processing', 'Shipped', 'Complete', 'Cancel']
+  let options = ['Pending', 'Processing', 'Shipped', 'Complete', 'Cancel']
 
   useEffect(() => {
     if (!isLoading) {
@@ -38,6 +38,8 @@ export default function OrderTrackingBtn({ id, status }) {
       Swal.fire('Error', 'Something went wrong. Please try again.')
     }
   }
+
+  
   return (
     <div className="relative inline-block text-left">
       <button
