@@ -22,12 +22,6 @@ export default function CustomerOrder() {
   )
   const [cancelOrder] = useCancelOrderMutation()
 
-  // useEffect(() => {
-  //   if (!isLoading) {
-  //     setOrders(data?.orders?.data || [])
-  //   }
-  //   return () => setOrders([])
-  // }, [isLoading])
 
   useEffect(() => {
     if (data && !isLoading) {
@@ -109,101 +103,105 @@ export default function CustomerOrder() {
           <div className="-m-1.5 overflow-x-auto">
             <div className=" min-w-full inline-block align-middle">
               <div className=" overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700 ">
-                  <thead className="bg-gray-50 dark:bg-neutral-700">
-                    <tr className="">
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-start text-xs md:text-sm text-gray-500 uppercase dark:text-neutral-400"
-                      >
-                        Date
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-start text-xs md:text-sm  text-gray-500 uppercase dark:text-neutral-400"
-                      >
-                        Amount
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-start text-xs md:text-sm text-gray-500 uppercase dark:text-neutral-400"
-                      >
-                        Status
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-center text-xs md:text-sm  text-gray-500 uppercase dark:text-neutral-400"
-                      >
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody className="divide-y divide-gray-200">
-                    {orders?.map((order, index) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
-                          {useFormattedDate(order?.created_at)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
-                          {order?.amount}$
-                        </td>
-                        <td
-                          className={`py-2 px-4 border-b text-sm font-medium capitalize ${
-                            order?.status === 'Complete'
-                              ? ' text-green-700'
-                              : order?.status === 'pending'
-                                ? ' text-yellow-400'
-                                : order?.status === 'Shipped'
-                                  ? ' text-sky-700'
-                                  : order?.status === 'Processing'
-                                    ? ' text-purple-700'
-                                    : order?.status === 'Cancel'
-                                      ? ' text-red-700'
-                                      : ''
-                          }`}
+                {orders.length == 0 ? (
+                  <p>No items in your Oard list.</p>
+                ) : (
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700 ">
+                    <thead className="bg-gray-50 dark:bg-neutral-700">
+                      <tr className="">
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-start text-xs md:text-sm text-gray-500 uppercase dark:text-neutral-400"
                         >
-                          {order?.status}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                          <div className="flex items-center space-x-2">
-                            <button
-                              onClick={() => openModal(order?.id)}
-                              className="focus:outline-none transition-all duration-100 py-2 px-6 rounded-full bg-gray-100 hover:bg-gray-500 text-black hover:text-lightColor"
-                            >
-                              {/* <FiEye className="text-[12px]" /> */}
-                              View
-                            </button>
-                            <CustomerOrderDetailsModal
-                              isOpen={modalOpen}
-                              onClose={closeModal}
-                              tableData={data}
-                              selectedId={selectedId}
-                            />
+                          Date
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-start text-xs md:text-sm  text-gray-500 uppercase dark:text-neutral-400"
+                        >
+                          Amount
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-start text-xs md:text-sm text-gray-500 uppercase dark:text-neutral-400"
+                        >
+                          Status
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-center text-xs md:text-sm  text-gray-500 uppercase dark:text-neutral-400"
+                        >
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
 
-                            {order?.status !== 'pending' ? (
-                              <Tooltip text="You can't cancel this Product">
+                    <tbody className="divide-y divide-gray-200">
+                      {orders?.map((order, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
+                            {useFormattedDate(order?.created_at)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
+                            {order?.amount}$
+                          </td>
+                          <td
+                            className={`py-2 px-4 border-b text-sm font-medium capitalize ${
+                              order?.status === 'Complete'
+                                ? ' text-green-700'
+                                : order?.status === 'pending'
+                                  ? ' text-yellow-400'
+                                  : order?.status === 'Shipped'
+                                    ? ' text-sky-700'
+                                    : order?.status === 'Processing'
+                                      ? ' text-purple-700'
+                                      : order?.status === 'Cancel'
+                                        ? ' text-red-700'
+                                        : ''
+                            }`}
+                          >
+                            {order?.status}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                            <div className="flex items-center space-x-2">
+                              <button
+                                onClick={() => openModal(order?.id)}
+                                className="focus:outline-none transition-all duration-100 py-2 px-6 rounded-full bg-gray-100 hover:bg-gray-500 text-black hover:text-lightColor"
+                              >
+                                {/* <FiEye className="text-[12px]" /> */}
+                                View
+                              </button>
+                              <CustomerOrderDetailsModal
+                                isOpen={modalOpen}
+                                onClose={closeModal}
+                                tableData={data}
+                                selectedId={selectedId}
+                              />
+
+                              {order?.status !== 'pending' ? (
+                                <Tooltip text="You can't cancel this Product">
+                                  <button
+                                    disabled
+                                    className="focus:outline-none transition-all duration-300 p-2 px-6 rounded-full bg-[#f43f5e1a] text-[#f43f5e]"
+                                  >
+                                    Cancel
+                                  </button>
+                                </Tooltip>
+                              ) : (
                                 <button
-                                  disabled
-                                  className="focus:outline-none transition-all duration-300 p-2 px-6 rounded-full bg-[#f43f5e1a] text-[#f43f5e]"
+                                  onClick={() => handelCancelOrder(order.id)}
+                                  className="focus:outline-none transition-all duration-300 p-2 px-6 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
                                 >
                                   Cancel
                                 </button>
-                              </Tooltip>
-                            ) : (
-                              <button
-                                onClick={() => handelCancelOrder(order.id)}
-                                className="focus:outline-none transition-all duration-300 p-2 px-6 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
-                              >
-                                Cancel
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
           </div>
