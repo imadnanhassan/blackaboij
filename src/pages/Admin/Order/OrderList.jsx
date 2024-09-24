@@ -13,10 +13,12 @@ import { useGetAdminOrderListQuery } from '../../../redux/features/api/Customer/
 import React, { useRef } from 'react'
 import html2pdf from 'html2pdf.js'
 
+
 export default function OrderList() {
   const [data, setData] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
+
   const [downloadInvoice, setDownloadInvoice] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState('All')
   const invoiceRef = useRef()
@@ -28,6 +30,7 @@ export default function OrderList() {
     }
     return () => setData([])
   }, [isLoading, selectedStatus, orders])
+
 
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
 
@@ -70,8 +73,6 @@ export default function OrderList() {
 
     html2pdf().from(element).set(options).save()
   }
-
-  console.log(downloadInvoice)
 
   return (
     <>
@@ -238,6 +239,7 @@ export default function OrderList() {
                 </tbody>
               </table>
 
+
               {/* admin invoice form , admin can download each product invoice */}
               <div className="hidden">
                 <div ref={invoiceRef}>
@@ -337,6 +339,7 @@ export default function OrderList() {
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
 
