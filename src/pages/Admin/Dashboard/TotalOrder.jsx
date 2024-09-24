@@ -3,8 +3,21 @@ import { MdOutlineWatchLater } from 'react-icons/md'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-export default function TotalOrder() {
-    const isDarkMode = useSelector(state => state.theme.isDarkMode)
+export default function TotalOrder({ totalOrderCount, allOrder }) {
+  const statusCount = {
+    pending: 0,
+    Processing: 0,
+    Shipped: 0,
+    Complete: 0,
+    Cancel: 0,
+  }
+
+  allOrder.forEach(order => {
+    if (order.status in statusCount) {
+      statusCount[order.status]++
+    }
+  })
+  const isDarkMode = useSelector(state => state.theme.isDarkMode)
   return (
     <div
       className={`rounded py-5 shadow-custom lg:mb-0 mb-2 ${isDarkMode ? 'bg-darkColorCard text-darkColorText' : 'bg-lightColor text-lightColorText '}`}
@@ -14,7 +27,7 @@ export default function TotalOrder() {
           <div className="bg-[#F4EFFE] h-[300px]  px-8 rounded-md flex justify-around flex-col">
             <div className="md:flex flex-col">
               <span className="text-[#8f60ee] text-[1.875rem] font-semibold">
-                77
+                {totalOrderCount}
               </span>
               <span
                 className={`${isDarkMode ? 'text-lightColorText ' : ' text-lightColorText '}`}
@@ -34,7 +47,7 @@ export default function TotalOrder() {
               <MdOutlineWatchLater />
               <p>Pending order</p>
             </span>
-            <span className="">74</span>
+            <span className="">{statusCount.pending}</span>
           </div>
         </div>
         <div className=" md:flex flex-col lg:w-[50%] w-full">
@@ -71,8 +84,35 @@ export default function TotalOrder() {
                 Order Placed
               </p>
             </div>
-            <span className="font-semibold text-[26px] text-[#009ef7]">77</span>
+            <span className="font-semibold text-[26px] text-[#009ef7]">
+              {statusCount.Processing}
+            </span>
           </div>
+          <div className="bg-[#FFF9E3] h-[88px] flex justify-between items-center mb-3 rounded w-full px-8">
+            <div className="flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="20.727"
+                className="mr-3"
+                viewBox="0 0 24 20.727"
+              >
+                <path
+                  id="shipping-truck"
+                  d="M25,13.409v5.455a1.091,1.091,0,0,1-1.091,1.091H22.818a3.273,3.273,0,1,1-6.545,0H9.727a3.273,3.273,0,1,1-6.545,0H2.091A1.091,1.091,0,0,1,1,18.864V5.773A3.273,3.273,0,0,1,4.273,2.5h9.818a3.273,3.273,0,0,1,3.273,3.273V7.955h2.182a3.273,3.273,0,0,1,2.618,1.309l2.618,3.491a.665.665,0,0,1,.076.153l.065.12A1.091,1.091,0,0,1,25,13.409ZM7.545,19.955a1.091,1.091,0,1,0-1.091,1.091A1.091,1.091,0,0,0,7.545,19.955ZM15.182,5.773a1.091,1.091,0,0,0-1.091-1.091H4.273A1.091,1.091,0,0,0,3.182,5.773v12h.851a3.273,3.273,0,0,1,4.844,0h6.305Zm2.182,6.545h4.364l-1.309-1.745a1.091,1.091,0,0,0-.873-.436H17.364Zm3.273,7.636a1.091,1.091,0,1,0-1.091,1.091A1.091,1.091,0,0,0,20.636,19.955ZM22.818,14.5H17.364v3.033a3.273,3.273,0,0,1,4.6.24h.851Z"
+                  transform="translate(-1 -2.5)"
+                  fill="#ffc700"
+                ></path>
+              </svg>
+              <p className="font-medium text-[13px] text-[#232734]">
+                Order Shipped
+              </p>
+            </div>
+            <span className="font-semibold text-[26px] text-warning-200">
+              {statusCount.Shipped}
+            </span>
+          </div>
+
           <div className="bg-[#E6FFF3] h-[88px] flex justify-between items-center mb-3 rounded w-full px-8">
             <div className="flex items-center">
               <svg
@@ -115,7 +155,7 @@ export default function TotalOrder() {
               </p>
             </div>
             <span className="font-semibold text-[26px] text-success-300">
-              77
+              {statusCount.Complete}
             </span>
           </div>
           <div className="bg-[#FFF4F8] h-[88px] flex justify-between items-center mb-3 rounded w-full px-8">
@@ -139,30 +179,8 @@ export default function TotalOrder() {
                 Processed Order
               </p>
             </div>
-            <span className="font-semibold text-[26px] text-error-200">77</span>
-          </div>
-          <div className="bg-[#FFF9E3] h-[88px] flex justify-between items-center mb-3 rounded w-full px-8">
-            <div className="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="20.727"
-                className="mr-3"
-                viewBox="0 0 24 20.727"
-              >
-                <path
-                  id="shipping-truck"
-                  d="M25,13.409v5.455a1.091,1.091,0,0,1-1.091,1.091H22.818a3.273,3.273,0,1,1-6.545,0H9.727a3.273,3.273,0,1,1-6.545,0H2.091A1.091,1.091,0,0,1,1,18.864V5.773A3.273,3.273,0,0,1,4.273,2.5h9.818a3.273,3.273,0,0,1,3.273,3.273V7.955h2.182a3.273,3.273,0,0,1,2.618,1.309l2.618,3.491a.665.665,0,0,1,.076.153l.065.12A1.091,1.091,0,0,1,25,13.409ZM7.545,19.955a1.091,1.091,0,1,0-1.091,1.091A1.091,1.091,0,0,0,7.545,19.955ZM15.182,5.773a1.091,1.091,0,0,0-1.091-1.091H4.273A1.091,1.091,0,0,0,3.182,5.773v12h.851a3.273,3.273,0,0,1,4.844,0h6.305Zm2.182,6.545h4.364l-1.309-1.745a1.091,1.091,0,0,0-.873-.436H17.364Zm3.273,7.636a1.091,1.091,0,1,0-1.091,1.091A1.091,1.091,0,0,0,20.636,19.955ZM22.818,14.5H17.364v3.033a3.273,3.273,0,0,1,4.6.24h.851Z"
-                  transform="translate(-1 -2.5)"
-                  fill="#ffc700"
-                ></path>
-              </svg>
-              <p className="font-medium text-[13px] text-[#232734]">
-                Order Shipped
-              </p>
-            </div>
-            <span className="font-semibold text-[26px] text-warning-200">
-              77
+            <span className="font-semibold text-[26px] text-error-200">
+              {statusCount.Cancel}
             </span>
           </div>
         </div>

@@ -12,7 +12,7 @@ import {
   useGetProductCategoryListQuery,
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
-import { Audio } from 'react-loader-spinner'
+import AdminLoader from '../../../../common/AdminLoader/AdminLoader'
 
 export default function AddProductV2() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -152,19 +152,7 @@ export default function AddProductV2() {
   }
 
   if (isLoading) {
-    return (
-      <div className="grid place-content-center mt-56">
-        <Audio
-          height="100"
-          width="100"
-          color="#000000"
-          ariaLabel="audio-loading"
-          wrapperStyle={{}}
-          wrapperClass="wrapper-class"
-          visible={true}
-        />
-      </div>
-    )
+    return <AdminLoader />
   }
 
   const pageTitle = 'Add Product'

@@ -12,6 +12,7 @@ import OrderTrackingBtn from './OrderTrackingBtn'
 import { useGetAdminOrderListQuery } from '../../../redux/features/api/Customer/order'
 import React, { useRef } from 'react'
 import html2pdf from 'html2pdf.js'
+import AdminLoader from '../../../common/AdminLoader/AdminLoader'
 
 export default function OrderList() {
   const [data, setData] = useState([])
@@ -69,6 +70,10 @@ export default function OrderList() {
     }
 
     html2pdf().from(element).set(options).save()
+  }
+
+  if (isLoading) {
+    return <AdminLoader />
   }
 
   console.log(downloadInvoice)
