@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 
 export default function CustomerProfile() {
+
   const [imagePreview, setImagePreview] = useState(null)
   const { loading, customer } = useContext(CustomerContext)
   const [updateProfile] = useUpdateProfileMutation()
@@ -32,6 +33,7 @@ export default function CustomerProfile() {
       console.log(response)
       if (response?.data.status == 200) {
         Swal.fire('Success', response.data.message, 'success')
+        window.location.reload();
       } else if (response?.data.status == 401) {
         response.data.errors.forEach(el => toast.error(el))
       } else {

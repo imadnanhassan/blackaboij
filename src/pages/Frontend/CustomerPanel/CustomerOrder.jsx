@@ -13,6 +13,7 @@ import Swal from 'sweetalert2'
 import { useCancelOrderMutation } from '../../../redux/features/api/cancelOrder/cancelOrder'
 
 export default function CustomerOrder() {
+  
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
   const { loading, customer } = useContext(CustomerContext)
@@ -26,9 +27,11 @@ export default function CustomerOrder() {
   useEffect(() => {
     if (data && !isLoading) {
       setOrders(data?.orders?.data)
+      
+
     }
     return () => setOrders([])
-  }, [isLoading, data])
+  }, [data])
 
   console.log(data, 'customer order data')
   console.log(orders, isLoading, 'Customer Order Confirm')
@@ -94,6 +97,9 @@ export default function CustomerOrder() {
     return <CustomerLoader />
   }
 
+
+
+
   return (
     <div>
       <CustomerHead title="My Orders" />
@@ -146,8 +152,7 @@ export default function CustomerOrder() {
                             {order?.amount}$
                           </td>
                           <td
-                            className={`py-2 px-4 border-b text-sm font-medium capitalize ${
-                              order?.status === 'Complete'
+                            className={`py-2 px-4 border-b text-sm font-medium capitalize ${order?.status === 'Complete'
                                 ? ' text-green-700'
                                 : order?.status === 'pending'
                                   ? ' text-yellow-400'
@@ -158,7 +163,7 @@ export default function CustomerOrder() {
                                       : order?.status === 'Cancel'
                                         ? ' text-red-700'
                                         : ''
-                            }`}
+                              }`}
                           >
                             {order?.status}
                           </td>

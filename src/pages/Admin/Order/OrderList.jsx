@@ -38,6 +38,7 @@ export default function OrderList() {
   // filtetr
   const handleFilter = e => {
     setSelectedStatus(e.target.value)
+
   }
 
   // open moda
@@ -58,29 +59,53 @@ export default function OrderList() {
     { title: 'Order List' },
   ]
 
-  const adminInvoiceDownload = id => {
-    alert(`Downloading invoice for ID: ${id}`)
-    setDownloadInvoice(true)
+  console.log(orders, "main data")
 
-    // Generate PDF
-    const element = invoiceRef.current
-    const options = {
-      margin: 0.5,
-      filename: `invoice_${id}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-    }
+  // const adminInvoiceDownload = id => {
+  //   alert(`Downloading invoice for ID: ${id}`)
+  //   setDownloadInvoice(true)
 
-    html2pdf().from(element).set(options).save()
-  }
+  //   // Generate PDF
+  //   const element = invoiceRef.current
+  //   const options = {
+  //     margin: 0.5,
+  //     filename: `invoice_${id}.pdf`,
+  //     image: { type: 'jpeg', quality: 0.98 },
+  //     html2canvas: { scale: 2 },
+  //     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+  //   }
+
+  //   html2pdf().from(element).set(options).save()
+  // }
 
 
   if (isLoading) {
     return <AdminLoader />
   }
 
-  console.log(downloadInvoice)
+  // pagination code . 
+
+  const itemsPerPage = 10; // Number of items per page
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Calculate total pages
+  const totalItems = data.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  // Function to handle page change
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // Get the current data for the selected page
+  const currentData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+
 
 
   return (
@@ -249,110 +274,38 @@ export default function OrderList() {
               </table>
 
 
-              {/* admin invoice form , admin can download each product invoice */}
-              <div className="hidden">
-                <div ref={invoiceRef}>
-                  <div>
-                    <div className="flex justify-between items-start pb-4 ">
-                      <div>
-                        <h1 className="text-2xl font-bold">Invoice #1234</h1>
-                        <p className="text-xs">January 1, 2025</p>
-                      </div>
-                      <img
-                        src="https://i.ibb.co/3sNL27c/logo.png"
-                        className="w-[85px] h-[15px] grayscale-0"
-                        alt=""
-                      />
-                    </div>
-
-                    <div className="h-px bg-gray-300 my-4" />
-
-                    {/* Billing Information */}
-                    <div className="flex justify-between">
-                      <div>
-                        <p className="p-0 mb-1">
-                          <b>Bill to:</b>
-                        </p>
-                        <p className="p-0 mb-1">Titouan LAUNAY</p>
-                        <p className="p-0 mb-1">72 Faxcol Dr Gotahm City,</p>
-                        <p className="p-0 mb-1">NJ 12345,</p>
-                        <p className="p-0 mb-1">United States of America</p>
-                      </div>
-                      {/* Company Information */}
-                      <div className="">
-                        <p className="p-0 mb-1">
-                          <b>Blackaboij</b>
-                        </p>
-                        <p className="p-0 mb-1">1600 Pennsylvania Avenue NW,</p>
-                        <p className="p-0 mb-1">Washington,</p>
-                        <p className="p-0 mb-1">DC 20500,</p>
-                        <p className="p-0 mb-1">United States of America</p>
-                      </div>
-                    </div>
-                    <div className="h-px bg-gray-300 my-4" />
-
-                    <p className="p-0 leading-5">
-                      All items below correspond to work completed in the month
-                      of January 2024. Payment is due within 15 days of receipt
-                      of this invoice.
-                    </p>
-
-                    {/* Invoice Table */}
-                    <table className="w-full my-12">
-                      <thead>
-                        <tr className="border-b border-gray-300">
-                          <th className="text-left font-bold py-2">Item</th>
-                          <th className="text-left font-bold py-2">
-                            Description
-                          </th>
-                          <th className="text-left font-bold py-2">
-                            Unit Price
-                          </th>
-                          <th className="text-left font-bold py-2">Quantity</th>
-                          <th className="text-left font-bold py-2">Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="border-b border-gray-300 ">
-                          <td className="py-2">1</td>
-                          <td className="py-2">Onedoc Startup Subscription</td>
-                          <td className="py-2">$100</td>
-                          <td className="py-2">1</td>
-                          <td className="py-2">$100</td>
-                        </tr>
-                        <tr className="border-b border-gray-300">
-                          <td className="py-2">2</td>
-                          <td className="py-2">Onedoc support</td>
-                          <td className="py-2">$0</td>
-                          <td className="py-2">1</td>
-                          <td className="py-2">$0</td>
-                        </tr>
-                        <tr className="border-b border-gray-300">
-                          <th className="text-left font-bold py-2"></th>
-                          <th className="text-left font-bold py-2">Total</th>
-                          <th className="text-left font-bold py-2"></th>
-                          <th className="text-left font-bold py-2"></th>
-                          <th className="text-left font-bold py-2">$100</th>
-                        </tr>
-                      </tbody>
-                    </table>
-
-                    <div className="bg-blue-100 py-3 rounded-md border-blue-300 text-blue-800 text-sm text-center">
-                      On January 1st 2024, Onedoc users will be upgraded free of
-                      charge to our new cloud offering.
-                    </div>
-
-                    <div>
-                      <div className="h-px bg-gray-300 my-4" />
-                    </div>
-                  </div>
-                </div>
-              </div>
 
             </div>
           </div>
 
-          <Pagination />
+          {/* <Pagination /> */}
+          <div className="flex gap-3 mt-4 justify-end">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              className={`px-3 py-2 rounded text-white ${currentPage === 1 ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+
+            {[...Array(totalPages).keys()].map(page => (
+              <button
+                key={page + 1}
+                onClick={() => handlePageChange(page + 1)}
+                className={`px-3 py-2 rounded text-white ${currentPage === page + 1 ? 'bg-green-600' : 'bg-green-600 cursor-pointer'}`}
+              >
+                {page + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              className={`px-3 py-2 rounded text-white ${currentPage === totalPages ? 'bg-blue-900 cursor-not-allowed' : 'bg-black cursor-pointer'}`}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </section>
     </>
