@@ -9,11 +9,16 @@ import Swal from 'sweetalert2'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 import { useDispatch } from 'react-redux'
 import { removeAllProduct } from '../../../redux/features/cart/cartSlice'
+import { FaStarOfLife } from "react-icons/fa6";
+import { FaEuroSign } from "react-icons/fa";
+
+
 
 export default function Checkout() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { loading: customerLoading, customer } = useContext(CustomerContext)
+
   const {
     handleSubmit,
     register,
@@ -246,36 +251,47 @@ export default function Checkout() {
 
         <div className="checkout_right">
           <div className="order_sumury">
-            <div className=" ">
-              <div className="text-base font-semibold"> Product Summery</div>
-              <div className="h-[1px] bg-gray-300 w-[70%]  my-3"></div>
+            <div>
+              <div className="text-base font-semibold">Product Summary</div>
+              <div className="h-[1px] bg-gray-300 w-[70%] my-3"></div>
             </div>
-            <div className="summery_total_product ">
+            <div className="summery_total_product">
               <div className="flex justify-between">
-                <div>Total Items </div>
+                <div>Total Items</div>
                 <div className="text-base font-semibold">
                   {cartItems.length} pcs
                 </div>
               </div>
 
               <div className="flex justify-between">
-                <div>Shipping </div>
-                <div className="text-base font-semibold"> 45 $</div>
+                <div>Shipping</div>
+                <div className="text-base font-semibold">00</div>
               </div>
-              <div className="h-[1px] bg-gray-300 w-full  my-1"></div>
+              <div className="h-[1px] bg-gray-300 w-full my-1"></div>
 
               <div className="flex justify-between">
-                <div className="text-base font-semibold">Sub Total </div>
-                <div className="text-base font-semibold">2850 $ </div>
+                <div className="text-base font-semibold">Sub Total</div>
+                <div className="text-base font-semibold flex items-center">
+                  <div>
+                    <FaEuroSign className='text-xs text-gray-500'></FaEuroSign>
+                  </div>
+                  {/* Calculate the subtotal dynamically */}
+                  <div>
+                    {cartItems.reduce(
+                      (total, item) => total + Number(item?.price) * item?.cartQuantity,
+                      0
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* add to cart all data product here  */}
+          {/* add to cart all data product here */}
           <div className="lg:py-10 py-5">
             {cartItems.map((item, index) => (
               <div key={index} className="bg-white p-5 border-b">
-                <div className="flex  ">
+                <div className="flex">
                   <div className="size-20">
                     <img
                       className="h-full w-full rounded-sm"
@@ -285,13 +301,40 @@ export default function Checkout() {
                   </div>
                   <div className="pl-5">
                     <h1 className="text-md font-medium">{item?.name}</h1>
-                    <h2 className="text-md font-medium">$ {item?.price}</h2>
+                    <div>
+                      <div className="flex items-center gap-1 border-b-2 pb-1 border-dashed">
+                        <div className="text-md font-light flex items-center">
+                          <div>
+                            <FaEuroSign className='text-xs text-gray-500'></FaEuroSign>
+                          </div>
+
+                          <div>
+                            {item?.price}
+                          </div>
+
+                        </div>
+                        <div><FaStarOfLife className="text-[8px] text-gray-500" /> </div>
+
+                        <div className="font-light">{item?.cartQuantity}</div>
+                      </div>
+
+                      <div className='flex items-center gap-1'>
+                        <div>
+                          <FaEuroSign className='text-xs text-gray-500'></FaEuroSign>
+                        </div>
+                        <div className="text-md font-light">
+                          {Number(item?.price) * item?.cartQuantity}
+                        </div>
+                      </div>
+
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
       </form>
     </section>
   )

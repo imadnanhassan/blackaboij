@@ -49,6 +49,7 @@
 }
 .profile_image_uploadview img {
   height: 100%;
+  object-fit: cover;
 }
 .profile_upload_btn {
   height: 36px;

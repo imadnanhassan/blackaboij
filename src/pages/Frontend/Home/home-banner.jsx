@@ -1,17 +1,6 @@
-// import React from 'react'
-// import { useGetCategoryQuery } from '../../../redux/features/api/category/categoryApi'
 
-// export default function HomeBanner() {
-//   const data = useGetCategoryQuery()
-//   console.log('data', data)
-//   return (
-//     <section>
-//       <div>home Banner</div>
-//     </section>
-//   )
-// }
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { FaFacebook } from 'react-icons/fa';
 import { FaPinterest } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
@@ -53,7 +42,7 @@ const HomeBanner = () => {
             <h1 className="xl:text-[80px] text-2xl md:text-4xl lg:text-4xl  font-custom whitespace-nowrap md:py-12 py-6 text-white">LIFE IS MADE OF CHOICE</h1>
           </div>
           <div className="flex md:gap-5 gap-2">
-            <Link to="/men-collection"> <AnimatedButton buttonText="SHOP MEN" ></AnimatedButton></Link>
+            <Link to='/men-collection'> <AnimatedButton buttonText="SHOP MEN" ></AnimatedButton></Link>
             <Link to="/women-collection"> <AnimatedButton buttonText="SHOP WOMEN" ></AnimatedButton></Link>
           </div>
         </div>

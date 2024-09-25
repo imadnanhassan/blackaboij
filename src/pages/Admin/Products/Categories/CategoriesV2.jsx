@@ -10,6 +10,7 @@ import React from 'react'
 import AdminLoader from '../../../../common/AdminLoader/AdminLoader'
 
 export default function CategoriesV2() {
+  const placeholderImage = 'https://via.placeholder.com/40';
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const { data: categories, error, isLoading } = useGetCategoryQuery();
   const categoryList = Array.isArray(categories?.categories)
@@ -22,40 +23,6 @@ export default function CategoriesV2() {
   }
   if (isLoading) return <AdminLoader />
   if (error) return <div>Error occurred: {error.message}</div>
-
-  // const handleDeleteCategory = async id => {
-  //   try {
-  //     const result = await Swal.fire({
-  //       title: 'Are you sure?',
-  //       text: "You won't be able to revert this!",
-  //       icon: 'warning',
-  //       showCancelButton: true,
-  //       confirmButtonColor: '#3085d6',
-  //       cancelButtonColor: '#d33',
-  //       confirmButtonText: 'Yes, delete it!',
-  //       cancelButtonText: 'No, cancel!',
-  //     })
-
-  //     if (result.isConfirmed) {
-  //       const response = await deleteCategory(id)
-  //       if (response?.data?.message) {
-  //         toast.success(response.data.message, {
-  //           position: 'bottom-right',
-  //           autoClose: 3000,
-  //         })
-  //       }
-
-  //       Swal.fire('Deleted!', 'Your category has been deleted.', 'success')
-  //     } else if (result.dismiss === Swal.DismissReason.cancel) {
-  //       Swal.fire('Cancelled', 'Your category is safe :)', 'error')
-  //     }
-  //   } catch (error) {
-  //     toast.error('Failed to delete category. Please try again.', {
-  //       position: 'bottom-right',
-  //       autoClose: 3000,
-  //     })
-  //   }
-  // }
 
   // Breadcrumbs
   const pageTitle = 'Categories'
@@ -140,6 +107,7 @@ export default function CategoriesV2() {
                             src={`${import.meta.env.VITE_BASE_URL}/category/${category.banner}`}
                             alt={category.name}
                             className="w-full"
+                            onError={(e) => { e.target.onerror = null; e.target.src = placeholderImage; }}
                           />
                         </div>
                       </td>
@@ -155,25 +123,6 @@ export default function CategoriesV2() {
                       >
                         Parent Categories
                       </td>
-
-                      {/* <td className="border-l pl-2 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-2">
-                          <Link
-                            to={`/dashboard/categoryV2/edit/${category.id}`}
-                          >
-                            <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-[#60a5fa1a] text-[#60a5fa] hover:bg-[#60a5fa] hover:text-lightColor">
-                              <FiEdit className=" text-[12px] " />
-                            </button>
-                          </Link>
-                          <button
-                            onClick={() => handleDeleteCategory(category.id)}
-                            disabled={isDeleting}
-                            className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor"
-                          >
-                            <RiDeleteBin7Line className="text-[12px]" />
-                          </button>
-                        </div>
-                      </td> */}
                     </tr>
 
                     {category?.sub_categories.map((sub_category, Subid) => (
@@ -190,6 +139,7 @@ export default function CategoriesV2() {
                             <img
                               src={`${import.meta.env.VITE_BASE_URL}/category/${sub_category.banner}`}
                               className="w-full"
+                              onError={(e) => { e.target.onerror = null; e.target.src = placeholderImage; }}
                             />
                           </div>
                         </td>
