@@ -9,7 +9,7 @@ import FrontLoader from '../../common/FrontLoader/FrontLoader'
 export default function FrontendLayout() {
   const { data: categories, isLoading } = useGetMenuCategoryQuery()
   const categoryList = categories?.categories ?? []
-  console.log(categoryList) // For debugging purposes only
+
 
   if (isLoading) {
     return <FrontLoader />
@@ -18,7 +18,7 @@ export default function FrontendLayout() {
   return (
     <>
       <FrontendHeader categoryList={categoryList} />
-      <Outlet />
+      <Outlet  />
       <FrontendFooter />
       <ScrollToTopButton />
       <CartDrawer />

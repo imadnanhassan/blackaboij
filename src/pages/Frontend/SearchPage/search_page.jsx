@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { products } from '../../../../data/searchdata';
 import { allCategories } from '../../../../data/allCategories';
 import { FaRegHeart } from 'react-icons/fa';
@@ -9,68 +9,71 @@ import { Link } from 'react-router-dom';
 import { IoFilter } from "react-icons/io5";
 import { IoClose } from 'react-icons/io5'; // Import the close icon
 import { Fade } from 'react-awesome-reveal';
+import { useGetSearchProductQuery } from '../../../redux/features/api/searchProduct/searchProductApi';
+import { baseUrl } from '../../../hooks/useThumbnailImage';
+import { useGetMenuCategoryQuery } from '../../../redux/features/api/category/categoryApi';
+import { useGetsearchCategoryApiQuery } from '../../../redux/features/api/subCategorySearchProducts/subCategorySearchProducts';
 
 export default function SearchPage() {
-  const [showCategoryProduct, setShowCategoryProduct] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  // Pagination state
+  const [subCategoryProducts, setSubCategoryProducts] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8;
+  const [productsPerPage] = useState(6); // Number of products per page
 
-  // Calculate the index of the first and last product to be displayed
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  // Get categories list 
+  const { data: categories } = useGetMenuCategoryQuery();
+  const categoryList = categories?.categories ?? [];
 
-  // Determine the products to display
-  const currentProducts = showCategoryProduct
-    ? products.slice(indexOfFirstProduct, indexOfLastProduct)
-    : selectedCategory.slice(indexOfFirstProduct, indexOfLastProduct);
+  const { data, isLoading } = useGetSearchProductQuery("a");
+  const searchProducts = data?.products?.data || [];
 
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(
-    (showCategoryProduct ? products.length : selectedCategory.length) / productsPerPage
-  );
+  console.log(data)
+  // Fetch data based on subCategoryProducts
+  const { data: searchByCategory, error } = useGetsearchCategoryApiQuery(subCategoryProducts, {
+    skip: !subCategoryProducts, 
+  });
 
-  // Handlers for pagination controls
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(prevPage => prevPage + 1);
+  useEffect(() => {
+    if (subCategoryProducts) {
+      console.log("sub" , subCategoryProducts)
     }
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(prevPage => prevPage - 1);
+    if (error) {
+      
     }
+  }, [searchByCategory, error, subCategoryProducts]);
+
+  const handleCategoryProduct = (id) => {
+    console.log("check Id " , id)
+    setSubCategoryProducts(id);
+    setCurrentPage(1); 
+    setDrawerOpen(false)
+
+    
   };
 
-  const getCategoryData = (categoryName, subcategoryName) => {
-    const category = allCategories.find(
-      cat => cat.category_name.toLowerCase() === categoryName.toLowerCase()
-    );
-    if (!category) return [];
-
-    const subcategory = category.subcategories.find(
-      sub => sub.subcategory_name.toLowerCase() === subcategoryName.toLowerCase()
-    );
-    if (!subcategory) return [];
-
-    setShowCategoryProduct(false);
-    setSelectedCategory(subcategory.products);
-    setCurrentPage(1); // Reset to first page of the new category
-    setDrawerOpen(false); // Close the sidebar
-  };
+  console.log(subCategoryProducts , "acc")
 
   const toggleDrawer = () => {
     setDrawerOpen(prev => !prev);
   };
 
+  // Pagination Logic
+  const totalProducts = subCategoryProducts ? searchByCategory?.products?.data.length : searchProducts.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  
+  const currentProducts = subCategoryProducts ? searchByCategory?.products?.data : searchProducts;
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProductsToShow = currentProducts?.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
+
   return (
     <section className="relative">
       {/* Floating Filter Button */}
-      <div className=' bg-black z-50 py-2 flex items-center gap-2 justify-center px-5 text-center' onClick={toggleDrawer}>
+      <div className='bg-black z-50 py-2 flex items-center gap-2 justify-center px-5 text-center cursor-pointer' onClick={toggleDrawer}>
         <button className="text-white rounded-full shadow-lg">
           Filters
         </button>
@@ -79,122 +82,65 @@ export default function SearchPage() {
         </div>
       </div>
 
-      {/* Drawer Sidebar */}
-      <aside
-        className={`abosolute w-full bg-white  shadow-md h-full   ${drawerOpen ? 'absolute top-0 left-0 ' : 'hidden'} scroll-auto `}
-        style={{ zIndex: 9999 }}
-      >
-        <Fade duration={500} direction='left'>
-          <div className="p-4 relative">
-            {/* Close Button */}
-            <button
-              onClick={() => setDrawerOpen(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-            >
-              <IoClose className="text-xl" />
-            </button>
-
-            {/* Men category box */}
-            <div>
-              <button
-                onClick={() => getCategoryData('Men', 'Men New Arrivals')}
-                className="w-full text-left text-sm font-bold border-b py-2"
-              >
-                Men Collections
+      {/* Sidebar */}
+      {drawerOpen && (
+        <aside className="  w-full h-[100vh] absolute top-0 left-0 bg-gray-900 bg-opacity-75 flex z-50">
+          <div className="w-full bg-white h-full shadow-xl overflow-auto sm:pl-8">
+            <div className="flex justify-between items-center p-4 border-b">
+              <h2 className="text-lg font-medium">Filter Categories</h2>
+              <button onClick={toggleDrawer} className="text-gray-700">
+                <IoClose size={24} />
               </button>
-              <div className="pl-4 text-xs sm:text-sm md:text-base pt-3 sm:pt-4">
-                {['Men New Arrivals', 'Tees', 'Hoodies And Sweaters', 'Pants', 'Shoes', 'Outwear', 'Men Accessories'].map(subcategory => (
-                  <label key={subcategory} className=" cursor-pointer flex ">
-                    <input
-                      type="radio"
-                      name="category"
-                      className="mr-2"
-                      onClick={() => getCategoryData('Men', subcategory)}
-                    />
-                    <p>{subcategory}</p>
-                  </label>
-                ))}
-              </div>
             </div>
-
-            {/* Women category box */}
-            <div className="mt-4 ">
-              <button
-                onClick={() => getCategoryData('Women', 'Women New Arrivals')}
-                className="w-full text-left text-sm font-bold border-b py-2"
-              >
-                Women Collections
-              </button>
-              <div className="pl-4 text-xs sm:text-sm md:text-base pt-3 sm:pt-4">
-                {['Women New Arrivals', 'Tees', 'Hoodies And Sweaters', 'Pants', 'Shoes', 'Outerwear', 'Women Accessories'].map(subcategory => (
-                  <label key={subcategory} className="flex cursor-pointer">
-                    <input
-                      type="radio"
-                      name="category"
-                      className="mr-2"
-                      onClick={() => getCategoryData('Women', subcategory)}
-                    />
-                    <p>{subcategory}</p>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Accessories category box */}
-            <div className="mt-4">
-              <button
-                onClick={() => getCategoryData('Accessories', 'New Arrivals')}
-                className="w-full text-left text-sm font-bold border-b py-2"
-              >
-                Accessories
-              </button>
-              <div className="pl-4 text-xs sm:text-sm md:text-base pt-3 sm:pt-4">
-                <label className="flex cursor-pointer">
-                  <input
-                    type="radio"
-                    name="category"
-                    className="mr-2"
-                    onClick={() => getCategoryData('Accessories', 'Accessories')}
-                  />
-                  <p>Accessories</p>
-                </label>
-              </div>
-            </div>
+            <ul className="">
+              {categoryList.map((category) => (
+                <li key={category.id} className="lg:my-8 my-4 border lg:py-4 lg:px-6 py-2 px-4">
+                  <h5 className='font-semibold text-xl'>{category.name}</h5>
+                  <ul className="mt-2">
+                    {category.sub_categories.map((subcategory) => (
+                      <li key={subcategory.id} className="text-gray-500 text-base" onClick={() => handleCategoryProduct(subcategory.id)}>
+                        <label className="flex items-center cursor-pointer">
+                          <input
+                            type="radio"
+                            name="subcategory"
+                            value={subcategory.id}
+                            className="mr-2"
+                          />
+                          {subcategory.name}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                
+                </li>
+              ))}
+              <li className='border lg:py-4 lg:px-6 py-2 px-4 font-semibold text-xl cursor-pointer' onClick={() => handleCategoryProduct("accessories")}> Accessories</li>
+            </ul>
           </div>
-        </Fade>
-      </aside>
+        </aside>
+      )}
 
       <main className={`p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16 transition-all ${drawerOpen ? 'ml-64' : 'ml-0'} ${drawerOpen ? 'md:ml-0' : ''}`}>
         {/* Products show all sections */}
         <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-          {currentProducts.map((product, index) => (
-            <div key={index} className="relative bg-[#B7B7B7] product-card  overflow-hidden shadow-md">
-              <Link to={`hotSale/${product.slug}`}>
+          {currentProductsToShow?.map((product, index) => (
+            <div key={index} className="relative bg-[#B7B7B7] product-card overflow-hidden shadow-md">
+              <Link to={`/product/${product?.slug}`}>
                 <img
-                  src={product.img}
-                  alt={product.product_title}
+                  src={`${baseUrl}/products/${product.thumbnail_image}`}
+                  alt={product.name}
                   className="w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 object-cover"
                 />
               </Link>
 
-              <button
-                style={{ fontSize: '24px' }}
-                className="absolute top-2 left-2 text-white"
-              >
+              <button style={{ fontSize: '24px' }} className="absolute top-2 left-2 text-white">
                 <FaRegHeart />
               </button>
 
-              <button
-                style={{ fontSize: '24px' }}
-                className="absolute top-2 right-2 text-white"
-              >
-                <HiFire className="text-red-700 transition-colors duration-500 animate-pulse" />
-              </button>
-
-              <h3 className="text-white bg-black p-2 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
-                {product.product_title}
+              <h3 className="text-white bg-black p-2 lg:p-4 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
+                {product.name}
               </h3>
-              <div className="bg-black text-white flex justify-between items-center p-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
+              <div className="bg-black text-white flex justify-between items-center p-2 lg:p-4 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
                 <div className="flex items-center">
                   <MdEuroSymbol /> {product.price}
                 </div>
@@ -207,10 +153,10 @@ export default function SearchPage() {
         </section>
 
         {/* Pagination controls */}
-        <div className="flex flex-col items-center mt-6">
+        <div className="flex flex-col items-center mt-8 lg:mt-14">
           <div className="flex flex-wrap gap-2 mb-2">
             <button
-              onClick={handlePrevious}
+              onClick={() => setCurrentPage(currentPage - 1)}
               className={`px-4 py-2 border rounded ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'bg-black text-white'}`}
               disabled={currentPage === 1}
             >
@@ -226,7 +172,7 @@ export default function SearchPage() {
               </button>
             ))}
             <button
-              onClick={handleNext}
+              onClick={() => setCurrentPage(currentPage + 1)}
               className={`px-4 py-2 border rounded ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : 'bg-black text-white'}`}
               disabled={currentPage === totalPages}
             >

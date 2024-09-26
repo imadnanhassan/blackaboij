@@ -19,6 +19,8 @@ export const tagTypes = {
   cancelOrder: 'cancelOrder',
   customerList: 'customerList',
   dashboardAnalysis: 'dashboardAnalysis',
+  searchProduct:"searchProduct",
+  subCategorySearchProducts:"subCategorySearchProducts",
 }
 
 export const tagTypesList = [
@@ -42,4 +44,6 @@ export const tagTypesList = [
   tagTypes.cancelOrder,
   tagTypes.customerList,
   tagTypes.dashboardAnalysis,
+  tagTypes.searchProduct,
+  tagTypes.subCategorySearchProducts,
 ]
