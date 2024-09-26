@@ -45,7 +45,7 @@ export default function CategoryProducts() {
           </h2>
         </Zoom>
       </div>
-      <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px] mt-5 lg:mt-10  ">
+      <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px] mt-5 lg:mt-10  md:pb-[50px] pb-5">
         {data?.products?.data.map((item, index) => (
           <div
             key={index}
@@ -85,9 +85,9 @@ export default function CategoryProducts() {
           </div>
         ))}
       </div>
-      <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px] mb-5 lg:mb-10">
+      {/* <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px] mb-5 lg:mb-10">
         <AnimatedButton buttonText="SHOW ALL"></AnimatedButton>
-      </p>
+      </p> */}
     </div>
   )
 }
