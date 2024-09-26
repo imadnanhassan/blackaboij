@@ -51,6 +51,8 @@ export default function SearchPage() {
     
   };
 
+  console.log(subCategoryProducts , "acc")
+
   const toggleDrawer = () => {
     setDrawerOpen(prev => !prev);
   };
@@ -71,7 +73,7 @@ export default function SearchPage() {
   return (
     <section className="relative">
       {/* Floating Filter Button */}
-      <div className='bg-black z-50 py-2 flex items-center gap-2 justify-center px-5 text-center' onClick={toggleDrawer}>
+      <div className='bg-black z-50 py-2 flex items-center gap-2 justify-center px-5 text-center cursor-pointer' onClick={toggleDrawer}>
         <button className="text-white rounded-full shadow-lg">
           Filters
         </button>
@@ -82,7 +84,7 @@ export default function SearchPage() {
 
       {/* Sidebar */}
       {drawerOpen && (
-        <aside className="w-full h-[100dvh] absolute top-0 left-0 bg-gray-900 bg-opacity-75 flex z-50">
+        <aside className="  w-full h-[100vh] absolute top-0 left-0 bg-gray-900 bg-opacity-75 flex z-50">
           <div className="w-full bg-white h-full shadow-xl overflow-auto sm:pl-8">
             <div className="flex justify-between items-center p-4 border-b">
               <h2 className="text-lg font-medium">Filter Categories</h2>
@@ -109,8 +111,10 @@ export default function SearchPage() {
                       </li>
                     ))}
                   </ul>
+                
                 </li>
               ))}
+              <li className='border lg:py-4 lg:px-6 py-2 px-4 font-semibold text-xl cursor-pointer' onClick={() => handleCategoryProduct("accessories")}> Accessories</li>
             </ul>
           </div>
         </aside>

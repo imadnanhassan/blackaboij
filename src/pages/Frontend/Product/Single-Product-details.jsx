@@ -160,7 +160,7 @@ export default function SingleProductDetails() {
           <h2 className="text-2xl font-bold md:mb-10 mb-4 text-center">
             Recommended Products
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-3 lg:gap-5 ">
             {data?.recomendedProducts?.map(recommendedProduct => (
               <div key={recommendedProduct.id} className=" rounded shadow-sm">
                 <Link to={`/product/${recommendedProduct.slug}`}>
