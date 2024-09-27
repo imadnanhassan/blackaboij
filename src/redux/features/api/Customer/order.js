@@ -15,6 +15,7 @@ const order = baseApi.injectEndpoints({
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
+        providesTags: [tagTypes.adminOrderList],
       }),
     }),
     getAdminOrderList: builder.query({
@@ -33,7 +34,7 @@ const order = baseApi.injectEndpoints({
           Authorization: `Bearer ${getToken('customerToken')}`,
         },
       }),
-      providesTags: [tagTypes.adminOrderList]
+      providesTags: [tagTypes.adminOrderList],
     }),
     changeOrderStatusByAdmin: builder.mutation({
       query: data => ({
@@ -45,7 +46,7 @@ const order = baseApi.injectEndpoints({
           Accept: 'application/json',
         },
       }),
-      invalidatesTags: [tagTypes.adminOrderList]
+      invalidatesTags: [tagTypes.adminOrderList],
     }),
   }),
 })

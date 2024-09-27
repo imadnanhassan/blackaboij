@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import CustomerHead from './CustomerHead'
 import { useGetCustomerOrderListQuery } from '../../../redux/features/api/Customer/order'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
@@ -13,28 +13,18 @@ import Swal from 'sweetalert2'
 import { useCancelOrderMutation } from '../../../redux/features/api/cancelOrder/cancelOrder'
 
 export default function CustomerOrder() {
-  
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
   const { loading, customer } = useContext(CustomerContext)
-  const [orders, setOrders] = useState([])
   const { data, isLoading } = useGetCustomerOrderListQuery(
     customer?.currentCustomer.id,
   )
   const [cancelOrder] = useCancelOrderMutation()
+  const ordersData = data?.orders?.data ?? []
+  // Calculate total pages
+  const totalItems = ordersData.length
 
 
-  useEffect(() => {
-    if (data && !isLoading) {
-      setOrders(data?.orders?.data)
-      
-
-    }
-    return () => setOrders([])
-  }, [data])
-
-  console.log(data, 'customer order data')
-  console.log(orders, isLoading, 'Customer Order Confirm')
 
   // order cancel
   const handelCancelOrder = async id => {
@@ -97,9 +87,6 @@ export default function CustomerOrder() {
     return <CustomerLoader />
   }
 
-
-
-
   return (
     <div>
       <CustomerHead title="My Orders" />
@@ -109,7 +96,7 @@ export default function CustomerOrder() {
           <div className="-m-1.5 overflow-x-auto">
             <div className=" min-w-full inline-block align-middle">
               <div className=" overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
-                {orders.length == 0 ? (
+                {totalItems.length == 0 ? (
                   <p>No items in your Oard list.</p>
                 ) : (
                   <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700 ">
@@ -143,7 +130,7 @@ export default function CustomerOrder() {
                     </thead>
 
                     <tbody className="divide-y divide-gray-200">
-                      {orders?.map((order, index) => (
+                      {ordersData?.map((order, index) => (
                         <tr key={index} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
                             {useFormattedDate(order?.created_at)}
@@ -152,9 +139,10 @@ export default function CustomerOrder() {
                             {order?.amount}$
                           </td>
                           <td
-                            className={`py-2 px-4 border-b text-sm font-medium capitalize ${order?.status === 'Complete'
+                            className={`py-2 px-4 border-b text-sm font-medium capitalize ${
+                              order?.status === 'Complete'
                                 ? ' text-green-700'
-                                : order?.status === 'Pending'
+                                : order?.status === 'pending'
                                   ? ' text-yellow-400'
                                   : order?.status === 'Shipped'
                                     ? ' text-sky-700'
@@ -163,7 +151,7 @@ export default function CustomerOrder() {
                                       : order?.status === 'Cancel'
                                         ? ' text-red-700'
                                         : ''
-                              }`}
+                            }`}
                           >
                             {order?.status}
                           </td>

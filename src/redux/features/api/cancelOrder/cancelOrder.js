@@ -14,7 +14,7 @@ export const cancelOrderApi = baseApi.injectEndpoints({
           Authorization: `Bearer ${getToken('customerToken')}`,
         },
       }),
-      providesTags: [tagTypes.cancelOrder],
+      invalidatesTags: [tagTypes.cancelOrder],
     }),
   }),
 })
