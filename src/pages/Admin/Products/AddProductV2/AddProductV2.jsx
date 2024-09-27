@@ -13,6 +13,7 @@ import {
 } from '../../../../redux/features/api/product/productApi'
 import { toast } from 'react-toastify'
 import AdminLoader from '../../../../common/AdminLoader/AdminLoader'
+import { useNavigate } from 'react-router-dom'
 
 export default function AddProductV2() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
@@ -25,6 +26,7 @@ export default function AddProductV2() {
 
   const [galleryPreviews, setGalleryPreviews] = useState([])
   const [thumbnailPreview, setThumbnailPreview] = useState(null)
+  const navigate = useNavigate()
 
   const { data: categories, isLoading } = useGetProductCategoryListQuery()
   const { data: size } = useGetSizeQuery()
@@ -97,7 +99,7 @@ export default function AddProductV2() {
   // add product
   const { register, handleSubmit, reset, control } = useForm()
   const onSubmit = async data => {
-    console.log( "check",data, selectedCategory)
+    console.log('check', data, selectedCategory)
 
     const formData = new FormData()
     formData.append('name', data.name)
@@ -132,6 +134,9 @@ export default function AddProductV2() {
       const response = await addProduct(formData)
       console.log(response)
       if (response?.data?.status === 200) {
+        navigate('/dashboard/products-list', {
+          replace: true,
+        })
         toast.success(response.data.message)
       } else if (response?.data?.status === 401) {
         response.data.errors.forEach(el => toast.errors(el))

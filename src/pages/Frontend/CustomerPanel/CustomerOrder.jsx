@@ -154,7 +154,7 @@ export default function CustomerOrder() {
                           <td
                             className={`py-2 px-4 border-b text-sm font-medium capitalize ${order?.status === 'Complete'
                                 ? ' text-green-700'
-                                : order?.status === 'Pending'
+                                : order?.status === 'pending'
                                   ? ' text-yellow-400'
                                   : order?.status === 'Shipped'
                                     ? ' text-sky-700'
