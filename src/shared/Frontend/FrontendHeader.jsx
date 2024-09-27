@@ -26,8 +26,8 @@ const FrontendHeader = ({ categoryList }) => {
 
   const dispatch = useDispatch()
   const cartItems = useSelector(selectCartItems)
-  const wishList = useSelector((state) => state.wishList.wishList);
- 
+  const wishList = useSelector(state => state.wishList.wishList)
+
   // console.log(wishList)
 
   const handleCartClick = () => {
@@ -108,13 +108,16 @@ const FrontendHeader = ({ categoryList }) => {
                     )}
                   </span>
                 </button>
+
                 <button>
-                  <span style={{ fontSize: `${iconSize}px` }}>
-                    <CiHeart className="text-white" />
-                    <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
-                      {wishList.length}
+                  <Link to={'user/wishlist'}>
+                    <span style={{ fontSize: `${iconSize}px` }}>
+                      <CiHeart className="text-white" />
+                      <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
+                        {wishList.length}
+                      </span>
                     </span>
-                  </span>
+                  </Link>
                 </button>
               </div>
             </div>

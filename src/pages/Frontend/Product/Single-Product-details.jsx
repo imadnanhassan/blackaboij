@@ -63,7 +63,6 @@ export default function SingleProductDetails() {
     return <NotFound />
   }
 
-  console.log(wishList)
   return (
     <section>
       <div className="">
