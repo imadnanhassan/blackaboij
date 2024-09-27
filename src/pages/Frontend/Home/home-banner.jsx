@@ -13,7 +13,7 @@ const HomeBanner = () => {
     <section>
       <div
         style={{
-          // backgroundImage: "url('https://i.ibb.co/SP1rhKQ/Banner.png')",
+         
           backgroundImage: "url('https://i.ibb.co/hVdDm87/Desktop-1512x.webp')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -21,11 +21,6 @@ const HomeBanner = () => {
           height: "100vh",
           backgroundColor: "#00000",
           position: "relative"
-          // '@media (max-width: 768px)': {
-          //     height: '50vh', // Adjust the height for smaller screens
-          // },
-
-
         }}>
 
 
@@ -42,7 +37,9 @@ const HomeBanner = () => {
             <h1 className="xl:text-[80px] text-2xl md:text-4xl lg:text-4xl  font-custom whitespace-nowrap md:py-12 py-6 text-white">LIFE IS MADE OF CHOICE</h1>
           </div>
           <div className="flex md:gap-5 gap-2">
-            <Link to='/men-collection'> <AnimatedButton buttonText="SHOP MEN" ></AnimatedButton></Link>
+            <Link to='/men-collection'>
+              <AnimatedButton buttonText="SHOP MEN" ></AnimatedButton>
+            </Link>
             <Link to="/women-collection"> <AnimatedButton buttonText="SHOP WOMEN" ></AnimatedButton></Link>
           </div>
         </div>
