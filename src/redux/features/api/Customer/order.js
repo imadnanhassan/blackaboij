@@ -1,3 +1,4 @@
+import { tagTypes } from '../../../tag-types'
 import { baseApi } from '../baseApi/baseApi'
 
 const getToken = (tokenName = 'customerToken') => {
@@ -23,6 +24,7 @@ const order = baseApi.injectEndpoints({
           Authorization: `Bearer ${getToken('adminToken')}`,
         },
       }),
+      providesTags: [tagTypes.adminOrderList],
     }),
     getCustomerOrderList: builder.query({
       query: id => ({
@@ -31,6 +33,7 @@ const order = baseApi.injectEndpoints({
           Authorization: `Bearer ${getToken('customerToken')}`,
         },
       }),
+      providesTags: [tagTypes.adminOrderList]
     }),
     changeOrderStatusByAdmin: builder.mutation({
       query: data => ({
@@ -42,6 +45,7 @@ const order = baseApi.injectEndpoints({
           Accept: 'application/json',
         },
       }),
+      invalidatesTags: [tagTypes.adminOrderList]
     }),
   }),
 })

@@ -1,15 +1,21 @@
 import { MdEuroSymbol } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { Zoom } from 'react-awesome-reveal'
-import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
+import { BuyNowButton } from '../../../common/Button/Button'
 import { FaRegHeart } from 'react-icons/fa'
 import { useGetMenCollectionQuery } from '../../../redux/features/api/menNewCollection/menNewCollection'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 import FrontLoader from '../../../common/FrontLoader/FrontLoader'
+import { useDispatch } from 'react-redux'
+import { addToWishList } from '../../../redux/features/wishList/wishList'
 
 const MenCollection = () => {
   const { data, isLoading } = useGetMenCollectionQuery()
-  console.log(data)
+    const dispatch = useDispatch()
+
+   const handleWishListClick = () => {
+     dispatch(addToWishList({ data }))
+   }
 
   if (isLoading) {
     return <FrontLoader />
@@ -49,6 +55,7 @@ const MenCollection = () => {
             </Link>
 
             <button
+              onClick={handleWishListClick}
               style={{ fontSize: '30px' }}
               className="absolute top-2 left-2 text-white"
             >

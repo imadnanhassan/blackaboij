@@ -20,7 +20,8 @@ export const tagTypes = {
   customerList: 'customerList',
   dashboardAnalysis: 'dashboardAnalysis',
   searchProduct:"searchProduct",
-  subCategorySearchProducts:"subCategorySearchProducts",
+  subCategorySearchProducts: "subCategorySearchProducts",
+  adminOrderList: 'adminOrderList'
 }
 
 export const tagTypesList = [
@@ -46,4 +47,5 @@ export const tagTypesList = [
   tagTypes.dashboardAnalysis,
   tagTypes.searchProduct,
   tagTypes.subCategorySearchProducts,
+  tagTypes.adminOrderList,
 ]

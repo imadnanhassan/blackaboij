@@ -1,44 +1,48 @@
 import { LiaDownloadSolid } from 'react-icons/lia'
 import { RiDeleteBin7Line } from 'react-icons/ri'
 import { FiEye } from 'react-icons/fi'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { GoHome } from 'react-icons/go'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
 
-import Pagination from '../../../common/Pagination/Pagination'
+// import Pagination from '../../../common/Pagination/Pagination'
 import OrderInformationModal from './OrderInformationModal'
 import OrderTrackingBtn from './OrderTrackingBtn'
 import { useGetAdminOrderListQuery } from '../../../redux/features/api/Customer/order'
-import React, { useRef } from 'react'
-import html2pdf from 'html2pdf.js'
+// import React, { useRef } from 'react'
+// import html2pdf from 'html2pdf.js'
 import AdminLoader from '../../../common/AdminLoader/AdminLoader'
 
-
 export default function OrderList() {
-  const [data, setData] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
-
-  const [downloadInvoice, setDownloadInvoice] = useState(false)
-  const [selectedStatus, setSelectedStatus] = useState('All')
-  const invoiceRef = useRef()
-
-  const { data: orders, isLoading } = useGetAdminOrderListQuery(selectedStatus)
-  useEffect(() => {
-    if (orders && !isLoading) {
-      setData(orders?.orders?.data)
-    }
-    return () => setData([])
-  }, [isLoading, selectedStatus, orders])
-
-
+  const [currentPage, setCurrentPage] = useState(1)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
+  const [selectedStatus, setSelectedStatus] = useState('All')
+  const { data: orders, isLoading } = useGetAdminOrderListQuery(selectedStatus)
+  // console.log(orders, 'main data')
+
+  // pagination code .
+  const itemsPerPage = 10
+
+  const ordersData = orders?.orders?.data ?? []
+  console.log(ordersData.length)
+
+  // Calculate total pages
+  const totalItems = ordersData.length
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+  // Function to handle page change
+  const handlePageChange = page => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page)
+    }
+  }
 
   // filtetr
   const handleFilter = e => {
     setSelectedStatus(e.target.value)
-
   }
 
   // open moda
@@ -52,61 +56,16 @@ export default function OrderList() {
     setSelectedId(null)
   }
 
+  if (isLoading) {
+    return <AdminLoader />
+  }
+
   const pageTitle = 'Order List'
   const productLinks = [
     { title: <GoHome />, link: '/' },
     { title: 'Order' },
     { title: 'Order List' },
   ]
-
-  console.log(orders, "main data")
-
-  // const adminInvoiceDownload = id => {
-  //   alert(`Downloading invoice for ID: ${id}`)
-  //   setDownloadInvoice(true)
-
-  //   // Generate PDF
-  //   const element = invoiceRef.current
-  //   const options = {
-  //     margin: 0.5,
-  //     filename: `invoice_${id}.pdf`,
-  //     image: { type: 'jpeg', quality: 0.98 },
-  //     html2canvas: { scale: 2 },
-  //     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-  //   }
-
-  //   html2pdf().from(element).set(options).save()
-  // }
-
-
-  if (isLoading) {
-    return <AdminLoader />
-  }
-
-  // pagination code . 
-
-  const itemsPerPage = 10; // Number of items per page
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Calculate total pages
-  const totalItems = data.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  // Function to handle page change
-  const handlePageChange = (page) => {
-    if (page > 0 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
-
-  // Get the current data for the selected page
-  const currentData = data.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-
-
 
   return (
     <>
@@ -202,7 +161,7 @@ export default function OrderList() {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                  {data?.map((item, index) => (
+                  {orders?.orders.data.map((item, index) => (
                     <tr key={index}>
                       <td className="p-2">{++index}</td>
                       <td className="border-l pl-2 py-4 whitespace-nowrap flex gap-2">
@@ -254,12 +213,12 @@ export default function OrderList() {
                           <OrderInformationModal
                             isOpen={modalOpen}
                             onClose={closeModal}
-                            tableData={data}
+                            tableData={orders?.orders?.data}
                             selectedId={selectedId}
                           />
                           <button
                             className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-white border text-green-700 hover:bg-black hover:text-white "
-                            onClick={() => adminInvoiceDownload(item?.id)}
+                            // onClick={() => adminInvoiceDownload(item?.id)}
                           >
                             <LiaDownloadSolid className="text-[12px]" />
                           </button>
@@ -272,40 +231,45 @@ export default function OrderList() {
                   ))}
                 </tbody>
               </table>
-
-
-
             </div>
           </div>
 
           {/* <Pagination /> */}
-          <div className="flex gap-3 mt-4 justify-end">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              className={`px-3 py-2 rounded text-white ${currentPage === 1 ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
 
-            {[...Array(totalPages).keys()].map(page => (
-              <button
-                key={page + 1}
-                onClick={() => handlePageChange(page + 1)}
-                className={`px-3 py-2 rounded text-white ${currentPage === page + 1 ? 'bg-green-600' : 'bg-green-600 cursor-pointer'}`}
-              >
-                {page + 1}
-              </button>
-            ))}
+          {totalItems == 10 ? (
+            <>
+              {' '}
+              <div className="flex gap-3 mt-4 justify-end">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  className={`px-3 py-2 rounded text-white ${currentPage === 1 ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </button>
 
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              className={`px-3 py-2 rounded text-white ${currentPage === totalPages ? 'bg-blue-900 cursor-not-allowed' : 'bg-black cursor-pointer'}`}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
+                {[...Array(totalPages).keys()].map(page => (
+                  <button
+                    key={page + 1}
+                    onClick={() => handlePageChange(page + 1)}
+                    className={`px-3 py-2 rounded text-white ${currentPage === page + 1 ? 'bg-green-600' : 'bg-green-600 cursor-pointer'}`}
+                  >
+                    {page + 1}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  className={`px-3 py-2 rounded text-white ${currentPage === totalPages ? 'bg-blue-900 cursor-not-allowed' : 'bg-black cursor-pointer'}`}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </section>
     </>
