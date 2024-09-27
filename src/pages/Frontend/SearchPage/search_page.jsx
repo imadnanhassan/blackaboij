@@ -5,7 +5,7 @@ import { FaRegHeart } from 'react-icons/fa';
 import { MdEuroSymbol } from 'react-icons/md';
 import { SearchBuyNowButton } from '../../../common/Button/Button';
 import { HiFire } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { IoFilter } from "react-icons/io5";
 import { IoClose } from 'react-icons/io5'; // Import the close icon
 import { Fade } from 'react-awesome-reveal';
@@ -19,6 +19,10 @@ export default function SearchPage() {
   const [subCategoryProducts, setSubCategoryProducts] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(6); // Number of products per page
+  const [searchQuery, setSearchQuery] = useState(null);
+
+  const [products, setProducts] = useState([])
+
 
   // Get categories list 
   const { data: categories } = useGetMenuCategoryQuery();
@@ -27,31 +31,31 @@ export default function SearchPage() {
   const { data, isLoading } = useGetSearchProductQuery("a");
   const searchProducts = data?.products?.data || [];
 
-  console.log(data)
-  // Fetch data based on subCategoryProducts
-  const { data: searchByCategory, error } = useGetsearchCategoryApiQuery(subCategoryProducts, {
-    skip: !subCategoryProducts, 
-  });
+  const location = useLocation();
 
+  // Fetch data based on subCategoryProducts
+  const { data: searchByCategory, isLoading: loadingSearchData, isError } = useGetsearchCategoryApiQuery({ filter: subCategoryProducts, query: searchQuery });
+  console.log(searchByCategory,'this is main query')
   useEffect(() => {
-    if (subCategoryProducts) {
-      console.log("sub" , subCategoryProducts)
+    setSearchQuery(location?.state?.query ?? null)
+    if(searchByCategory && !loadingSearchData){
+      setProducts(searchByCategory?.products?.data)
+      console.log(searchByCategory?.products?.data, 'data is here')
     }
-    if (error) {
-      
-    }
-  }, [searchByCategory, error, subCategoryProducts]);
+  }, [loadingSearchData, location?.state, searchByCategory]);
+
+  console.log(searchByCategory)
 
   const handleCategoryProduct = (id) => {
-    console.log("check Id " , id)
+    console.log("check Id ", id)
     setSubCategoryProducts(id);
-    setCurrentPage(1); 
+    setCurrentPage(1);
     setDrawerOpen(false)
 
-    
+
   };
 
-  console.log(subCategoryProducts , "acc")
+  console.log(location?.state?.query, "acc")
 
   const toggleDrawer = () => {
     setDrawerOpen(prev => !prev);
@@ -60,7 +64,7 @@ export default function SearchPage() {
   // Pagination Logic
   const totalProducts = subCategoryProducts ? searchByCategory?.products?.data.length : searchProducts.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
-  
+
   const currentProducts = subCategoryProducts ? searchByCategory?.products?.data : searchProducts;
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -69,6 +73,8 @@ export default function SearchPage() {
   if (isLoading) {
     return <p>Loading</p>;
   }
+
+  console.log(products, 'this is search product list')
 
   return (
     <section className="relative">
@@ -111,7 +117,7 @@ export default function SearchPage() {
                       </li>
                     ))}
                   </ul>
-                
+
                 </li>
               ))}
               <li className='border lg:py-4 lg:px-6 py-2 px-4 font-semibold text-xl cursor-pointer' onClick={() => handleCategoryProduct("accessories")}> Accessories</li>
@@ -123,7 +129,7 @@ export default function SearchPage() {
       <main className={`p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-16 transition-all ${drawerOpen ? 'ml-64' : 'ml-0'} ${drawerOpen ? 'md:ml-0' : ''}`}>
         {/* Products show all sections */}
         <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-          {currentProductsToShow?.map((product, index) => (
+          {products?.map((product, index) => (
             <div key={index} className="relative bg-[#B7B7B7] product-card overflow-hidden shadow-md">
               <Link to={`/product/${product?.slug}`}>
                 <img

@@ -1,5 +1,6 @@
+import { useForm } from 'react-hook-form'
 import { IoIosSearch } from 'react-icons/io'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 export default function Button({ text, onClick, className, icon: Icon }) {
   return (
@@ -54,20 +55,31 @@ export function SearchBuyNowButton({ buttonText }) {
 
 // search functionality button here
 export function SearchBtn() {
+  const {handleSubmit, register} = useForm();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const onSubmit = (data) => {
+    navigate(`/search?q=${data.search}`,{
+      state: {query: data.search}
+    })
+  }
   return (
     <div className="relative">
-      <input
-        type="text"
-        id="search"
-        placeholder="Search Here"
-        autoComplete="off"
-        className="w-[250px] py-1 p-4 bg-transparent border border-[#383838] rounded-[20px] text-white focus:outline-none"
-      />
-      <Link to="/">
-        <button className="absolute top-[10px] text-white ml-[-25px]">
-          <IoIosSearch />
-        </button>
-      </Link>
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <input
+          type="text"
+          id="search"
+          placeholder="Search Here"
+          autoComplete="off"
+          {...register('search',{
+            required: true
+          })}
+          className="w-[250px] py-1 p-4 bg-transparent border border-[#383838] rounded-[20px] text-white focus:outline-none"
+        />
+          <button type='submit' className="absolute top-[10px] text-white ml-[-25px]">
+            <IoIosSearch />
+          </button>
+      </form>
     </div>
   )
 }
