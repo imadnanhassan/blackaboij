@@ -117,9 +117,9 @@ export default function AddProductV2() {
         formData.append('colors[]', selectedColor[c])
       }
     }
-    if (selectedCategory.length > 0) {
-      for (let ct = 0; ct < selectedCategory.length; ct++) {
-        formData.append('category_id[]', selectedCategory[ct])
+    if (selectedCategories.length > 0) {
+      for (let ct = 0; ct < selectedCategories.length; ct++) {
+        formData.append('category_id[]', selectedCategories[ct])
       }
     }
     if (selectedSize.length > 0) {

@@ -204,9 +204,10 @@ export default function EditProductV2() {
         formData.append('gallery[]', data.gallery[i])
       }
     }
-    if (selectedCategory.length > 0) {
-      for (let ct = 0; ct < selectedCategory.length; ct++) {
-        formData.append('category_id[]', selectedCategory[ct])
+    console.log(selectedCategories, 'this is selected category array')
+    if (selectedCategories.length > 0) {
+      for (let ct = 0; ct < selectedCategories.length; ct++) {
+        formData.append('category_id[]', selectedCategories[ct])
       }
     }
     for (let c = 0; c < selectedColors.length; c++) {
@@ -220,19 +221,20 @@ export default function EditProductV2() {
     try {
       const response = await updateProduct(formData)
       console.log(response)
+      setSelectedCategory([])
 
-      if (response?.data?.status === 200) {
-        toast.success(response.data.message)
-        navigate('/dashboard/products-list', {
-          replace: true,
-        })
-      } else if (response?.data?.status === 401) {
-        response.data.errors.forEach(el => toast.error(el))
-      } else if (response?.data?.status === 402) {
-        toast.error(response.data.message)
-      } else {
-        toast.error('Something went wrong. Please try again.')
-      }
+      // if (response?.data?.status === 200) {
+      //   toast.success(response.data.message)
+      //   navigate('/dashboard/products-list', {
+      //     replace: true,
+      //   })
+      // } else if (response?.data?.status === 401) {
+      //   response.data.errors.forEach(el => toast.error(el))
+      // } else if (response?.data?.status === 402) {
+      //   toast.error(response.data.message)
+      // } else {
+      //   toast.error('Something went wrong. Please try again.')
+      // }
       // reset()
     } catch (error) {
       toast.error('Failed to add product.')
