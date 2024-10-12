@@ -193,7 +193,7 @@ export default function ProductsList() {
 
         {/* search product and addProducts */}
         <div className="flex items-center justify-between gap-6 py-3 ">
-          <div className="search flex items-center gap-5">
+          {/* <div className="search flex items-center gap-5">
             <div
               className={` rounded-md flex items-center justify-between border border-[#4800C9] ${isDarkMode ? 'text-darkColorText ' : 'bg-[#ffffff]'}`}
             >
@@ -206,7 +206,7 @@ export default function ProductsList() {
                 <i className="fa-solid fa-magnifying-glass" />
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="flex items-center gap-[30px]">
             <Link to="/dashboard/add-product">
               <Button
@@ -268,7 +268,7 @@ export default function ProductsList() {
                     <td className="text-center">
                       {products?.products.from + index}
                     </td>
-                    <td className="border-l pl-2 py-4 whitespace-nowrap flex gap-2">
+                    <td className="border-l pl-2 py-4 whitespace-nowrap flex items-center gap-4">
                       <div
                         className={`w-[50px] h-[50px]  ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
                       >
@@ -298,7 +298,7 @@ export default function ProductsList() {
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                     >
-                      {product.price} $
+                      {product.price} €
                     </td>
                     <td
                       className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}

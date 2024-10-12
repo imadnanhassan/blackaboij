@@ -3,7 +3,7 @@ import { MdEuroSymbol } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { Fade } from 'react-awesome-reveal'
 import { FaRegHeart } from 'react-icons/fa'
-import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
+import { BuyNowButton } from '../../../common/Button/Button'
 import { useGetWomenCollectionQuery } from '../../../redux/features/api/womenNewCollection/womenNewCollection'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 import FrontLoader from '../../../common/FrontLoader/FrontLoader'
@@ -27,24 +27,24 @@ export default function WomenCollection() {
         //   backgroundRepeat: 'no-repeat',
         //   backgroundColor: '#00000',
         //   position: 'relative',
-          
+
         // }}
       >
-        <Fade direction='up'>
+        <Fade direction="up">
           <h2 className="md:text-sm italic   text-white font-custom whitespace-nowrap">
             Women / Women new Collections
           </h2>
         </Fade>
       </div>
       <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px] mt-5 lg:mt-10 md:pb-[50px] pb-5 ">
-        {data?.data.map((item, index) => (
+        {data?.data.map((product, index) => (
           <div
             key={index}
             className="bg-[#B7B7B7] product-card font-custom relative"
           >
-            <Link to={`/product/${item.slug}`}>
+            <Link to={`/product/${product.slug}`}>
               <img
-                src={`${baseUrl}/products/${item.thumbnail_image}`}
+                src={`${baseUrl}/products/${product.thumbnail_image}`}
                 alt=""
                 className="front-img w-full object-cover"
               />
@@ -62,15 +62,15 @@ export default function WomenCollection() {
             </button>
 
             <h3 className="pl-2 md:pl-4 md:py-4 py-1 md:text-[22px] bg-black text-[16px] text-white">
-              {item.name}
+              {product.name}
             </h3>
             <div className="md:pb-4 pb-1 px-2 md:px-4 md:text-[15px] text-[12px] bg-black text-white flex justify-between">
               <div className="flex justify-center items-center">
                 <MdEuroSymbol />
-                {item.price}
+                {product.price}
               </div>
               <div className="">
-                <BuyNowButton buttonText="Buy Now"></BuyNowButton>
+                <BuyNowButton buttonText="Buy Now" product={product} />
               </div>
             </div>
           </div>

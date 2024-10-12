@@ -1,4 +1,3 @@
-
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import { Link } from 'react-router-dom'
@@ -11,22 +10,13 @@ import '../HelperCss/home-hotsale.css'
 import { useGetNewArrivalsQuery } from '../../../redux/features/api/newArrivals/newArrivals'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 const HomeHotSale = () => {
-
-
   const { data, error, isLoading } = useGetNewArrivalsQuery()
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading data...</p>
-  const categories = data.data;
-  
-
-  
-  
-
-
+  const categories = data.data
 
   return (
-
     <section>
       <div className="md:section-gap pt-[50px]">
         <Toaster />
@@ -46,9 +36,7 @@ const HomeHotSale = () => {
                 </TabList>
               </div>
 
-              
               {categories?.map((category, index) => (
-
                 <TabPanel key={index}>
                   <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px]">
                     {category.data.map(product => (
@@ -63,7 +51,6 @@ const HomeHotSale = () => {
                             className="front-img w-full object-cover"
                           />
                         </Link>
-                       
 
                         <button
                           style={{ fontSize: '30px' }}
@@ -84,7 +71,10 @@ const HomeHotSale = () => {
                             <MdEuroSymbol /> {product.price}
                           </div>
                           <div className="">
-                            <BuyNowButton buttonText="Buy Now"></BuyNowButton>
+                            <BuyNowButton
+                              buttonText="Buy Now"
+                              product={product}
+                            />
                           </div>
                         </div>
                       </div>
