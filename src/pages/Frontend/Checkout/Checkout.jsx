@@ -9,10 +9,8 @@ import Swal from 'sweetalert2'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 import { useDispatch } from 'react-redux'
 import { removeAllProduct } from '../../../redux/features/cart/cartSlice'
-import { FaStarOfLife } from "react-icons/fa6";
-import { FaEuroSign } from "react-icons/fa";
-
-
+import { FaStarOfLife } from 'react-icons/fa6'
+import { FaEuroSign } from 'react-icons/fa'
 
 export default function Checkout() {
   const navigate = useNavigate()
@@ -90,7 +88,6 @@ export default function Checkout() {
     const response = await addToCart(formData)
 
     if (response?.data.status == 200) {
-      // localStorage.removeItem('cartItems')
       dispatch(removeAllProduct())
       Swal.fire('Success', response.data.message, 'success')
       navigate('/user/orders', {
@@ -273,13 +270,14 @@ export default function Checkout() {
                 <div className="text-base font-semibold">Sub Total</div>
                 <div className="text-base font-semibold flex items-center">
                   <div>
-                    <FaEuroSign className='text-xs text-gray-500'></FaEuroSign>
+                    <FaEuroSign className="text-xs text-gray-500"></FaEuroSign>
                   </div>
                   {/* Calculate the subtotal dynamically */}
                   <div>
                     {cartItems.reduce(
-                      (total, item) => total + Number(item?.price) * item?.cartQuantity,
-                      0
+                      (total, item) =>
+                        total + Number(item?.price) * item?.cartQuantity,
+                      0,
                     )}
                   </div>
                 </div>
@@ -305,28 +303,26 @@ export default function Checkout() {
                       <div className="flex items-center gap-1 border-b-2 pb-1 border-dashed">
                         <div className="text-md font-light flex items-center">
                           <div>
-                            <FaEuroSign className='text-xs text-gray-500'></FaEuroSign>
+                            <FaEuroSign className="text-xs text-gray-500"></FaEuroSign>
                           </div>
 
-                          <div>
-                            {item?.price}
-                          </div>
-
+                          <div>{item?.price}</div>
                         </div>
-                        <div><FaStarOfLife className="text-[8px] text-gray-500" /> </div>
+                        <div>
+                          <FaStarOfLife className="text-[8px] text-gray-500" />{' '}
+                        </div>
 
                         <div className="font-light">{item?.cartQuantity}</div>
                       </div>
 
-                      <div className='flex items-center gap-1'>
+                      <div className="flex items-center gap-1">
                         <div>
-                          <FaEuroSign className='text-xs text-gray-500'></FaEuroSign>
+                          <FaEuroSign className="text-xs text-gray-500"></FaEuroSign>
                         </div>
                         <div className="text-md font-light">
                           {Number(item?.price) * item?.cartQuantity}
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -334,7 +330,6 @@ export default function Checkout() {
             ))}
           </div>
         </div>
-
       </form>
     </section>
   )

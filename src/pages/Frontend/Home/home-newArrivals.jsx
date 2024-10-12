@@ -4,20 +4,17 @@ import { Link } from 'react-router-dom'
 import { MdEuroSymbol } from 'react-icons/md'
 import { FaRegHeart } from 'react-icons/fa'
 import { Toaster } from 'sonner'
-import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
+import { BuyNowButton } from '../../../common/Button/Button'
 import '../HelperCss/home-hotsale.css'
 import { useGetNewArrivalsQuery } from '../../../redux/features/api/newArrivals/newArrivals'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
-
 
 const HomeNewArrivals = () => {
   const { data, error, isLoading } = useGetNewArrivalsQuery()
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading data...</p>
-  const categories = data.data;
-  console.log(data?.data)
-
+  const categories = data.data
 
   return (
     <section>
@@ -39,9 +36,7 @@ const HomeNewArrivals = () => {
                 </TabList>
               </div>
 
-              {/* Show data category-wise, displaying a maximum of six products per category */}
               {categories?.map((category, index) => (
-
                 <TabPanel key={index}>
                   <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px]">
                     {category.data.map(product => (
@@ -56,14 +51,6 @@ const HomeNewArrivals = () => {
                             className="front-img w-full object-cover"
                           />
                         </Link>
-                        {/* Assuming you have another image for hover effect */}
-                        {/* <Link to={`newArrivals/${product.slug}`}>
-                          <img
-                            src={product.backImg}
-                            alt={product.name}
-                            className="absolute top-0 opacity-0 hover:opacity-100 transition-opacity duration-1000 ease-in-out w-full object-cover"
-                          />
-                        </Link> */}
 
                         <button
                           style={{ fontSize: '30px' }}
@@ -83,20 +70,16 @@ const HomeNewArrivals = () => {
                           <div className="flex justify-center items-center">
                             <MdEuroSymbol /> {product.price}
                           </div>
-                          <div className="">
-                            <BuyNowButton buttonText="Buy Now"></BuyNowButton>
+                          <div>
+                            <BuyNowButton
+                              buttonText="Buy Now"
+                              product={product}
+                            />
                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
-
-                  {/* todo */}
-                  {/* <Link to="">
-                    <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px]">
-                      <AnimatedButton buttonText="SHOW ALL"></AnimatedButton>
-                    </p>
-                  </Link> */}
                 </TabPanel>
               ))}
             </Tabs>

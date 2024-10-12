@@ -1,6 +1,9 @@
 import { useForm } from 'react-hook-form'
 import { IoIosSearch } from 'react-icons/io'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { addProduct } from '../../redux/features/cart/cartSlice'
+// import { addProduct } from '../../../redux/features/cart/cartSlice'
 
 export default function Button({ text, onClick, className, icon: Icon }) {
   return (
@@ -24,12 +27,23 @@ export function AnimatedButton({ buttonText }) {
 }
 
 // Buy Now button here
-export function BuyNowButton({ buttonText }) {
+export function BuyNowButton({ buttonText, product }) {
+  const navigate = useNavigate()
+  const dispatch = useDispatch() 
+
+  const handleAddProduct = () => {
+    dispatch(addProduct({ product })) 
+    navigate('/checkout') 
+  }
+
   return (
-    <div className=" md:hover:animate-pulse">
-      <div className="relative inline-flex items-center justify-center  md:px-10  md:py-3 px-[5px] py-[1px] hover:text-white overflow-hidden font-custom font-medium tracking-tighter text-black bg-white  group">
-        <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-black  rounded group-hover:w-full group-hover:h-56"></span>
-        <span className="relative whitespace-nowrap md:text-[16px]  text-[12px] ">
+    <div
+      onClick={handleAddProduct} // Call the function directly
+      className="md:hover:animate-pulse cursor-pointer"
+    >
+      <div className="relative inline-flex items-center justify-center md:px-10 md:py-3 px-[5px] py-[1px] hover:text-white overflow-hidden font-custom font-medium tracking-tighter text-black bg-white group">
+        <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-black rounded group-hover:w-full group-hover:h-56"></span>
+        <span className="relative whitespace-nowrap md:text-[16px] text-[12px]">
           {buttonText}
         </span>
       </div>

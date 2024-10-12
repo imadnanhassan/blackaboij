@@ -62,7 +62,7 @@ export default function SingleProductDetails() {
   if (data?.status == 404) {
     return <NotFound />
   }
-
+console.log(data)
   return (
     <section>
       <div className="">

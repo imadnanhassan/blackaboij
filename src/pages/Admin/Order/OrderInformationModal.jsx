@@ -77,7 +77,7 @@ export default function OrderInformationModal({ isOpen, onClose, selectedId }) {
                         <strong>Total Price</strong>
                       </td>
                       <td className="px-2 py-1">
-                        <strong>: </strong> {data?.order?.amount}$
+                        <strong>: </strong>€ {data?.order?.amount}
                       </td>
                     </tr>
 
@@ -234,6 +234,14 @@ export default function OrderInformationModal({ isOpen, onClose, selectedId }) {
 
                           <td
                             className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
+                            style={{
+                              backgroundColor:
+                                product.color?.backgroundColor ||
+                                product.color?.code,
+                              color:
+                                product.color?.textColor ||
+                                (isDarkMode ? '#ffffff' : '#000000'),
+                            }}
                           >
                             {product.color?.name}
                           </td>
@@ -245,7 +253,7 @@ export default function OrderInformationModal({ isOpen, onClose, selectedId }) {
                           <td
                             className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                           >
-                            {product?.product?.price}$
+                            € {product?.product?.price}
                           </td>
                         </tr>
                       ))}

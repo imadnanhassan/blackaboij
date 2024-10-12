@@ -27,7 +27,6 @@ export default function OrderList() {
   const itemsPerPage = 10
 
   const ordersData = orders?.orders?.data ?? []
-  console.log(ordersData.length)
 
   // Calculate total pages
   const totalItems = ordersData.length
@@ -179,13 +178,25 @@ export default function OrderList() {
                       <td
                         className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                       >
-                        {item?.amount}
+                        € {item?.amount}
                       </td>
                       <td
                         className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
                       >
                         <span
-                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item?.deliveryStatus ? 'bg-[#E8F9EF] text-[#22c55e]' : 'bg-gray-100 text-gray-400'}`}
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full  ${
+                            item?.status === 'Complete'
+                              ? ' text-green-700'
+                              : item?.status === 'pending'
+                                ? ' text-yellow-400'
+                                : item?.status === 'Shipped'
+                                  ? ' text-sky-700'
+                                  : item?.status === 'Processing'
+                                    ? ' text-purple-700'
+                                    : item?.status === 'Cancel'
+                                      ? ' text-red-700'
+                                      : ''
+                          }`}
                         >
                           {item?.status}
                         </span>
