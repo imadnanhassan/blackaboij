@@ -313,23 +313,28 @@ export default function EditProductV2() {
                   </ul>
                 </div>
 
-                <div className="max-h-40 overflow-y-auto">
+                <div className="max-h-72 overflow-y-auto">
                   <ul className="space-y-2">
                     {categoryList.length > 0 ? (
                       categoryList.map(category => (
                         <li key={category.id}>
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-2 cursor-pointer">
                             <input
                               type="checkbox"
+                              id={`checkbox-${category.id}`}
                               checked={selectedCategories.includes(category.id)}
                               onChange={e =>
                                 toggleData(e, category.id, 'category')
                               }
                               className="form-checkbox text-blue-600 rounded"
                             />
-                            <span className="text-sm text-gray-700">
+
+                            <label
+                              htmlFor={`checkbox-${category.id}`}
+                              className="text-sm text-gray-700"
+                            >
                               {category.name}
-                            </span>
+                            </label>
                           </div>
 
                           {category.sub_categories?.length > 0 && (
@@ -390,6 +395,9 @@ export default function EditProductV2() {
                   )}
                 />
               </div>
+
+
+             
             </div>
             {/* price */}
             <div className="mt-4">

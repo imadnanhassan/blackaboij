@@ -3,7 +3,6 @@ import { IoIosSearch } from 'react-icons/io'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '../../redux/features/cart/cartSlice'
-// import { addProduct } from '../../../redux/features/cart/cartSlice'
 
 export default function Button({ text, onClick, className, icon: Icon }) {
   return (
