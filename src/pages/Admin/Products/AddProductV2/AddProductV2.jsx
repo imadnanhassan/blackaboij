@@ -210,34 +210,39 @@ export default function AddProductV2() {
                   </ul>
                 </div>
 
-                <div className="max-h-64 overflow-y-auto">
+                <div className="max-h-72 overflow-y-auto">
                   <ul className="space-y-2">
                     {categoryList.length > 0 ? (
                       categoryList.map(category => (
                         <li key={category.id}>
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-3">
                             <input
                               type="checkbox"
+                              id={`checkbox_index${category.id}`}
                               checked={selectedCategories.includes(category.id)}
                               onChange={e =>
                                 toggleData(e, category.id, 'category')
                               }
                               className="form-checkbox text-blue-600 rounded"
                             />
-                            <span className="text-sm text-gray-700">
+                            <label
+                              htmlFor={`checkbox_index${category.id}`}
+                              className="text-base text-gray-700 cursor-pointer"
+                            >
                               {category.name}
-                            </span>
+                            </label>
                           </div>
 
                           {category.sub_categories?.length > 0 && (
-                            <ul className="ml-6 mt-2 space-y-1">
+                            <ul className="ml-6 mt-2 space-y-3">
                               {category.sub_categories.map(subCategory => (
                                 <li
                                   key={subCategory.id}
-                                  className="flex items-center space-x-2"
+                                  className="flex items-center space-x-2 cursor-pointer"
                                 >
                                   <input
                                     type="checkbox"
+                                    id={`checkbox__subindex${subCategory.id}`}
                                     checked={selectedCategories.includes(
                                       subCategory.id,
                                     )}
@@ -246,9 +251,13 @@ export default function AddProductV2() {
                                     }
                                     className="form-checkbox text-blue-600 rounded"
                                   />
-                                  <span className="text-sm text-gray-700">
+
+                                  <label
+                                    htmlFor={`checkbox__subindex${subCategory.id}`}
+                                    className="text-base text-gray-700 cursor-pointer"
+                                  >
                                     {subCategory.name}
-                                  </span>
+                                  </label>
                                 </li>
                               ))}
                             </ul>
