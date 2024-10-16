@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.0",
     "@mui/material": "^5.16.7",
+    "@paypal/react-paypal-js": "^8.7.0",
     "@reduxjs/toolkit": "^2.2.1",
     "apexcharts": "^3.48.0",
     "axios": "^1.6.8",
