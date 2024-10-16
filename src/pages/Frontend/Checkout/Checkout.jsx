@@ -11,20 +11,30 @@ import { useDispatch } from 'react-redux'
 import { removeAllProduct } from '../../../redux/features/cart/cartSlice'
 import { FaStarOfLife } from 'react-icons/fa6'
 import { FaEuroSign } from 'react-icons/fa'
+import axios from 'axios'
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 
 export default function Checkout() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { loading: customerLoading, customer } = useContext(CustomerContext)
+  const [addToCart] = useSubmitOrderMutation()
+  const [paymentMethod, setPaymentMethod] = useState(null)
+  const [isOpenPaypal, setOpenPaypal] = useState(false)
+
+  const [paidFor, setPaidFor] = useState(false)
+  const [error, setError] = useState(null)
 
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm()
-  const [paymentMethod, setPaymentMethod] = useState(null)
-  const [addToCart] = useSubmitOrderMutation()
+
   const handleMethodChange = methodName => {
+    if (methodName == 'PAYPAL') {
+      setOpenPaypal(true)
+    } else setOpenPaypal(false)
     setPaymentMethod(methodName)
   }
   useEffect(() => {
@@ -55,7 +65,7 @@ export default function Checkout() {
   const cartItems = localStorage.getItem('cartItems')
     ? JSON.parse(localStorage.getItem('cartItems'))
     : []
-  console.log(cartItems)
+
   const onSubmit = async data => {
     console.log(data, paymentMethod, cartItems)
     const formData = new FormData()
@@ -100,11 +110,36 @@ export default function Checkout() {
     }
   }
 
-  console.log(cartItems)
+  //  paypal
+  // Handle PayPal payment approval
+  const handlePayPalApprove = async (data, actions, billingData) => {
+    try {
+      const response = await axios.post('/api/capture-paypal-transaction', {
+        paymentID: data.paymentID,
+        payerID: data.payerID,
+        billingData,
+      })
+
+      if (response.data.state === 'approved') {
+        setPaidFor(true)
+        alert('Order placed and payment successful via PayPal!')
+      }
+    } catch (err) {
+      setError('Error capturing PayPal payment: ' + err.message)
+    }
+  }
+
+  // Form submission handler for PayPal
+  const onSubmitPayPal = data => {
+    // PayPal will handle the payment through the button, only send the billing data
+    handlePayPalApprove(null, null, data)
+  }
+
   return (
     <section className="es_container px-3 py-8 xl:py-28">
       <form
         action=""
+        id='checkout_form'
         className="checkout_wrapper"
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -119,7 +154,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your First Name"
-                {...register('name', { required: true })}
+                name="name"
                 {...register('name', { required: true })}
               />
               {errors.name?.type === 'required' && (
@@ -134,6 +169,7 @@ export default function Checkout() {
               <input
                 type="email"
                 placeholder="Enter Your Email"
+                name="email"
                 {...register('email', { required: true })}
               />
               {errors.email?.type === 'required' && (
@@ -162,6 +198,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Type Your Address"
+                name="address"
                 {...register('delivery_address', { required: true })}
               />
               {errors.delivery_address?.type === 'required' && (
@@ -176,6 +213,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your City Name"
+                name="city_name"
                 {...register('city', { required: true })}
               />
               {errors.city?.type === 'required' && (
@@ -190,6 +228,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your State Name"
+                name="state_name"
                 {...register('state', { required: true })}
               />
               {errors.state?.type === 'required' && (
@@ -235,7 +274,51 @@ export default function Checkout() {
                     </span>
                   </label>
                 ))}
+
+                {isOpenPaypal && (
+                  <PayPalScriptProvider
+                    options={{
+                      'client-id':
+                        'ARZJB21jEOWpX7coi47UNfV2K9z3VNo51laHa2QBBfYl1G7-BkiSTMsVXy9Lh72mZkANaVeFKFdyNeD6',
+                    }}
+                  >
+                    <PayPalButtons
+                      createOrder={async () => {
+                        const billingData = {
+                          name: document.querySelector('#checkout_form')?.name
+                            .value,
+                          email:
+                            document.querySelector('#checkout_form')?.email.value,
+                          address:
+                            document.querySelector('#checkout_form')?.address.value,
+                        }
+                        const res = await axios.post(
+                          '/api/create-paypal-transaction',
+                          {
+                            total: 10.0, // or dynamic amount
+                            billingData,
+                          },
+                        )
+                        return res.data.approval_url
+                      }}
+                      onApprove={async (data, actions) => {
+                        const billingData = {
+                          name: document.querySelector('#checkout_form')?.name.value,
+                          email: document.querySelector('#checkout_form')?.email.value,
+                          address:
+                            document.querySelector('#checkout_form')?.address.value,
+                        }
+                        handlePayPalApprove(data, actions, billingData)
+                      }}
+                      onError={err => setError('Error: ' + err.message)}
+                    />
+                  </PayPalScriptProvider>
+                )}
+
+                {/* Success message */}
+                {paidFor && <div>Payment successful and order placed!</div>}
               </div>
+
               {/* submit button */}
               <div className="submit_button mt-5 lg:mt-8">
                 <button type="submit" className="main_btn">
