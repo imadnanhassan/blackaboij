@@ -139,6 +139,7 @@ export default function Checkout() {
     <section className="es_container px-3 py-8 xl:py-28">
       <form
         action=""
+        id='checkout_form'
         className="checkout_wrapper"
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -153,6 +154,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your First Name"
+                name="name"
                 {...register('name', { required: true })}
               />
               {errors.name?.type === 'required' && (
@@ -167,6 +169,7 @@ export default function Checkout() {
               <input
                 type="email"
                 placeholder="Enter Your Email"
+                name="email"
                 {...register('email', { required: true })}
               />
               {errors.email?.type === 'required' && (
@@ -195,6 +198,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Type Your Address"
+                name="address"
                 {...register('delivery_address', { required: true })}
               />
               {errors.delivery_address?.type === 'required' && (
@@ -209,6 +213,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your City Name"
+                name="city_name"
                 {...register('city', { required: true })}
               />
               {errors.city?.type === 'required' && (
@@ -223,6 +228,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your State Name"
+                name="state_name"
                 {...register('state', { required: true })}
               />
               {errors.state?.type === 'required' && (
@@ -279,11 +285,12 @@ export default function Checkout() {
                     <PayPalButtons
                       createOrder={async () => {
                         const billingData = {
-                          name: document.querySelector('[name="name"]')?.value,
+                          name: document.querySelector('#checkout_form')?.name
+                            .value,
                           email:
-                            document.querySelector('[name="email"]')?.value,
+                            document.querySelector('#checkout_form')?.email.value,
                           address:
-                            document.querySelector('[name="address"]')?.value,
+                            document.querySelector('#checkout_form')?.address.value,
                         }
                         const res = await axios.post(
                           '/api/create-paypal-transaction',
@@ -296,10 +303,10 @@ export default function Checkout() {
                       }}
                       onApprove={async (data, actions) => {
                         const billingData = {
-                          name: document.querySelector('[name="name"]').value,
-                          email: document.querySelector('[name="email"]').value,
+                          name: document.querySelector('#checkout_form')?.name.value,
+                          email: document.querySelector('#checkout_form')?.email.value,
                           address:
-                            document.querySelector('[name="address"]').value,
+                            document.querySelector('#checkout_form')?.address.value,
                         }
                         handlePayPalApprove(data, actions, billingData)
                       }}
