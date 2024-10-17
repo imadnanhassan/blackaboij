@@ -283,23 +283,33 @@ export default function Checkout() {
                     }}
                   >
                     <PayPalButtons
-                      createOrder={async () => {
-                        const billingData = {
-                          name: document.querySelector('#checkout_form')?.name
-                            .value,
-                          email:
-                            document.querySelector('#checkout_form')?.email.value,
-                          address:
-                            document.querySelector('#checkout_form')?.address.value,
-                        }
-                        const res = await axios.post(
-                          '/api/create-paypal-transaction',
-                          {
-                            total: 10.0, // or dynamic amount
-                            billingData,
-                          },
-                        )
-                        return res.data.approval_url
+                      createOrder={async (data, actions) => {
+                        console.log(actions, data)
+                        // const billingData = {
+                        //   name: document.querySelector('#checkout_form')?.name
+                        //     .value,
+                        //   email:
+                        //     document.querySelector('#checkout_form')?.email.value,
+                        //   address:
+                        //     document.querySelector('#checkout_form')?.address.value,
+                        // }
+                        // const res = await axios.post(
+                        //   '/api/v1/front/customer/create-payment',
+                        //   {
+                        //     total: 10.0, // or dynamic amount
+                        //     billingData,
+                        //   },
+                        // )
+                        // return res.data.approval_url
+                        return actions.order.create({
+                          purchase_units: [
+                            {
+                              amount: {
+                                value: '100.00', // Set your price here
+                              },
+                            },
+                          ],
+                        });
                       }}
                       onApprove={async (data, actions) => {
                         const billingData = {
@@ -308,9 +318,14 @@ export default function Checkout() {
                           address:
                             document.querySelector('#checkout_form')?.address.value,
                         }
-                        handlePayPalApprove(data, actions, billingData)
+                        // handlePayPalApprove(data, actions, billingData)
+                        return actions.order.capture().then(function (details) {
+                          // Handle successful payment
+                          // alert('Transaction completed by ' + details.payer.name.given_name);
+                          console.log(details)
+                        });
                       }}
-                      onError={err => setError('Error: ' + err.message)}
+                      onError={err => console.log('Error: ' + err.message)}
                     />
                   </PayPalScriptProvider>
                 )}
