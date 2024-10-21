@@ -24,12 +24,45 @@ export default function Checkout() {
 
   const [paidFor, setPaidFor] = useState(false)
   const [error, setError] = useState(null)
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [cartData, setCartData] = useState([])
 
+  const [checkoutForm, setCheckoutForm] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    streetAddress: '',
+    cityName: '',
+    stateName: '',
+    zipCode: ''
+  });
+
+  const handleChange = (e) => {
+    setCheckoutForm({
+      ...checkoutForm,
+      [e.target.name]: e.target.value
+    })
+  }
+  
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm()
+
+  let cartItems = [];
+  useEffect(() => {
+    cartItems = localStorage.getItem('cartItems')
+    ? JSON.parse(localStorage.getItem('cartItems'))
+    : []
+    setCartData(cartItems)
+    setTotalPrice(cartItems.reduce(
+      (total, item) =>
+        total + Number(item?.price) * item?.cartQuantity,
+      0,
+    ))
+  },[])
+
 
   const handleMethodChange = methodName => {
     if (methodName == 'PAYPAL') {
@@ -62,35 +95,48 @@ export default function Checkout() {
     },
   ]
 
-  const cartItems = localStorage.getItem('cartItems')
-    ? JSON.parse(localStorage.getItem('cartItems'))
-    : []
 
-  const onSubmit = async data => {
-    console.log(data, paymentMethod, cartItems)
+
+    // useEffect(() => {
+    //   console.log(cartItems)
+    // },[cartItems])
+    
+
+  const onSubmit = async (e, details = null) => {
+    if(e != 'paypal'){
+      e.preventDefault();
+    }
+    console.log(checkoutForm, paymentMethod, cartData)
+    for(let datas in checkoutForm){
+      if(checkoutForm[datas] == ''){
+        toast.error(datas + ' is Required.')
+      }
+    }
     const formData = new FormData()
-    for (let p = 0; p < cartItems.length; p++) {
-      formData.append('products[]', JSON.stringify(cartItems[p]))
+    for (let p = 0; p < cartData.length; p++) {
+      formData.append('products[]', JSON.stringify(cartData[p]))
     }
     formData.append('customer_id', customer.currentCustomer.id)
     formData.append('payment_method', paymentMethod)
-    formData.append('name', data.name)
-    formData.append('email', data.email)
-    formData.append('phone_number', data.phone_number)
-    formData.append('delivery_address', data.delivery_address)
-    formData.append('state', data.state)
-    formData.append('city', data.city)
-    formData.append('zip_code', data.zip_code)
+    formData.append('name', checkoutForm.name)
+    formData.append('email', checkoutForm.email)
+    formData.append('phone_number', checkoutForm.phoneNumber)
+    formData.append('delivery_address', checkoutForm.streetAddress)
+    formData.append('state', checkoutForm.stateName)
+    formData.append('city', checkoutForm.cityName)
+    formData.append('zip_code', checkoutForm.zipCode)
+
+    if(details != null){
+      console.log(details, 'this is something details')
+      if(details?.status == 'COMPLETED'){
+        formData.append('payment_status',1)
+      }
+    }
+    
 
     formData.append(
       'amount',
-      cartItems
-        .reduce((total, item) => total + item.price * item.cartQuantity, 0)
-        .toFixed(2),
-    )
-    formData.append(
-      'amount',
-      cartItems
+      cartData
         .reduce((total, item) => total + item.price * item.cartQuantity, 0)
         .toFixed(2),
     )
@@ -109,7 +155,7 @@ export default function Checkout() {
       Swal.fire('Error', response.data.message, 'error')
     }
   }
-
+// console.log(totalPrice)
   //  paypal
   // Handle PayPal payment approval
   const handlePayPalApprove = async (data, actions, billingData) => {
@@ -141,7 +187,7 @@ export default function Checkout() {
         action=""
         id='checkout_form'
         className="checkout_wrapper"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={onSubmit}
       >
         <div className="checkout_left">
           <div className="cart_order_title">
@@ -154,14 +200,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your First Name"
-                name="name"
-                {...register('name', { required: true })}
-              />
-              {errors.name?.type === 'required' && (
-                <p className="text-error-200 font-mono text-sm" role="alert">
-                  Name is required
-                </p>
-              )}
+                name="name" onChange={handleChange} value={checkoutForm.name} />
             </div>
 
             <div className="address_item">
@@ -169,14 +208,13 @@ export default function Checkout() {
               <input
                 type="email"
                 placeholder="Enter Your Email"
-                name="email"
-                {...register('email', { required: true })}
+                name="email" required onChange={handleChange} value={checkoutForm.email}
               />
-              {errors.email?.type === 'required' && (
+              {/* {errors.email?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
                   Email is required
                 </p>
-              )}
+              )} */}
             </div>
 
             <div className="address_item">
@@ -184,13 +222,13 @@ export default function Checkout() {
               <input
                 type="tel"
                 placeholder="Enter Phone Number"
-                {...register('phone_number', { required: true })}
+                name='phoneNumber' required onChange={handleChange} value={checkoutForm.phoneNumber}
               />
-              {errors.phone_number?.type === 'required' && (
+              {/* {errors.phone_number?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
                   Phone Number is required
                 </p>
-              )}
+              )} */}
             </div>
 
             <div className="address_item">
@@ -198,14 +236,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Type Your Address"
-                name="address"
-                {...register('delivery_address', { required: true })}
+                name="streetAddress" required onChange={handleChange} value={checkoutForm.streetAddress}
               />
-              {errors.delivery_address?.type === 'required' && (
+              {/* {errors.delivery_address?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
                   Delivery Address is required
                 </p>
-              )}
+              )} */}
             </div>
 
             <div className="address_item">
@@ -213,14 +250,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your City Name"
-                name="city_name"
-                {...register('city', { required: true })}
+                name="cityName" required onChange={handleChange} value={checkoutForm.cityName}
               />
-              {errors.city?.type === 'required' && (
+              {/* {errors.city?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
                   City name is required
                 </p>
-              )}
+              )} */}
             </div>
 
             <div className="address_item">
@@ -228,14 +264,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your State Name"
-                name="state_name"
-                {...register('state', { required: true })}
+                name="stateName" required onChange={handleChange} value={checkoutForm.stateName}
               />
-              {errors.state?.type === 'required' && (
+              {/* {errors.state?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
                   State is required
                 </p>
-              )}
+              )} */}
             </div>
 
             <div className="address_item w-[100vw]">
@@ -243,13 +278,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="City Name"
-                {...register('zip_code', { required: true })}
+                name='zipCode' required onChange={handleChange} value={checkoutForm.zipCode}
               />
-              {errors.zip_code?.type === 'required' && (
+              {/* {errors.zip_code?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
                   Zipe code is required
                 </p>
-              )}
+              )} */}
             </div>
           </div>
 
@@ -279,7 +314,7 @@ export default function Checkout() {
                   <PayPalScriptProvider
                     options={{
                       'client-id':
-                        'ARZJB21jEOWpX7coi47UNfV2K9z3VNo51laHa2QBBfYl1G7-BkiSTMsVXy9Lh72mZkANaVeFKFdyNeD6',
+                        'AVfoR-tZPEgTMoNi874J0c6knk0jdNMeDQFwaZC53Qv-2tToJ6czUwqTJI6KlR-Y_iY3BiHRivdfb1O0',
                     }}
                   >
                     <PayPalButtons
@@ -305,24 +340,27 @@ export default function Checkout() {
                           purchase_units: [
                             {
                               amount: {
-                                value: '100.00', // Set your price here
+                                value: totalPrice, // Set your price here
                               },
                             },
                           ],
                         });
                       }}
                       onApprove={async (data, actions) => {
-                        const billingData = {
-                          name: document.querySelector('#checkout_form')?.name.value,
-                          email: document.querySelector('#checkout_form')?.email.value,
-                          address:
-                            document.querySelector('#checkout_form')?.address.value,
-                        }
+                        // const billingData = {
+                        //   name: document.querySelector('#checkout_form')?.name.value,
+                        //   email: document.querySelector('#checkout_form')?.email.value,
+                        //   address:
+                        //     document.querySelector('#checkout_form')?.address.value,
+                        // }
+                        console.log('this is data: ', data, 'This is action: ', actions, 'this is on approve after')
                         // handlePayPalApprove(data, actions, billingData)
                         return actions.order.capture().then(function (details) {
                           // Handle successful payment
                           // alert('Transaction completed by ' + details.payer.name.given_name);
-                          console.log(details)
+                          console.log(details, 'this is capture')
+                          onSubmit('paypal', details);
+                          
                         });
                       }}
                       onError={err => console.log('Error: ' + err.message)}
@@ -336,7 +374,7 @@ export default function Checkout() {
 
               {/* submit button */}
               <div className="submit_button mt-5 lg:mt-8">
-                <button type="submit" className="main_btn">
+                <button type="submit" disabled={paymentMethod == 'PAYPAL' ? true : false} className="main_btn">
                   Confirm Order
                 </button>
               </div>
@@ -354,7 +392,7 @@ export default function Checkout() {
               <div className="flex justify-between">
                 <div>Total Items</div>
                 <div className="text-base font-semibold">
-                  {cartItems.length} pcs
+                  {cartData.length} pcs
                 </div>
               </div>
 
@@ -372,11 +410,7 @@ export default function Checkout() {
                   </div>
                   {/* Calculate the subtotal dynamically */}
                   <div>
-                    {cartItems.reduce(
-                      (total, item) =>
-                        total + Number(item?.price) * item?.cartQuantity,
-                      0,
-                    )}
+                    {totalPrice}
                   </div>
                 </div>
               </div>
