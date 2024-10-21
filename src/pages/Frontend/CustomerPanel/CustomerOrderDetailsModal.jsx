@@ -14,7 +14,7 @@ export default function CustomerOrderDetailsModal({
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
 
   const { data, isLoading } = useGetCustomerOrderDetailsQuery(selectedId)
-  // console.log(data)
+  console.log(data)
 
   if (isLoading) {
     return <FaSpinner className="animate-spin" />
@@ -69,6 +69,21 @@ export default function CustomerOrderDetailsModal({
                         >
                           PRODUCT
                         </th>
+                        <th
+                          className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
+                        >
+                          Amount
+                        </th>
+                        <th
+                          className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
+                        >
+                          Payment Method
+                        </th>
+                        <th
+                          className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
+                        >
+                          Payment status
+                        </th>
 
                         <th
                           className={`border-l pl-2 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-lightColor' : 'text-gray-500'}`}
@@ -98,7 +113,7 @@ export default function CustomerOrderDetailsModal({
                       {data?.orderItems?.map((product, index) => (
                         <tr key={product.id}>
                           <td className="text-center">{++index}</td>
-                          <td className="border-l pl-2 py-4 whitespace-nowrap flex gap-2">
+                          <td className="border-l pl-2 py-4 whitespace-nowrap flex items-center gap-2">
                             <div
                               className={`w-[50px] h-[50px]  ${isDarkMode ? 'bg-[#131A26]' : 'bg-[#f2f2f3]'}`}
                             >
@@ -117,6 +132,27 @@ export default function CustomerOrderDetailsModal({
                             </span>
                           </td>
 
+                          <td className="border-l pl-2 py-4 whitespace-nowrap">
+                            <span
+                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full `}
+                            >
+                              {product?.size?.name}
+                            </span>
+                          </td>
+                          <td className="border-l pl-2 py-4 whitespace-nowrap">
+                            <span
+                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full `}
+                            >
+                              {product?.size?.name}
+                            </span>
+                          </td>
+                          <td className="border-l pl-2 py-4 whitespace-nowrap">
+                            <span
+                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full `}
+                            >
+                              {product?.size?.name}
+                            </span>
+                          </td>
                           <td className="border-l pl-2 py-4 whitespace-nowrap">
                             <span
                               className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full `}

@@ -21,10 +21,10 @@ export default function CustomerOrder() {
   )
   const [cancelOrder] = useCancelOrderMutation()
   const ordersData = data?.orders?.data ?? []
+  console.log(ordersData)
+
   // Calculate total pages
   const totalItems = ordersData.length
-
-
 
   // order cancel
   const handelCancelOrder = async id => {
@@ -118,7 +118,19 @@ export default function CustomerOrder() {
                           scope="col"
                           className="px-6 py-3 text-start text-xs md:text-sm text-gray-500 uppercase dark:text-neutral-400"
                         >
-                          Status
+                          Order Status
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-start text-xs md:text-sm text-gray-500 uppercase dark:text-neutral-400"
+                        >
+                          Payment Method
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-start text-xs md:text-sm text-gray-500 uppercase dark:text-neutral-400"
+                        >
+                          Payment Status
                         </th>
                         <th
                           scope="col"
@@ -139,7 +151,7 @@ export default function CustomerOrder() {
                             {order?.amount}$
                           </td>
                           <td
-                            className={`py-2 px-4 border-b text-sm font-medium capitalize ${
+                            className={`py-2 px-4 text-sm font-medium capitalize ${
                               order?.status === 'Complete'
                                 ? ' text-green-700'
                                 : order?.status === 'pending'
@@ -154,6 +166,12 @@ export default function CustomerOrder() {
                             }`}
                           >
                             {order?.status}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
+                            {order?.payment_method}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
+                            {order?.payment_status == 1 ? "Payment Paid" : "Payment Unpaid"}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                             <div className="flex items-center space-x-2">
