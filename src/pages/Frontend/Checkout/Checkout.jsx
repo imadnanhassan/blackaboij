@@ -142,7 +142,7 @@ export default function Checkout() {
     )
 
     const response = await addToCart(formData)
-
+    console.log(response)
     if (response?.data.status == 200) {
       dispatch(removeAllProduct())
       Swal.fire('Success', response.data.message, 'success')
