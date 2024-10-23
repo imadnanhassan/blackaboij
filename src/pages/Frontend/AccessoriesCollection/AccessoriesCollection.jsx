@@ -1,39 +1,33 @@
 import React from 'react'
 import { MdEuroSymbol } from 'react-icons/md'
 import { Link } from 'react-router-dom'
-import { Zoom } from 'react-awesome-reveal'
+import { Fade, Zoom } from 'react-awesome-reveal'
 import { FaRegHeart } from 'react-icons/fa'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 import { BuyNowButton } from '../../../common/Button/Button'
 import { useGetAccessoriesQuery } from '../../../redux/features/api/accessoriesCollection/accessoriesCollection'
 import FrontLoader from '../../../common/FrontLoader/FrontLoader'
+import useScrollToTop from '../../../hooks/useScrollToTop'
 
 export default function AccessoriesCollection() {
+
+   // scroll page to top
+   useScrollToTop();
+   
   const { data, isLoading } = useGetAccessoriesQuery()
   const accessoriesData = data?.products?.data
 
   if (isLoading) {
     return <FrontLoader />
   }
+
   return (
     <div>
       <div
-        className="relative md:h-[450px] h-[250px] flex items-center justify-center"
-        style={{
-          backgroundImage:
-            "url('https://i.ibb.co/CnLjN4P/img-ph-collection-hero-1512x.webp')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: '#00000',
-          position: 'relative',
-        }}
-      >
-        <Zoom>
-          <h2 className="xl:text-[80px] text-2xl md:text-4xl lg:text-4xl xl:text-5xl font-semibold  text-white font-custom whitespace-nowrap">
-            ACCESSORIES COLLECTIONS
-          </h2>
-        </Zoom>
+        className="relative md:h-[23vh] h-[20vh] flex bg-black  items-center justify-center">
+        <Fade direction="up">
+          <p className='text-white font-custom whitespace-nowrap text-sm md:text-xl italic '>Accessories Collections</p>
+        </Fade>
       </div>
       <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px] mt-5 lg:mt-10  md:pb-[50px] pb-5">
         {accessoriesData?.map((product, index) => (

@@ -13,8 +13,13 @@ import { useGetSearchProductQuery } from '../../../redux/features/api/searchProd
 import { baseUrl } from '../../../hooks/useThumbnailImage';
 import { useGetMenuCategoryQuery } from '../../../redux/features/api/category/categoryApi';
 import { useGetsearchCategoryApiQuery } from '../../../redux/features/api/subCategorySearchProducts/subCategorySearchProducts';
+import useScrollToTop from '../../../hooks/useScrollToTop';
 
 export default function SearchPage() {
+
+   // scroll page to top
+   useScrollToTop();
+   
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [subCategoryProducts, setSubCategoryProducts] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,6 +78,7 @@ export default function SearchPage() {
   if (isLoading) {
     return <p>Loading</p>;
   }
+
 
   console.log(products, 'this is search product list')
 
