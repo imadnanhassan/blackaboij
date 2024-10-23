@@ -141,7 +141,7 @@ const FrontendHeader = ({ categoryList }) => {
                   <div>
                     <ul
                       className={`absolute pl-6 pr-[250px] py-5 text-[12px] top-[46px] whitespace-nowrap ${
-                        isHovered(category.id) ? 'block bg-black' : 'hidden'
+                        isHovered(category.id) ? 'block   bg-darkblack-700' : 'hidden'
                       }`}
                     >
                       {category.slug === 'men' && (

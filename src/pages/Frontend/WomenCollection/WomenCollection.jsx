@@ -7,33 +7,25 @@ import { BuyNowButton } from '../../../common/Button/Button'
 import { useGetWomenCollectionQuery } from '../../../redux/features/api/womenNewCollection/womenNewCollection'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 import FrontLoader from '../../../common/FrontLoader/FrontLoader'
+import useScrollToTop from '../../../hooks/useScrollToTop'
 
 export default function WomenCollection() {
+  // scroll page to top
+  useScrollToTop();
   const { data, isLoading } = useGetWomenCollectionQuery()
   console.log(data?.data)
 
   if (isLoading) {
     return <FrontLoader />
   }
+
+
   return (
     <div>
       <div
-        className="relative md:h-[23vh] h-[20vh] flex bg-black  items-center justify-center"
-        // style={{
-        //   backgroundImage:
-        //     "url('https://i.ibb.co/CnLjN4P/img-ph-collection-hero-1512x.webp')",
-        //   backgroundSize: 'cover',
-        //   backgroundPosition: 'cover',
-        //   backgroundRepeat: 'no-repeat',
-        //   backgroundColor: '#00000',
-        //   position: 'relative',
-
-        // }}
-      >
+        className="relative md:h-[23vh] h-[20vh] flex bg-black  items-center justify-center">
         <Fade direction="up">
-          <h2 className="md:text-sm italic   text-white font-custom whitespace-nowrap">
-            Women / Women new Collections
-          </h2>
+          <p className='text-white font-custom whitespace-nowrap text-sm md:text-xl italic '>Women New Collections</p>
         </Fade>
       </div>
       <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px] mt-5 lg:mt-10 md:pb-[50px] pb-5 ">
