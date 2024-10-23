@@ -1,4 +1,8 @@
+import useScrollToTop from "../../../hooks/useScrollToTop";
+
 const Store = () => {
+    // scroll page to top
+   useScrollToTop();
     return (
         <section className="bg-black text-white">
             <div className="relative">
@@ -61,18 +65,6 @@ const Store = () => {
                             className="w-full p-4 bg-transparent border border-gray-500 text-white placeholder-gray-400 focus:outline-none focus:border-white"
                             required
                         ></textarea>
-                        <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                id="agree"
-                                name="agree"
-                                className="w-4 h-4 text-black bg-white border-gray-500 focus:ring-0"
-                                required
-                            />
-                            <label htmlFor="agree" className="ml-2 text-sm">
-                                I agree to the <a href="#" className="underline hover:text-gray-300">terms and conditions</a>
-                            </label>
-                        </div>
                         <button
                             type="submit"
                             className="w-full py-4 bg-white text-black font-semibold uppercase transition-colors duration-300 hover:bg-gray-200"
