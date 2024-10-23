@@ -44,7 +44,6 @@ export default function FrontendSignIn() {
     if (response?.data.status === 200) {
       toast.success(response.data.message)
       localStorage.setItem('customerToken', response.data.token)
-      console.log(response?.data)
       setCustomer(response?.data)
       navigate('/user/dashboard', {
         replace: true,
@@ -161,11 +160,11 @@ export default function FrontendSignIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link to="/forgetPassword" className="text-sky-500 underline">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Link to="/signUp" className="text-sky-500 underline">
                   You don't have a account? Sign Up
