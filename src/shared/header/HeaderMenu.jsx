@@ -1,6 +1,4 @@
 import { FaBarsStaggered } from 'react-icons/fa6'
-
-import userLogo from '../../assets/img/user/user-1.jpg'
 import { useContext, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RiFullscreenLine } from 'react-icons/ri'
@@ -8,9 +6,9 @@ import { Link, Navigate } from 'react-router-dom'
 import { TbWorld } from 'react-icons/tb'
 import Tooltip from '../../common/Tooltip/Tooltip'
 import { AdminContext } from '../../Providers/AuthProvider'
+import { IoMdLogOut } from 'react-icons/io'
 
 export default function HeaderMenu({ toggleSidebar }) {
-  const [isOpenUser, setIsOpenUser] = useState(false)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isFullscreen, setIsFullscreen] = useState(false)
 
@@ -23,11 +21,6 @@ export default function HeaderMenu({ toggleSidebar }) {
     localStorage.removeItem('adminToken')
     setAdmin(false)
     Navigate('dashboard/signin', { replace: true })
-  }
-
-  // User Open Function
-  const toggleMenu = () => {
-    setIsOpenUser(!isOpenUser)
   }
 
   // FullScreen
@@ -73,47 +66,14 @@ export default function HeaderMenu({ toggleSidebar }) {
           </button>
 
           <div className="relative inline-block">
-            <span onClick={toggleMenu}>
-              <img
-                src={userLogo}
-                alt=""
-                className="w-10 h-10 bg-cover rounded-full cursor-pointer"
-              />
-            </span>
-            {isOpenUser && (
-              <div className="absolute right-0 mt-6 w-72 bg-white rounded-lg shadow-lg z-30">
-                <div className="flex gap-2 bg-primaryColor py-2 px-2 rounded-t">
-                  <div>
-                    <img
-                      src={userLogo}
-                      alt=""
-                      className="w-11 h-11 bg-cover rounded-full cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <p className=" text-sm text-sideBarTextColor">
-                      {admin?.first_name}  {admin?.last_name}
-                    </p>
-                    <p className="text-sm text-white/50">{admin?.email}</p>
-                  </div>
-                </div>
-
-                <div className="py-1">
-                  <button className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left">
-                    Profile
-                  </button>
-                  <button className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left">
-                    <Link to={'dashboard/settings'}>Settings</Link>
-                  </button>
-                  <button
-                    onClick={handleLogout}
-                    className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left"
-                  >
-                    Log out
-                  </button>
-                </div>
-              </div>
-            )}
+            <Tooltip text="Logout">
+              <button
+                onClick={handleLogout}
+                className="bg-Vindigo-100 cursor-pointer hover:bg-Vindigo-400 hover:text-sideBarTextColor transition-all duration-300 px-2 py-2  rounded"
+              >
+                <IoMdLogOut className="lg:text-[20px] text-[15px]" />
+              </button>
+            </Tooltip>
           </div>
         </div>
       </div>

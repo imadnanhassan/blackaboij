@@ -18,7 +18,12 @@ import {
   addToWishList,
   removeFromWishList,
 } from '../../../redux/features/wishList/wishList'
+import useScrollToTop from '../../../hooks/useScrollToTop'
 export default function SingleProductDetails() {
+
+  // scroll page to top
+  useScrollToTop();
+
   const { slug } = useParams()
   const [colorId, setColorId] = useState(null)
   const [sizeId, setSizeId] = useState(null)
@@ -62,6 +67,8 @@ export default function SingleProductDetails() {
   if (data?.status == 404) {
     return <NotFound />
   }
+
+  
 console.log(data)
   return (
     <section>

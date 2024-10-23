@@ -234,14 +234,7 @@ export default function OrderInformationModal({ isOpen, onClose, selectedId }) {
 
                           <td
                             className={`border-l pl-2 py-4 whitespace-nowrap ${isDarkMode ? 'text-lightColor' : 'text-textColor'}`}
-                            style={{
-                              backgroundColor:
-                                product.color?.backgroundColor ||
-                                product.color?.code,
-                              color:
-                                product.color?.textColor ||
-                                (isDarkMode ? '#ffffff' : '#000000'),
-                            }}
+                            
                           >
                             {product.color?.name}
                           </td>

@@ -8,11 +8,13 @@ const FrontendFooter = () => {
     <footer>
       <div className=" md:pb-[10px] bg-black text-[15px] md:text-[16px] font-custom ">
         <div className="flex justify-center items-center md:py-10 py-5 ">
-          <img
-            src="https://i.ibb.co/3sNL27c/logo.png"
-            className="  w-[85px]  h-[15px] md:h-[20] xl:h-[25px] md:w-[85px] xl:w-[100px] "
-            alt=""
-          />
+          <Link to="/">
+            <img
+              src="https://i.ibb.co/3sNL27c/logo.png"
+              className="  w-[85px]  h-[15px] md:h-[20] xl:h-[25px] md:w-[85px] xl:w-[100px] "
+              alt=""
+            />
+          </Link>
         </div>
 
         <div className="md:flex md:justify-between   grid grid-cols-1 mx-[20px] md:mx-[50px] ">
@@ -21,13 +23,13 @@ const FrontendFooter = () => {
             <h2 className="py-3 text-white">COLLECTIONS</h2>
             <ul className="text-[15px]  space-y-1 text-white">
               <li>
-                <Link to="/">Men</Link>
+                <Link to="/men-collection">Men</Link>
               </li>
               <li>
-                <Link to="/">Women</Link>
+                <Link to="/women-collection">Women</Link>
               </li>
               <li>
-                <Link to="/">Accessories</Link>
+                <Link to="/accessories">Accessories</Link>
               </li>
             </ul>
           </div>
@@ -38,11 +40,11 @@ const FrontendFooter = () => {
               <li>
                 <Link to="/">Home</Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/">About</Link>
-              </li>
+              </li> */}
               <li>
-                <Link to="/">Contact</Link>
+                <Link to="/store">Contact</Link>
               </li>
             </ul>
           </div>

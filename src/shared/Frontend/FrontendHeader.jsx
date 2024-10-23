@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-undef */
 import { HiMiniChevronDown } from 'react-icons/hi2'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { HiBars3BottomRight, HiMiniXMark } from 'react-icons/hi2'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
@@ -10,10 +10,14 @@ import { FaRegUser } from 'react-icons/fa6'
 import { SearchBtn } from '../../common/Button/Button'
 import { CiHeart } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
+import { RxAvatar } from 'react-icons/rx'
+
 import {
   selectCartItems,
   toggleCartDrawer,
 } from '../../redux/features/cart/cartSlice'
+import { CustomerContext } from '../../Providers/CustomerProvider'
+import { baseUrl } from '../../hooks/useThumbnailImage'
 
 const FrontendHeader = ({ categoryList }) => {
   const [isSticky, setIsSticky] = useState(false)
@@ -27,8 +31,7 @@ const FrontendHeader = ({ categoryList }) => {
   const dispatch = useDispatch()
   const cartItems = useSelector(selectCartItems)
   const wishList = useSelector(state => state.wishList.wishList)
-
-  // console.log(wishList)
+  const { loading, customer, setCustomer } = useContext(CustomerContext)
 
   const handleCartClick = () => {
     dispatch(toggleCartDrawer())
@@ -92,11 +95,24 @@ const FrontendHeader = ({ categoryList }) => {
 
               {/* Icons on the right */}
               <div className="col-span-1 flex justify-end gap-x-3 relative">
-                <Link to="/signin">
-                  <span style={{ fontSize: `${iconSize}px` }}>
-                    <FaRegUser className="text-white" />
-                  </span>
-                </Link>
+                {customer ? (
+                  <Link to="/user/dashboard">
+                    <img
+                      height={40}
+                      width={40}
+                      className="rounded-[50%]"
+                      src={`${baseUrl}/profile/${customer?.currentCustomer?.photo}`}
+                      alt=""
+                    />
+                  </Link>
+                ) : (
+                  <Link to="/signin">
+                    <span style={{ fontSize: `${iconSize}px` }}>
+                      <FaRegUser className="text-white" />
+                    </span>
+                  </Link>
+                )}
+
                 <button onClick={handleCartClick}>
                   <span style={{ fontSize: `${iconSize}px` }}>
                     <IoBagOutline className="text-white" />
@@ -141,7 +157,9 @@ const FrontendHeader = ({ categoryList }) => {
                   <div>
                     <ul
                       className={`absolute pl-6 pr-[250px] py-5 text-[12px] top-[46px] whitespace-nowrap ${
-                        isHovered(category.id) ? 'block bg-black' : 'hidden'
+                        isHovered(category.id)
+                          ? 'block   bg-darkblack-700'
+                          : 'hidden'
                       }`}
                     >
                       {category.slug === 'men' && (
