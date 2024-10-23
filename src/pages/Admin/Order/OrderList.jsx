@@ -1,17 +1,11 @@
-import { LiaDownloadSolid } from 'react-icons/lia'
-import { RiDeleteBin7Line } from 'react-icons/ri'
 import { FiEye } from 'react-icons/fi'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { GoHome } from 'react-icons/go'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
-
-// import Pagination from '../../../common/Pagination/Pagination'
 import OrderInformationModal from './OrderInformationModal'
 import OrderTrackingBtn from './OrderTrackingBtn'
 import { useGetAdminOrderListQuery } from '../../../redux/features/api/Customer/order'
-// import React, { useRef } from 'react'
-// import html2pdf from 'html2pdf.js'
 import AdminLoader from '../../../common/AdminLoader/AdminLoader'
 
 export default function OrderList() {
@@ -21,11 +15,9 @@ export default function OrderList() {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const [selectedStatus, setSelectedStatus] = useState('All')
   const { data: orders, isLoading } = useGetAdminOrderListQuery(selectedStatus)
-  // console.log(orders, 'main data')
 
   // pagination code .
   const itemsPerPage = 10
-
   const ordersData = orders?.orders?.data ?? []
 
   // Calculate total pages
@@ -214,7 +206,7 @@ export default function OrderList() {
                         <OrderTrackingBtn id={item?.id} status={item?.status} />
                       </td>
                       <td className="border-l pl-2 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center justify-center space-x-2">
                           <button
                             onClick={() => openModal(item?.id)}
                             className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-white border  hover:bg-black text-black hover:text-white"
@@ -227,15 +219,12 @@ export default function OrderList() {
                             tableData={orders?.orders?.data}
                             selectedId={selectedId}
                           />
-                          <button
-                            className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-white border text-green-700 hover:bg-black hover:text-white "
-                            // onClick={() => adminInvoiceDownload(item?.id)}
-                          >
+                          {/* <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-white border text-green-700 hover:bg-black hover:text-white ">
                             <LiaDownloadSolid className="text-[12px]" />
-                          </button>
-                          <button className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor">
+                          </button> */}
+                          {/* <button className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor">
                             <RiDeleteBin7Line className="text-[12px]" />
-                          </button>
+                          </button> */}
                         </div>
                       </td>
                     </tr>

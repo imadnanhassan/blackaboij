@@ -23,7 +23,7 @@ import { FaSpinner } from 'react-icons/fa'
 const defaultTheme = createTheme()
 
 export default function FrontendSignUp() {
-  const { loading,setCustomer } = useContext(CustomerContext)
+  const { loading, setCustomer } = useContext(CustomerContext)
   const [userRegistration] = useRegisterCustomerMutation()
   const navigate = useNavigate()
 
@@ -34,7 +34,6 @@ export default function FrontendSignUp() {
   } = useForm({})
 
   const onSubmit = async data => {
-    console.log(data)
     const formData = new FormData()
     formData.append('name', data.fullName)
     formData.append('email', data.email)
@@ -42,7 +41,7 @@ export default function FrontendSignUp() {
     const response = await userRegistration(formData)
     if (response?.data.status === 200) {
       localStorage.setItem('customerToken', response.data.token)
-      setCustomer(response?.data)
+      setCustomer(response?.data.currentCustomer)
       navigate('/user/dashboard', {
         replace: true,
       })

@@ -1,15 +1,10 @@
-/* eslint-disable no-unused-vars */
-
-// import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
 import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
-// import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
@@ -27,7 +22,6 @@ const defaultTheme = createTheme()
 export default function FrontendSignIn() {
   const { loading, customer, setCustomer } = useContext(CustomerContext)
   const [userLogin] = useUserLoginMutation()
-
   const { handleSubmit, register } = useForm()
   const navigate = useNavigate()
 
@@ -41,18 +35,17 @@ export default function FrontendSignIn() {
     return <FaSpinner className="animate-spin" />
   }
   const handleLogin = async data => {
-    console.log(data)
     const formData = new FormData()
     formData.append('email', data.email)
     formData.append('password', data.password)
     formData.append('remember_me', data.remember_me)
 
     const response = await userLogin(formData)
-    console.log(response)
     if (response?.data.status === 200) {
       toast.success(response.data.message)
       localStorage.setItem('customerToken', response.data.token)
-      setCustomer(response.data.customer)
+      console.log(response?.data)
+      setCustomer(response?.data)
       navigate('/user/dashboard', {
         replace: true,
       })
@@ -175,7 +168,7 @@ export default function FrontendSignIn() {
               </Grid>
               <Grid item>
                 <Link to="/signUp" className="text-sky-500 underline">
-                  Already an account? Sign in
+                  You don't have a account? Sign Up
                 </Link>
               </Grid>
             </Grid>
