@@ -19,8 +19,8 @@ const order = baseApi.injectEndpoints({
       }),
     }),
     getAdminOrderList: builder.query({
-      query: status => ({
-        url: `/api/v1/admin/order/order-lists?filter=${status}`,
+      query: (data) => ({
+        url: `/api/v1/admin/order/order-lists?filter=${data.status}&page=${data.pages}&perpage-${data.perPage}`,
         headers: {
           Authorization: `Bearer ${getToken('adminToken')}`,
         },
