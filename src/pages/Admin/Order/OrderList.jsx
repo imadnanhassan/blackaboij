@@ -14,7 +14,13 @@ export default function OrderList() {
   const [currentPage, setCurrentPage] = useState(1)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const [selectedStatus, setSelectedStatus] = useState('All')
-  const { data: orders, isLoading } = useGetAdminOrderListQuery(selectedStatus)
+  const [pages, setPages] = useState(1)
+  const [perPage, setPerPage] = useState(1)
+  const { data: orders, isLoading } = useGetAdminOrderListQuery({
+    status: selectedStatus,
+    pages: pages,
+    perPage: perPage
+  })
 
   // pagination code .
   const itemsPerPage = 10
@@ -25,9 +31,17 @@ export default function OrderList() {
   const totalPages = Math.ceil(totalItems / itemsPerPage)
 
   // Function to handle page change
-  const handlePageChange = page => {
-    if (page > 0 && page <= totalPages) {
-      setCurrentPage(page)
+  const handlePageChange = (page = 1) => {
+    if (page == 'previous') {
+      if (orders?.orders.current_page != 1) {
+        setPages(orders?.orders.current_page - 1)
+      }
+    } else if (page == 'next') {
+      if (orders?.orders.last_page != orders?.orders.current_page) {
+        setPages(orders?.orders.current_page + 1)
+      }
+    } else {
+      setPages(page)
     }
   }
 
@@ -231,12 +245,50 @@ export default function OrderList() {
                   ))}
                 </tbody>
               </table>
+              <div className="flex gap-3 mt-4 justify-end">
+              {orders?.orders?.links?.map((el, index) => {
+                if (index == 0) {
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handlePageChange('previous')}
+                      className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}
+                    >
+                      {el.label.split(' ')[1]}
+                    </button>
+                  )
+                } else if (orders?.orders?.links?.length - 1 == index) {
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handlePageChange('next')}
+                      className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-darkblack-300 cursor-not-allowed' : 'bg-black cursor-pointer'}`}
+                    >
+                      Next
+                    </button>
+                  )
+                }
+                return (
+                  <button
+                    key={index}
+                    onClick={() => handlePageChange(Number(el.label))}
+                    className={`px-3 py-2 rounded text-white  cursor-pointer ${el.active ? 'bg-blue-900' : 'bg-green-600'}`}
+                  >
+                    {el.label.split(' ')[0]}
+                  </button>
+                )
+              })}
+              {/* <Link className="px-3 py-2 rounded text-white bg-red-600 cursor-pointer">Previous</Link>
+              <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">1</Link>
+              <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">2</Link>
+              <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">Previous</Link> */}
+            </div>
             </div>
           </div>
 
           {/* <Pagination /> */}
 
-          {totalItems == 10 ? (
+          {/* {totalItems == 10 ? (
             <>
               {' '}
               <div className="flex gap-3 mt-4 justify-end">
@@ -269,7 +321,7 @@ export default function OrderList() {
             </>
           ) : (
             <></>
-          )}
+          )} */}
         </div>
       </section>
     </>
