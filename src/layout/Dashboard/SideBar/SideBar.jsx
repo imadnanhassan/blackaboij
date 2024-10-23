@@ -272,7 +272,7 @@ export default function SideBar({ isSideBarOpen }) {
                   </ul>
                 </details>
               </li>
-              <li id="sidebar">
+              {/* <li id="sidebar">
                 <NavLink
                   to="dashboard/settings"
                   className={({ isActive }) =>
@@ -286,7 +286,7 @@ export default function SideBar({ isSideBarOpen }) {
                   </span>
                   <span className="text-sm font-medium">Settings</span>
                 </NavLink>
-              </li>
+              </li> */}
 
               <li className="px-8 py-2 text-white hover:bg-gray-100  hover:text-gray-700">
                 <Link

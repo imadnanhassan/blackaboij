@@ -12,7 +12,7 @@ export default function CustomerDashboard() {
   const { customer } = useContext(CustomerContext)
   console.log(customer)
   const { data, isLoading } = useGetCustomerOrderListQuery(
-    customer?.currentCustomer.id,
+    customer?.currentCustomer?.id,
   )
 
 
