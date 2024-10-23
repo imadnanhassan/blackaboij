@@ -42,20 +42,6 @@ export default function CategoriesV2() {
       >
         <div className="flex items-center justify-between gap-6 py-3 ">
           <h2 className="lg:text-2xl text-lg font-bold mb-4">Category List</h2>
-          <div className=" flex items-center gap-5">
-            <div
-              className={` rounded-md flex items-center justify-between border border-[#4800C9] ${isDarkMode ? 'text-darkColorText ' : 'bg-[#ffffff]'}`}
-            >
-              <input
-                type="search"
-                className={`py-2 pl-3  bg-transparent w-full focus:outline-none  ${isDarkMode ? 'placeholder:text-slate-400' : 'placeholder:text-textColor'}`}
-                placeholder="Type Name & Enter"
-              />
-              <button className="btn mt-0 rounded-[0px] rounded-r-md px-3">
-                <i className="fa-solid fa-magnifying-glass" />
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* category table*/}
