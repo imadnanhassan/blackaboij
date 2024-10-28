@@ -19,10 +19,11 @@ import {
   removeFromWishList,
 } from '../../../redux/features/wishList/wishList'
 import useScrollToTop from '../../../hooks/useScrollToTop'
+import { Helmet } from 'react-helmet-async'
+import { mainUrl } from '../../../hooks/useMainUrl'
 export default function SingleProductDetails() {
-
   // scroll page to top
-  useScrollToTop();
+  useScrollToTop()
 
   const { slug } = useParams()
   const [colorId, setColorId] = useState(null)
@@ -68,10 +69,36 @@ export default function SingleProductDetails() {
     return <NotFound />
   }
 
-  
-console.log(data)
+  console.log(data)
   return (
     <section>
+      <Helmet>
+        <title>{data?.product?.meta_title}</title>
+        <link rel="canonical" href={mainUrl} />
+
+        <meta name="description" content={data?.product?.meta_description} />
+        {/* facebook / whatsapp  */}
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content={mainUrl} />
+        <meta property="og:title" content={data?.product?.meta_title} />
+        <meta
+          property="og:description"
+          content={data?.product?.meta_description}
+        />
+        <meta property="og:url" content={mainUrl} />
+        <meta property="og:site_name" content={data?.product?.meta_title} />
+        <meta property="og:image" content="https://i.ibb.co/3sNL27c/logo.png" />
+        <meta property="og:image:alt" content="Your website Name" />
+        <meta property="og:site_name" content="Your website logo " />
+        {/* twitter  */}
+        <meta name="twitter:title" content={data?.product?.meta_title} />
+        <meta
+          name="twitter: description"
+          content={data?.product?.meta_description}
+        />
+
+        <meta name="theme-color" content="#000" />
+      </Helmet>
       <div className="">
         <Toaster />
         <div className="grid md:grid-cols-2 md:mx-[50px] md:gap-[50px] md:mt-[50px] relative z-10 ">

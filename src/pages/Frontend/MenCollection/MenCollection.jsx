@@ -1,6 +1,6 @@
 import { MdEuroSymbol } from 'react-icons/md'
 import { Link } from 'react-router-dom'
-import { Fade, Zoom } from 'react-awesome-reveal'
+import { Fade } from 'react-awesome-reveal'
 import { BuyNowButton } from '../../../common/Button/Button'
 import { FaRegHeart } from 'react-icons/fa'
 import { useGetMenCollectionQuery } from '../../../redux/features/api/menNewCollection/menNewCollection'
@@ -9,6 +9,8 @@ import FrontLoader from '../../../common/FrontLoader/FrontLoader'
 import { useDispatch } from 'react-redux'
 import { addToWishList } from '../../../redux/features/wishList/wishList'
 import useScrollToTop from '../../../hooks/useScrollToTop'
+import { mainUrl } from '../../../hooks/useMainUrl'
+import { Helmet } from 'react-helmet-async'
 
 const MenCollection = () => {
 
@@ -27,10 +29,61 @@ const MenCollection = () => {
   }
   return (
     <div>
-      <div
-        className="relative md:h-[23vh] h-[20vh] flex bg-black  items-center justify-center">
+      <Helmet>
+        <title>Blackaboij – Men Collection</title>
+        <link rel="canonical" href={mainUrl} />
+
+        <meta
+          name="description"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="English" />
+        <meta name="author" content="Blackaboij" />
+        {/* facebook / whatsapp  */}
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content={mainUrl} />
+        <meta
+          property="og:title"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta
+          property="og:description"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta property="og:url" content={mainUrl} />
+        <meta
+          property="og:site_name"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta property="og:image" content="https://i.ibb.co/3sNL27c/logo.png" />
+        <meta
+          property="og:image:alt"
+          content="https://i.ibb.co/3sNL27c/logo.png"
+        />
+        <meta
+          property="og:site_name"
+          content="https://i.ibb.co/3sNL27c/logo.png"
+        />
+        {/* twitter  */}
+        <meta
+          name="twitter:title"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta
+          name="twitter: description"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+
+        <meta name="theme-color" content="#000" />
+      </Helmet>
+
+      <div className="relative md:h-[23vh] h-[20vh] flex bg-black  items-center justify-center">
         <Fade direction="up">
-        <p className='text-white font-custom whitespace-nowrap text-sm md:text-xl italic '>Men new Collections</p>
+          <p className="text-white font-custom whitespace-nowrap text-sm md:text-xl italic ">
+            Men new Collections
+          </p>
         </Fade>
       </div>
       <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px] mt-5 lg:mt-10 md:pb-[50px] pb-5  ">
