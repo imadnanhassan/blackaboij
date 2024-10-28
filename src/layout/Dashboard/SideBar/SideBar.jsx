@@ -5,7 +5,6 @@ import { CiShoppingBasket } from 'react-icons/ci'
 import { FaClipboardList } from 'react-icons/fa6'
 import { FaCircleNotch } from 'react-icons/fa'
 import { IoLogOutOutline } from 'react-icons/io5'
-import { AiFillSetting } from 'react-icons/ai'
 import { useContext } from 'react'
 import { AdminContext } from '../../../Providers/AuthProvider'
 
