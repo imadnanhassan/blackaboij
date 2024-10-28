@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import './CustomerProfile.css'
-import images from '../../../assets/img/images'
+
 import CustomerHead from './CustomerHead'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
@@ -10,19 +10,18 @@ import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 
 export default function CustomerProfile() {
-
   const [imagePreview, setImagePreview] = useState(null)
   const { loading, customer } = useContext(CustomerContext)
-  const [updateProfile] = useUpdateProfileMutation()
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation()
   const { handleSubmit, register } = useForm()
   if (loading) {
     return <>Loading...</>
   }
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     console.log(data, imagePreview)
     if (data.password == data.confirm_password) {
-      const formData = new FormData();
+      const formData = new FormData()
       formData.append('id', customer?.currentCustomer.id)
       formData.append('name', data.name)
       formData.append('email', data.email)
@@ -33,13 +32,13 @@ export default function CustomerProfile() {
       console.log(response)
       if (response?.data.status == 200) {
         Swal.fire('Success', response.data.message, 'success')
-        window.location.reload();
+        window.location.reload()
       } else if (response?.data.status == 401) {
         response.data.errors.forEach(el => toast.error(el))
       } else {
         Swal.fire('Error', response.data.message, 'error')
       }
-    }else{
+    } else {
       toast.error('Password and Confirm Password not matched.')
     }
   }
@@ -55,7 +54,11 @@ export default function CustomerProfile() {
       <CustomerHead title="Profile" />
 
       <div className="profile_form">
-        <form action="" className="profile_form_wrapper" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          action=""
+          className="profile_form_wrapper"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="profile_form_inner">
             <label htmlFor="" className="">
               Full Name
@@ -122,7 +125,11 @@ export default function CustomerProfile() {
             <div className="profile_image_edit">
               <div className="profile_image_uploadview">
                 {imagePreview ? (
-                  <img id="user_profile" src={URL.createObjectURL(imagePreview)} alt="Preview" />
+                  <img
+                    id="user_profile"
+                    src={URL.createObjectURL(imagePreview)}
+                    alt="Preview"
+                  />
                 ) : (
                   <img
                     id="user_profile"
@@ -148,7 +155,15 @@ export default function CustomerProfile() {
 
           <div className="profile_form_inner">
             <div className="profile_update_submit">
-              <button className="main_btn">Update</button>
+              <button
+                disabled={isLoading}
+                className="relative cursor-pointer inline-flex items-center justify-center md:px-10  md:py-3 px-6 py-2 hover:text-black overflow-hidden font-custom font-medium tracking-tighter text-white bg-black  group"
+              >
+                <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-gray-300 group-hover:w-full group-hover:h-56"></span>
+                <span className="relative whitespace-nowrap md:text-[16px]  text-[12px] ">
+                  {isLoading ? 'Updating...' : 'Update Profile'}
+                </span>
+              </button>
             </div>
           </div>
         </form>

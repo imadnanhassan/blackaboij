@@ -2,9 +2,7 @@ import { useSelector } from 'react-redux'
 import { MdOutlineShoppingBag } from 'react-icons/md'
 import { AiFillDollarCircle } from 'react-icons/ai'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
-// import ColumnChart from '../../../components/ColumnChart/ColumnChart'
 import TotalOrder from './TotalOrder'
-// import AreaCharts from '../../../components/ColumnChart/AreaCharts'
 import { useGetDashboardQuery } from '../../../redux/features/api/dashboard/dashboardAnalysis'
 import AdminLoader from '../../../common/AdminLoader/AdminLoader'
 const pageTitle = 'Dashboard'
@@ -33,8 +31,6 @@ const Dashboard = () => {
 
   // Calculate total
   const totalOrderAmount = calculateTotalAmount(allOrder)
-
-  console.log(allOrder)
 
   if (isLoading) {
     return <AdminLoader />
