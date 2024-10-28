@@ -21,6 +21,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "apexcharts": "^3.48.0",
     "axios": "^1.6.8",
+    "emailjs-com": "^3.2.0",
     "filepond": "^4.30.6",
     "html2pdf.js": "^0.10.2",
     "interweave": "^13.1.0",

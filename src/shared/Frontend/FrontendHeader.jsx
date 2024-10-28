@@ -8,10 +8,9 @@ import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { IoBagOutline } from 'react-icons/io5'
 import { FaRegUser } from 'react-icons/fa6'
 import { SearchBtn } from '../../common/Button/Button'
-import { CiHeart } from 'react-icons/ci'
+import { CiHeart, CiUser } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
-import { RxAvatar } from 'react-icons/rx'
-
+import { PiBagLight } from 'react-icons/pi'
 import {
   selectCartItems,
   toggleCartDrawer,
@@ -94,7 +93,7 @@ const FrontendHeader = ({ categoryList }) => {
               </div>
 
               {/* Icons on the right */}
-              <div className="col-span-1 flex justify-end gap-x-3 relative">
+              <div className="col-span-1 flex items-center justify-end gap-3 relative">
                 {customer ? (
                   <Link to="/user/dashboard">
                     <img
@@ -108,14 +107,14 @@ const FrontendHeader = ({ categoryList }) => {
                 ) : (
                   <Link to="/signin">
                     <span style={{ fontSize: `${iconSize}px` }}>
-                      <FaRegUser className="text-white" />
+                      <CiUser className="text-white text-[23px]" />
                     </span>
                   </Link>
                 )}
 
                 <button onClick={handleCartClick}>
                   <span style={{ fontSize: `${iconSize}px` }}>
-                    <IoBagOutline className="text-white" />
+                    <PiBagLight className="text-white text-[24px]" />
 
                     {cartItems.length > 0 && (
                       <span className="text-[9px] font-bold absolute top-[-3px] text-black px-[4px] bg-white rounded-full right-[25px]">
@@ -128,10 +127,12 @@ const FrontendHeader = ({ categoryList }) => {
                 <button>
                   <Link to={'user/wishlist'}>
                     <span style={{ fontSize: `${iconSize}px` }}>
-                      <CiHeart className="text-white" />
-                      <span className="text-[9px] font-bold absolute top-[-4px] text-black px-[4px] bg-white rounded-full right-[-3px]">
-                        {wishList.length}
-                      </span>
+                      <CiHeart className="text-white text-[26px]" />
+                      {wishList.length > 0 && (
+                        <span className="text-[9px] font-bold absolute top-0 text-black px-[4px] bg-white rounded-full right-[-3px]">
+                          {wishList.length}
+                        </span>
+                      )}
                     </span>
                   </Link>
                 </button>
