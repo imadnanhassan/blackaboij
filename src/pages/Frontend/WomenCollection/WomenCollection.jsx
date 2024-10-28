@@ -8,6 +8,8 @@ import { useGetWomenCollectionQuery } from '../../../redux/features/api/womenNew
 import { baseUrl } from '../../../hooks/useThumbnailImage'
 import FrontLoader from '../../../common/FrontLoader/FrontLoader'
 import useScrollToTop from '../../../hooks/useScrollToTop'
+import { mainUrl } from '../../../hooks/useMainUrl'
+import { Helmet } from 'react-helmet-async'
 
 export default function WomenCollection() {
   // scroll page to top
@@ -22,10 +24,60 @@ export default function WomenCollection() {
 
   return (
     <div>
-      <div
-        className="relative md:h-[23vh] h-[20vh] flex bg-black  items-center justify-center">
+      <Helmet>
+        <title>Blackaboij – Women Collection</title>
+        <link rel="canonical" href={mainUrl} />
+
+        <meta
+          name="description"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="English" />
+        <meta name="author" content="Blackaboij" />
+        {/* facebook / whatsapp  */}
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content={mainUrl} />
+        <meta
+          property="og:title"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta
+          property="og:description"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta property="og:url" content={mainUrl} />
+        <meta
+          property="og:site_name"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta property="og:image" content="https://i.ibb.co/3sNL27c/logo.png" />
+        <meta
+          property="og:image:alt"
+          content="https://i.ibb.co/3sNL27c/logo.png"
+        />
+        <meta
+          property="og:site_name"
+          content="https://i.ibb.co/3sNL27c/logo.png"
+        />
+        {/* twitter  */}
+        <meta
+          name="twitter:title"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta
+          name="twitter: description"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+
+        <meta name="theme-color" content="#000" />
+      </Helmet>
+      <div className="relative md:h-[23vh] h-[20vh] flex bg-black  items-center justify-center">
         <Fade direction="up">
-          <p className='text-white font-custom whitespace-nowrap text-sm md:text-xl italic '>Women New Collections</p>
+          <p className="text-white font-custom whitespace-nowrap text-sm md:text-xl italic ">
+            Women New Collections
+          </p>
         </Fade>
       </div>
       <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px] mt-5 lg:mt-10 md:pb-[50px] pb-5 ">
@@ -68,9 +120,6 @@ export default function WomenCollection() {
           </div>
         ))}
       </div>
-      {/* <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px] mb-5 lg:mb-10">
-        <AnimatedButton buttonText="SHOW ALL"></AnimatedButton>
-      </p> */}
     </div>
   )
 }

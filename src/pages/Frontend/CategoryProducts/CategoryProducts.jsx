@@ -1,20 +1,20 @@
 import React from 'react'
 import { MdEuroSymbol } from 'react-icons/md'
 import { Link } from 'react-router-dom'
-import { Fade, Zoom } from 'react-awesome-reveal'
+import { Fade } from 'react-awesome-reveal'
 import { useParams } from 'react-router-dom'
 import { FaRegHeart } from 'react-icons/fa'
 import { useGetSingleCategoryQuery } from '../../../redux/features/api/category/categoryApi'
 import { baseUrl } from '../../../hooks/useThumbnailImage'
-import { AnimatedButton, BuyNowButton } from '../../../common/Button/Button'
 import useScrollToTop from '../../../hooks/useScrollToTop'
+import { BuyNowButton } from '../../../common/Button/Button'
+import { Helmet } from 'react-helmet-async'
+import { mainUrl } from '../../../hooks/useMainUrl'
 
 export default function CategoryProducts() {
+  // scroll page to top
+  useScrollToTop()
 
-   // scroll page to top
-   useScrollToTop();
-
-   
   const { slug } = useParams()
   const { data } = useGetSingleCategoryQuery(slug)
   let title = ''
@@ -26,19 +26,67 @@ export default function CategoryProducts() {
 
   let badge = ''
   if (data?.category?.parent_id == 1) {
-    badge = `MEN `
+    badge = `MEN`
   } else if (data?.category?.parent_id == 8) {
     badge = `WOMEN`
   }
 
-
-
   return (
     <div>
-      <div
-        className="relative md:h-[23vh] h-[20vh] flex bg-black  items-center justify-center">
+      <Helmet>
+        <title>{`Blackaboij –${title}`}</title>
+        <link rel="canonical" href={mainUrl} />
+
+        <meta
+          name="description"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="English" />
+        <meta name="author" content="Blackaboij" />
+        {/* facebook / whatsapp  */}
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content={mainUrl} />
+        <meta
+          property="og:title"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta
+          property="og:description"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta property="og:url" content={mainUrl} />
+        <meta
+          property="og:site_name"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta property="og:image" content="https://i.ibb.co/3sNL27c/logo.png" />
+        <meta
+          property="og:image:alt"
+          content="https://i.ibb.co/3sNL27c/logo.png"
+        />
+        <meta
+          property="og:site_name"
+          content="https://i.ibb.co/3sNL27c/logo.png"
+        />
+        {/* twitter  */}
+        <meta
+          name="twitter:title"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+        <meta
+          name="twitter: description"
+          content="Blackaboij – Blackaboij Ecommerce, your ultimate destination"
+        />
+
+        <meta name="theme-color" content="#000" />
+      </Helmet>
+      <div className="relative md:h-[23vh] h-[20vh] flex bg-black  items-center justify-center">
         <Fade direction="up">
-        <p className='text-white font-custom whitespace-nowrap text-sm md:text-xl italic '>{title}</p>
+          <p className="text-white uppercase font-custom whitespace-nowrap text-sm md:text-xl italic ">
+            {title}
+          </p>
         </Fade>
       </div>
       <div className="relative grid md:grid-cols-3 grid-cols-2 md:gap-[25px] gap-[5px] md:mx-[50px] mx-[20px] mt-5 lg:mt-10  md:pb-[50px] pb-5">
@@ -62,7 +110,7 @@ export default function CategoryProducts() {
               <FaRegHeart />
             </button>
 
-            <button className="absolute top-0 right-0  text-white bg-[#000000] md:px-4 md:py-1 md:text-[16px] text-[12px] px-2  py-[2px]  ">
+            <button className="absolute top-0 right-0 uppercase text-white bg-[#000000] md:px-4 md:py-1 md:text-[16px] text-[12px] px-2  py-[2px]  ">
               {badge}
             </button>
 
@@ -81,9 +129,7 @@ export default function CategoryProducts() {
           </div>
         ))}
       </div>
-      {/* <p className="md:pt-[50px] pt-5 flex justify-center md:mx-[50px] mx-[20px] mb-5 lg:mb-10">
-        <AnimatedButton buttonText="SHOW ALL"></AnimatedButton>
-      </p> */}
+      
     </div>
   )
 }
