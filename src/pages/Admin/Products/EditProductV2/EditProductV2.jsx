@@ -110,18 +110,18 @@ export default function EditProductV2() {
     setThumbnailPreview(null)
   }
 
-  useEffect(() => {
-    const checkProductFound = () => {
-      if (productInfo?.status === 404) {
-        Swal.fire('Error', productInfo?.message, 'error')
-        return navigate('/dashboard/products-list', {
-          replace: true,
-        })
-      }
-    }
+  // useEffect(() => {
+  //   const checkProductFound = () => {
+  //     if (productInfo?.status === 404) {
+  //       Swal.fire('Error', productInfo?.message, 'error')
+  //       return navigate('/dashboard/products-list', {
+  //         replace: true,
+  //       })
+  //     }
+  //   }
 
-    checkProductFound()
-  }, [isLoading, productInfo])
+  //   checkProductFound()
+  // }, [isLoading, productInfo])
 
   useEffect(() => {
     const colorsArrFindId = datas => {
@@ -179,7 +179,6 @@ export default function EditProductV2() {
       }
     }
   }
-  console.log(selectedCategories)
 
   // Update product
   const { register, handleSubmit, control } = useForm()
@@ -204,7 +203,7 @@ export default function EditProductV2() {
         formData.append('gallery[]', data.gallery[i])
       }
     }
-    console.log(selectedCategories, 'this is selected category array')
+
     if (selectedCategories.length > 0) {
       for (let ct = 0; ct < selectedCategories.length; ct++) {
         formData.append('category_id[]', selectedCategories[ct])
@@ -220,22 +219,14 @@ export default function EditProductV2() {
     formData.append('metaTitle', data.metaTitle)
     try {
       const response = await updateProduct(formData)
+      if (response?.data?.status === 200) {
+        navigate('/dashboard/products-list', {
+          replace: true,
+        })
+        toast.success(response.data.message)
+      }
       console.log(response)
       setSelectedCategory([])
-
-      // if (response?.data?.status === 200) {
-      //   toast.success(response.data.message)
-      //   navigate('/dashboard/products-list', {
-      //     replace: true,
-      //   })
-      // } else if (response?.data?.status === 401) {
-      //   response.data.errors.forEach(el => toast.error(el))
-      // } else if (response?.data?.status === 402) {
-      //   toast.error(response.data.message)
-      // } else {
-      //   toast.error('Something went wrong. Please try again.')
-      // }
-      // reset()
     } catch (error) {
       toast.error('Failed to add product.')
     }
@@ -320,10 +311,10 @@ export default function EditProductV2() {
                     {categoryList.length > 0 ? (
                       categoryList.map(category => (
                         <li key={category.id}>
-                          <div className="flex items-center space-x-2 cursor-pointer">
+                          <div className="flex items-center space-x-3 cursor-pointer">
                             <input
                               type="checkbox"
-                              id={`checkbox-${category.id}`}
+                              id={`checkbox_index${category.id}`}
                               checked={selectedCategories.includes(category.id)}
                               onChange={e =>
                                 toggleData(e, category.id, 'category')
@@ -332,22 +323,23 @@ export default function EditProductV2() {
                             />
 
                             <label
-                              htmlFor={`checkbox-${category.id}`}
-                              className="text-sm text-gray-700"
+                              htmlFor={`checkbox_index${category.id}`}
+                              className="text-base text-gray-700 cursor-pointer"
                             >
                               {category.name}
                             </label>
                           </div>
 
                           {category.sub_categories?.length > 0 && (
-                            <ul className="ml-6 mt-2 space-y-1">
+                            <ul className="ml-6 mt-2 space-y-3">
                               {category.sub_categories.map(subCategory => (
                                 <li
                                   key={subCategory.id}
-                                  className="flex items-center space-x-2"
+                                  className="flex items-center space-x-2 cursor-pointer"
                                 >
                                   <input
                                     type="checkbox"
+                                    id={`checkbox__subindex${subCategory.id}`}
                                     checked={selectedCategories.includes(
                                       subCategory.id,
                                     )}
@@ -356,9 +348,12 @@ export default function EditProductV2() {
                                     }
                                     className="form-checkbox text-blue-600 rounded"
                                   />
-                                  <span className="text-sm text-gray-700">
+                                  <label
+                                    htmlFor={`checkbox__subindex${subCategory.id}`}
+                                    className="text-base text-gray-700 cursor-pointer"
+                                  >
                                     {subCategory.name}
-                                  </span>
+                                  </label>
                                 </li>
                               ))}
                             </ul>
@@ -397,9 +392,6 @@ export default function EditProductV2() {
                   )}
                 />
               </div>
-
-
-             
             </div>
             {/* price */}
             <div className="mt-4">
@@ -674,6 +666,7 @@ export default function EditProductV2() {
           <div className="flex justify-end gap-3 items-center mt-5">
             <button
               type="submit"
+              disabled={updateIsPending}
               className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
             >
               {updateIsPending ? (
