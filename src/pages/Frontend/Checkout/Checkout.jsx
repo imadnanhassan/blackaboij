@@ -43,7 +43,7 @@ export default function Checkout() {
       [e.target.name]: e.target.value
     })
   }
-  
+
   const {
     handleSubmit,
     register,
@@ -53,15 +53,15 @@ export default function Checkout() {
   let cartItems = [];
   useEffect(() => {
     cartItems = localStorage.getItem('cartItems')
-    ? JSON.parse(localStorage.getItem('cartItems'))
-    : []
+      ? JSON.parse(localStorage.getItem('cartItems'))
+      : []
     setCartData(cartItems)
     setTotalPrice(cartItems.reduce(
       (total, item) =>
         total + Number(item?.price) * item?.cartQuantity,
       0,
     ))
-  },[])
+  }, [])
 
 
   const handleMethodChange = methodName => {
@@ -97,18 +97,18 @@ export default function Checkout() {
 
 
 
-    // useEffect(() => {
-    //   console.log(cartItems)
-    // },[cartItems])
-    
+  // useEffect(() => {
+  //   console.log(cartItems)
+  // },[cartItems])
+
 
   const onSubmit = async (e, details = null) => {
-    if(e != 'paypal'){
+    if (e != 'paypal') {
       e.preventDefault();
     }
     console.log(checkoutForm, paymentMethod, cartData)
-    for(let datas in checkoutForm){
-      if(checkoutForm[datas] == ''){
+    for (let datas in checkoutForm) {
+      if (checkoutForm[datas] == '') {
         toast.error(datas + ' is Required.')
       }
     }
@@ -126,13 +126,13 @@ export default function Checkout() {
     formData.append('city', checkoutForm.cityName)
     formData.append('zip_code', checkoutForm.zipCode)
 
-    if(details != null){
+    if (details != null) {
       console.log(details, 'this is something details')
-      if(details?.status == 'COMPLETED'){
-        formData.append('payment_status',1)
+      if (details?.status == 'COMPLETED') {
+        formData.append('payment_status', 1)
       }
     }
-    
+
 
     formData.append(
       'amount',
@@ -155,7 +155,7 @@ export default function Checkout() {
       Swal.fire('Error', response.data.message, 'error')
     }
   }
-// console.log(totalPrice)
+  // console.log(totalPrice)
   //  paypal
   // Handle PayPal payment approval
   const handlePayPalApprove = async (data, actions, billingData) => {
@@ -314,12 +314,28 @@ export default function Checkout() {
                   <PayPalScriptProvider
                     options={{
                       'client-id':
-                        'AVfoR-tZPEgTMoNi874J0c6knk0jdNMeDQFwaZC53Qv-2tToJ6czUwqTJI6KlR-Y_iY3BiHRivdfb1O0',
+                        'Aak20oMSFdZ6QpXZxxzXBaxwph5epZWG9127Lr0-JMFgsRiJYXdFp_WSs6xXS7yYHwoDW7EVq3Lp5MUV',
                     }}
                   >
                     <PayPalButtons
                       createOrder={async (data, actions) => {
-                        console.log(actions, data)
+                        console.log(actions, data, 'create order')
+                          try {
+                            let token;
+                            await axios.post(`${baseUrl}/api/v1/front/paypal/payment`, { amount: totalPrice }).then(response => {
+                              console.log(response)
+                              response.data?.paymentData?.links?.forEach(el => {
+                                if(el.rel == 'approve'){
+                                  token = response?.data?.paymentData?.id
+                                }
+                              })
+                            });
+                            return token;
+                            // return data.approval_url.split('token=')[1]; // Extract the token as the orderId
+
+                        } catch (error) {
+                            console.error(error);
+                        }
                         // const billingData = {
                         //   name: document.querySelector('#checkout_form')?.name
                         //     .value,
@@ -336,15 +352,15 @@ export default function Checkout() {
                         //   },
                         // )
                         // return res.data.approval_url
-                        return actions.order.create({
-                          purchase_units: [
-                            {
-                              amount: {
-                                value: totalPrice, // Set your price here
-                              },
-                            },
-                          ],
-                        });
+                        // return actions.order.create({
+                        //   purchase_units: [
+                        //     {
+                        //       amount: {
+                        //         value: totalPrice, // Set your price here
+                        //       },
+                        //     },
+                        //   ],
+                        // });
                       }}
                       onApprove={async (data, actions) => {
                         // const billingData = {
@@ -355,14 +371,26 @@ export default function Checkout() {
                         // }
                         console.log('this is data: ', data, 'This is action: ', actions, 'this is on approve after')
                         // handlePayPalApprove(data, actions, billingData)
-                        return actions.order.capture().then(function (details) {
-                          // Handle successful payment
-                          // alert('Transaction completed by ' + details.payer.name.given_name);
-                          console.log(details, 'this is capture')
-                          onSubmit('paypal', details);
+                        // return actions.order.capture().then(function (details) {
+                        //   // Handle successful payment
+                        //   // alert('Transaction completed by ' + details.payer.name.given_name);
+                        //   console.log(details, 'this is capture')
+                        //   onSubmit('paypal', details);
+
+                        // });
+
+                          await axios.post(`${baseUrl}/api/v1/front/paypal/capture`, {
+                            orderId: data.orderID,
+                          }).then(response => {
+                            if(response.data.id){
+                              onSubmit('paypal', response.data);
+                            }
+                          }).catch(error => {
+                            console.log(error)
+                          })
                           
-                        });
                       }}
+                      
                       onError={err => console.log('Error: ' + err.message)}
                     />
                   </PayPalScriptProvider>
