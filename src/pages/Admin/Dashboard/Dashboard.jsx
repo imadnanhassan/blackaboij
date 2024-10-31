@@ -21,12 +21,13 @@ const Dashboard = () => {
 
     orders.forEach(order => {
       if (order.status === 'Cancel') {
-        totalAmount -= order.amount
+        totalAmount - order.amount
       } else {
         totalAmount += order.amount
       }
     })
 
+    console.log(totalAmount)
     return totalAmount
   }
 
