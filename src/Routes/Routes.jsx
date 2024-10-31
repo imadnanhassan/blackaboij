@@ -61,6 +61,9 @@ import SingleProductDetails from '../pages/Frontend/Product/Single-Product-detai
 import AdminProfileSettings from '../pages/Admin/AdminProfileSettings/AdminProfileSettings'
 import PrivateRoute from '../PrivateRoute/PrivateRoute'
 import CustomerPrivateRoute from '../PrivateRoute/CustomerPrivateRoute'
+import ReturnPolicy from '../pages/Frontend/ReturnPolicy/ReturnPolicy'
+import TermsAndConditions from '../pages/Frontend/TermsAndConditions/TermsAndConditions'
+import ShippingPolicy from '../pages/Frontend/ShippingPolicy/ShippingPolicy'
 
 const FRONTEND_ROUTES = [
   { path: '/', element: <HomePage /> },
@@ -76,6 +79,9 @@ const FRONTEND_ROUTES = [
   { path: '/women-collection', element: <WomenCollection></WomenCollection> },
   { path: '/accessories', element: <AccessoriesCollection /> },
   { path: '/category/:slug', element: <CategoryProducts /> },
+  { path: '/return-policy', element: <ReturnPolicy /> },
+  { path: '/terms-conditions', element: <TermsAndConditions /> },
+  { path: '/shipping-policy', element: <ShippingPolicy /> },
 ]
 
 const CUSTOMER_PANEL_ROUTES = [

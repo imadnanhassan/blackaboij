@@ -2,9 +2,7 @@ import { useSelector } from 'react-redux'
 import { MdOutlineShoppingBag } from 'react-icons/md'
 import { AiFillDollarCircle } from 'react-icons/ai'
 import Breadcrumbs from '../../../common/Breadcrumbs/Breadcrumbs'
-// import ColumnChart from '../../../components/ColumnChart/ColumnChart'
 import TotalOrder from './TotalOrder'
-// import AreaCharts from '../../../components/ColumnChart/AreaCharts'
 import { useGetDashboardQuery } from '../../../redux/features/api/dashboard/dashboardAnalysis'
 import AdminLoader from '../../../common/AdminLoader/AdminLoader'
 const pageTitle = 'Dashboard'
@@ -13,15 +11,16 @@ const productLinks = [{ title: <></>, link: '/' }]
 const Dashboard = () => {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const { data, isLoading } = useGetDashboardQuery()
+  console.log(data)
 
   const allOrder = data?.orders || []
-  // console.log(totalSales)
+  console.log(allOrder)
   const totalOrderCount = allOrder.length
   const calculateTotalAmount = orders => {
     let totalAmount = 0
 
     orders.forEach(order => {
-      if (order.status === 'cancel') {
+      if (order.status === 'Cancel') {
         totalAmount -= order.amount
       } else {
         totalAmount += order.amount
@@ -31,10 +30,9 @@ const Dashboard = () => {
     return totalAmount
   }
 
+
   // Calculate total
   const totalOrderAmount = calculateTotalAmount(allOrder)
-
-  console.log(allOrder)
 
   if (isLoading) {
     return <AdminLoader />

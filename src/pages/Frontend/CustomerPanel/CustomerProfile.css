@@ -20,7 +20,7 @@
 
 .profile_form_inner input {
   height: 40px;
-  border-radius: 6px;
+  /* border-radius: 6px; */
 }
 .input_control {
   height: 100%;
@@ -87,8 +87,8 @@
   display: grid;
   place-content: center;
   border-width: 1px;
-  background: #f2f2f2;
-  border-radius: 6px;
+  background: #000;
+  color: #ffffff;
 }
 .file-custom {
   position: absolute;
@@ -102,19 +102,15 @@
   color: #555;
   background-color: #fff;
   border: 5px solid #ddd;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-
-
-
-
 .profile_update_submit button {
-  border-radius: 6px;
-  background: #00a7e8;
+  /* border-radius: 4px; */
+  background: #000;
   color: #fff;
 }

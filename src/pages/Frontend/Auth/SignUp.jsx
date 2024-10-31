@@ -41,7 +41,7 @@ export default function FrontendSignUp() {
     const response = await userRegistration(formData)
     if (response?.data.status === 200) {
       localStorage.setItem('customerToken', response.data.token)
-      setCustomer(response?.data.currentCustomer)
+      setCustomer(response?.data)
       navigate('/user/dashboard', {
         replace: true,
       })

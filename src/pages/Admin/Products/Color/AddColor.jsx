@@ -186,6 +186,7 @@ if (isLoading) {
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
                 >
                   {isSubmitting ? (

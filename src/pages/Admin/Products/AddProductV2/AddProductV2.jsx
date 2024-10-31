@@ -539,19 +539,23 @@ export default function AddProductV2() {
           <div className="flex justify-end gap-3 items-center mt-5">
             <button
               type="submit"
-              className="bg-primaryColor py-3 px-4 rounded text-white text-[14px] flex gap-2 items-center"
+              disabled={isSubmitting}
+              className={`relative cursor-pointer flex items-center justify-center px-6 py-4 hover:text-black overflow-hidden font-custom font-medium tracking-tighter text-white bg-black group${isSubmitting ? 'cursor-not-allowed' : ''} `}
             >
-              {isSubmitting ? (
-                <>
-                  <FaSpinner className="animate-spin" />
-                  Submitting...
-                </>
-              ) : (
-                <>
-                  <FaPlus />
-                  Add Product
-                </>
-              )}
+              <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-gray-300 group-hover:w-full group-hover:h-56"></span>
+              <span className="relative whitespace-nowrap md:text-[16px] flex items-center gap-3 text-[12px] ">
+                {isSubmitting ? (
+                  <>
+                    <FaSpinner className="animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    <FaPlus />
+                    Add Product
+                  </>
+                )}
+              </span>
             </button>
           </div>
         </div>

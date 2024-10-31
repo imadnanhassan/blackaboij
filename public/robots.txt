@@ -1,0 +1,14 @@
+# robots.txt for blackaboij.com
+
+User-agent: *
+Allow: /
+
+# Block access to certain directories
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /signin/
+Disallow: /signup/
+Disallow: /user/dashboard/
+
+# Link to sitemap
+Sitemap: https://blackaboij.com/sitemap.xml

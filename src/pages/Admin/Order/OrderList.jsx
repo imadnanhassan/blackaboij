@@ -11,7 +11,6 @@ import AdminLoader from '../../../common/AdminLoader/AdminLoader'
 export default function OrderList() {
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
-  const [currentPage, setCurrentPage] = useState(1)
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const [selectedStatus, setSelectedStatus] = useState('All')
   const [pages, setPages] = useState(1)
@@ -19,7 +18,7 @@ export default function OrderList() {
   const { data: orders, isLoading } = useGetAdminOrderListQuery({
     status: selectedStatus,
     pages: pages,
-    perPage: perPage
+    perPage: perPage,
   })
 
   // pagination code .
@@ -233,12 +232,6 @@ export default function OrderList() {
                             tableData={orders?.orders?.data}
                             selectedId={selectedId}
                           />
-                          {/* <button className="focus:outline-none transition-all duration-100 p-2 rounded-full bg-white border text-green-700 hover:bg-black hover:text-white ">
-                            <LiaDownloadSolid className="text-[12px]" />
-                          </button> */}
-                          {/* <button className="focus:outline-none transition-all duration-300 p-2 rounded-full bg-[#f43f5e1a] text-[#f43f5e] hover:bg-[#f43f5e] hover:text-lightColor">
-                            <RiDeleteBin7Line className="text-[12px]" />
-                          </button> */}
                         </div>
                       </td>
                     </tr>
@@ -246,82 +239,41 @@ export default function OrderList() {
                 </tbody>
               </table>
               <div className="flex gap-3 mt-4 justify-end">
-              {orders?.orders?.links?.map((el, index) => {
-                if (index == 0) {
+                {orders?.orders?.links?.map((el, index) => {
+                  if (index == 0) {
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => handlePageChange('previous')}
+                        className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}
+                      >
+                        {el.label.split(' ')[1]}
+                      </button>
+                    )
+                  } else if (orders?.orders?.links?.length - 1 == index) {
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => handlePageChange('next')}
+                        className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-darkblack-300 cursor-not-allowed' : 'bg-black cursor-pointer'}`}
+                      >
+                        Next
+                      </button>
+                    )
+                  }
                   return (
                     <button
                       key={index}
-                      onClick={() => handlePageChange('previous')}
-                      className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}
+                      onClick={() => handlePageChange(Number(el.label))}
+                      className={`px-3 py-2 rounded text-white  cursor-pointer ${el.active ? 'bg-blue-900' : 'bg-green-600'}`}
                     >
-                      {el.label.split(' ')[1]}
+                      {el.label.split(' ')[0]}
                     </button>
                   )
-                } else if (orders?.orders?.links?.length - 1 == index) {
-                  return (
-                    <button
-                      key={index}
-                      onClick={() => handlePageChange('next')}
-                      className={`px-3 py-2 rounded text-white ${el.url == null ? 'bg-darkblack-300 cursor-not-allowed' : 'bg-black cursor-pointer'}`}
-                    >
-                      Next
-                    </button>
-                  )
-                }
-                return (
-                  <button
-                    key={index}
-                    onClick={() => handlePageChange(Number(el.label))}
-                    className={`px-3 py-2 rounded text-white  cursor-pointer ${el.active ? 'bg-blue-900' : 'bg-green-600'}`}
-                  >
-                    {el.label.split(' ')[0]}
-                  </button>
-                )
-              })}
-              {/* <Link className="px-3 py-2 rounded text-white bg-red-600 cursor-pointer">Previous</Link>
-              <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">1</Link>
-              <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">2</Link>
-              <Link className="px-3 py-2 rounded text-white bg-green-600 cursor-pointer">Previous</Link> */}
-            </div>
+                })}
+              </div>
             </div>
           </div>
-
-          {/* <Pagination /> */}
-
-          {/* {totalItems == 10 ? (
-            <>
-              {' '}
-              <div className="flex gap-3 mt-4 justify-end">
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  className={`px-3 py-2 rounded text-white ${currentPage === 1 ? 'bg-red-400 cursor-not-allowed' : 'bg-red-700 cursor-pointer'}`}
-                  disabled={currentPage === 1}
-                >
-                  Previous
-                </button>
-
-                {[...Array(totalPages).keys()].map(page => (
-                  <button
-                    key={page + 1}
-                    onClick={() => handlePageChange(page + 1)}
-                    className={`px-3 py-2 rounded text-white ${currentPage === page + 1 ? 'bg-green-600' : 'bg-green-600 cursor-pointer'}`}
-                  >
-                    {page + 1}
-                  </button>
-                ))}
-
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  className={`px-3 py-2 rounded text-white ${currentPage === totalPages ? 'bg-blue-900 cursor-not-allowed' : 'bg-black cursor-pointer'}`}
-                  disabled={currentPage === totalPages}
-                >
-                  Next
-                </button>
-              </div>
-            </>
-          ) : (
-            <></>
-          )} */}
         </div>
       </section>
     </>
