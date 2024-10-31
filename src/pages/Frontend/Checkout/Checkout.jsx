@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import '../HelperCss/checkout.css'
-
+import { useForm } from 'react-hook-form'
 import { useContext, useEffect, useState } from 'react'
 import { CustomerContext } from '../../../Providers/CustomerProvider'
 import { useSubmitOrderMutation } from '../../../redux/features/api/Customer/order'
@@ -10,10 +10,9 @@ import { baseUrl } from '../../../hooks/useThumbnailImage'
 import { useDispatch } from 'react-redux'
 import { removeAllProduct } from '../../../redux/features/cart/cartSlice'
 import { FaStarOfLife } from 'react-icons/fa6'
-import { FaEuroSign, FaSpinner } from 'react-icons/fa'
+import { FaEuroSign } from 'react-icons/fa'
 import axios from 'axios'
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
-import FrontLoader from '../../../common/FrontLoader/FrontLoader'
 
 export default function Checkout() {
   const navigate = useNavigate()
@@ -22,11 +21,10 @@ export default function Checkout() {
   const [addToCart] = useSubmitOrderMutation()
   const [paymentMethod, setPaymentMethod] = useState(null)
   const [isOpenPaypal, setOpenPaypal] = useState(false)
-  const [loading, setLoading] = useState(false)
 
   const [paidFor, setPaidFor] = useState(false)
   const [error, setError] = useState(null)
-  const [totalPrice, setTotalPrice] = useState(0)
+  const [totalPrice, setTotalPrice] = useState(0);
   const [cartData, setCartData] = useState([])
 
   const [checkoutForm, setCheckoutForm] = useState({
@@ -36,29 +34,35 @@ export default function Checkout() {
     streetAddress: '',
     cityName: '',
     stateName: '',
-    zipCode: '',
-  })
+    zipCode: ''
+  });
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setCheckoutForm({
       ...checkoutForm,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     })
   }
 
-  let cartItems = []
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm()
+
+  let cartItems = [];
   useEffect(() => {
     cartItems = localStorage.getItem('cartItems')
       ? JSON.parse(localStorage.getItem('cartItems'))
       : []
     setCartData(cartItems)
-    setTotalPrice(
-      cartItems.reduce(
-        (total, item) => total + Number(item?.price) * item?.cartQuantity,
-        0,
-      ),
-    )
+    setTotalPrice(cartItems.reduce(
+      (total, item) =>
+        total + Number(item?.price) * item?.cartQuantity,
+      0,
+    ))
   }, [])
+
 
   const handleMethodChange = methodName => {
     if (methodName == 'PAYPAL') {
@@ -75,7 +79,7 @@ export default function Checkout() {
   }, [customerLoading])
 
   if (customerLoading) {
-    return <FrontLoader></FrontLoader>
+    return <>Loading...</>
   }
 
   const payment = [
@@ -91,21 +95,23 @@ export default function Checkout() {
     },
   ]
 
+
+
+  // useEffect(() => {
+  //   console.log(cartItems)
+  // },[cartItems])
+
+
   const onSubmit = async (e, details = null) => {
     if (e != 'paypal') {
-      e.preventDefault()
+      e.preventDefault();
     }
-    // Start loading
-    setLoading(true)
-
+    console.log(checkoutForm, paymentMethod, cartData)
     for (let datas in checkoutForm) {
-      if (checkoutForm[datas] === '') {
-        toast.error(`${datas} is required.`)
-        setLoading(false)
-        return // Stop execution if a required field is missing
+      if (checkoutForm[datas] == '') {
+        toast.error(datas + ' is Required.')
       }
     }
-
     const formData = new FormData()
     for (let p = 0; p < cartData.length; p++) {
       formData.append('products[]', JSON.stringify(cartData[p]))
@@ -121,10 +127,12 @@ export default function Checkout() {
     formData.append('zip_code', checkoutForm.zipCode)
 
     if (details != null) {
+      console.log(details, 'this is something details')
       if (details?.status == 'COMPLETED') {
         formData.append('payment_status', 1)
       }
     }
+
 
     formData.append(
       'amount',
@@ -133,40 +141,23 @@ export default function Checkout() {
         .toFixed(2),
     )
 
-    // const response = await addToCart(formData)
-
-    // if (response?.data.status == 200) {
-    //   dispatch(removeAllProduct())
-    //   Swal.fire('Success', response.data.message, 'success')
-    //   navigate('/user/orders', {
-    //     replace: true,
-    //   })
-    // } else if (response?.data.status == 401) {
-    //   response.data.errors.forEach(el => toast.error(el))
-    // } else {
-    //   Swal.fire('Error', response.data.message, 'error')
-    // }
-
-    try {
-      const response = await addToCart(formData)
-
-      if (response?.data.status === 200) {
-        dispatch(removeAllProduct())
-        Swal.fire('Success', response.data.message, 'success')
-        navigate('/user/orders', { replace: true })
-      } else if (response?.data.status === 401) {
-        response.data.errors.forEach(error => toast.error(error))
-      } else {
-        Swal.fire('Error', response.data.message, 'error')
-      }
-    } catch (error) {
-      console.error('Order submission error:', error)
-    } finally {
-      // Stop loading
-      setLoading(false)
+    const response = await addToCart(formData)
+    console.log(response)
+    if (response?.data.status == 200) {
+      dispatch(removeAllProduct())
+      Swal.fire('Success', response.data.message, 'success')
+      navigate('/user/orders', {
+        replace: true,
+      })
+    } else if (response?.data.status == 401) {
+      response.data.errors.forEach(el => toast.error(el))
+    } else {
+      Swal.fire('Error', response.data.message, 'error')
     }
   }
-
+  // console.log(totalPrice)
+  //  paypal
+  // Handle PayPal payment approval
   const handlePayPalApprove = async (data, actions, billingData) => {
     try {
       const response = await axios.post('/api/capture-paypal-transaction', {
@@ -184,7 +175,9 @@ export default function Checkout() {
     }
   }
 
+  // Form submission handler for PayPal
   const onSubmitPayPal = data => {
+    // PayPal will handle the payment through the button, only send the billing data
     handlePayPalApprove(null, null, data)
   }
 
@@ -192,7 +185,7 @@ export default function Checkout() {
     <section className="es_container px-3 py-8 xl:py-28">
       <form
         action=""
-        id="checkout_form"
+        id='checkout_form'
         className="checkout_wrapper"
         onSubmit={onSubmit}
       >
@@ -207,10 +200,7 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your First Name"
-                name="name"
-                onChange={handleChange}
-                value={checkoutForm.name}
-              />
+                name="name" onChange={handleChange} value={checkoutForm.name} />
             </div>
 
             <div className="address_item">
@@ -218,11 +208,13 @@ export default function Checkout() {
               <input
                 type="email"
                 placeholder="Enter Your Email"
-                name="email"
-                required
-                onChange={handleChange}
-                value={checkoutForm.email}
+                name="email" required onChange={handleChange} value={checkoutForm.email}
               />
+              {/* {errors.email?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  Email is required
+                </p>
+              )} */}
             </div>
 
             <div className="address_item">
@@ -230,11 +222,13 @@ export default function Checkout() {
               <input
                 type="tel"
                 placeholder="Enter Phone Number"
-                name="phoneNumber"
-                required
-                onChange={handleChange}
-                value={checkoutForm.phoneNumber}
+                name='phoneNumber' required onChange={handleChange} value={checkoutForm.phoneNumber}
               />
+              {/* {errors.phone_number?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  Phone Number is required
+                </p>
+              )} */}
             </div>
 
             <div className="address_item">
@@ -242,11 +236,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Type Your Address"
-                name="streetAddress"
-                required
-                onChange={handleChange}
-                value={checkoutForm.streetAddress}
+                name="streetAddress" required onChange={handleChange} value={checkoutForm.streetAddress}
               />
+              {/* {errors.delivery_address?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  Delivery Address is required
+                </p>
+              )} */}
             </div>
 
             <div className="address_item">
@@ -254,11 +250,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your City Name"
-                name="cityName"
-                required
-                onChange={handleChange}
-                value={checkoutForm.cityName}
+                name="cityName" required onChange={handleChange} value={checkoutForm.cityName}
               />
+              {/* {errors.city?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  City name is required
+                </p>
+              )} */}
             </div>
 
             <div className="address_item">
@@ -266,11 +264,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your State Name"
-                name="stateName"
-                required
-                onChange={handleChange}
-                value={checkoutForm.stateName}
+                name="stateName" required onChange={handleChange} value={checkoutForm.stateName}
               />
+              {/* {errors.state?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  State is required
+                </p>
+              )} */}
             </div>
 
             <div className="address_item w-[100vw]">
@@ -278,11 +278,13 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="City Name"
-                name="zipCode"
-                required
-                onChange={handleChange}
-                value={checkoutForm.zipCode}
+                name='zipCode' required onChange={handleChange} value={checkoutForm.zipCode}
               />
+              {/* {errors.zip_code?.type === 'required' && (
+                <p className="text-error-200 font-mono text-sm" role="alert">
+                  Zipe code is required
+                </p>
+              )} */}
             </div>
           </div>
 
@@ -312,26 +314,83 @@ export default function Checkout() {
                   <PayPalScriptProvider
                     options={{
                       'client-id':
-                        'AVfoR-tZPEgTMoNi874J0c6knk0jdNMeDQFwaZC53Qv-2tToJ6czUwqTJI6KlR-Y_iY3BiHRivdfb1O0',
+                        'Aak20oMSFdZ6QpXZxxzXBaxwph5epZWG9127Lr0-JMFgsRiJYXdFp_WSs6xXS7yYHwoDW7EVq3Lp5MUV',
                     }}
                   >
                     <PayPalButtons
                       createOrder={async (data, actions) => {
-                        return actions.order.create({
-                          purchase_units: [
-                            {
-                              amount: {
-                                value: totalPrice, // Set your price here
-                              },
-                            },
-                          ],
-                        })
+                        console.log(actions, data, 'create order')
+                          try {
+                            let token;
+                            await axios.post(`${baseUrl}/api/v1/front/paypal/payment`, { amount: totalPrice }).then(response => {
+                              console.log(response)
+                              response.data?.paymentData?.links?.forEach(el => {
+                                if(el.rel == 'approve'){
+                                  token = response?.data?.paymentData?.id
+                                }
+                              })
+                            });
+                            return token;
+                            // return data.approval_url.split('token=')[1]; // Extract the token as the orderId
+
+                        } catch (error) {
+                            console.error(error);
+                        }
+                        // const billingData = {
+                        //   name: document.querySelector('#checkout_form')?.name
+                        //     .value,
+                        //   email:
+                        //     document.querySelector('#checkout_form')?.email.value,
+                        //   address:
+                        //     document.querySelector('#checkout_form')?.address.value,
+                        // }
+                        // const res = await axios.post(
+                        //   '/api/v1/front/customer/create-payment',
+                        //   {
+                        //     total: 10.0, // or dynamic amount
+                        //     billingData,
+                        //   },
+                        // )
+                        // return res.data.approval_url
+                        // return actions.order.create({
+                        //   purchase_units: [
+                        //     {
+                        //       amount: {
+                        //         value: totalPrice, // Set your price here
+                        //       },
+                        //     },
+                        //   ],
+                        // });
                       }}
                       onApprove={async (data, actions) => {
-                        return actions.order.capture().then(function (details) {
-                          onSubmit('paypal', details)
-                        })
+                        // const billingData = {
+                        //   name: document.querySelector('#checkout_form')?.name.value,
+                        //   email: document.querySelector('#checkout_form')?.email.value,
+                        //   address:
+                        //     document.querySelector('#checkout_form')?.address.value,
+                        // }
+                        console.log('this is data: ', data, 'This is action: ', actions, 'this is on approve after')
+                        // handlePayPalApprove(data, actions, billingData)
+                        // return actions.order.capture().then(function (details) {
+                        //   // Handle successful payment
+                        //   // alert('Transaction completed by ' + details.payer.name.given_name);
+                        //   console.log(details, 'this is capture')
+                        //   onSubmit('paypal', details);
+
+                        // });
+
+                          await axios.post(`${baseUrl}/api/v1/front/paypal/capture`, {
+                            orderId: data.orderID,
+                          }).then(response => {
+                            if(response.data.id){
+                              onSubmit('paypal', response.data);
+                            }
+                          }).catch(error => {
+                            console.log(error)
+                          })
+                          
                       }}
+                      
                       onError={err => console.log('Error: ' + err.message)}
                     />
                   </PayPalScriptProvider>
@@ -343,20 +402,8 @@ export default function Checkout() {
 
               {/* submit button */}
               <div className="submit_button mt-5 lg:mt-8">
-                <button
-                  type="submit"
-                  disabled={loading || paymentMethod === 'PAYPAL'}
-                  onClick={onSubmit}
-                  className="main_btn flex items-center justify-center gap-2"
-                >
-                  {loading ? (
-                    <p className=" flex items-center justify-center gap-2">
-                      <FaSpinner className="animate-spin" />
-                      Processing...
-                    </p>
-                  ) : (
-                    'Confirm Order'
-                  )}
+                <button type="submit" disabled={paymentMethod == 'PAYPAL' ? true : false} className="main_btn">
+                  Confirm Order
                 </button>
               </div>
             </div>
@@ -390,7 +437,9 @@ export default function Checkout() {
                     <FaEuroSign className="text-xs text-gray-500"></FaEuroSign>
                   </div>
                   {/* Calculate the subtotal dynamically */}
-                  <div>{totalPrice}</div>
+                  <div>
+                    {totalPrice}
+                  </div>
                 </div>
               </div>
             </div>
