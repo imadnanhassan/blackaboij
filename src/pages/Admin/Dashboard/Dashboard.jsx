@@ -11,10 +11,7 @@ const productLinks = [{ title: <></>, link: '/' }]
 const Dashboard = () => {
   const isDarkMode = useSelector(state => state.theme.isDarkMode)
   const { data, isLoading } = useGetDashboardQuery()
-  console.log(data)
-
   const allOrder = data?.orders || []
-  console.log(allOrder)
   const totalOrderCount = allOrder.length
   const calculateTotalAmount = orders => {
     let totalAmount = 0
@@ -26,8 +23,6 @@ const Dashboard = () => {
         totalAmount += order.amount
       }
     })
-
-    console.log(totalAmount)
     return totalAmount
   }
 

@@ -101,11 +101,11 @@ const FrontendFooter = () => {
           </Link>
           | Made by {''}
           <Link
-            to={'https://itlabindustry.com/'}
+            to={'http://graphitricks.com/'}
             className="text-slate-300 mr-3"
             target="_blank"
           >
-            IT Lab Industry
+            Graphitricks
           </Link>
         </p>
       </div>
