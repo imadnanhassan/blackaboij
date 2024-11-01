@@ -185,7 +185,7 @@ export default function Checkout() {
     <section className="es_container px-3 py-8 xl:py-28">
       <form
         action=""
-        id='checkout_form'
+        id="checkout_form"
         className="checkout_wrapper"
         onSubmit={onSubmit}
       >
@@ -200,7 +200,10 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your First Name"
-                name="name" onChange={handleChange} value={checkoutForm.name} />
+                name="name"
+                onChange={handleChange}
+                value={checkoutForm.name}
+              />
             </div>
 
             <div className="address_item">
@@ -208,7 +211,10 @@ export default function Checkout() {
               <input
                 type="email"
                 placeholder="Enter Your Email"
-                name="email" required onChange={handleChange} value={checkoutForm.email}
+                name="email"
+                required
+                onChange={handleChange}
+                value={checkoutForm.email}
               />
               {/* {errors.email?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
@@ -222,7 +228,10 @@ export default function Checkout() {
               <input
                 type="tel"
                 placeholder="Enter Phone Number"
-                name='phoneNumber' required onChange={handleChange} value={checkoutForm.phoneNumber}
+                name="phoneNumber"
+                required
+                onChange={handleChange}
+                value={checkoutForm.phoneNumber}
               />
               {/* {errors.phone_number?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
@@ -236,7 +245,10 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Type Your Address"
-                name="streetAddress" required onChange={handleChange} value={checkoutForm.streetAddress}
+                name="streetAddress"
+                required
+                onChange={handleChange}
+                value={checkoutForm.streetAddress}
               />
               {/* {errors.delivery_address?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
@@ -250,7 +262,10 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your City Name"
-                name="cityName" required onChange={handleChange} value={checkoutForm.cityName}
+                name="cityName"
+                required
+                onChange={handleChange}
+                value={checkoutForm.cityName}
               />
               {/* {errors.city?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
@@ -264,7 +279,10 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="Your State Name"
-                name="stateName" required onChange={handleChange} value={checkoutForm.stateName}
+                name="stateName"
+                required
+                onChange={handleChange}
+                value={checkoutForm.stateName}
               />
               {/* {errors.state?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
@@ -278,7 +296,10 @@ export default function Checkout() {
               <input
                 type="text"
                 placeholder="City Name"
-                name='zipCode' required onChange={handleChange} value={checkoutForm.zipCode}
+                name="zipCode"
+                required
+                onChange={handleChange}
+                value={checkoutForm.zipCode}
               />
               {/* {errors.zip_code?.type === 'required' && (
                 <p className="text-error-200 font-mono text-sm" role="alert">
@@ -314,27 +335,30 @@ export default function Checkout() {
                   <PayPalScriptProvider
                     options={{
                       'client-id':
-                        'Aak20oMSFdZ6QpXZxxzXBaxwph5epZWG9127Lr0-JMFgsRiJYXdFp_WSs6xXS7yYHwoDW7EVq3Lp5MUV',
+                        'AflVrqsWmqplJb9M6ZXyGNbeYRU2vyPvI5KGMkuCaPMcQqD7PPoMAy1svf40SeiPQGiwDQMTKDG0Nsop',
                     }}
                   >
                     <PayPalButtons
                       createOrder={async (data, actions) => {
                         console.log(actions, data, 'create order')
-                          try {
-                            let token;
-                            await axios.post(`${baseUrl}/api/v1/front/paypal/payment`, { amount: totalPrice }).then(response => {
+                        try {
+                          let token
+                          await axios
+                            .post(`${baseUrl}/api/v1/front/paypal/payment`, {
+                              amount: totalPrice,
+                            })
+                            .then(response => {
                               console.log(response)
                               response.data?.paymentData?.links?.forEach(el => {
-                                if(el.rel == 'approve'){
+                                if (el.rel == 'approve') {
                                   token = response?.data?.paymentData?.id
                                 }
                               })
-                            });
-                            return token;
-                            // return data.approval_url.split('token=')[1]; // Extract the token as the orderId
-
+                            })
+                          return token
+                          // return data.approval_url.split('token=')[1]; // Extract the token as the orderId
                         } catch (error) {
-                            console.error(error);
+                          console.error(error)
                         }
                         // const billingData = {
                         //   name: document.querySelector('#checkout_form')?.name
@@ -369,7 +393,13 @@ export default function Checkout() {
                         //   address:
                         //     document.querySelector('#checkout_form')?.address.value,
                         // }
-                        console.log('this is data: ', data, 'This is action: ', actions, 'this is on approve after')
+                        console.log(
+                          'this is data: ',
+                          data,
+                          'This is action: ',
+                          actions,
+                          'this is on approve after',
+                        )
                         // handlePayPalApprove(data, actions, billingData)
                         // return actions.order.capture().then(function (details) {
                         //   // Handle successful payment
@@ -379,18 +409,19 @@ export default function Checkout() {
 
                         // });
 
-                          await axios.post(`${baseUrl}/api/v1/front/paypal/capture`, {
+                        await axios
+                          .post(`${baseUrl}/api/v1/front/paypal/capture`, {
                             orderId: data.orderID,
-                          }).then(response => {
-                            if(response.data.id){
-                              onSubmit('paypal', response.data);
+                          })
+                          .then(response => {
+                            if (response.data.id) {
+                              onSubmit('paypal', response.data)
                             }
-                          }).catch(error => {
+                          })
+                          .catch(error => {
                             console.log(error)
                           })
-                          
                       }}
-                      
                       onError={err => console.log('Error: ' + err.message)}
                     />
                   </PayPalScriptProvider>
@@ -402,7 +433,11 @@ export default function Checkout() {
 
               {/* submit button */}
               <div className="submit_button mt-5 lg:mt-8">
-                <button type="submit" disabled={paymentMethod == 'PAYPAL' ? true : false} className="main_btn">
+                <button
+                  type="submit"
+                  disabled={paymentMethod == 'PAYPAL' ? true : false}
+                  className="main_btn"
+                >
                   Confirm Order
                 </button>
               </div>
@@ -437,9 +472,7 @@ export default function Checkout() {
                     <FaEuroSign className="text-xs text-gray-500"></FaEuroSign>
                   </div>
                   {/* Calculate the subtotal dynamically */}
-                  <div>
-                    {totalPrice}
-                  </div>
+                  <div>{totalPrice}</div>
                 </div>
               </div>
             </div>
