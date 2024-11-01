@@ -31,7 +31,7 @@ const Store = () => {
               <h2 className="text-3xl md:text-4xl font-bold">Contact Us</h2>
               <div>
                 <h3 className="text-xl font-semibold mb-2">Our Address</h3>
-                <p>13800 Istres, France</p>
+                <p>20 Allée des Piboules résidence les Belenos 13800 Istres</p>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2">

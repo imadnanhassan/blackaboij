@@ -76,7 +76,7 @@ export default function SignIn() {
             >
               <div className="mb-12">
                 <h3 className="text-4xl font-extrabold">Sign in</h3>
-                <p className="text-sm mt-4 ">
+                {/* <p className="text-sm mt-4 ">
                   Don't have an account{' '}
                   <Link
                     to={'/dashboard/signup'}
@@ -84,7 +84,7 @@ export default function SignIn() {
                   >
                     Register here
                   </Link>
-                </p>
+                </p> */}
               </div>
               <div>
                 <label className="text-xs block mb-2">Email</label>
@@ -195,17 +195,15 @@ export default function SignIn() {
               <div className="mt-12">
                 <button
                   type="submit"
+                  disabled={loading}
                   className="relative w-full shadow-xl text-center flex items-center justify-center py-4 px-4 text-sm font-semibold rounded-full text-white bg-primaryColor hover:bg-primaryColor/80 focus:outline-none "
                 >
                   {loading ? (
                     <>
                       <FaSpinner className="animate-spin text-center" />
-                     
                     </>
                   ) : (
-                    <>
-                      Sign in
-                    </>
+                    <>Sign in</>
                   )}
                 </button>
               </div>
