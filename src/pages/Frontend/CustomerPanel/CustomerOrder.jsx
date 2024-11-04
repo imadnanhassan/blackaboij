@@ -91,7 +91,7 @@ export default function CustomerOrder() {
     <div>
       <CustomerHead title="My Orders" />
 
-      <div className="p-2 bg-white md:h-auto h-[50vh] mb-6">
+      <div className="p-2 bg-white md:h-auto mb-6">
         <div className="flex flex-col">
           <div className="-m-1.5 overflow-x-auto">
             <div className=" min-w-full inline-block align-middle">

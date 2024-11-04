@@ -16,7 +16,7 @@ export default function CustomerWishlist() {
   return (
     <div>
       <CustomerHead title="Wishlist" />
-      <div className="md:h-auto h-[50vh]">
+      <div className="">
         {wishList.length === 0 ? (
           <p>No items in your wish list.</p>
         ) : (
