@@ -60,7 +60,7 @@ export default function CustomerDashboard() {
       <CustomerHead title="Dashboard" />
 
       <>
-        <div className="p-4 bg-white  mb-6 md:h-full">
+        <div className="p-4 bg-white mb-6 ">
           <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-10">
             {customerDashboardData.map((items, id) => (
               <div key={id} className="border rounded-md">
