@@ -17,6 +17,7 @@ import {
 } from '../../redux/features/cart/cartSlice'
 import { CustomerContext } from '../../Providers/CustomerProvider'
 import { baseUrl } from '../../hooks/useThumbnailImage'
+import { IoIosSearch } from 'react-icons/io'
 
 const FrontendHeader = ({ categoryList }) => {
   const [isSticky, setIsSticky] = useState(false)
@@ -27,10 +28,17 @@ const FrontendHeader = ({ categoryList }) => {
   const [isListMenuOpenWomen, setIsListMenuOpenWomen] = useState(false)
   const [hoveredCategory, setHoveredCategory] = useState(null)
 
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+
   const dispatch = useDispatch()
   const cartItems = useSelector(selectCartItems)
   const wishList = useSelector(state => state.wishList.wishList)
   const { loading, customer, setCustomer } = useContext(CustomerContext)
+
+const toggleSearch = () => {
+  setIsSearchOpen(prevState => !prevState)
+}
+
 
   const handleCartClick = () => {
     dispatch(toggleCartDrawer())
@@ -229,7 +237,7 @@ const FrontendHeader = ({ categoryList }) => {
         className={`header md:hidden z-50 block w-full ${isSticky ? 'fixed top-0' : ''} bg-black text-white`}
       >
         <div
-          className={`grid grid-cols-3 items-center justify-between py-[20px] px-[20px]`}
+          className={`grid grid-cols-3 items-center justify-between pb-[50px] pt-[20px] px-[20px]`}
         >
           <div className="menu-icon flex items-center justify-start">
             {isMobileMenuOpen ? (
@@ -245,7 +253,7 @@ const FrontendHeader = ({ categoryList }) => {
             )}
           </div>
 
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-start">
             <Link to="/">
               <img
                 src="https://i.ibb.co/3sNL27c/logo.png"
@@ -255,7 +263,7 @@ const FrontendHeader = ({ categoryList }) => {
             </Link>
           </div>
 
-          <div className="flex relative gap-3 justify-end">
+          <div className="flex relative gap-2 justify-end">
             {customer ? (
               <Link to="/user/dashboard">
                 <img
@@ -297,6 +305,25 @@ const FrontendHeader = ({ categoryList }) => {
                 </span>
               </Link>
             </button>
+            <div>
+              {/* Search Icon */}
+              <IoIosSearch
+                className="text-white text-[26px] cursor-pointer"
+                onClick={toggleSearch}
+              />
+
+              {/* Conditionally render SearchBtn */}
+
+              <div
+                className={`fixed left-0 w-full flex justify-center transition-transform duration-500 ease-in-out ${
+                  isSearchOpen
+                    ? 'translate-y-0 top-[52px]'
+                    : 'translate-y-full bottom-[-100%]'
+                }`}
+              >
+                <SearchBtn />
+              </div>
+            </div>
           </div>
         </div>
 
