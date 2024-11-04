@@ -335,7 +335,7 @@ export default function Checkout() {
                   <PayPalScriptProvider
                     options={{
                       'client-id':
-                        'AflVrqsWmqplJb9M6ZXyGNbeYRU2vyPvI5KGMkuCaPMcQqD7PPoMAy1svf40SeiPQGiwDQMTKDG0Nsop',
+                        'AVfoR-tZPEgTMoNi874J0c6knk0jdNMeDQFwaZC53Qv-2tToJ6czUwqTJI6KlR-Y_iY3BiHRivdfb1O0',
                     }}
                   >
                     <PayPalButtons

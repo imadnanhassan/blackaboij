@@ -34,7 +34,7 @@ const FrontendFooter = () => {
             </ul>
           </div>
           {/* ======== Footer MORE menu */}
-          <div className=" md:mt-0 ">
+          <div className=" md:mt-0 mt-3">
             <h2 className=" py-3 text-white">MORE</h2>
             <ul className="text-[15px]  text-white space-y-1">
               <li>
@@ -50,7 +50,7 @@ const FrontendFooter = () => {
           </div>
 
           {/* ======== Footer INFORMATION menu */}
-          <div>
+          <div className='md:mt-0 mt-3'>
             <h2 className="py-3 text-white ">INFORMATION</h2>
             <ul className="text-[15px]  text-white space-y-1">
               <li>
@@ -66,7 +66,7 @@ const FrontendFooter = () => {
           </div>
 
           {/* ======== Footer SOCIAL menu */}
-          <div>
+          <div className='md:mt-0 mt-3'>
             <h2 className="py-3 text-white ">SOCIAL</h2>
             <p className="text-[15px] text-white  space-y-1">Stay connected</p>
             <div className=" flex gap-x-3 pt-3 ">

@@ -255,28 +255,48 @@ const FrontendHeader = ({ categoryList }) => {
             </Link>
           </div>
 
-          <div className="flex relative justify-end">
-            <Link to="/signin" className="pr-[6px]">
-              <span style={{ fontSize: `18px` }}>
-                <FaRegUser className="text-white " />
-              </span>
-            </Link>
-            <Link className="sm:pr-[6px] pr-[12px] relative">
-              <span style={{ fontSize: `18px` }}>
-                <IoBagOutline className="text-white " />
-                <span className="text-[8px] font-bold absolute top-[-3px] sm:top-[-4px] text-black px-[4px] bg-white rounded-full sm:right-[1px] right-[4px]">
-                  2
+          <div className="flex relative gap-3 justify-end">
+            {customer ? (
+              <Link to="/user/dashboard">
+                <img
+                  height={30}
+                  width={30}
+                  className="rounded-[50%]"
+                  src={`${baseUrl}/profile/${customer?.currentCustomer?.photo}`}
+                  alt=""
+                />
+              </Link>
+            ) : (
+              <Link to="/signin">
+                <span style={{ fontSize: `${iconSize}px` }}>
+                  <CiUser className="text-white text-[23px]" />
                 </span>
+              </Link>
+            )}
+
+            <button onClick={handleCartClick}>
+              <span style={{ fontSize: `${iconSize}px` }}>
+                <PiBagLight className="text-white text-[24px]" />
+
+                {cartItems.length > 0 && (
+                  <span className="text-[9px] font-bold absolute top-[-3px] text-black px-[4px] bg-white rounded-full right-[25px]">
+                    {cartItems.length}
+                  </span>
+                )}
               </span>
-            </Link>
-            <Link className="relative">
-              <span style={{ fontSize: `18px` }}>
-                <AiOutlineShoppingCart className="text-white " />
-                <span className="text-[8px] font-bold absolute top-[-4px] sm:top-[-4px] text-black px-[4px] bg-white rounded-full sm:right-[-3px] right-[-8px]">
-                  7
+            </button>
+            <button>
+              <Link to={'user/wishlist'}>
+                <span style={{ fontSize: `${iconSize}px` }}>
+                  <CiHeart className="text-white text-[26px]" />
+                  {wishList.length > 0 && (
+                    <span className="text-[9px] font-bold absolute top-0 text-black px-[4px] bg-white rounded-full right-[-3px]">
+                      {wishList.length}
+                    </span>
+                  )}
                 </span>
-              </span>
-            </Link>
+              </Link>
+            </button>
           </div>
         </div>
 
