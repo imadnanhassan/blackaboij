@@ -4,22 +4,27 @@ import { FaPinterest } from 'react-icons/fa'
 import { FaInstagram } from 'react-icons/fa'
 import { IoLogoYoutube } from 'react-icons/io'
 import { AnimatedButton } from '../../../common/Button/Button'
+import './home-banner'
 
 const HomeBanner = () => {
+  const styles = {
+    backgroundImage: "url('https://i.ibb.co/hVdDm87/Desktop-1512x.webp')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: '#000000',
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100vw',
+    height: '100vh',
+  }
+
   const iconSize = 25
   return (
     <section>
-      <div
-        style={{
-          backgroundImage: "url('https://i.ibb.co/hVdDm87/Desktop-1512x.webp')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          height: '100vh',
-          backgroundColor: '#00000',
-          position: 'relative',
-        }}
-      >
+      <div className="responsive-background" style={styles}>
         <div
           className="flex justify-center items-center flex-col"
           style={{
@@ -46,7 +51,7 @@ const HomeBanner = () => {
           </div>
         </div>
 
-        <div className="absolute md:bottom-[30%] bottom-4 md:right-[50px] right-5">
+        <div className="absolute md:bottom-[30%] bottom-20 md:right-[50px] right-5">
           <div className="flex flex-col gap-3 justify-end items-center">
             <Link to="https://www.facebook.com/BBOIJ" target="blank">
               <span style={{ fontSize: `${iconSize}px` }}>
