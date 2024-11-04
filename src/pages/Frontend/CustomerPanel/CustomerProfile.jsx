@@ -53,7 +53,7 @@ export default function CustomerProfile() {
     <div>
       <CustomerHead title="Profile" />
 
-      <div className="profile_form">
+      <div className="profile_form md:h-auto h-[50vh]">
         <form
           action=""
           className="profile_form_wrapper"

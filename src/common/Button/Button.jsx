@@ -74,7 +74,7 @@ export function SearchBtn() {
     })
   }
   return (
-    <div className="relative">
+    <div className="relative ">
       <form action="" onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"

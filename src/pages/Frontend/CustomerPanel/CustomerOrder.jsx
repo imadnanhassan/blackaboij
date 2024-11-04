@@ -91,7 +91,7 @@ export default function CustomerOrder() {
     <div>
       <CustomerHead title="My Orders" />
 
-      <div className="p-2 bg-white  mb-6">
+      <div className="p-2 bg-white md:h-auto h-[50vh] mb-6">
         <div className="flex flex-col">
           <div className="-m-1.5 overflow-x-auto">
             <div className=" min-w-full inline-block align-middle">
@@ -171,7 +171,9 @@ export default function CustomerOrder() {
                             {order?.payment_method}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
-                            {order?.payment_status == 1 ? "Payment Paid" : "Payment Unpaid"}
+                            {order?.payment_status == 1
+                              ? 'Payment Paid'
+                              : 'Payment Unpaid'}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                             <div className="flex items-center space-x-2">

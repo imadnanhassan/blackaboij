@@ -10,25 +10,25 @@ export default function CustomerSidebarMenu({ handleLogout }) {
   
   const navItems = [
     {
-      to: 'user/dashboard',
+      to: '/user/dashboard',
       icon: <MdDashboard size={16} />,
       label: 'Dashboard',
       isNavLink: true,
     },
     {
-      to: 'user/orders',
+      to: '/user/orders',
       icon: <FaShoppingBag size={16} />,
       label: 'Orders',
       isNavLink: false,
     },
     {
-      to: 'user/wishlist',
+      to: '/user/wishlist',
       icon: <FaHeart size={16} />,
       label: 'Wish List',
       isNavLink: false,
     },
     {
-      to: 'user/profile',
+      to: '/user/profile',
       icon: <FaUser size={16} />,
       label: 'Profile',
       isNavLink: false,
