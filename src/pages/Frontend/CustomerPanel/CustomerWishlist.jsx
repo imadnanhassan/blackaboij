@@ -16,12 +16,11 @@ export default function CustomerWishlist() {
   return (
     <div>
       <CustomerHead title="Wishlist" />
-
-      {wishList.length === 0 ? (
-        <p>No items in your wish list.</p>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 bg-white shadow rounded-md px-3 py-4">
-         
+      <div className="md:h-auto h-[50vh]">
+        {wishList.length === 0 ? (
+          <p>No items in your wish list.</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 bg-white shadow rounded-md px-3 py-4 ">
             {wishList.map(product => (
               <div
                 key={product.id}
@@ -58,9 +57,9 @@ export default function CustomerWishlist() {
                 </button>
               </div>
             ))}
-      
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

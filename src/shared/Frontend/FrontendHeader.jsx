@@ -293,18 +293,7 @@ const toggleSearch = () => {
                 )}
               </span>
             </button>
-            <button>
-              <Link to={'user/wishlist'}>
-                <span style={{ fontSize: `${iconSize}px` }}>
-                  <CiHeart className="text-white text-[26px]" />
-                  {wishList.length > 0 && (
-                    <span className="text-[9px] font-bold absolute top-0 text-black px-[4px] bg-white rounded-full right-[-3px]">
-                      {wishList.length}
-                    </span>
-                  )}
-                </span>
-              </Link>
-            </button>
+           
             <div>
               {/* Search Icon */}
               <IoIosSearch

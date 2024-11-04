@@ -85,11 +85,11 @@ const FRONTEND_ROUTES = [
 ]
 
 const CUSTOMER_PANEL_ROUTES = [
-  { path: 'user/dashboard', element: <CustomerDashboard /> },
-  { path: 'user/wallet', element: <CuctomerWallet /> },
-  { path: 'user/orders', element: <CustomerOrder /> },
-  { path: 'user/wishlist', element: <CustomerWishlist /> },
-  { path: 'user/profile', element: <CustomerProfile /> },
+  { path: '/user/dashboard', element: <CustomerDashboard /> },
+  { path: '/user/wallet', element: <CuctomerWallet /> },
+  { path: '/user/orders', element: <CustomerOrder /> },
+  { path: '/user/wishlist', element: <CustomerWishlist /> },
+  { path: '/user/profile', element: <CustomerProfile /> },
 ]
 
 const DASHBOARD_ROUTES = [
